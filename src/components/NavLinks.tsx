@@ -9,6 +9,7 @@ export default function NavLinks({ isLoggedIn }: { isLoggedIn: boolean }) {
 
   function active(href: string) {
     if (href === '/') return pathname === '/'
+    if (href === '/employer') return pathname === '/employer' || pathname.startsWith('/employer/')
     return pathname.startsWith(href)
   }
 
@@ -38,6 +39,9 @@ export default function NavLinks({ isLoggedIn }: { isLoggedIn: boolean }) {
         ) : (
           <a href="/auth/login" className="text-sm font-medium text-gray-500 hover:text-gray-800 transition px-3 py-1.5">Sign in</a>
         )}
+        <a href="/employers" className={`text-sm font-medium transition px-3 py-1.5 border border-gray-200 rounded-md ${active('/employers') ? 'text-emerald-700 border-emerald-200 bg-emerald-50' : 'text-gray-600 hover:text-gray-900 hover:border-gray-300'}`}>
+          For Employers
+        </a>
         <a href="/post-job" className="bg-emerald-600 text-white text-sm font-semibold px-4 py-2 rounded-md hover:bg-emerald-700 transition whitespace-nowrap">
           Post a Job
         </a>
@@ -83,6 +87,7 @@ export default function NavLinks({ isLoggedIn }: { isLoggedIn: boolean }) {
                 ? { href: '/employer', label: 'My listings' }
                 : { href: '/auth/login', label: 'Sign in' },
               { href: '/worker/profile', label: 'Worker profile' },
+              { href: '/employers', label: 'For Employers' },
             ].map(({ href, label }) => (
               <a
                 key={href}

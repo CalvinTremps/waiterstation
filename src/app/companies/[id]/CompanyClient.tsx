@@ -723,8 +723,9 @@ function JobsTab({ company, relatedCompanies, allJobs }: {
               <p className="text-sm text-gray-400">No jobs match your search.</p>
             </div>
           ) : paginated.map(job => (
-            <button key={job.id} onClick={() => setSelectedJob(job)}
-              className={`w-full text-left rounded-xl border p-3.5 transition ${
+            <div key={job.id} role="button" tabIndex={0} onClick={() => setSelectedJob(job)}
+              onKeyDown={e => e.key === 'Enter' && setSelectedJob(job)}
+              className={`w-full text-left rounded-xl border p-3.5 transition cursor-pointer ${
                 selectedJob?.id === job.id
                   ? 'border-blue-500 bg-blue-50 shadow-sm'
                   : 'border-gray-200 bg-white hover:border-gray-300 hover:shadow-sm'
@@ -751,7 +752,7 @@ function JobsTab({ company, relatedCompanies, allJobs }: {
                 </button>
               </div>
               <p className="text-[11px] text-gray-400 mt-2">{timeAgo(job.created_at)}</p>
-            </button>
+            </div>
           ))}
 
           {/* Pagination */}

@@ -44,17 +44,30 @@ export default function PostJobForm() {
 
   if (success) {
     return (
-      <div className="bg-gray-50 border border-gray-200 rounded-lg p-8 text-center">
-        <h2 className="font-bold text-gray-900 text-xl">Listing submitted</h2>
-        <p className="text-gray-500 text-sm mt-2 leading-relaxed">
-          Your job will go live once we've reviewed it, usually within a few hours.
+      <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-8 text-center">
+        <div className="w-14 h-14 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg className="w-7 h-7 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
+        <h2 className="font-bold text-gray-900 text-xl">Listing submitted!</h2>
+        <p className="text-gray-500 text-sm mt-2 leading-relaxed max-w-xs mx-auto">
+          Your job will go live once we've reviewed it — usually within a few hours during business hours.
         </p>
-        <a
-          href="/"
-          className="mt-5 inline-block bg-emerald-600 text-white font-semibold px-6 py-3 rounded-md text-sm hover:bg-emerald-700 transition"
-        >
-          Browse listings
-        </a>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-6">
+          <a
+            href="/employer"
+            className="inline-block bg-emerald-600 text-white font-semibold px-6 py-3 rounded-xl text-sm hover:bg-emerald-700 transition"
+          >
+            View my listings
+          </a>
+          <a
+            href="/post-job"
+            className="inline-block border border-gray-200 text-gray-700 font-semibold px-6 py-3 rounded-xl text-sm hover:bg-gray-50 transition"
+          >
+            Post another job
+          </a>
+        </div>
       </div>
     )
   }

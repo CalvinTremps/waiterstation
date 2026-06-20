@@ -620,6 +620,277 @@ function ReviewsTab({ company, reviews, overallRating, relatedCompanies, onWrite
   )
 }
 
+// ─── Jobs tab (Indeed layout) ─────────────────────────────────────────────────
+
+function JobsTab({ company, relatedCompanies, allJobs }: {
+  company: Company
+  relatedCompanies: Company[]
+  allJobs: import('@/lib/types').Job[]
+}) {
+  const [titleQ, setTitleQ] = useState('')
+  const [locationQ, setLocationQ] = useState('')
+  const [selectedJob, setSelectedJob] = useState<import('@/lib/types').Job | null>(null)
+  const [savedJobs, setSavedJobs] = useState<Set<string>>(new Set())
+  const [page, setPage] = useState(1)
+  const PER_PAGE = 10
+
+  // If company has no direct job matches, fall back to all hospitality jobs
+  const baseJobs = allJobs.length > 0 ? allJobs : MOCK_JOBS.slice(0, 30)
+
+  const filtered = useMemo(() => {
+    const tq = titleQ.toLowerCase()
+    const lq = locationQ.toLowerCase()
+    return baseJobs.filter(j => {
+      const matchT = !tq || j.title.toLowerCase().includes(tq) || j.description.toLowerCase().includes(tq)
+      const matchL = !lq || j.location.toLowerCase().includes(lq)
+      return matchT && matchL
+    })
+  }, [baseJobs, titleQ, locationQ])
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PER_PAGE))
+  const paginated = filtered.slice((page - 1) * PER_PAGE, page * PER_PAGE)
+
+  useEffect(() => {
+    if (paginated.length > 0 && !selectedJob) setSelectedJob(paginated[0])
+  }, [paginated, selectedJob])
+
+  function toggleSave(id: string) {
+    setSavedJobs(prev => {
+      const next = new Set(prev)
+      next.has(id) ? next.delete(id) : next.add(id)
+      return next
+    })
+  }
+
+  function timeAgo(iso: string) {
+    const diff = Date.now() - new Date(iso).getTime()
+    const days = Math.floor(diff / 86400000)
+    if (days === 0) return 'Today'
+    if (days === 1) return '1 day ago'
+    if (days < 30) return `${days} days ago`
+    const months = Math.floor(days / 30)
+    return `${months} month${months > 1 ? 's' : ''} ago`
+  }
+
+  const empTypeColors: Record<string, string> = {
+    permanent: 'bg-green-50 text-green-700',
+    'part-time': 'bg-blue-50 text-blue-700',
+    contract: 'bg-orange-50 text-orange-700',
+    casual: 'bg-purple-50 text-purple-700',
+    temporary: 'bg-yellow-50 text-yellow-700',
+  }
+
+  return (
+    <div className="space-y-4">
+
+      {/* Heading + search */}
+      <div className="bg-white border border-gray-200 rounded-xl p-5">
+        <h2 className="text-lg font-bold text-gray-900 mb-1">{company.name} Jobs and Careers</h2>
+        <div className="flex gap-2 mt-3">
+          <div className="relative flex-1">
+            <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z" />
+            </svg>
+            <input value={titleQ} onChange={e => { setTitleQ(e.target.value); setPage(1); setSelectedJob(null) }}
+              placeholder="Job title, keywords"
+              className="w-full border border-gray-200 rounded-lg pl-9 pr-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400" />
+          </div>
+          <div className="relative flex-1">
+            <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <input value={locationQ} onChange={e => { setLocationQ(e.target.value); setPage(1); setSelectedJob(null) }}
+              placeholder="City, province"
+              className="w-full border border-gray-200 rounded-lg pl-9 pr-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400" />
+          </div>
+          <button className="bg-blue-600 text-white text-sm font-semibold px-5 py-2.5 rounded-lg hover:bg-blue-700 transition">
+            Find Jobs
+          </button>
+        </div>
+        <p className="text-xs text-gray-500 mt-3 font-medium">
+          {filtered.length.toLocaleString()} job{filtered.length !== 1 ? 's' : ''} at {company.name}
+        </p>
+      </div>
+
+      {/* Split panel */}
+      <div className="flex gap-4 items-start">
+
+        {/* Left — job list */}
+        <div className="w-72 shrink-0 space-y-1.5">
+          {paginated.length === 0 ? (
+            <div className="bg-white border border-gray-200 rounded-xl p-8 text-center">
+              <p className="text-sm text-gray-400">No jobs match your search.</p>
+            </div>
+          ) : paginated.map(job => (
+            <button key={job.id} onClick={() => setSelectedJob(job)}
+              className={`w-full text-left rounded-xl border p-3.5 transition ${
+                selectedJob?.id === job.id
+                  ? 'border-blue-500 bg-blue-50 shadow-sm'
+                  : 'border-gray-200 bg-white hover:border-gray-300 hover:shadow-sm'
+              }`}>
+              <div className="flex items-start justify-between gap-2">
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-semibold text-blue-600 leading-tight line-clamp-2">{job.title}</p>
+                  <p className="text-xs text-gray-500 mt-0.5">{job.employer_name}</p>
+                  <p className="text-xs text-gray-400 mt-0.5 truncate">{job.location}</p>
+                  <div className="flex items-center gap-2 mt-1.5 flex-wrap">
+                    <span className={`text-[11px] px-2 py-0.5 rounded-full font-medium capitalize ${empTypeColors[job.employment_type] ?? 'bg-gray-100 text-gray-600'}`}>
+                      {job.employment_type.replace('-', ' ')}
+                    </span>
+                    {job.pay && <span className="text-[11px] text-gray-500">{job.pay}</span>}
+                  </div>
+                </div>
+                <button onClick={e => { e.stopPropagation(); toggleSave(job.id) }}
+                  className="shrink-0 mt-0.5 text-gray-300 hover:text-blue-500 transition">
+                  <svg className="w-4 h-4" fill={savedJobs.has(job.id) ? 'currentColor' : 'none'}
+                    viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
+                    style={{ color: savedJobs.has(job.id) ? '#3B82F6' : undefined }}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                  </svg>
+                </button>
+              </div>
+              <p className="text-[11px] text-gray-400 mt-2">{timeAgo(job.created_at)}</p>
+            </button>
+          ))}
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="flex items-center justify-center gap-1 pt-2">
+              {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => i + 1).map(p => (
+                <button key={p} onClick={() => { setPage(p); setSelectedJob(null) }}
+                  className={`w-8 h-8 text-xs rounded-lg border transition ${
+                    page === p ? 'bg-blue-600 text-white border-blue-600' : 'border-gray-200 text-gray-600 hover:bg-gray-50'
+                  }`}>{p}</button>
+              ))}
+              {page < totalPages && (
+                <button onClick={() => { setPage(p => p + 1); setSelectedJob(null) }}
+                  className="px-3 h-8 text-xs border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-50 transition">
+                  Next
+                </button>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Right — job detail */}
+        <div className="flex-1 min-w-0">
+          {selectedJob ? (
+            <div className="bg-white border border-gray-200 rounded-xl p-5 sticky top-[140px]">
+              {/* Job header */}
+              <div className="flex items-start gap-3 mb-4">
+                <div className="w-10 h-10 rounded border border-gray-100 bg-white flex items-center justify-center overflow-hidden shrink-0">
+                  <span className="text-base font-bold text-gray-400">{selectedJob.employer_name.charAt(0)}</span>
+                </div>
+                <div className="min-w-0 flex-1">
+                  <h3 className="text-base font-bold text-gray-900 leading-tight">{selectedJob.title}</h3>
+                  <p className="text-sm text-gray-600 mt-0.5">{selectedJob.employer_name} · {selectedJob.location}</p>
+                  <div className="flex items-center gap-2 mt-1.5 flex-wrap">
+                    <span className={`text-xs px-2.5 py-1 rounded-full font-medium capitalize ${empTypeColors[selectedJob.employment_type] ?? 'bg-gray-100 text-gray-600'}`}>
+                      {selectedJob.employment_type.replace('-', ' ')}
+                    </span>
+                    {selectedJob.pay && (
+                      <span className="text-xs font-semibold text-gray-700 bg-gray-50 border border-gray-200 px-2.5 py-1 rounded-full">
+                        {selectedJob.pay}
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <button onClick={() => toggleSave(selectedJob.id)}
+                  className={`shrink-0 p-2 rounded-full border transition ${
+                    savedJobs.has(selectedJob.id) ? 'border-blue-300 text-blue-600 bg-blue-50' : 'border-gray-200 text-gray-400 hover:border-blue-300 hover:text-blue-500'
+                  }`}>
+                  <svg className="w-4 h-4" fill={savedJobs.has(selectedJob.id) ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* CTA buttons */}
+              <div className="flex gap-2 mb-5">
+                <a href={`/jobs/${selectedJob.id}`}
+                  className="flex-1 text-center text-sm font-bold text-white bg-blue-600 py-2.5 rounded-lg hover:bg-blue-700 transition">
+                  Apply on company site
+                </a>
+                <a href={`/jobs/${selectedJob.id}`}
+                  className="text-sm font-semibold text-blue-600 border border-blue-200 px-4 py-2.5 rounded-lg hover:bg-blue-50 transition">
+                  View full job
+                </a>
+              </div>
+
+              {/* Description */}
+              <div className="border-t border-gray-100 pt-4">
+                <div className="text-sm text-gray-700 leading-relaxed whitespace-pre-line line-clamp-[20]">
+                  {selectedJob.description}
+                </div>
+                <a href={`/jobs/${selectedJob.id}`} className="block mt-3 text-xs text-blue-600 hover:underline font-medium">
+                  See full job description →
+                </a>
+              </div>
+
+              {/* Posted */}
+              <p className="text-xs text-gray-400 mt-4 pt-4 border-t border-gray-100">
+                Posted {timeAgo(selectedJob.created_at)} · Contact: {selectedJob.contact_method}
+              </p>
+            </div>
+          ) : (
+            <div className="bg-white border border-gray-200 rounded-xl p-10 text-center text-sm text-gray-400">
+              Select a job to see details
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Breadcrumb */}
+      <div className="text-xs text-gray-400 flex items-center gap-1">
+        <a href="/companies" className="text-blue-600 hover:underline">Companies</a>
+        <span>›</span>
+        <a href="/companies" className="text-blue-600 hover:underline">{company.industry}</a>
+        <span>›</span>
+        <a href={`/companies/${company.id}`} className="text-blue-600 hover:underline">{company.name}</a>
+        <span>›</span>
+        <span>Jobs</span>
+      </div>
+
+      {/* Related companies */}
+      {relatedCompanies.length > 0 && (
+        <div className="bg-white border border-gray-200 rounded-xl p-5">
+          <h3 className="text-sm font-bold text-gray-900 mb-1">More companies you might be interested in</h3>
+          <div className="relative mt-3">
+            <div className="flex items-center gap-1.5 border border-gray-200 rounded-lg px-3 py-2.5 max-w-xs">
+              <svg className="w-4 h-4 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z" />
+              </svg>
+              <span className="text-sm text-gray-400">Find another company</span>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
+            {relatedCompanies.map(c => (
+              <a key={c.id} href={`/companies/${c.id}?tab=jobs`}
+                className="flex items-center gap-3 p-3 rounded-lg border border-gray-100 hover:border-gray-300 hover:shadow-sm transition group">
+                <div className="w-8 h-8 rounded border border-gray-100 bg-white flex items-center justify-center overflow-hidden shrink-0">
+                  {c.logo_url
+                    ? <img src={c.logo_url} alt={c.name} className="w-full h-full object-contain p-0.5" onError={e => { (e.target as HTMLImageElement).style.display = 'none' }} />
+                    : <span className="text-xs font-bold text-gray-400">{c.name.charAt(0)}</span>
+                  }
+                </div>
+                <div className="min-w-0">
+                  <p className="text-xs font-semibold text-gray-800 group-hover:text-blue-600 truncate">{c.name}</p>
+                  <div className="flex items-center gap-1 mt-0.5">
+                    <StarRating rating={c.overall_rating} />
+                    <span className="text-xs text-gray-500">{c.overall_rating.toFixed(1)}</span>
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+
+    </div>
+  )
+}
+
 // ─── Salary data ──────────────────────────────────────────────────────────────
 
 const SALARY_CATEGORIES = [
@@ -962,7 +1233,7 @@ function SalariesTab({ company, reviews, relatedCompanies }: {
 
 // ─── Main component ───────────────────────────────────────────────────────────
 
-type Tab = 'overview' | 'reviews' | 'salaries' | 'benefits'
+type Tab = 'overview' | 'reviews' | 'salaries' | 'jobs' | 'benefits'
 
 export default function CompanyClient({ company }: { company: Company }) {
   const searchParams = useSearchParams()
@@ -1015,10 +1286,19 @@ export default function CompanyClient({ company }: { company: Company }) {
     { key: 'compensation', label: 'Compensation' },
   ]
 
+  const allCompanyJobs = useMemo(() =>
+    MOCK_JOBS.filter(j =>
+      j.employer_name.toLowerCase().includes(company.name.split(' ')[0].toLowerCase()) ||
+      company.name.toLowerCase().includes(j.employer_name.split(' ')[0].toLowerCase())
+    ),
+    [company.name]
+  )
+
   const tabs: { id: Tab; label: string }[] = [
     { id: 'overview', label: 'Overview' },
     { id: 'reviews', label: `Reviews (${reviews.length})` },
     { id: 'salaries', label: 'Salaries' },
+    { id: 'jobs', label: `Jobs (${allCompanyJobs.length || MOCK_JOBS.slice(0, 12).length})` },
     { id: 'benefits', label: 'Benefits' },
   ]
 
@@ -1298,6 +1578,11 @@ export default function CompanyClient({ company }: { company: Company }) {
           {/* ── SALARIES ── */}
           {activeTab === 'salaries' && (
             <SalariesTab company={company} reviews={reviews} relatedCompanies={relatedCompanies} />
+          )}
+
+          {/* ── JOBS ── */}
+          {activeTab === 'jobs' && (
+            <JobsTab company={company} relatedCompanies={relatedCompanies} allJobs={allCompanyJobs} />
           )}
 
           {/* ── BENEFITS ── */}

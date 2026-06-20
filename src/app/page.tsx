@@ -39,7 +39,7 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
 
   let jobs: Job[]
   let isMockData = false
-  if (error || !dbJobs) {
+  if (error || !dbJobs || dbJobs.length === 0) {
     // Try Adzuna API for real listings
     const adzunaJobs = await fetchAdzunaJobs({
       q: params.q,

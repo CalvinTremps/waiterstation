@@ -4,13 +4,14 @@ interface AdzunaJob {
   id: string
   title: string
   description: string
-  location: { display_name: string }
+  location: { display_name: string; area?: string[] }
   company: { display_name: string }
   salary_min?: number
   salary_max?: number
   contract_type?: string
   created: string
   redirect_url: string
+  category?: { label: string; tag: string }
 }
 
 interface AdzunaResponse {
@@ -40,7 +41,7 @@ function inferEmploymentType(contract?: string): EmploymentType {
 
 function formatPay(min?: number, max?: number): string | undefined {
   if (!min && !max) return undefined
-  const fmt = (n: number) => `R${Math.round(n / 1000)}k`
+  const fmt = (n: number) => `R${Math.round(n).toLocaleString('en-ZA')}`
   if (min && max && min !== max) return `${fmt(min)} – ${fmt(max)}/month`
   if (min) return `from ${fmt(min)}/month`
   if (max) return `up to ${fmt(max)}/month`
@@ -48,6 +49,30 @@ function formatPay(min?: number, max?: number): string | undefined {
 
 function cleanDescription(raw: string): string {
   return raw.replace(/\s{3,}/g, '\n\n').trim().slice(0, 2000)
+}
+
+async function fetchPage(appId: string, appKey: string, what: string, page: number, location?: string, payOnly?: boolean): Promise<AdzunaJob[]> {
+  const url = new URL(`https://api.adzuna.com/v1/api/jobs/za/search/${page}`)
+  url.searchParams.set('app_id', appId)
+  url.searchParams.set('app_key', appKey)
+  url.searchParams.set('results_per_page', '50')
+  url.searchParams.set('what', what)
+  url.searchParams.set('content-type', 'application/json')
+  if (location) url.searchParams.set('where', location)
+  if (payOnly) url.searchParams.set('salary_min', '1')
+
+  const controller = new AbortController()
+  const timeout = setTimeout(() => controller.abort(), 8000)
+  try {
+    const res = await fetch(url.toString(), { cache: 'no-store', signal: controller.signal })
+    clearTimeout(timeout)
+    if (!res.ok) return []
+    const data: AdzunaResponse = await res.json()
+    return data.results ?? []
+  } catch {
+    clearTimeout(timeout)
+    return []
+  }
 }
 
 export async function fetchAdzunaJobs(params: {
@@ -61,49 +86,39 @@ export async function fetchAdzunaJobs(params: {
   const appKey = process.env.ADZUNA_APP_KEY
   if (!appId || !appKey) return null
 
-  // Single broad hospitality search — Adzuna treats spaces as AND, so use one term
   const what = params.q || 'hospitality'
 
-  const url = new URL('https://api.adzuna.com/v1/api/jobs/za/search/1')
-  url.searchParams.set('app_id', appId)
-  url.searchParams.set('app_key', appKey)
-  url.searchParams.set('results_per_page', '50')
-  url.searchParams.set('what', what)
-  url.searchParams.set('content-type', 'application/json')
-  if (params.location) url.searchParams.set('where', params.location)
-  if (params.payOnly) url.searchParams.set('salary_min', '1')
+  // Fetch 4 pages in parallel — up to 200 listings
+  const pages = await Promise.all([1, 2, 3, 4].map(p => fetchPage(appId, appKey, what, p, params.location, params.payOnly)))
+  const raw = pages.flat()
 
-  try {
-    const controller = new AbortController()
-    const timeout = setTimeout(() => controller.abort(), 8000)
+  if (!raw.length) return null
 
-    const res = await fetch(url.toString(), {
-      cache: 'no-store',
-      signal: controller.signal,
-    })
-    clearTimeout(timeout)
+  const seen = new Set<string>()
+  const jobs: Job[] = []
 
-    if (!res.ok) return null
-
-    const data: AdzunaResponse = await res.json()
-    if (!data.results?.length) return null
-
-    const jobs: Job[] = data.results.map((j) => ({
+  for (const j of raw) {
+    if (seen.has(j.id)) continue
+    seen.add(j.id)
+    jobs.push({
       id: `az-${j.id}`,
       title: j.title,
       role_category: inferRoleCategory(j.title),
       location: j.location.display_name,
       employment_type: inferEmploymentType(j.contract_type),
       pay: formatPay(j.salary_min, j.salary_max),
+      salary_min: j.salary_min,
+      salary_max: j.salary_max,
       description: cleanDescription(j.description),
       employer_name: j.company.display_name || 'Confidential',
       contact_method: j.redirect_url,
       status: 'approved',
       created_at: j.created,
-    }))
-
-    return jobs.length > 0 ? jobs : null
-  } catch {
-    return null
+      category_label: j.category?.label,
+      area: j.location.area,
+      source_url: j.redirect_url,
+    })
   }
+
+  return jobs.length > 0 ? jobs : null
 }

@@ -19,6 +19,7 @@ export default function JobBrowser({
   payOnly,
   totalLive,
   isMockData = false,
+  isLoggedIn = false,
 }: {
   jobs: Job[]
   currentRole: string
@@ -28,6 +29,7 @@ export default function JobBrowser({
   payOnly: boolean
   totalLive: number
   isMockData?: boolean
+  isLoggedIn?: boolean
 }) {
   const [selectedId, setSelectedId] = useState<string | null>(jobs[0]?.id ?? null)
   const [visibleCount, setVisibleCount] = useState(20)
@@ -207,7 +209,7 @@ export default function JobBrowser({
           {/* RIGHT: detail panel */}
           <div className="flex-1 overflow-y-auto bg-white scrollbar-thin">
             {selected
-              ? <DesktopJobDetail job={selected} />
+              ? <DesktopJobDetail job={selected} isLoggedIn={isLoggedIn} />
               : (
                 <div className="flex items-center justify-center h-full text-gray-400 text-sm">
                   Select a job to see details
@@ -331,12 +333,23 @@ function DesktopJobRow({ job, selected, onSelect }: { job: Job; selected: boolea
 }
 
 /* Desktop job detail (right panel) */
-function DesktopJobDetail({ job }: { job: Job }) {
+function DesktopJobDetail({ job, isLoggedIn }: { job: Job; isLoggedIn: boolean }) {
   const [showApply, setShowApply] = useState(false)
+  const router = useRouter()
 
   const postedDate = new Date(job.created_at).toLocaleDateString('en-ZA', {
     day: 'numeric', month: 'long', year: 'numeric',
   })
+
+  const province = job.area?.find(a => a !== 'South Africa' && a !== job.location)
+
+  function handleApply() {
+    if (!isLoggedIn) {
+      router.push('/auth/login?next=/')
+      return
+    }
+    setShowApply(true)
+  }
 
   return (
     <div className="px-10 py-8 max-w-3xl">
@@ -347,7 +360,7 @@ function DesktopJobDetail({ job }: { job: Job }) {
         <CompanyBadge name={job.employer_name} size="md" />
         <div>
           <p className="text-sm font-semibold text-gray-800 leading-tight">{job.employer_name}</p>
-          <p className="text-xs text-gray-400 mt-0.5">{ROLE_LABELS[job.role_category]}</p>
+          <p className="text-xs text-gray-400 mt-0.5">{job.category_label ?? ROLE_LABELS[job.role_category]}</p>
         </div>
       </div>
 
@@ -357,10 +370,16 @@ function DesktopJobDetail({ job }: { job: Job }) {
       {/* Location / pay / type inline */}
       <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mt-2 text-sm text-gray-500">
         <span>{job.location}</span>
+        {province && province !== job.location && (
+          <>
+            <span className="text-gray-300">·</span>
+            <span>{province}</span>
+          </>
+        )}
         {job.pay && (
           <>
             <span className="text-gray-300">·</span>
-            <span className="text-gray-700 font-medium">{job.pay}</span>
+            <span className="text-emerald-700 font-semibold">{job.pay}</span>
           </>
         )}
         <span className="text-gray-300">·</span>
@@ -372,34 +391,29 @@ function DesktopJobDetail({ job }: { job: Job }) {
       {/* Apply button */}
       <div className="mt-5 flex items-center gap-3">
         <button
-          onClick={() => setShowApply(true)}
+          onClick={handleApply}
           className="inline-flex items-center gap-2 bg-emerald-600 text-white font-semibold px-6 py-2.5 rounded-full hover:bg-emerald-700 transition text-sm"
         >
           Apply now
         </button>
-        <span className="text-xs text-gray-400">No CV required · Takes 30 seconds</span>
+        {job.source_url && (
+          <a
+            href={job.source_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs text-gray-400 hover:text-gray-600 underline underline-offset-2 transition"
+          >
+            View original listing ↗
+          </a>
+        )}
       </div>
 
-      {/* Key info box */}
-      <div className="mt-6 rounded-lg border border-emerald-100 bg-emerald-50 p-5">
-        <p className="text-sm font-semibold text-emerald-800 mb-3">Why apply via Waiterstation?</p>
-        <ul className="space-y-2">
-          <li className="flex items-start gap-2 text-sm text-emerald-700">
-            <span className="mt-0.5 text-emerald-500 font-bold">✓</span>
-            <span>Apply in 30 seconds — no CV or account needed</span>
-          </li>
-          <li className="flex items-start gap-2 text-sm text-emerald-700">
-            <span className="mt-0.5 text-emerald-500 font-bold">✓</span>
-            <span>Employers receive your details directly and respond fast</span>
-          </li>
-          {job.pay && (
-            <li className="flex items-start gap-2 text-sm text-emerald-700">
-              <span className="mt-0.5 text-emerald-500 font-bold">✓</span>
-              <span>Advertised pay: <strong>{job.pay}</strong></span>
-            </li>
-          )}
-        </ul>
-      </div>
+      {!isLoggedIn && (
+        <p className="mt-2 text-xs text-gray-400">
+          <a href="/auth/login?next=/" className="text-emerald-600 font-medium hover:underline">Sign in</a> or{' '}
+          <a href="/auth/login?next=/" className="text-emerald-600 font-medium hover:underline">create a free account</a> to apply
+        </p>
+      )}
 
       {/* Job details grid */}
       <div className="mt-6 rounded-lg border border-gray-200 p-5">
@@ -415,23 +429,39 @@ function DesktopJobDetail({ job }: { job: Job }) {
             <p className="text-xs text-gray-400 uppercase tracking-wide font-medium mb-1">Location</p>
             <p className="text-sm text-gray-700 font-medium">{job.location}</p>
           </div>
+          {province && (
+            <div>
+              <p className="text-xs text-gray-400 uppercase tracking-wide font-medium mb-1">Province</p>
+              <p className="text-sm text-gray-700 font-medium">{province}</p>
+            </div>
+          )}
           <div>
-            <p className="text-xs text-gray-400 uppercase tracking-wide font-medium mb-1">Role</p>
+            <p className="text-xs text-gray-400 uppercase tracking-wide font-medium mb-1">Role category</p>
             <p className="text-sm text-gray-700 font-medium">{ROLE_LABELS[job.role_category]}</p>
           </div>
           {job.pay && (
             <div>
-              <p className="text-xs text-gray-400 uppercase tracking-wide font-medium mb-1">Pay</p>
-              <p className="text-sm text-gray-700 font-medium">{job.pay}</p>
+              <p className="text-xs text-gray-400 uppercase tracking-wide font-medium mb-1">Salary</p>
+              <p className="text-sm text-emerald-700 font-semibold">{job.pay}</p>
             </div>
           )}
+          {job.category_label && (
+            <div>
+              <p className="text-xs text-gray-400 uppercase tracking-wide font-medium mb-1">Industry</p>
+              <p className="text-sm text-gray-700 font-medium">{job.category_label}</p>
+            </div>
+          )}
+          <div>
+            <p className="text-xs text-gray-400 uppercase tracking-wide font-medium mb-1">Date posted</p>
+            <p className="text-sm text-gray-700 font-medium">{postedDate}</p>
+          </div>
         </div>
       </div>
 
       {/* About this role */}
       <div className="mt-6">
         <p className="text-sm font-semibold text-gray-800 mb-3">About this role</p>
-        <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-wrap">{job.description}</p>
+        <div className="text-sm text-gray-600 leading-relaxed whitespace-pre-wrap">{job.description}</div>
       </div>
 
       {/* About the employer */}
@@ -474,7 +504,20 @@ function DesktopJobDetail({ job }: { job: Job }) {
         )
       })()}
 
-      <p className="text-xs text-gray-400 mt-8 mb-4">{postedDate}</p>
+      {/* Apply CTA at bottom */}
+      <div className="mt-8 mb-4 flex items-center gap-3">
+        <button
+          onClick={handleApply}
+          className="inline-flex items-center gap-2 bg-emerald-600 text-white font-semibold px-6 py-2.5 rounded-full hover:bg-emerald-700 transition text-sm"
+        >
+          Apply now
+        </button>
+        {!isLoggedIn && (
+          <span className="text-xs text-gray-400">
+            <a href="/auth/login?next=/" className="text-emerald-600 font-medium hover:underline">Sign in</a> required to apply
+          </span>
+        )}
+      </div>
     </div>
   )
 }

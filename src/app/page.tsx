@@ -1,4 +1,4 @@
-import { createServerClient } from '@/lib/supabase-server'
+import { createServerClient, getSession } from '@/lib/supabase-server'
 import { Job, RoleCategory, EmploymentType } from '@/lib/types'
 import { MOCK_JOBS } from '@/lib/mock-jobs'
 import { fetchAdzunaJobs } from '@/lib/adzuna'
@@ -14,7 +14,7 @@ interface SearchParams {
 
 export default async function HomePage({ searchParams }: { searchParams: Promise<SearchParams> }) {
   const params = await searchParams
-  const supabase = await createServerClient()
+  const [supabase, session] = await Promise.all([createServerClient(), getSession()])
 
   let query = supabase
     .from('jobs')
@@ -95,6 +95,7 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
         payOnly={params.payOnly === '1'}
         isMockData={isMockData}
         totalLive={totalLive}
+        isLoggedIn={!!session}
       />
     </>
   )

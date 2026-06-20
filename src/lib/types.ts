@@ -21,11 +21,17 @@ export interface Job {
   location: string
   employment_type: EmploymentType
   pay?: string
+  salary_min?: number
+  salary_max?: number
   description: string
   employer_name: string
   contact_method: string
   status: JobStatus
   created_at: string
+  // Adzuna-enriched fields
+  category_label?: string
+  area?: string[]
+  source_url?: string
 }
 
 export const ROLE_LABELS: Record<RoleCategory, string> = {

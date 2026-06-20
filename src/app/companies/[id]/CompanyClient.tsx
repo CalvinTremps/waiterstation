@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useSearchParams, useRouter } from 'next/navigation'
 import { Company, CompanyReview, MOCK_COMPANIES } from '@/lib/mock-companies'
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -341,10 +342,23 @@ const SALARY_BENCHMARKS = [
 type Tab = 'overview' | 'reviews' | 'salaries' | 'benefits'
 
 export default function CompanyClient({ company }: { company: Company }) {
-  const [activeTab, setActiveTab] = useState<Tab>('overview')
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const initialTab = (searchParams.get('tab') as Tab | null) ?? 'overview'
+  const [activeTab, setActiveTab] = useState<Tab>(initialTab)
   const [reviewFilter, setReviewFilter] = useState<'all' | 'Current' | 'Former'>('all')
   const [showModal, setShowModal] = useState(false)
   const [reviews, setReviews] = useState<CompanyReview[]>(company.reviews)
+  const [following, setFollowing] = useState(false)
+
+  function switchTab(tab: Tab) {
+    setActiveTab(tab)
+    const params = new URLSearchParams(searchParams.toString())
+    if (tab === 'overview') params.delete('tab')
+    else params.set('tab', tab)
+    const qs = params.toString()
+    router.replace(`/companies/${company.id}${qs ? `?${qs}` : ''}`, { scroll: false })
+  }
 
   const overallRating = reviews.length
     ? reviews.reduce((s, r) => s + r.rating, 0) / reviews.length
@@ -360,7 +374,7 @@ export default function CompanyClient({ company }: { company: Company }) {
 
   function handleNewReview(review: CompanyReview) {
     setReviews(prev => [review, ...prev])
-    setActiveTab('reviews')
+    switchTab('reviews')
   }
 
   // Work wellbeing metrics derived from ratings
@@ -426,20 +440,31 @@ export default function CompanyClient({ company }: { company: Company }) {
                 </div>
               </div>
               <div className="flex items-center gap-2 shrink-0">
-                <button className="text-sm font-semibold text-blue-600 border border-blue-200 px-4 py-2 rounded-full hover:bg-blue-50 transition">
-                  Follow
+                <button
+                  onClick={() => setFollowing(f => !f)}
+                  className={`text-sm font-semibold px-4 py-2 rounded-full border transition ${
+                    following
+                      ? 'bg-blue-600 text-white border-blue-600'
+                      : 'text-blue-600 border-blue-200 hover:bg-blue-50'
+                  }`}
+                >
+                  {following ? '✓ Following' : 'Follow'}
                 </button>
                 <button onClick={() => setShowModal(true)}
                   className="text-sm font-semibold text-white bg-blue-600 px-4 py-2 rounded-full hover:bg-blue-700 transition hidden sm:block">
                   Write a review
                 </button>
+                <a href={`/?q=${encodeURIComponent(company.name)}`}
+                  className="text-sm font-semibold text-gray-600 border border-gray-200 px-4 py-2 rounded-full hover:bg-gray-50 transition hidden sm:block">
+                  Open jobs
+                </a>
               </div>
             </div>
 
             {/* Tab nav */}
             <div className="flex gap-0 -mb-px overflow-x-auto">
               {tabs.map(t => (
-                <button key={t.id} onClick={() => setActiveTab(t.id)}
+                <button key={t.id} onClick={() => switchTab(t.id)}
                   className={`px-5 py-3 text-sm font-medium border-b-2 whitespace-nowrap transition ${
                     activeTab === t.id
                       ? 'border-blue-600 text-blue-600'
@@ -467,7 +492,7 @@ export default function CompanyClient({ company }: { company: Company }) {
                     </svg>
                   </div>
                   <h2 className="text-base font-bold text-gray-900">Work wellbeing</h2>
-                  <span className="text-xs text-blue-600 font-medium ml-1">Based on reviews ↗</span>
+                  <button onClick={() => switchTab('reviews')} className="text-xs text-blue-600 font-medium ml-1 hover:underline">Based on reviews ↗</button>
                 </div>
                 <div className="grid grid-cols-3 gap-4">
                   {wellbeing.map(w => (
@@ -560,14 +585,14 @@ export default function CompanyClient({ company }: { company: Company }) {
               <section className="bg-white border border-gray-200 rounded-xl p-5">
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="text-base font-bold text-gray-900">Reviews</h2>
-                  <button onClick={() => setActiveTab('reviews')} className="text-sm text-blue-600 hover:underline font-medium">
+                  <button onClick={() => switchTab('reviews')} className="text-sm text-blue-600 hover:underline font-medium">
                     See all {reviews.length} reviews →
                   </button>
                 </div>
                 <div>
                   {reviews.slice(0, 2).map(r => <ReviewCard key={r.id} review={r} />)}
                 </div>
-                <button onClick={() => setActiveTab('reviews')}
+                <button onClick={() => switchTab('reviews')}
                   className="mt-4 w-full text-sm font-semibold text-blue-600 border border-blue-200 py-2.5 rounded-full hover:bg-blue-50 transition">
                   See all reviews
                 </button>

@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation'
+import { Suspense } from 'react'
 import type { Metadata } from 'next'
 import { MOCK_COMPANIES } from '@/lib/mock-companies'
 import CompanyClient from './CompanyClient'
@@ -26,5 +27,9 @@ export default async function CompanyPage({ params }: Props) {
   const company = MOCK_COMPANIES.find(c => c.id === id)
   if (!company) notFound()
 
-  return <CompanyClient company={company} />
+  return (
+    <Suspense>
+      <CompanyClient company={company} />
+    </Suspense>
+  )
 }

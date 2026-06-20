@@ -313,28 +313,29 @@ export default function CompaniesPage() {
               {popularCompanies.map(company => {
                 const reviewCount = company.reviews.length
                 return (
-                  <a
+                  <div
                     key={company.id}
-                    href={`/companies/${company.id}`}
                     className="flex flex-col p-4 rounded-xl border border-gray-200 bg-white hover:shadow-md hover:border-gray-300 transition-all group"
                   >
-                    <CompanyBadge name={company.name} size="md" logoUrl={company.logo_url} />
-                    <p className="font-semibold text-gray-900 group-hover:text-blue-600 transition text-sm mt-3 leading-tight line-clamp-2">
-                      {company.name}
-                    </p>
-                    <div className="flex items-center gap-1 mt-1.5">
-                      <StarRating rating={company.overall_rating} />
-                      <span className="text-xs font-semibold text-gray-700 ml-0.5">{company.overall_rating.toFixed(1)}</span>
-                    </div>
-                    <p className="text-xs text-blue-600 mt-0.5">
-                      {reviewCount.toLocaleString()} review{reviewCount !== 1 ? 's' : ''}
-                    </p>
+                    <a href={`/companies/${company.id}`} className="block">
+                      <CompanyBadge name={company.name} size="md" logoUrl={company.logo_url} />
+                      <p className="font-semibold text-gray-900 group-hover:text-blue-600 transition text-sm mt-3 leading-tight line-clamp-2">
+                        {company.name}
+                      </p>
+                      <div className="flex items-center gap-1 mt-1.5">
+                        <StarRating rating={company.overall_rating} />
+                        <span className="text-xs font-semibold text-gray-700 ml-0.5">{company.overall_rating.toFixed(1)}</span>
+                      </div>
+                      <p className="text-xs text-blue-600 mt-0.5">
+                        {reviewCount.toLocaleString()} review{reviewCount !== 1 ? 's' : ''}
+                      </p>
+                    </a>
                     <div className="flex gap-3 mt-3 pt-3 border-t border-gray-100">
-                      <span className="text-xs text-blue-600 hover:underline font-medium">Salaries</span>
-                      <span className="text-xs text-blue-600 hover:underline font-medium">Q&amp;A</span>
-                      <span className="text-xs text-blue-600 hover:underline font-medium">Open jobs</span>
+                      <a href={`/companies/${company.id}?tab=salaries`} className="text-xs text-blue-600 hover:underline font-medium">Salaries</a>
+                      <a href={`/companies/${company.id}?tab=reviews`} className="text-xs text-blue-600 hover:underline font-medium">Reviews</a>
+                      <a href={`/?q=${encodeURIComponent(company.name)}`} className="text-xs text-blue-600 hover:underline font-medium">Open jobs</a>
                     </div>
-                  </a>
+                  </div>
                 )
               })}
             </div>
@@ -393,13 +394,14 @@ export default function CompaniesPage() {
               {displayList.map(company => {
                 const reviewCount = company.reviews.length
                 return (
-                  <a
+                  <div
                     key={company.id}
-                    href={`/companies/${company.id}`}
                     className="flex items-center gap-4 py-4 group hover:bg-gray-50 -mx-2 px-2 rounded-lg transition"
                   >
-                    <CompanyBadge name={company.name} size="md" logoUrl={company.logo_url} />
-                    <div className="flex-1 min-w-0">
+                    <a href={`/companies/${company.id}`} className="shrink-0">
+                      <CompanyBadge name={company.name} size="md" logoUrl={company.logo_url} />
+                    </a>
+                    <a href={`/companies/${company.id}`} className="flex-1 min-w-0">
                       <p className="font-semibold text-gray-900 group-hover:text-blue-600 transition text-sm leading-tight">
                         {company.name}
                       </p>
@@ -411,13 +413,13 @@ export default function CompaniesPage() {
                           {reviewCount.toLocaleString()} review{reviewCount !== 1 ? 's' : ''}
                         </span>
                       </div>
-                    </div>
+                    </a>
                     <div className="hidden sm:flex gap-4 text-xs text-blue-600 shrink-0">
-                      <span className="hover:underline">Salaries</span>
-                      <span className="hover:underline">Q&amp;A</span>
-                      <span className="hover:underline">Open jobs</span>
+                      <a href={`/companies/${company.id}?tab=salaries`} className="hover:underline">Salaries</a>
+                      <a href={`/companies/${company.id}?tab=reviews`} className="hover:underline">Reviews</a>
+                      <a href={`/?q=${encodeURIComponent(company.name)}`} className="hover:underline">Open jobs</a>
                     </div>
-                  </a>
+                  </div>
                 )
               })}
             </div>

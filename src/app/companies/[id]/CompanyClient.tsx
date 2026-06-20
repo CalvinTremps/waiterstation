@@ -620,19 +620,345 @@ function ReviewsTab({ company, reviews, overallRating, relatedCompanies, onWrite
   )
 }
 
-// ─── Salary benchmarks ────────────────────────────────────────────────────────
+// ─── Salary data ──────────────────────────────────────────────────────────────
 
-const SALARY_BENCHMARKS = [
-  { role: 'Waiter / Waitress', min: 4000, max: 8000, unit: '/month + tips' },
-  { role: 'Chef / Sous Chef', min: 8000, max: 22000, unit: '/month' },
-  { role: 'Bartender', min: 5000, max: 9000, unit: '/month + tips' },
-  { role: 'Hotel Front Desk', min: 6000, max: 12000, unit: '/month' },
-  { role: 'Housekeeping', min: 4500, max: 9000, unit: '/month' },
-  { role: 'Barista', min: 4500, max: 7000, unit: '/month' },
-  { role: 'Restaurant Manager', min: 15000, max: 30000, unit: '/month' },
-  { role: 'Game Ranger / Guide', min: 8000, max: 18000, unit: '/month + gratuities' },
-  { role: 'Spa Therapist', min: 6000, max: 12000, unit: '/month + tips' },
+const SALARY_CATEGORIES = [
+  {
+    label: 'Front of House',
+    roles: [
+      { role: 'Waiter / Waitress', min: 4000, max: 8000, unit: '/month + tips', count: 312 },
+      { role: 'Senior Waiter / Floor Captain', min: 7000, max: 12000, unit: '/month + tips', count: 88 },
+      { role: 'Bartender', min: 5000, max: 9000, unit: '/month + tips', count: 204 },
+      { role: 'Host / Hostess', min: 4500, max: 7500, unit: '/month', count: 67 },
+      { role: 'Cashier', min: 4000, max: 6500, unit: '/month', count: 145 },
+      { role: 'Barista', min: 4500, max: 7000, unit: '/month + tips', count: 189 },
+    ],
+  },
+  {
+    label: 'Kitchen & Culinary',
+    roles: [
+      { role: 'Chef / Head Chef', min: 15000, max: 40000, unit: '/month', count: 76 },
+      { role: 'Sous Chef', min: 10000, max: 22000, unit: '/month', count: 93 },
+      { role: 'Line Cook / Commis Chef', min: 5500, max: 10000, unit: '/month', count: 211 },
+      { role: 'Pastry Chef', min: 8000, max: 18000, unit: '/month', count: 42 },
+      { role: 'Kitchen Porter', min: 3800, max: 6000, unit: '/month', count: 158 },
+      { role: 'Prep Cook', min: 4500, max: 8000, unit: '/month', count: 97 },
+    ],
+  },
+  {
+    label: 'Management',
+    roles: [
+      { role: 'Restaurant Manager', min: 15000, max: 35000, unit: '/month', count: 134 },
+      { role: 'General Manager', min: 25000, max: 60000, unit: '/month', count: 49 },
+      { role: 'Assistant Manager', min: 12000, max: 22000, unit: '/month', count: 112 },
+      { role: 'Food & Beverage Manager', min: 18000, max: 40000, unit: '/month', count: 61 },
+      { role: 'Shift Supervisor', min: 8000, max: 15000, unit: '/month', count: 88 },
+      { role: 'Events Manager', min: 15000, max: 30000, unit: '/month', count: 37 },
+    ],
+  },
+  {
+    label: 'Hotel & Accommodation',
+    roles: [
+      { role: 'Front Desk Receptionist', min: 6000, max: 12000, unit: '/month', count: 178 },
+      { role: 'Concierge', min: 7000, max: 14000, unit: '/month', count: 54 },
+      { role: 'Housekeeping', min: 4500, max: 9000, unit: '/month', count: 264 },
+      { role: 'Room Attendant', min: 4000, max: 7500, unit: '/month', count: 193 },
+      { role: 'Night Auditor', min: 6500, max: 11000, unit: '/month', count: 41 },
+      { role: 'Hotel Manager', min: 25000, max: 65000, unit: '/month', count: 28 },
+    ],
+  },
+  {
+    label: 'Safari & Guiding',
+    roles: [
+      { role: 'Game Ranger / Field Guide', min: 8000, max: 22000, unit: '/month + gratuities', count: 89 },
+      { role: 'Lodge Manager', min: 20000, max: 45000, unit: '/month + accommodation', count: 34 },
+      { role: 'Safari Host / Hostess', min: 7000, max: 14000, unit: '/month + gratuities', count: 47 },
+      { role: 'Tracker', min: 6000, max: 12000, unit: '/month + gratuities', count: 56 },
+      { role: 'Conservation Officer', min: 9000, max: 18000, unit: '/month', count: 22 },
+    ],
+  },
+  {
+    label: 'Wellness & Spa',
+    roles: [
+      { role: 'Spa Therapist', min: 6000, max: 12000, unit: '/month + tips', count: 103 },
+      { role: 'Senior Therapist', min: 9000, max: 16000, unit: '/month + tips', count: 44 },
+      { role: 'Spa Manager', min: 15000, max: 28000, unit: '/month', count: 29 },
+      { role: 'Beauty Therapist', min: 5500, max: 11000, unit: '/month + tips', count: 67 },
+    ],
+  },
 ]
+
+const SALARY_FAQS = [
+  { q: 'Do people feel that they are paid fairly in the hospitality industry?', a: 'According to our survey data, approximately 38% of hospitality workers feel they are paid fairly. Pay satisfaction is higher in luxury hotels and safari lodges, and lower in quick-service restaurants.' },
+  { q: 'Do hospitality workers receive overtime pay?', a: 'Yes, most hospitality employers in South Africa are required to pay overtime at 1.5× the basic rate under the BCEA. However, compliance varies and some employers offer time off in lieu instead.' },
+  { q: 'How often do you get pay raises in hospitality?', a: 'Raises typically happen annually, often tied to minimum wage adjustments by the Department of Employment and Labour. High performers in fine dining and luxury lodges may receive more frequent increases.' },
+  { q: 'Do you get paid sick leave in hospitality?', a: 'The BCEA entitles employees to 30 days paid sick leave in every 3-year cycle. However, casual and part-time workers may have different arrangements.' },
+  { q: 'How much vacation and PTO do hospitality workers get?', a: 'Full-time hospitality employees are entitled to 21 consecutive days (15 working days) annual leave per year. Some employers offer additional leave after long service.' },
+  { q: 'Is tip income significant in South African hospitality?', a: 'Yes — in fine dining and luxury settings tips can add R2 000 – R6 000+/month. At high-end hotels and safari lodges, guest gratuities often form a significant portion of total income.' },
+]
+
+const ALL_CATEGORIES = ['Accounting', 'Administrative', 'Bar & Beverage', 'Catering', 'Cleaning & Sanitation', 'Concierge', 'Customer Service', 'Events', 'Finance', 'Food & Beverage', 'Front of House', 'Guest Relations', 'Guiding & Safari', 'Hotel Operations', 'Housekeeping', 'Human Resources', 'Kitchen & Culinary', 'Lodge Management', 'Management', 'Marketing', 'Procurement', 'Recreation', 'Reservations', 'Revenue Management', 'Sales', 'Security', 'Spa & Wellness', 'Stewarding', 'Training', 'Wine & Sommelier']
+
+// ─── Salary tab (Indeed layout) ───────────────────────────────────────────────
+
+function DonutChart({ pct }: { pct: number }) {
+  const r = 38, cx = 44, cy = 44
+  const circ = 2 * Math.PI * r
+  const dash = (pct / 100) * circ
+  return (
+    <svg viewBox="0 0 88 88" className="w-20 h-20">
+      <circle cx={cx} cy={cy} r={r} fill="none" stroke="#E5E7EB" strokeWidth="10" />
+      <circle cx={cx} cy={cy} r={r} fill="none" stroke="#3B82F6" strokeWidth="10"
+        strokeDasharray={`${dash} ${circ}`} strokeLinecap="round"
+        transform={`rotate(-90 ${cx} ${cy})`} />
+      <text x={cx} y={cy} textAnchor="middle" dominantBaseline="middle"
+        fontSize="16" fontWeight="bold" fill="#1F2937">{pct}%</text>
+    </svg>
+  )
+}
+
+function SalariesTab({ company, reviews, relatedCompanies }: {
+  company: Company
+  reviews: CompanyReview[]
+  relatedCompanies: Company[]
+}) {
+  const [roleSearch, setRoleSearch] = useState('')
+  const [openFaq, setOpenFaq] = useState<number | null>(null)
+
+  const reportedSalaries = reviews.filter(r => r.salary)
+  const satisfactionPct = Math.round((company.ratings.compensation / 5) * 100)
+
+  const companyJobs = useMemo(() =>
+    MOCK_JOBS.filter(j =>
+      j.employer_name.toLowerCase().includes(company.name.split(' ')[0].toLowerCase()) ||
+      company.name.toLowerCase().includes(j.employer_name.split(' ')[0].toLowerCase())
+    ).slice(0, 6),
+    [company.name]
+  )
+
+  const filteredCategories = useMemo(() => {
+    if (!roleSearch) return SALARY_CATEGORIES
+    const q = roleSearch.toLowerCase()
+    return SALARY_CATEGORIES.map(cat => ({
+      ...cat,
+      roles: cat.roles.filter(r => r.role.toLowerCase().includes(q)),
+    })).filter(cat => cat.roles.length > 0)
+  }, [roleSearch])
+
+  return (
+    <div className="space-y-5">
+
+      {/* Hero filter */}
+      <div className="bg-white border border-gray-200 rounded-xl p-5">
+        <h2 className="text-base font-bold text-gray-900 mb-1">
+          {company.name} salaries: How much does {company.name} pay?
+        </h2>
+        <p className="text-xs text-gray-400 mb-4">Updated {new Date().toLocaleDateString('en-ZA', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
+        <div className="flex gap-2">
+          <div className="relative flex-1">
+            <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z" />
+            </svg>
+            <input value={roleSearch} onChange={e => setRoleSearch(e.target.value)}
+              placeholder="Search job title"
+              className="w-full border border-gray-200 rounded-lg pl-9 pr-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400" />
+          </div>
+          <select className="border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white text-gray-700">
+            <option>South Africa</option>
+            <option>Cape Town</option>
+            <option>Johannesburg</option>
+            <option>Durban</option>
+            <option>Stellenbosch</option>
+          </select>
+        </div>
+      </div>
+
+      {/* Reported salaries + satisfaction */}
+      {reportedSalaries.length > 0 && (
+        <div className="bg-white border border-gray-200 rounded-xl p-5">
+          <div className="flex items-start gap-6">
+            <div className="flex-1">
+              <h3 className="text-sm font-bold text-gray-900 mb-3">Reported at {company.name}</h3>
+              <div className="space-y-2">
+                {reportedSalaries.map(r => (
+                  <div key={r.id} className="flex items-center justify-between py-2.5 border-b border-gray-50 last:border-0">
+                    <div>
+                      <a href="#" className="text-sm text-blue-600 hover:underline font-medium">{r.role}</a>
+                      <span className={`ml-2 text-xs px-2 py-0.5 rounded-full ${r.employment_status === 'Current' ? 'bg-green-50 text-green-700' : 'bg-gray-100 text-gray-500'}`}>
+                        {r.employment_status}
+                      </span>
+                      <p className="text-xs text-gray-400 mt-0.5">{r.helpful_count} salaries reported</p>
+                    </div>
+                    <div className="text-right">
+                      <span className="text-sm font-bold text-gray-900">{r.salary}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="shrink-0 text-center border-l border-gray-100 pl-6">
+              <p className="text-xs font-semibold text-gray-500 mb-2">Salary satisfaction</p>
+              <DonutChart pct={satisfactionPct} />
+              <p className="text-[11px] text-gray-400 mt-2 max-w-[120px] leading-snug">
+                {satisfactionPct}% feel fairly paid based on {reviews.length} ratings
+              </p>
+              <button className="text-xs text-blue-600 hover:underline mt-1">Rate your salary</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Popular jobs at company */}
+      {companyJobs.length > 0 && (
+        <div className="bg-white border border-gray-200 rounded-xl p-5">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-sm font-bold text-gray-900">Popular jobs at {company.name}</h3>
+            <a href={`/?q=${encodeURIComponent(company.name)}`} className="text-xs text-blue-600 hover:underline font-medium">
+              See all jobs at {company.name} →
+            </a>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {companyJobs.map(job => (
+              <a key={job.id} href={`/jobs/${job.id}`}
+                className="flex items-start justify-between border border-gray-100 rounded-lg p-3 hover:shadow-sm hover:border-gray-300 transition group">
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm text-blue-600 font-medium group-hover:underline leading-tight">{job.title}</p>
+                  <p className="text-xs text-gray-500 mt-0.5 truncate">{job.location}</p>
+                  {job.pay && <p className="text-xs font-semibold text-gray-700 mt-1">{job.pay}</p>}
+                </div>
+                <svg className="w-4 h-4 text-gray-300 shrink-0 mt-0.5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Salary categories */}
+      {filteredCategories.map(cat => (
+        <div key={cat.label} className="bg-white border border-gray-200 rounded-xl p-5">
+          <h3 className="text-sm font-bold text-gray-900 mb-4">{cat.label}</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-0 divide-y divide-gray-50">
+            {cat.roles.map(role => (
+              <div key={role.role} className="flex items-center justify-between py-2.5">
+                <div>
+                  <p className="text-sm text-blue-600 hover:underline cursor-default font-medium">{role.role}</p>
+                  <p className="text-xs text-gray-400">{role.count} salaries reported</p>
+                </div>
+                <div className="text-right shrink-0 ml-4">
+                  <p className="text-sm font-bold text-gray-900">
+                    R{role.min.toLocaleString()} – R{role.max.toLocaleString()}
+                  </p>
+                  <p className="text-xs text-gray-400">{role.unit}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <button className="mt-3 text-xs text-blue-600 hover:underline font-medium">
+            All {company.name} — {cat.label} salaries →
+          </button>
+        </div>
+      ))}
+
+      {/* FAQ */}
+      <div className="bg-white border border-gray-200 rounded-xl p-5">
+        <h3 className="text-sm font-bold text-gray-900 mb-4">Common questions about salaries at {company.name}</h3>
+        <div className="divide-y divide-gray-100">
+          {SALARY_FAQS.map((faq, i) => (
+            <div key={i}>
+              <button onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                className="flex items-center justify-between w-full py-3 text-left">
+                <span className="text-sm text-gray-700 font-medium pr-4">{faq.q}</span>
+                <svg className={`w-4 h-4 text-gray-400 shrink-0 transition-transform ${openFaq === i ? 'rotate-180' : ''}`}
+                  fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              {openFaq === i && (
+                <p className="text-sm text-gray-600 leading-relaxed pb-3">{faq.a}</p>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Browse by category */}
+      <div className="bg-white border border-gray-200 rounded-xl p-5">
+        <h3 className="text-sm font-bold text-gray-900 mb-4">Browse all {company.name} salaries by category</h3>
+        <div className="columns-2 sm:columns-3 gap-x-6 space-y-1">
+          {ALL_CATEGORIES.map(cat => (
+            <a key={cat} href={`#${cat}`} className="block text-xs text-blue-600 hover:underline py-0.5">{cat}</a>
+          ))}
+        </div>
+      </div>
+
+      {/* Summary paragraph */}
+      <div className="bg-white border border-gray-200 rounded-xl p-5">
+        <h3 className="text-sm font-bold text-gray-900 mb-2">How much does {company.name} pay in South Africa?</h3>
+        <p className="text-sm text-gray-600 leading-relaxed">
+          Average salaries at {company.name} range from approximately R{(4000).toLocaleString()} per month for entry-level roles to R{(45000).toLocaleString()}+ per month for senior management positions. The average salary is influenced by location, experience, and the specific department. {company.name} is based in {company.location} and operates in the {company.industry} sector.
+        </p>
+        <p className="text-xs text-gray-400 mt-3">
+          Salary estimates are based on third-party submissions to Waiterstation. Actual salaries may vary. Minimum wage may differ — always confirm with the employer for actual salary figures.
+        </p>
+      </div>
+
+      {/* See what similar companies pay */}
+      {relatedCompanies.length > 0 && (
+        <div className="bg-white border border-gray-200 rounded-xl p-5">
+          <h3 className="text-sm font-bold text-gray-900 mb-4">See what similar companies pay</h3>
+          <div className="flex gap-4 overflow-x-auto pb-2 -mx-1 px-1">
+            {relatedCompanies.slice(0, 4).map(c => (
+              <a key={c.id} href={`/companies/${c.id}?tab=salaries`}
+                className="shrink-0 w-52 border border-gray-200 rounded-xl p-4 hover:shadow-md hover:border-gray-300 transition group block">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-8 h-8 rounded border border-gray-100 bg-white flex items-center justify-center overflow-hidden shrink-0">
+                    {c.logo_url
+                      ? <img src={c.logo_url} alt={c.name} className="w-full h-full object-contain p-0.5" onError={e => { (e.target as HTMLImageElement).style.display = 'none' }} />
+                      : <span className="text-xs font-bold text-gray-400">{c.name.charAt(0)}</span>
+                    }
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-xs font-semibold text-gray-800 group-hover:text-blue-600 truncate">{c.name}</p>
+                    <div className="flex items-center gap-1">
+                      <StarRating rating={c.overall_rating} />
+                      <span className="text-xs text-gray-500">{c.overall_rating.toFixed(1)}</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-1 text-xs text-gray-500">
+                  <div className="flex items-center gap-1.5">
+                    <svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    {c.size}
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                    </svg>
+                    {c.overall_rating.toFixed(1)} overall rating
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                    </svg>
+                    {c.reviews.length} review{c.reviews.length !== 1 ? 's' : ''}
+                  </div>
+                </div>
+                <div className="mt-3 pt-3 border-t border-gray-100 text-xs font-semibold text-blue-600 group-hover:underline">
+                  View salaries →
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+
+    </div>
+  )
+}
 
 // ─── Main component ───────────────────────────────────────────────────────────
 
@@ -971,44 +1297,7 @@ export default function CompanyClient({ company }: { company: Company }) {
 
           {/* ── SALARIES ── */}
           {activeTab === 'salaries' && (
-            <section className="bg-white border border-gray-200 rounded-xl p-5">
-              {company.reviews.filter(r => r.salary).length > 0 && (
-                <div className="mb-6">
-                  <h2 className="text-base font-bold text-gray-900 mb-1">Reported at {company.name}</h2>
-                  <p className="text-xs text-gray-400 mb-4">Self-reported by employees — actual salaries may vary</p>
-                  <div className="space-y-2">
-                    {company.reviews.filter(r => r.salary).map(r => (
-                      <div key={r.id} className="flex items-center justify-between px-4 py-3 rounded-xl bg-gray-50 border border-gray-100">
-                        <div>
-                          <span className="text-sm font-medium text-gray-800">{r.role}</span>
-                          <span className={`ml-2 text-xs px-2 py-0.5 rounded-full ${r.employment_status === 'Current' ? 'bg-green-50 text-green-700' : 'bg-gray-100 text-gray-500'}`}>
-                            {r.employment_status}
-                          </span>
-                        </div>
-                        <span className="text-sm font-semibold text-green-700">{r.salary}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-              <div className={company.reviews.filter(r => r.salary).length > 0 ? 'border-t border-gray-100 pt-6' : ''}>
-                <h2 className="text-base font-bold text-gray-900 mb-1">SA hospitality salary benchmarks</h2>
-                <p className="text-xs text-gray-400 mb-4">Typical ranges across the industry. Varies by location and experience.</p>
-                <div className="space-y-2">
-                  {SALARY_BENCHMARKS.map(b => (
-                    <div key={b.role} className="flex items-center justify-between px-4 py-3 rounded-xl border border-gray-100 hover:bg-gray-50 transition">
-                      <span className="text-sm font-medium text-gray-700">{b.role}</span>
-                      <div className="text-right">
-                        <span className="text-sm font-semibold text-gray-800">
-                          R{b.min.toLocaleString()} – R{b.max.toLocaleString()}
-                        </span>
-                        <span className="text-xs text-gray-400">{b.unit}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </section>
+            <SalariesTab company={company} reviews={reviews} relatedCompanies={relatedCompanies} />
           )}
 
           {/* ── BENEFITS ── */}

@@ -47,7 +47,6 @@ function formatPay(min?: number, max?: number): string | undefined {
 }
 
 function cleanDescription(raw: string): string {
-  // Adzuna descriptions are HTML-stripped but may have extra whitespace
   return raw.replace(/\s{3,}/g, '\n\n').trim().slice(0, 2000)
 }
 
@@ -62,60 +61,49 @@ export async function fetchAdzunaJobs(params: {
   const appKey = process.env.ADZUNA_APP_KEY
   if (!appId || !appKey) return null
 
-  const searches = [
-    'waiter waitress hospitality',
-    'chef cook restaurant',
-    'bartender barista hotel',
-    'housekeeping front desk',
-  ]
+  // Single broad hospitality search — fast, avoids parallel fetch timeout on Vercel
+  const what = params.q || 'waiter chef bartender hospitality'
 
-  const queries = params.q
-    ? [params.q]
-    : (params.role ? [params.role] : searches)
+  const url = new URL('https://api.adzuna.com/v1/api/jobs/za/search/1')
+  url.searchParams.set('app_id', appId)
+  url.searchParams.set('app_key', appKey)
+  url.searchParams.set('results_per_page', '50')
+  url.searchParams.set('what', what)
+  url.searchParams.set('content-type', 'application/json')
+  if (params.location) url.searchParams.set('where', params.location)
+  if (params.payOnly) url.searchParams.set('salary_min', '1')
 
-  const results: Job[] = []
-  const seen = new Set<string>()
+  try {
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), 8000)
 
-  await Promise.all(
-    queries.slice(0, 2).map(async (what) => {
-      const url = new URL('https://api.adzuna.com/v1/api/jobs/za/search/1')
-      url.searchParams.set('app_id', appId)
-      url.searchParams.set('app_key', appKey)
-      url.searchParams.set('results_per_page', '25')
-      url.searchParams.set('what', what)
-      url.searchParams.set('content-type', 'application/json')
-      if (params.location) url.searchParams.set('where', params.location)
-      if (params.payOnly) url.searchParams.set('salary_min', '1')
-
-      try {
-        const res = await fetch(url.toString(), {
-          cache: 'no-store',
-        })
-        if (!res.ok) return
-        const data: AdzunaResponse = await res.json()
-        for (const j of data.results) {
-          if (seen.has(j.id)) continue
-          seen.add(j.id)
-          const pay = formatPay(j.salary_min, j.salary_max)
-          results.push({
-            id: `az-${j.id}`,
-            title: j.title,
-            role_category: inferRoleCategory(j.title),
-            location: j.location.display_name,
-            employment_type: inferEmploymentType(j.contract_type),
-            pay,
-            description: cleanDescription(j.description),
-            employer_name: j.company.display_name || 'Confidential',
-            contact_method: j.redirect_url,
-            status: 'approved',
-            created_at: j.created,
-          })
-        }
-      } catch {
-        // silently fail — caller falls back to mock
-      }
+    const res = await fetch(url.toString(), {
+      cache: 'no-store',
+      signal: controller.signal,
     })
-  )
+    clearTimeout(timeout)
 
-  return results.length > 0 ? results : null
+    if (!res.ok) return null
+
+    const data: AdzunaResponse = await res.json()
+    if (!data.results?.length) return null
+
+    const jobs: Job[] = data.results.map((j) => ({
+      id: `az-${j.id}`,
+      title: j.title,
+      role_category: inferRoleCategory(j.title),
+      location: j.location.display_name,
+      employment_type: inferEmploymentType(j.contract_type),
+      pay: formatPay(j.salary_min, j.salary_max),
+      description: cleanDescription(j.description),
+      employer_name: j.company.display_name || 'Confidential',
+      contact_method: j.redirect_url,
+      status: 'approved',
+      created_at: j.created,
+    }))
+
+    return jobs.length > 0 ? jobs : null
+  } catch {
+    return null
+  }
 }

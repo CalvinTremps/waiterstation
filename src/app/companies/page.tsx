@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { MOCK_COMPANIES } from '@/lib/mock-companies'
 import CompanyBadge from '@/components/CompanyBadge'
 
@@ -200,10 +201,11 @@ const BROWSE_INDUSTRIES = [
   },
 ]
 
-export default function CompaniesPage() {
-  const [searchQuery, setSearchQuery] = useState('')
+function CompaniesPageInner() {
+  const searchParams = useSearchParams()
+  const [searchQuery, setSearchQuery] = useState(searchParams.get('q') ?? '')
   const [selectedIndustry, setSelectedIndustry] = useState('')
-  const [showAll, setShowAll] = useState(false)
+  const [showAll, setShowAll] = useState(!!(searchParams.get('q')))
 
   const sorted = useMemo(
     () => [...MOCK_COMPANIES].sort((a, b) => b.overall_rating - a.overall_rating),
@@ -451,4 +453,9 @@ export default function CompaniesPage() {
       </div>
     </div>
   )
+}
+
+import { Suspense } from 'react'
+export default function CompaniesPage() {
+  return <Suspense><CompaniesPageInner /></Suspense>
 }

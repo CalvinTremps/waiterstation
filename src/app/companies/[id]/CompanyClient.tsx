@@ -856,14 +856,13 @@ function JobsTab({ company, relatedCompanies, allJobs }: {
       {relatedCompanies.length > 0 && (
         <div className="bg-white border border-gray-200 rounded-xl p-5">
           <h3 className="text-sm font-bold text-gray-900 mb-1">More companies you might be interested in</h3>
-          <div className="relative mt-3">
-            <div className="flex items-center gap-1.5 border border-gray-200 rounded-lg px-3 py-2.5 max-w-xs">
-              <svg className="w-4 h-4 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z" />
-              </svg>
-              <span className="text-sm text-gray-400">Find another company</span>
-            </div>
-          </div>
+          <form action="/companies" method="GET" className="relative mt-3 max-w-xs">
+            <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z" />
+            </svg>
+            <input name="q" placeholder="Find another company"
+              className="w-full border border-gray-200 rounded-lg pl-9 pr-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400" />
+          </form>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
             {relatedCompanies.map(c => (
               <a key={c.id} href={`/companies/${c.id}?tab=jobs`}
@@ -988,10 +987,11 @@ function DonutChart({ pct }: { pct: number }) {
   )
 }
 
-function SalariesTab({ company, reviews, relatedCompanies }: {
+function SalariesTab({ company, reviews, relatedCompanies, onWriteReview }: {
   company: Company
   reviews: CompanyReview[]
   relatedCompanies: Company[]
+  onWriteReview: () => void
 }) {
   const [roleSearch, setRoleSearch] = useState('')
   const [openFaq, setOpenFaq] = useState<number | null>(null)
@@ -1054,7 +1054,7 @@ function SalariesTab({ company, reviews, relatedCompanies }: {
                 {reportedSalaries.map(r => (
                   <div key={r.id} className="flex items-center justify-between py-2.5 border-b border-gray-50 last:border-0">
                     <div>
-                      <a href="#" className="text-sm text-blue-600 hover:underline font-medium">{r.role}</a>
+                      <span className="text-sm text-blue-600 font-medium">{r.role}</span>
                       <span className={`ml-2 text-xs px-2 py-0.5 rounded-full ${r.employment_status === 'Current' ? 'bg-green-50 text-green-700' : 'bg-gray-100 text-gray-500'}`}>
                         {r.employment_status}
                       </span>
@@ -1073,7 +1073,7 @@ function SalariesTab({ company, reviews, relatedCompanies }: {
               <p className="text-[11px] text-gray-400 mt-2 max-w-[120px] leading-snug">
                 {satisfactionPct}% feel fairly paid based on {reviews.length} ratings
               </p>
-              <button className="text-xs text-blue-600 hover:underline mt-1">Rate your salary</button>
+              <button onClick={onWriteReview} className="text-xs text-blue-600 hover:underline mt-1">Rate your salary</button>
             </div>
           </div>
         </div>
@@ -1126,7 +1126,8 @@ function SalariesTab({ company, reviews, relatedCompanies }: {
               </div>
             ))}
           </div>
-          <button className="mt-3 text-xs text-blue-600 hover:underline font-medium">
+          <button onClick={() => { setRoleSearch(cat.label); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+            className="mt-3 text-xs text-blue-600 hover:underline font-medium">
             All {company.name} — {cat.label} salaries →
           </button>
         </div>
@@ -1159,7 +1160,8 @@ function SalariesTab({ company, reviews, relatedCompanies }: {
         <h3 className="text-sm font-bold text-gray-900 mb-4">Browse all {company.name} salaries by category</h3>
         <div className="columns-2 sm:columns-3 gap-x-6 space-y-1">
           {ALL_CATEGORIES.map(cat => (
-            <a key={cat} href={`#${cat}`} className="block text-xs text-blue-600 hover:underline py-0.5">{cat}</a>
+            <button key={cat} onClick={() => { setRoleSearch(cat); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+              className="block text-xs text-blue-600 hover:underline py-0.5 text-left">{cat}</button>
           ))}
         </div>
       </div>
@@ -1577,7 +1579,7 @@ export default function CompanyClient({ company }: { company: Company }) {
 
           {/* ── SALARIES ── */}
           {activeTab === 'salaries' && (
-            <SalariesTab company={company} reviews={reviews} relatedCompanies={relatedCompanies} />
+            <SalariesTab company={company} reviews={reviews} relatedCompanies={relatedCompanies} onWriteReview={() => setShowModal(true)} />
           )}
 
           {/* ── JOBS ── */}

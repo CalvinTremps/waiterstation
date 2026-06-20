@@ -1,3 +1,7 @@
+'use client'
+
+import { useState } from 'react'
+
 const COLORS = [
   'bg-orange-100 text-orange-700',
   'bg-sky-100 text-sky-700',
@@ -15,14 +19,36 @@ function colorFor(name: string): string {
   return COLORS[hash % COLORS.length]
 }
 
-export default function CompanyBadge({ name, size = 'md' }: { name: string; size?: 'sm' | 'md' | 'lg' }) {
+export default function CompanyBadge({
+  name,
+  size = 'md',
+  logoUrl,
+}: {
+  name: string
+  size?: 'sm' | 'md' | 'lg'
+  logoUrl?: string
+}) {
+  const [imgFailed, setImgFailed] = useState(false)
   const letter = name.trim().charAt(0).toUpperCase()
   const color = colorFor(name)
 
   const dim =
     size === 'sm' ? 'w-9 h-9 text-xs' :
-    size === 'lg' ? 'w-14 h-14 text-xl' :
+    size === 'lg' ? 'w-16 h-16 text-xl' :
     'w-11 h-11 text-sm'
+
+  if (logoUrl && !imgFailed) {
+    return (
+      <div className={`${dim} rounded-lg bg-white border border-gray-100 flex items-center justify-center overflow-hidden shrink-0`}>
+        <img
+          src={logoUrl}
+          alt={name}
+          className="w-full h-full object-contain p-1"
+          onError={() => setImgFailed(true)}
+        />
+      </div>
+    )
+  }
 
   return (
     <div className={`${dim} ${color} rounded-lg flex items-center justify-center font-semibold shrink-0`}>

@@ -101,7 +101,7 @@ export default function CompaniesPage() {
               href={`/companies/${company.id}`}
               className="flex items-start gap-4 bg-white border border-gray-200 rounded-lg p-4 hover:border-gray-300 hover:shadow-sm transition-all group"
             >
-              <CompanyBadge name={company.name} size="md" />
+              <CompanyBadge name={company.name} size="md" logoUrl={company.logo_url} />
 
               <div className="flex-1 min-w-0">
                 <div className="flex items-start justify-between gap-2">

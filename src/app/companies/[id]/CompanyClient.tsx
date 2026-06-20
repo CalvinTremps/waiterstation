@@ -345,12 +345,19 @@ export default function CompanyClient({ company }: { company: Company }) {
           <div className="bg-white rounded-xl border border-gray-200 p-8 mb-5">
             <div className="flex items-start justify-between gap-5">
               <div className="flex items-start gap-5">
-                <div className="w-16 h-16 rounded-lg border border-gray-200 bg-gray-50 flex items-center justify-center text-2xl font-semibold text-gray-400 shrink-0">
-                  {companyInitial}
+                <div className="w-16 h-16 rounded-lg border border-gray-100 bg-white flex items-center justify-center shrink-0 overflow-hidden">
+                  {company.logo_url ? (
+                    <img src={company.logo_url} alt={company.name} className="w-full h-full object-contain p-1.5" onError={e => { (e.target as HTMLImageElement).style.display = 'none' }} />
+                  ) : (
+                    <span className="text-2xl font-semibold text-gray-400">{companyInitial}</span>
+                  )}
                 </div>
                 <div>
                   <h1 className="text-2xl font-bold text-gray-900">{company.name}</h1>
                   <p className="text-sm text-gray-500 mt-1">{company.industry} · {company.size} · {company.location}</p>
+                  {company.website && (
+                    <a href={`https://${company.website}`} target="_blank" rel="noopener noreferrer" className="text-xs text-emerald-600 hover:underline mt-0.5 inline-block">{company.website} ↗</a>
+                  )}
                   <div className="flex items-center gap-2 mt-2">
                     <StarDisplay rating={overallRating} size="lg" />
                     <span className="text-lg font-bold text-gray-800">{overallRating.toFixed(1)}</span>

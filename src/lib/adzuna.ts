@@ -89,7 +89,7 @@ export async function fetchAdzunaJobs(params: {
 
       try {
         const res = await fetch(url.toString(), {
-          next: { revalidate: 1800 }, // 30 min cache
+          cache: 'no-store',
         })
         if (!res.ok) return
         const data: AdzunaResponse = await res.json()

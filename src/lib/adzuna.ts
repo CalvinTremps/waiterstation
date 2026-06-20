@@ -61,8 +61,8 @@ export async function fetchAdzunaJobs(params: {
   const appKey = process.env.ADZUNA_APP_KEY
   if (!appId || !appKey) return null
 
-  // Single broad hospitality search — fast, avoids parallel fetch timeout on Vercel
-  const what = params.q || 'waiter chef bartender hospitality'
+  // Single broad hospitality search — Adzuna treats spaces as AND, so use one term
+  const what = params.q || 'hospitality'
 
   const url = new URL('https://api.adzuna.com/v1/api/jobs/za/search/1')
   url.searchParams.set('app_id', appId)

@@ -1,109 +1,201 @@
-import { createServerClient, getSession } from '@/lib/supabase-server'
-import { redirect } from 'next/navigation'
-import { Job, ROLE_LABELS, EMPLOYMENT_TYPE_LABELS } from '@/lib/types'
-import EmployerJobActions from './EmployerJobActions'
-import RenewButton from './RenewButton'
-import SignOutButton from './SignOutButton'
+'use client'
 
-const STATUS_STYLES: Record<string, string> = {
-  approved: 'bg-emerald-50 text-emerald-700',
-  pending: 'bg-amber-50 text-amber-700',
-  expired: 'bg-gray-100 text-gray-500',
+import { useState } from 'react'
+import { EMPLOYER_JOBS, MOCK_APPLICANTS, MOCK_INTERVIEWS, PIPELINE_STAGES } from '@/lib/mock-recruitment'
+
+const stageCounts = PIPELINE_STAGES.map(s => ({
+  ...s,
+  count: MOCK_APPLICANTS.filter(a => a.stage === s.key).length,
+}))
+
+const upcomingInterviews = MOCK_INTERVIEWS
+  .filter(i => i.outcome === 'pending')
+  .sort((a, b) => a.date.localeCompare(b.date))
+  .slice(0, 3)
+
+const recentApplicants = [...MOCK_APPLICANTS]
+  .sort((a, b) => b.applied_at.localeCompare(a.applied_at))
+  .slice(0, 5)
+
+const liveJobs = EMPLOYER_JOBS.filter(j => j.status === 'live')
+const totalViews = EMPLOYER_JOBS.reduce((s, j) => s + j.views, 0)
+const totalApplicants = MOCK_APPLICANTS.length
+
+function timeAgo(iso: string) {
+  const days = Math.floor((Date.now() - new Date(iso).getTime()) / 86400000)
+  if (days === 0) return 'Today'
+  if (days === 1) return 'Yesterday'
+  return `${days}d ago`
 }
 
-const STATUS_LABELS: Record<string, string> = {
-  approved: 'Live',
-  pending: 'Under review',
-  expired: 'Expired',
+function formatDate(dateStr: string) {
+  return new Date(dateStr).toLocaleDateString('en-ZA', { weekday: 'short', day: 'numeric', month: 'short' })
 }
 
-export default async function EmployerDashboard() {
-  const session = await getSession()
-  if (!session) redirect('/auth/login?next=/employer')
+const STAGE_ORDER: Record<string, number> = {
+  new: 0, reviewed: 1, shortlisted: 2, interview: 3, offered: 4, hired: 5, rejected: 6,
+}
 
-  const supabase = await createServerClient()
-
-  const { data: jobs } = await supabase
-    .from('jobs')
-    .select('*')
-    .eq('employer_id', session.user.id)
-    .order('created_at', { ascending: false })
-
-  const live = jobs?.filter(j => j.status === 'approved').length ?? 0
-  const pending = jobs?.filter(j => j.status === 'pending').length ?? 0
-  const expired = jobs?.filter(j => j.status === 'expired').length ?? 0
+export default function EmployerDashboard() {
+  const [dismissedBanner, setDismissedBanner] = useState(false)
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-6">
+    <div className="space-y-6">
+
       {/* Header */}
-      <div className="flex items-start justify-between mb-6">
+      <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">My Listings</h1>
-          <p className="text-sm text-gray-500 mt-0.5">{session.user.email}</p>
+          <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+          <p className="text-sm text-gray-500 mt-0.5">One&Only Cape Town</p>
         </div>
-        <SignOutButton />
+        <a href="/post-job"
+          className="hidden sm:flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition">
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4"/>
+          </svg>
+          Post a Job
+        </a>
       </div>
 
-      {/* Stats row */}
-      <div className="grid grid-cols-3 gap-3 mb-6">
-        <StatCard label="Live" value={live} color="text-emerald-600" />
-        <StatCard label="In review" value={pending} color="text-amber-600" />
-        <StatCard label="Expired" value={expired} color="text-gray-400" />
-      </div>
-
-      {/* Post new job CTA */}
-      <a
-        href="/post-job"
-        className="flex items-center justify-center gap-2 w-full border-2 border-dashed border-gray-300 text-gray-600 font-semibold py-4 rounded-lg hover:bg-gray-50 transition mb-5 text-sm"
-      >
-        + Post a new job
-      </a>
-
-      {/* Job list */}
-      {(!jobs || jobs.length === 0) && (
-        <div className="text-center py-16 text-gray-400">
-          <p className="font-medium text-gray-600">No listings yet</p>
-          <p className="text-sm mt-1">Post your first job above</p>
+      {/* Offer banner */}
+      {!dismissedBanner && (
+        <div className="bg-emerald-50 border border-emerald-200 rounded-xl px-4 py-3 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <span className="text-emerald-600">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+            </span>
+            <p className="text-sm text-emerald-800 font-medium">Lerato Molefe has received your offer — waiting on response.</p>
+          </div>
+          <button onClick={() => setDismissedBanner(true)} className="text-emerald-500 hover:text-emerald-700">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
         </div>
       )}
 
-      <div className="space-y-3">
-        {jobs?.map((job: Job) => (
-          <div key={job.id} className="bg-white border border-gray-200 rounded-lg p-4">
-            <div className="flex items-start gap-3">
-              <div className="w-10 h-10 rounded border border-gray-200 bg-gray-50 flex items-center justify-center text-sm font-semibold text-gray-500 shrink-0">
-                {job.employer_name.trim().charAt(0).toUpperCase()}
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-start justify-between gap-2">
-                  <div>
-                    <p className="font-semibold text-gray-900 leading-tight">{job.title}</p>
-                    <p className="text-xs text-gray-500 mt-0.5">{job.location} · {EMPLOYMENT_TYPE_LABELS[job.employment_type]}</p>
-                  </div>
-                  <span className={`shrink-0 text-xs font-medium px-2.5 py-1 rounded ${STATUS_STYLES[job.status]}`}>
-                    {STATUS_LABELS[job.status]}
-                  </span>
-                </div>
-                <div className="mt-2 flex items-center gap-2 text-xs text-gray-400">
-                  <span>Posted {new Date(job.created_at).toLocaleDateString('en-ZA', { day: 'numeric', month: 'short' })}</span>
-                  {job.pay && <><span>·</span><span className="text-emerald-700 font-medium">{job.pay}</span></>}
-                </div>
-              </div>
-            </div>
-            <EmployerJobActions jobId={job.id} status={job.status} />
-            {job.status === 'expired' && <div className="mt-2"><RenewButton jobId={job.id} /></div>}
+      {/* Stats row */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        <StatCard label="Live Listings" value={liveJobs.length} sub="of 6 total" icon="📋" color="text-emerald-600" />
+        <StatCard label="Total Applicants" value={totalApplicants} sub="across all listings" icon="👥" color="text-blue-600" />
+        <StatCard label="Total Views" value={totalViews} sub="last 30 days" icon="👁️" color="text-purple-600" />
+        <StatCard label="Interviews Booked" value={upcomingInterviews.length} sub="coming up" icon="📅" color="text-amber-600" />
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+
+        {/* Pipeline overview */}
+        <div className="lg:col-span-2 bg-white border border-gray-200 rounded-xl p-5">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="font-semibold text-gray-900">Pipeline</h2>
+            <a href="/employer/applicants" className="text-xs text-emerald-600 font-medium hover:underline">View all</a>
           </div>
-        ))}
+          <div className="grid grid-cols-4 gap-2 mb-5">
+            {stageCounts.filter(s => !['hired','rejected'].includes(s.key)).map(s => (
+              <a key={s.key} href="/employer/applicants"
+                className="text-center bg-gray-50 hover:bg-gray-100 rounded-lg p-3 transition cursor-pointer">
+                <p className="text-xl font-bold text-gray-900">{s.count}</p>
+                <p className="text-[11px] text-gray-500 mt-0.5">{s.label}</p>
+              </a>
+            ))}
+          </div>
+
+          {/* Recent applicants */}
+          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Recent applicants</p>
+          <div className="space-y-2">
+            {recentApplicants.map(a => (
+              <a key={a.id} href={`/employer/applicants/${a.id}`}
+                className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-50 transition">
+                <div className={`w-8 h-8 rounded-full ${a.avatar_color} flex items-center justify-center text-white text-xs font-bold shrink-0`}>
+                  {a.avatar_initials}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold text-gray-900 truncate">{a.name}</p>
+                  <p className="text-xs text-gray-500 truncate">{a.job_title}</p>
+                </div>
+                <div className="text-right shrink-0">
+                  <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${PIPELINE_STAGES.find(s => s.key === a.stage)?.color}`}>
+                    {PIPELINE_STAGES.find(s => s.key === a.stage)?.label}
+                  </span>
+                  <p className="text-[10px] text-gray-400 mt-0.5">{timeAgo(a.applied_at)}</p>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+
+        {/* Right column */}
+        <div className="space-y-4">
+
+          {/* Upcoming interviews */}
+          <div className="bg-white border border-gray-200 rounded-xl p-5">
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="font-semibold text-gray-900">Upcoming Interviews</h2>
+              <a href="/employer/interviews" className="text-xs text-emerald-600 font-medium hover:underline">All</a>
+            </div>
+            {upcomingInterviews.length === 0 ? (
+              <p className="text-sm text-gray-400 text-center py-4">No upcoming interviews</p>
+            ) : (
+              <div className="space-y-3">
+                {upcomingInterviews.map(i => (
+                  <div key={i.id} className="flex items-start gap-3">
+                    <div className="bg-emerald-50 text-emerald-700 rounded-lg px-2 py-1.5 text-center shrink-0 min-w-[44px]">
+                      <p className="text-xs font-bold leading-none">{new Date(i.date).toLocaleDateString('en-ZA', { day: 'numeric' })}</p>
+                      <p className="text-[10px] leading-none mt-0.5">{new Date(i.date).toLocaleDateString('en-ZA', { month: 'short' })}</p>
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-sm font-semibold text-gray-900 truncate">{i.applicant_name}</p>
+                      <p className="text-xs text-gray-500 truncate">{i.time} · {i.type}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Active listings */}
+          <div className="bg-white border border-gray-200 rounded-xl p-5">
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="font-semibold text-gray-900">Active Listings</h2>
+              <a href="/employer/listings" className="text-xs text-emerald-600 font-medium hover:underline">All</a>
+            </div>
+            <div className="space-y-3">
+              {liveJobs.slice(0, 3).map(j => (
+                <div key={j.id} className="flex items-center justify-between gap-2">
+                  <div className="min-w-0">
+                    <p className="text-sm font-medium text-gray-900 truncate">{j.title}</p>
+                    <p className="text-xs text-gray-400">{j.applicants} applicants · {j.views} views</p>
+                  </div>
+                  <div className="shrink-0 w-16 h-6 flex items-end gap-px">
+                    {j.daily_views.slice(-7).map((v, i) => (
+                      <div key={i} className="flex-1 bg-emerald-200 rounded-sm"
+                        style={{ height: `${Math.max(10, (v / Math.max(...j.daily_views)) * 24)}px` }} />
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   )
 }
 
-function StatCard({ label, value, color }: { label: string; value: number; color: string }) {
+function StatCard({ label, value, sub, icon, color }: {
+  label: string; value: number; sub: string; icon: string; color: string
+}) {
   return (
-    <div className="bg-white border border-gray-200 rounded-lg p-4 text-center">
+    <div className="bg-white border border-gray-200 rounded-xl p-4">
+      <div className="flex items-center justify-between mb-2">
+        <p className="text-xs text-gray-500 font-medium">{label}</p>
+        <span className="text-lg">{icon}</span>
+      </div>
       <p className={`text-2xl font-bold ${color}`}>{value}</p>
-      <p className="text-xs text-gray-400 mt-0.5">{label}</p>
+      <p className="text-xs text-gray-400 mt-0.5">{sub}</p>
     </div>
   )
 }

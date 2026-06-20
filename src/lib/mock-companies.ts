@@ -3336,6 +3336,532 @@ export const MOCK_COMPANIES: Company[] = [
     ],
   },
 
+  // ─── WINE FARM RESTAURANTS ────────────────────────────────────────────────────
+
+  {
+    id: 'tokara-restaurant',
+    name: 'Tokara Restaurant',
+    industry: 'Wine Farm Restaurant',
+    size: '51–100 employees',
+    location: 'Stellenbosch, Helshoogte Pass',
+    description: "Tokara is one of the Winelands' most spectacular wine farm restaurants, perched atop the Helshoogte Pass with sweeping panoramic views over Stellenbosch and the Cape Flats to False Bay. Chef Carolize Coetzee's contemporary South African menu and Richard Carstens' legendary deli make Tokara a landmark destination.",
+    overall_rating: 4.5,
+    ratings: { work_life_balance: 3.7, culture: 4.7, management: 4.4, career_growth: 4.1, compensation: 3.9 },
+    benefits: ['Panoramic mountain pass setting', 'Fine wine education', 'Contemporary SA cuisine training', 'Staff meals', 'Winelands lifestyle'],
+    website: 'tokara.com',
+    logo_url: 'https://logo.clearbit.com/tokara.com',
+    reviews: [
+      { id: 'tok-r1', role: 'Waiter', employment_status: 'Current', rating: 5, date: '2025-11', pros: 'Tokara has the most spectacular view of any restaurant in the Winelands — guests arrive and immediately say so. The contemporary SA cuisine menu is genuinely exciting to sell. Helshoogte Pass setting makes every shift feel like you are in a painting. International wine tourists are the most appreciative guests possible.', cons: 'Helshoogte road can be dangerous in winter rain — transport from Stellenbosch is essential. Very busy summer season.', anonymous: true, helpful_count: 22, salary: 'R8 500/month + tips' },
+      { id: 'tok-r2', role: 'Chef de Partie', employment_status: 'Current', rating: 4, date: '2025-09', pros: "Tokara's kitchen is genuinely creative — contemporary SA food using Winelands produce is exciting daily work. Working with the best olive oil, wine, and estate produce is a privilege.", cons: 'Mountain pass location requires own transport. Summer season is relentlessly busy.', anonymous: true, helpful_count: 15, salary: 'R13 500/month' },
+    ],
+  },
+
+  {
+    id: 'delaire-graff-restaurant',
+    name: 'Delaire Graff Estate Restaurant',
+    industry: 'Wine Farm Restaurant',
+    size: '101–200 employees',
+    location: 'Stellenbosch, Helshoogte Pass',
+    description: "Delaire Graff Estate is South Africa's most luxurious wine farm, owned by diamond magnate Laurence Graff, featuring two restaurants — the Indochine and the Delaire Graff Restaurant — as well as a luxury lodge and spa. One of the most stunning and expensive hospitality addresses in Africa.",
+    overall_rating: 4.6,
+    ratings: { work_life_balance: 3.6, culture: 4.8, management: 4.5, career_growth: 4.3, compensation: 4.2 },
+    benefits: ['Ultra-luxury estate setting', 'Graff diamond collection exposure', 'Fine dining at highest SA level', 'Lodge and spa career exposure', 'Extraordinary gratuities'],
+    website: 'delaire.co.za',
+    logo_url: 'https://logo.clearbit.com/delaire.co.za',
+    reviews: [
+      { id: 'del-r1', role: 'Waiter', employment_status: 'Current', rating: 5, date: '2025-12', pros: 'Delaire Graff is the most luxurious wine estate in South Africa — the art, architecture, and Graff jewellery on display make every shift extraordinary. Ultra-high-net-worth guests arrive expecting the finest everything and they reward it exceptionally well. Working here is a career-defining experience.', cons: 'Expectation level is absolute perfection — there is no margin. Helshoogte is remote.', anonymous: true, helpful_count: 35, salary: 'R11 000/month + gratuities' },
+      { id: 'del-r2', role: 'Sous Chef', employment_status: 'Current', rating: 5, date: '2025-10', pros: "Two very different restaurant concepts at Delaire — Indochine's Asian influences and the main restaurant's contemporary SA — means real culinary breadth. Product quality is exceptional: estate-grown produce, the best SA wines, world-class ingredients.", cons: 'Helshoogte transport. Luxury standard requires relentless attention to detail.', anonymous: false, author_name: 'Jason P.', helpful_count: 24, salary: 'R18 000/month' },
+    ],
+  },
+
+  {
+    id: 'babylonstoren-farm',
+    name: 'Babylonstoren',
+    industry: 'Farm Hotel & Restaurant',
+    size: '101–200 employees',
+    location: 'Paarl, Western Cape',
+    description: "Babylonstoren is one of South Africa's most celebrated Cape Dutch farm hotels, with an extraordinary 3.5-hectare garden that supplies its two restaurants — Babel and Greenhouse. Featured on global travel lists as a bucket-list destination, Babylonstoren grows 300+ edible plants that form the core of its seasonal menus.",
+    overall_rating: 4.6,
+    ratings: { work_life_balance: 3.8, culture: 4.9, management: 4.5, career_growth: 4.2, compensation: 4.0 },
+    benefits: ['300+ species garden immersion', 'Farm-to-table culinary philosophy', 'International travel media profile', 'Full board and accommodation (farm workers)', 'Seasonal produce education'],
+    website: 'babylonstoren.com',
+    logo_url: 'https://logo.clearbit.com/babylonstoren.com',
+    reviews: [
+      { id: 'bab2-r1', role: 'Chef de Partie', employment_status: 'Current', rating: 5, date: '2025-11', pros: "Cooking from Babylonstoren's 300+ species garden is unlike any culinary job in South Africa. The menu changes every week based on what's growing — genuine creative challenge. International guests who book months ahead for this experience arrive with extraordinary appreciation. The farm setting is transcendently beautiful.", cons: 'Farm environment requires adaptation to agricultural schedules. Paarl heat in January is very intense in the kitchen.', anonymous: true, helpful_count: 38, salary: 'R14 000/month' },
+      { id: 'bab2-r2', role: 'Garden Guide / Host', employment_status: 'Current', rating: 5, date: '2025-10', pros: "Guiding guests through Babylonstoren's legendary garden is a privilege — explaining the heritage Cape Dutch architecture, the 300 plant species, and the farm philosophy is genuinely educational and deeply satisfying. International press and celebrities visit constantly.", cons: 'Very seasonal tourism rhythm. Cape Dutch heritage requires deep knowledge to convey well.', anonymous: false, author_name: 'Anri S.', helpful_count: 26, salary: 'R8 500/month + gratuities' },
+    ],
+  },
+
+  {
+    id: 'jordan-restaurant',
+    name: 'Jordan Restaurant',
+    industry: 'Wine Farm Restaurant',
+    size: '51–100 employees',
+    location: 'Stellenbosch, Vlottenburg',
+    description: "Jordan Restaurant is acclaimed Chef George Jardine's flagship wine estate restaurant on Jordan Wine Estate, Stellenbosch. Consistently ranked among South Africa's top restaurants, Jordan offers market-driven menus using Winelands seasonal produce alongside Jordan's celebrated Chardonnay and Cabernet.",
+    overall_rating: 4.5,
+    ratings: { work_life_balance: 3.7, culture: 4.8, management: 4.5, career_growth: 4.3, compensation: 3.9 },
+    benefits: ['George Jardine culinary mentorship', 'Wine estate setting', 'Market-driven seasonal menus', 'Staff meals', 'International dining press recognition'],
+    website: 'jordanwines.com',
+    logo_url: 'https://logo.clearbit.com/jordanwines.com',
+    reviews: [
+      { id: 'jord-r1', role: 'Commis Chef', employment_status: 'Current', rating: 5, date: '2025-11', pros: "Working under George Jardine is a genuine masterclass. His market-driven philosophy means understanding produce intimately before it reaches the plate — skills that stay with you for life. Jordan wine estate setting is extraordinary. Kitchen culture is demanding but deeply educational.", cons: 'George Jardine standard is very high — expect to be pushed. Commis hours are long.', anonymous: true, helpful_count: 28, salary: 'R9 500/month' },
+      { id: 'jord-r2', role: 'Waiter', employment_status: 'Current', rating: 4, date: '2025-09', pros: 'Jordan guests are genuinely knowledgeable about wine and food — selling these menus involves real conversation rather than just recitation. Wine estate views are spectacular. Tips from international Winelands visitors are excellent.', cons: 'Vlottenburg location requires own transport. Summer season is very demanding.', anonymous: true, helpful_count: 17, salary: 'R9 000/month + tips' },
+    ],
+  },
+
+  {
+    id: 'spier-wine-farm',
+    name: 'Spier Wine Farm',
+    industry: 'Wine Farm & Restaurant',
+    size: '201–500 employees',
+    location: 'Stellenbosch',
+    description: "Spier is one of South Africa's most visited wine estates, with multiple restaurants including Eight (a popular bistro), a hotel, craft market, and Eagle Encounters. Spier's commitment to sustainability, community development, and ethical sourcing makes it one of the most values-driven hospitality employers in the Winelands.",
+    overall_rating: 4.0,
+    ratings: { work_life_balance: 3.9, culture: 4.5, management: 4.0, career_growth: 3.9, compensation: 3.7 },
+    benefits: ['Sustainability-focused employer', 'Multiple F&B concepts', 'Hotel and wine experience combined', 'Staff meals', 'Community development programs'],
+    website: 'spier.co.za',
+    logo_url: 'https://logo.clearbit.com/spier.co.za',
+    reviews: [
+      { id: 'spi-r1', role: 'Restaurant Host', employment_status: 'Current', rating: 4, date: '2025-11', pros: "Spier's values-driven culture — sustainability, community upliftment, ethical sourcing — creates genuine purpose in the work. Multiple venue types (bistro, wine tasting, hotel) mean variety. Stellenbosch estate is beautiful. Team is large and supportive.", cons: 'Spier is very tourist-driven — school holiday periods are extremely busy. Multiple concepts can mean unclear career path.', anonymous: true, helpful_count: 16, salary: 'R7 500/month + tips' },
+      { id: 'spi-r2', role: 'Hotel Receptionist', employment_status: 'Current', rating: 4, date: '2025-08', pros: 'Wine estate hotel experience is unique. Spier sustainability story is something to be proud of as a hospitality worker. Eagle Encounters and the craft market mean an interesting mixed guest profile.', cons: 'Peak season is relentless. Some departments are better managed than others.', anonymous: true, helpful_count: 10, salary: 'R8 500/month' },
+    ],
+  },
+
+  {
+    id: 'la-petite-ferme',
+    name: 'La Petite Ferme',
+    industry: 'Wine Farm Restaurant & Guesthouse',
+    size: '51–100 employees',
+    location: 'Franschhoek, Western Cape',
+    description: "La Petite Ferme is a beloved family-owned wine farm restaurant and guesthouse perched above Franschhoek village with breathtaking valley views. Celebrating 30+ years of Winelands hospitality, La Petite Ferme is known for warm personal service, estate wines, and a menu celebrating Franschhoek's French Huguenot heritage.",
+    overall_rating: 4.3,
+    ratings: { work_life_balance: 3.9, culture: 4.7, management: 4.3, career_growth: 3.7, compensation: 3.7 },
+    benefits: ['Franschhoek valley view setting', 'Family-owned warmth', 'Estate wine education', 'French Huguenot heritage menu', 'Tips from Winelands visitors'],
+    website: 'lapetiteferme.co.za',
+    logo_url: 'https://logo.clearbit.com/lapetiteferme.co.za',
+    reviews: [
+      { id: 'lpf-r1', role: 'Waiter', employment_status: 'Current', rating: 5, date: '2025-11', pros: 'La Petite Ferme is perched above Franschhoek with views that make every guest gasp when they arrive. The family-owned warmth makes this feel like hospitality at its most genuine. International wine tourists are deeply appreciative. Tips are very good in season.', cons: 'Franschhoek mountain road requires transport. Very seasonal — quiet winter months mean income variation.', anonymous: true, helpful_count: 18, salary: 'R8 000/month + tips' },
+      { id: 'lpf-r2', role: 'Guesthouse Host', employment_status: 'Current', rating: 4, date: '2025-09', pros: 'Long-stay Winelands guests at La Petite Ferme are the most relaxed and warm guests you will ever host. Family-owned management is personal and caring. Beautiful setting.', cons: 'Small property means every role covers many tasks. Off-season is very quiet.', anonymous: true, helpful_count: 11, salary: 'R8 500/month' },
+    ],
+  },
+
+  {
+    id: 'haute-cabriere',
+    name: 'Haute Cabrière',
+    industry: 'Wine Farm Restaurant',
+    size: '51–100 employees',
+    location: 'Franschhoek, Western Cape',
+    description: "Haute Cabrière is one of Franschhoek's most celebrated wine estates, famous for cellarmaster Achim von Arnim's theatrical bottle-opening with a sabre and the Cellar Restaurant built into the mountain. Producing acclaimed Pierre Jourdan Méthode Cap Classique, Haute Cabrière is a Franschhoek icon.",
+    overall_rating: 4.3,
+    ratings: { work_life_balance: 3.8, culture: 4.6, management: 4.2, career_growth: 3.8, compensation: 3.8 },
+    benefits: ['Mountain cellar working environment', 'MCC sparkling wine education', 'International Franschhoek tourist tips', 'Staff meals', 'Theatrical service experience'],
+    website: 'hautecabriere.com',
+    logo_url: 'https://logo.clearbit.com/hautecabriere.com',
+    reviews: [
+      { id: 'hc-r1', role: 'Wine Host', employment_status: 'Current', rating: 5, date: '2025-11', pros: "Haute Cabrière's mountain cellar restaurant is carved into the Franschhoek Pass rock — the most dramatic wine venue in South Africa. Learning Pierre Jourdan MCC is a genuine sparkling wine education. International visitors specifically choose Haute Cabrière for the sabre-opening experience — their excitement is infectious.", cons: 'Franschhoek Pass location requires own transport. Very seasonal — quiet winter.', anonymous: true, helpful_count: 20, salary: 'R8 000/month + tips' },
+      { id: 'hc-r2', role: 'Restaurant Waiter', employment_status: 'Current', rating: 4, date: '2025-09', pros: 'Working in a cellar built into a mountain is extraordinary. MCC sparkling wine guests are celebratory and generous. Achim von Arnim is a legendary figure in SA wine — proximity to that heritage is exciting.', cons: 'Mountain pass road can be nerve-wracking in rain. Off-season volume drops significantly.', anonymous: true, helpful_count: 13, salary: 'R7 500/month + tips' },
+    ],
+  },
+
+  {
+    id: 'boschendal-wine-farm',
+    name: 'Boschendal Wine Estate',
+    industry: 'Wine Farm & Restaurant',
+    size: '201–500 employees',
+    location: 'Franschhoek Valley, Western Cape',
+    description: "Boschendal is one of South Africa's oldest and most celebrated wine estates, dating to 1685 and featuring three restaurants (Werf, Farm Shop, Rhône), a deli, accommodation, and farm experiences. Boschendal's sustainability farming philosophy and Cape Dutch heritage make it a flagship Winelands employer.",
+    overall_rating: 4.2,
+    ratings: { work_life_balance: 3.9, culture: 4.6, management: 4.1, career_growth: 4.0, compensation: 3.8 },
+    benefits: ['Historic 1685 estate setting', 'Multiple restaurant concepts', 'Farm sustainability exposure', 'Cape Dutch heritage setting', 'Wine education'],
+    website: 'boschendal.com',
+    logo_url: 'https://logo.clearbit.com/boschendal.com',
+    reviews: [
+      { id: 'bos-r1', role: 'Werf Restaurant Waiter', employment_status: 'Current', rating: 4, date: '2025-11', pros: "Boschendal's 1685 estate is the oldest wine farm working environment in South Africa — the historical setting is extraordinary. Three restaurant concepts mean variety of experience within one employer. Farm sustainability philosophy makes the work feel meaningful.", cons: 'Estate is large — getting between venues requires walking. Franschhoek location requires transport.', anonymous: true, helpful_count: 15, salary: 'R7 500/month + tips' },
+      { id: 'bos-r2', role: 'Farm Shop Host', employment_status: 'Current', rating: 4, date: '2025-08', pros: 'Boschendal Deli and Farm Shop attract the most passionate Winelands food lovers. Produce knowledge grows naturally in this environment. Cape Dutch manor house is breathtaking.', cons: 'Multiple concepts mean unclear which team you belong to. Peak season is very demanding.', anonymous: true, helpful_count: 9, salary: 'R7 000/month + tips' },
+    ],
+  },
+
+  // ─── BOUTIQUE HOTELS (CONSTANTIA VALLEY) ─────────────────────────────────────
+
+  {
+    id: 'cellars-hohenort',
+    name: 'The Cellars-Hohenort Hotel',
+    industry: 'Boutique Hotel',
+    size: '101–200 employees',
+    location: 'Constantia, Cape Town',
+    description: "The Cellars-Hohenort is a Relais & Châteaux property in Constantia Valley featuring 53 rooms across two historic manor houses, nine acres of gardens, two restaurants, and a celebrated spa. Part of the Liz McGrath Collection, it is consistently voted one of Africa's finest small hotels.",
+    overall_rating: 4.5,
+    ratings: { work_life_balance: 3.8, culture: 4.7, management: 4.5, career_growth: 4.2, compensation: 4.0 },
+    benefits: ['Relais & Châteaux prestige', 'Liz McGrath Collection training', 'Constantia Valley garden setting', 'Fine dining exposure', 'Luxury guest gratuities'],
+    website: 'lizmcgrathcollection.co.za',
+    logo_url: 'https://logo.clearbit.com/lizmcgrathcollection.co.za',
+    reviews: [
+      { id: 'ch-r1', role: 'Butler', employment_status: 'Current', rating: 5, date: '2025-11', pros: 'Relais & Châteaux service training at Cellars-Hohenort is world-class — guests who choose this property are experienced luxury travellers who appreciate every detail. The Constantia Valley nine-acre garden is extraordinary. Liz McGrath Collection is a remarkable hospitality family to work with.', cons: 'Relais & Châteaux standard is uncompromising — the expectation is absolute. Constantia is remote from public transport.', anonymous: true, helpful_count: 25, salary: 'R14 000/month + gratuities' },
+      { id: 'ch-r2', role: 'Restaurant Manager', employment_status: 'Current', rating: 5, date: '2025-09', pros: 'Two distinct restaurant concepts within one Constantia wine valley estate. Fine dining guests at Cellars-Hohenort are among the most discerning in Cape Town. Relais & Châteaux membership gives the property international guest prestige.', cons: 'Small team — everyone must be exceptional. Constantia Valley property requires meticulous property knowledge.', anonymous: false, author_name: 'Nadia L.', helpful_count: 18, salary: 'R28 000/month' },
+    ],
+  },
+
+  {
+    id: 'steenberg-hotel',
+    name: 'Steenberg Hotel & Spa',
+    industry: 'Wine Estate Hotel',
+    size: '101–200 employees',
+    location: 'Constantia, Cape Town',
+    description: "Steenberg Hotel is Cape Town's only 5-star hotel set on a working wine estate, in the Constantia Valley adjacent to the Tokai Forest. Featuring 24 rooms, the acclaimed Catharina's Restaurant, a golf course, and spa, Steenberg offers the rare combination of wine estate, luxury hotel, and Cape Town city proximity.",
+    overall_rating: 4.4,
+    ratings: { work_life_balance: 3.9, culture: 4.6, management: 4.4, career_growth: 4.1, compensation: 4.0 },
+    benefits: ['5-star wine estate combination', 'Catharina\'s Restaurant fine dining training', 'Golf and spa access', 'Medical aid', 'Constantia lifestyle'],
+    website: 'steenberghotel.co.za',
+    logo_url: 'https://logo.clearbit.com/steenberghotel.co.za',
+    reviews: [
+      { id: 'stb-r1', role: 'Front Desk Agent', employment_status: 'Current', rating: 4, date: '2025-11', pros: "Steenberg is uniquely both a 5-star hotel and a working wine estate — guests who arrive understand and love both. Constantia Valley is one of Cape Town's most beautiful addresses. The golf and spa add guest variety. Medical aid properly provided.", cons: 'Small 24-room property means the team is very small. Constantia public transport is very limited.', anonymous: true, helpful_count: 14, salary: 'R9 500/month' },
+      { id: 'stb-r2', role: "Catharina's Restaurant Chef", employment_status: 'Current', rating: 5, date: '2025-10', pros: "Catharina's is one of Cape Town's best hotel restaurants — the wine estate setting allows an extraordinary wine pairing narrative on every table. Small team means real creative input. Constantia valley ingredients and Steenberg wine make the menu exceptional.", cons: 'Small kitchen brigade — pressure is very high on busy evenings.', anonymous: true, helpful_count: 19, salary: 'R16 000/month' },
+    ],
+  },
+
+  {
+    id: 'leeu-collection',
+    name: 'Leeu Collection (Franschhoek)',
+    industry: 'Luxury Boutique Hotel',
+    size: '101–200 employees',
+    location: 'Franschhoek, Western Cape',
+    description: "Leeu Collection is a portfolio of luxury boutique hotels in Franschhoek village, including Leeu House, Leeu Estates, and the acclaimed Bread & Wine and Le Quartier Français dining. Owned by South African billionaire Analjit Singh, Leeu Collection is Franschhoek's most ambitious luxury hospitality project.",
+    overall_rating: 4.5,
+    ratings: { work_life_balance: 3.7, culture: 4.7, management: 4.5, career_growth: 4.3, compensation: 4.1 },
+    benefits: ['Luxury village hotel portfolio', 'International ownership standard', 'Fine dining training', 'Franschhoek lifestyle', 'Extraordinary gratuities'],
+    website: 'leeucollection.com',
+    logo_url: 'https://logo.clearbit.com/leeucollection.com',
+    reviews: [
+      { id: 'leeu-r1', role: 'Hotel Host', employment_status: 'Current', rating: 5, date: '2025-11', pros: 'Leeu Collection guests are global luxury travellers — the quality of guest you host here makes every interaction extraordinary. Franschhoek village setting means walking to the best restaurants and wine estates. International ownership means professional standards that match anywhere in the world.', cons: 'Franschhoek is very small — limited personal social options. Guest expectation is very high.', anonymous: true, helpful_count: 22, salary: 'R12 000/month + gratuities' },
+      { id: 'leeu-r2', role: 'Sommelier', employment_status: 'Current', rating: 5, date: '2025-09', pros: "Leeu's wine list is one of the finest in the Winelands — access to rare SA wines for daily work is extraordinary. International high-net-worth guests engage deeply with wine. Franschhoek wine education resources are unparalleled.", cons: 'Very small village — after six months, Franschhoek can feel limiting.', anonymous: false, author_name: 'Werner B.', helpful_count: 17, salary: 'R14 000/month + gratuities' },
+    ],
+  },
+
+  // ─── COASTAL SEAFOOD RESTAURANTS ──────────────────────────────────────────────
+
+  {
+    id: 'harbour-house-group',
+    name: 'Harbour House Group',
+    industry: 'Seafood Restaurant Group',
+    size: '101–200 employees',
+    location: 'Kalk Bay · V&A Waterfront · Hermanus · Knysna',
+    description: "Harbour House Group operates several celebrated seafood restaurants including the iconic Harbour House Kalk Bay, the V&A Waterfront location, and properties in Hermanus and Knysna. Known for the freshest Cape seafood in harbour-view settings, Harbour House is one of South Africa's most beloved seafood dining brands.",
+    overall_rating: 4.1,
+    ratings: { work_life_balance: 3.7, culture: 4.4, management: 4.0, career_growth: 3.9, compensation: 3.7 },
+    benefits: ['Harbour-view working locations', 'Fresh Cape seafood knowledge', 'Tips from seafood enthusiasts', 'Multi-venue career mobility', 'Staff meals'],
+    website: 'harbourhouse.co.za',
+    logo_url: 'https://logo.clearbit.com/harbourhouse.co.za',
+    reviews: [
+      { id: 'hh-r1', role: 'Waiter', employment_status: 'Current', rating: 4, date: '2025-11', pros: 'Kalk Bay Harbour House is one of the most spectacular dining locations in South Africa — fishing boats unloading fresh catch below while you serve it upstairs. Fresh Cape seafood knowledge grows quickly. Kalk Bay village is a wonderful community to work in. Tips are good from seafood lovers.', cons: 'Kalk Bay parking for staff can be challenging on busy weekends. Cape snoek season can be overwhelming.', anonymous: true, helpful_count: 19, salary: 'R8 000/month + tips' },
+      { id: 'hh-r2', role: 'Head Chef', employment_status: 'Current', rating: 4, date: '2025-09', pros: 'Cooking the freshest Cape seafood daily — linefish, crayfish, oysters, calamari — is an extraordinary kitchen privilege. Multi-venue group means career progression opportunities. Harbour settings inspire creativity.', cons: 'Fresh seafood supply is weather-dependent. Busy tourist season demands sustained high output.', anonymous: true, helpful_count: 14, salary: 'R18 000/month' },
+    ],
+  },
+
+  {
+    id: 'baia-seafood-restaurant',
+    name: 'Baia Seafood Restaurant',
+    industry: 'Seafood Restaurant',
+    size: '51–100 employees',
+    location: 'Cape Town, V&A Waterfront',
+    description: "Baia is a premier V&A Waterfront seafood restaurant with spectacular harbour and Table Mountain views, celebrated for its Brazilian-influenced Portuguese seafood and extensive live seafood selection. A landmark V&A Waterfront dining destination attracting both international tourists and Cape Town's seafood-loving locals.",
+    overall_rating: 4.0,
+    ratings: { work_life_balance: 3.6, culture: 4.2, management: 3.9, career_growth: 3.8, compensation: 3.7 },
+    benefits: ['V&A Waterfront harbour views', 'Live seafood knowledge', 'International tourist tips', 'Portuguese culinary training', 'Staff meals'],
+    website: 'baiarestaurant.co.za',
+    logo_url: 'https://logo.clearbit.com/baiarestaurant.co.za',
+    reviews: [
+      { id: 'baia-r1', role: 'Waiter', employment_status: 'Current', rating: 4, date: '2025-11', pros: "V&A Waterfront harbour views with Table Mountain behind — Baia's location is extraordinary. International tourists who visit the Waterfront are excited to be in Cape Town and that energy makes every service enjoyable. Seafood knowledge grows fast — crayfish, linefish, oysters, mussels. Tips from international guests are excellent.", cons: 'V&A Waterfront is very busy and can feel like a tourist conveyor belt. Parking is expensive.', anonymous: true, helpful_count: 16, salary: 'R8 500/month + tips' },
+      { id: 'baia-r2', role: 'Seafood Chef', employment_status: 'Current', rating: 4, date: '2025-09', pros: 'Working with live lobster, fresh oysters, and West Coast linefish daily is an extraordinary kitchen experience. V&A Waterfront volume means consistent kitchen hours. Portuguese seafood techniques are unique skills.', cons: 'Very high-volume seafood restaurant — pace is relentless on peak days. Waterfront weekend crowds require stamina.', anonymous: true, helpful_count: 10, salary: 'R13 500/month' },
+    ],
+  },
+
+  // ─── MOYO RESTAURANTS ─────────────────────────────────────────────────────────
+
+  {
+    id: 'moyo-restaurant-group',
+    name: 'Moyo Restaurant Group',
+    industry: 'African Restaurant Chain',
+    size: '201–500 employees',
+    location: 'Cape Town (Kirstenbosch) · Johannesburg (Zoo Lake) · Durban (uShaka)',
+    description: "Moyo is South Africa's most celebrated African-themed restaurant group, operating flagship restaurants at Kirstenbosch Botanical Gardens, Zoo Lake (Johannesburg), and uShaka Marine World (Durban). Known for Pan-African menus, marimba music, face-painting, and theatrical outdoor dining under the stars.",
+    overall_rating: 4.1,
+    ratings: { work_life_balance: 3.6, culture: 4.7, management: 3.9, career_growth: 3.9, compensation: 3.6 },
+    benefits: ['Iconic SA setting at Kirstenbosch', 'Pan-African cultural immersion', 'Outdoor theatrical dining', 'International tourist tips', 'Staff meals'],
+    website: 'moyo.co.za',
+    logo_url: 'https://logo.clearbit.com/moyo.co.za',
+    reviews: [
+      { id: 'moyo-r1', role: 'Waiter (Kirstenbosch)', employment_status: 'Current', rating: 5, date: '2025-11', pros: "Moyo Kirstenbosch is one of the most magical restaurant settings in the world — dining inside UNESCO World Heritage botanical gardens with Table Mountain above and marimba music playing. International guests who arrive at Kirstenbosch already love Africa. Tips are generous from visitors experiencing Africa for the first time.", cons: 'Outdoor dining means weather sensitivity — Cape Town summer wind and winter rain affect service. High-energy theatrical service requires sustained performance.', anonymous: true, helpful_count: 28, salary: 'R8 500/month + tips' },
+      { id: 'moyo-r2', role: 'Marimba Musician', employment_status: 'Current', rating: 5, date: '2025-10', pros: 'Playing marimba while guests dine at Kirstenbosch is the most beautiful work-life combination imaginable. International audience is deeply moved by live African music in this setting. Tips from guests who specifically mention the music are meaningful.', cons: 'Outdoor performance in Cape Town summer wind can be challenging. Evening concerts end very late.', anonymous: false, author_name: 'Musa T.', helpful_count: 20, salary: 'R9 000/month + tips' },
+    ],
+  },
+
+  // ─── SOWETO RESTAURANTS ───────────────────────────────────────────────────────
+
+  {
+    id: 'sakhumzi-restaurant',
+    name: 'Sakhumzi Restaurant',
+    industry: 'Soweto / Cultural Restaurant',
+    size: '51–100 employees',
+    location: 'Soweto, Johannesburg (Vilakazi Street)',
+    description: "Sakhumzi Restaurant is Soweto's most famous restaurant, located on Vilakazi Street — the only street in the world to have housed two Nobel Peace Prize winners (Nelson Mandela and Archbishop Desmond Tutu). Sakhumzi serves traditional South African township food to locals and international tourists in one of Johannesburg's most significant cultural addresses.",
+    overall_rating: 4.2,
+    ratings: { work_life_balance: 3.9, culture: 4.9, management: 4.1, career_growth: 3.5, compensation: 3.5 },
+    benefits: ['Vilakazi Street heritage address', 'International tourism tips', 'Cultural ambassador role', 'Community employment', 'Traditional SA food mastery'],
+    website: 'sakhumzi.co.za',
+    logo_url: 'https://logo.clearbit.com/sakhumzi.co.za',
+    reviews: [
+      { id: 'sak-r1', role: 'Waiter', employment_status: 'Current', rating: 5, date: '2025-11', pros: 'Serving food on Vilakazi Street — where both Nelson Mandela and Desmond Tutu lived — is one of the most historically significant hospitality jobs in Africa. International tourists arrive profoundly moved by Soweto and that emotion makes every interaction extraordinary. Tips from American and European guests are very generous.', cons: 'Soweto location requires community transport knowledge. Tour group peak times can be overwhelming.', anonymous: true, helpful_count: 24, salary: 'R7 000/month + tips' },
+      { id: 'sak-r2', role: 'Cook', employment_status: 'Current', rating: 4, date: '2025-09', pros: 'Cooking traditional SA food — pap, chakalaka, mogodu, umngqusho — for guests who specifically want this experience is deeply meaningful. Community employment in Soweto creates profound local pride.', cons: 'Large tour groups arriving simultaneously require rapid production. Small kitchen.', anonymous: true, helpful_count: 16, salary: 'R7 500/month' },
+    ],
+  },
+
+  {
+    id: 'wandies-place',
+    name: "Wandie's Place",
+    industry: 'Soweto / Township Restaurant',
+    size: '11–50 employees',
+    location: 'Soweto, Dube',
+    description: "Wandie's Place is one of Soweto's most beloved traditional restaurants, established in the 1980s and serving authentic South African township food to locals, tour groups, and international visitors. A Soweto institution that pioneered township tourism and remains a cultural dining landmark.",
+    overall_rating: 4.0,
+    ratings: { work_life_balance: 3.8, culture: 4.8, management: 4.0, career_growth: 3.3, compensation: 3.4 },
+    benefits: ['Soweto cultural institution', 'Heritage township restaurant', 'International tourism exposure', 'Community employment', 'Traditional SA food training'],
+    website: 'wandiesplace.co.za',
+    logo_url: 'https://logo.clearbit.com/wandiesplace.co.za',
+    reviews: [
+      { id: 'wan-r1', role: 'Waiter', employment_status: 'Current', rating: 4, date: '2025-10', pros: "Wandie's pioneered Soweto tourism and working here connects you to Soweto's history of resilience and community pride. International guests who visit have done research and arrive with genuine curiosity. Tips from foreign visitors are good. Community family atmosphere is very warm.", cons: 'Tour group logistics can feel rushed. Small team means everyone wears many hats.', anonymous: true, helpful_count: 13, salary: 'R6 500/month + tips' },
+      { id: 'wan-r2', role: 'Cook', employment_status: 'Current', rating: 4, date: '2025-07', pros: 'Traditional Soweto food prepared the way it has been for decades — genuine craft. Community family atmosphere. Historical significance of the restaurant gives daily pride.', cons: 'Small kitchen. Limited career progression in a small family restaurant.', anonymous: true, helpful_count: 8, salary: 'R7 000/month' },
+    ],
+  },
+
+  // ─── MORE FAST FOOD / QSR ─────────────────────────────────────────────────────
+
+  {
+    id: 'chicken-licken',
+    name: 'Chicken Licken',
+    industry: 'Fast Food Chain',
+    size: '1 000+ employees',
+    location: 'Nationwide',
+    description: "Chicken Licken is South Africa's most iconic homegrown fried chicken brand, founded in 1981 and operating 260+ outlets. Famous for its Soul Fire flavouring, Streetwise meals, and distinctly South African personality, Chicken Licken is a beloved national institution competing with global fast food chains on home turf.",
+    overall_rating: 3.3,
+    ratings: { work_life_balance: 3.4, culture: 3.6, management: 3.3, career_growth: 3.3, compensation: 3.2 },
+    benefits: ['SA-owned brand pride', 'Staff meals', 'Nationwide transfer options', 'Training', 'Uniform provided'],
+    website: 'chickenlicken.co.za',
+    logo_url: 'https://logo.clearbit.com/chickenlicken.co.za',
+    reviews: [
+      { id: 'cl-r1', role: 'Cashier', employment_status: 'Current', rating: 3, date: '2025-11', pros: "Chicken Licken is proudly South African and working for a homegrown brand that beats global chains in its own market creates real pride. Soul Fire fried chicken on shift is a genuine perk. South African customer base is loyal and fun.", cons: 'Fried chicken kitchen is very hot. Peak Friday evening rush is extremely intense. Pay is minimum wage.', anonymous: true, helpful_count: 11, salary: 'R5 500/month' },
+      { id: 'cl-r2', role: 'Store Manager', employment_status: 'Current', rating: 3, date: '2025-08', pros: 'Chicken Licken management experience is valued across the fast food industry. SA-owned business culture is different from international franchises. Loyal customer base provides stable revenue.', cons: 'Long fast food manager hours. Franchise owner quality varies.', anonymous: true, helpful_count: 7, salary: 'R15 000/month' },
+    ],
+  },
+
+  {
+    id: 'debonairs-pizza',
+    name: 'Debonairs Pizza',
+    industry: 'Fast Food Pizza Chain',
+    size: '1 000+ employees',
+    location: 'Nationwide',
+    description: "Debonairs Pizza is South Africa's most popular pizza delivery chain, with 600+ outlets nationwide. Part of Famous Brands, Debonairs pioneered the double-decker and triple-decker pizza in SA and dominates the pizza delivery market against Domino's and Roman's Pizza.",
+    overall_rating: 3.2,
+    ratings: { work_life_balance: 3.3, culture: 3.3, management: 3.2, career_growth: 3.2, compensation: 3.1 },
+    benefits: ['Famous Brands group stability', 'Pizza making training', 'Staff meals', 'Delivery driver income', 'Nationwide locations'],
+    website: 'debonairs.co.za',
+    logo_url: 'https://logo.clearbit.com/debonairs.co.za',
+    reviews: [
+      { id: 'deb-r1', role: 'Pizza Maker', employment_status: 'Current', rating: 3, date: '2025-10', pros: 'Fast pizza production skills are transferable to any kitchen. Famous Brands group structure provides some stability. Free pizza on shift. Consistent hours in mall locations.', cons: 'Delivery pizza production is high-volume and repetitive. Weekend peak period is relentless. Pay is minimum wage.', anonymous: true, helpful_count: 9, salary: 'R5 000/month' },
+      { id: 'deb-r2', role: 'Delivery Driver', employment_status: 'Current', rating: 3, date: '2025-07', pros: 'Delivery tips from loyal Debonairs regulars add up. Own-schedule feel during quiet hours. Outdoor delivery breaks the monotony of counter service.', cons: 'Night delivery safety concerns. Own vehicle required with limited mileage compensation. Weather exposure.', anonymous: true, helpful_count: 5, salary: 'R5 500/month + tips' },
+    ],
+  },
+
+  {
+    id: 'romans-pizza',
+    name: "Roman's Pizza",
+    industry: 'Fast Food Pizza Chain',
+    size: '1 000+ employees',
+    location: 'Nationwide',
+    description: "Roman's Pizza is South Africa's second-largest pizza chain, with 280+ outlets nationwide. Known for value-priced large pizzas and a strong township and suburban following, Roman's Pizza competes with Debonairs for the mass-market SA pizza delivery segment.",
+    overall_rating: 3.1,
+    ratings: { work_life_balance: 3.3, culture: 3.2, management: 3.1, career_growth: 3.1, compensation: 3.0 },
+    benefits: ['Staff meals', 'Delivery income', 'Training', 'Nationwide transfer options'],
+    website: 'romanspizza.co.za',
+    logo_url: 'https://logo.clearbit.com/romanspizza.co.za',
+    reviews: [
+      { id: 'rom-r1', role: 'Counter Staff', employment_status: 'Current', rating: 3, date: '2025-10', pros: "Roman's Pizza community locations mean working in your own neighbourhood. Good entry-level job without requirements. Free pizza on shift.", cons: 'Very high-volume production. Pay is minimum wage. Franchise quality varies by owner enormously.', anonymous: true, helpful_count: 7, salary: 'R4 800/month' },
+      { id: 'rom-r2', role: 'Franchise Manager', employment_status: 'Former', rating: 3, date: '2025-07', pros: 'Franchise management in high-volume environment builds operational skills. Community location means loyal local customers.', cons: 'Franchise owner relationship determines everything. No consistency across locations.', anonymous: true, helpful_count: 4, salary: 'R12 000/month' },
+    ],
+  },
+
+  // ─── STEAKHOUSES ──────────────────────────────────────────────────────────────
+
+  {
+    id: 'hussar-grill',
+    name: 'The Hussar Grill',
+    industry: 'Steakhouse Chain',
+    size: '201–500 employees',
+    location: 'Nationwide',
+    description: "The Hussar Grill is South Africa's most respected steakhouse chain, founded in 1964 in Rondebosch. Known for dry-aged Angus beef, intimate wood-panelled interiors, and impeccable steak service, The Hussar Grill has 30+ locations nationwide and is considered the benchmark for SA steakhouse dining.",
+    overall_rating: 4.0,
+    ratings: { work_life_balance: 3.6, culture: 4.2, management: 3.9, career_growth: 3.9, compensation: 3.7 },
+    benefits: ['SA steakhouse benchmark training', 'Dry-aged beef knowledge', 'Wine pairing education', 'Tips from steak enthusiasts', 'Staff meals'],
+    website: 'hussargrill.co.za',
+    logo_url: 'https://logo.clearbit.com/hussargrill.co.za',
+    reviews: [
+      { id: 'hus-r1', role: 'Waiter', employment_status: 'Current', rating: 4, date: '2025-11', pros: "The Hussar Grill is South Africa's steakhouse institution — customers who visit know exactly what they want and arrive in a celebratory mood. Dry-aged beef knowledge grows quickly and impresses guests. Wood-panelled intimate setting creates a loyal regular clientele. Tips from steak lovers dining on occasion are excellent.", cons: 'Busy Saturday evening steak service is very intense. Knowledge of beef cuts, dry-aging, and sauces is required quickly.', anonymous: true, helpful_count: 18, salary: 'R8 000/month + tips' },
+      { id: 'hus-r2', role: 'Grill Chef', employment_status: 'Current', rating: 4, date: '2025-09', pros: 'Dry-aged Angus beef grill skills at Hussar are the best steak training in South Africa. The brand is 60+ years old — you work in a genuine institution. Multi-location group means career mobility.', cons: 'Saturday grill service is very high pressure. Steak timings must be perfect — demanding guests know the difference.', anonymous: true, helpful_count: 13, salary: 'R13 500/month' },
+    ],
+  },
+
+  {
+    id: 'turn-n-tender',
+    name: "Turn 'n Tender",
+    industry: 'Steakhouse Chain',
+    size: '101–200 employees',
+    location: 'Johannesburg (Melrose Arch · Fourways · Lynnwood)',
+    description: "Turn 'n Tender is one of Johannesburg's most beloved steakhouse groups, known for a relaxed approach to premium beef, strong cocktail offerings, and a loyal Gauteng following. With multiple locations across Johannesburg and Pretoria, Turn 'n Tender is a benchmark casual steakhouse brand.",
+    overall_rating: 3.8,
+    ratings: { work_life_balance: 3.6, culture: 4.0, management: 3.8, career_growth: 3.7, compensation: 3.6 },
+    benefits: ['Steak knowledge training', 'Tips from Gauteng steak crowd', 'Cocktail training', 'Staff meals', 'Melrose Arch location prestige'],
+    website: 'turntender.co.za',
+    logo_url: 'https://logo.clearbit.com/turntender.co.za',
+    reviews: [
+      { id: 'tnt-r1', role: 'Waiter', employment_status: 'Current', rating: 4, date: '2025-11', pros: "Turn 'n Tender Melrose Arch attracts Johannesburg's professional crowd who eat steak regularly and tip generously. Relaxed steakhouse culture is easy to work in. Steak and cocktail knowledge grows quickly. Multi-location group means transfers between suburbs.", cons: 'Saturday peak service is very busy. Steak-only menu means limited food variety to discuss with guests.', anonymous: true, helpful_count: 14, salary: 'R8 500/month + tips' },
+      { id: 'tnt-r2', role: 'Bartender', employment_status: 'Current', rating: 4, date: '2025-09', pros: "Gauteng's professional crowd who visit Turn 'n Tender for steak also drink well — cocktail income adds significantly to tips. Melrose Arch location attracts JSE crowd on Friday evenings.", cons: 'Busy Friday evening combined steak and cocktail service is very demanding. Outdoor seating at some locations is weather-exposed.', anonymous: true, helpful_count: 9, salary: 'R8 000/month + tips' },
+    ],
+  },
+
+  // ─── DURBAN RESTAURANTS ───────────────────────────────────────────────────────
+
+  {
+    id: 'roma-revolving-restaurant',
+    name: 'Roma Revolving Restaurant',
+    industry: 'Fine Dining Restaurant',
+    size: '51–100 employees',
+    location: 'Durban CBD, John Ross House',
+    description: "Roma Revolving Restaurant is Durban's most iconic dining destination — a revolving restaurant atop the 32-storey John Ross House in the Durban CBD, offering 360-degree views over the Durban Harbour, Bluff, and Indian Ocean. Established 1972, Roma is a Durban institution celebrated for its Italian-influenced menu.",
+    overall_rating: 3.9,
+    ratings: { work_life_balance: 3.8, culture: 4.4, management: 3.9, career_growth: 3.6, compensation: 3.7 },
+    benefits: ['360-degree Durban Harbour views', 'Historic Durban institution', 'Italian culinary training', 'Tips from celebration diners', 'Iconic venue prestige'],
+    website: 'romarestaurant.co.za',
+    logo_url: 'https://logo.clearbit.com/romarestaurant.co.za',
+    reviews: [
+      { id: 'rom2-r1', role: 'Waiter', employment_status: 'Current', rating: 4, date: '2025-11', pros: 'Roma has been revolving above Durban since 1972 — the view over the harbour and Indian Ocean is extraordinary and guests arriving for birthdays, anniversaries, and proposals are already emotional and appreciative. Tips from celebration dining are excellent. Historic venue prestige.', cons: 'Revolving floor takes adjustment — new staff need a few days. Durban CBD location requires careful transport planning.', anonymous: true, helpful_count: 16, salary: 'R7 500/month + tips' },
+      { id: 'rom2-r2', role: 'Chef de Partie', employment_status: 'Current', rating: 4, date: '2025-09', pros: "Cooking in a revolving restaurant with 360-degree Indian Ocean views is a unique experience. Roma's 50-year heritage creates a very loyal Durban customer base. Italian menu is well-established and quality-focused.", cons: 'Small kitchen in a high-rise tower has logistical constraints. CBD location.', anonymous: true, helpful_count: 10, salary: 'R11 500/month' },
+    ],
+  },
+
+  {
+    id: 'moyo-ushaka',
+    name: 'Moyo uShaka Marine World',
+    industry: 'African Restaurant (Theme Park)',
+    size: '51–100 employees',
+    location: 'Durban, Point Waterfront',
+    description: "Moyo uShaka is the Durban outpost of the iconic Moyo African restaurant group, set within uShaka Marine World on the Durban Point Waterfront. Offering Pan-African cuisine, marimba music, and theatrical dining alongside one of Africa's largest aquariums and water parks.",
+    overall_rating: 3.9,
+    ratings: { work_life_balance: 3.7, culture: 4.6, management: 3.8, career_growth: 3.7, compensation: 3.6 },
+    benefits: ['uShaka Marine World setting', 'Pan-African culture immersion', 'Marimba music environment', 'Indian Ocean Durban lifestyle', 'Tips from family entertainment guests'],
+    website: 'moyo.co.za',
+    logo_url: 'https://logo.clearbit.com/moyo.co.za',
+    reviews: [
+      { id: 'muysh-r1', role: 'Waiter', employment_status: 'Current', rating: 4, date: '2025-11', pros: 'uShaka Marine World means your dining guests have just seen sharks and dolphins — they arrive in a fantastic mood. Durban beachfront Moyo setting is tropical and warm. Pan-African menu is exciting to explain. KZN school holiday period means very high earnings.', cons: 'Theme park adjacent environment is very family-heavy — large children groups require patience.', anonymous: true, helpful_count: 12, salary: 'R7 500/month + tips' },
+      { id: 'muysh-r2', role: 'Kitchen Supervisor', employment_status: 'Current', rating: 4, date: '2025-08', pros: 'Moyo group brand provides great training. Durban warm-weather outdoor dining is pleasant to work in year-round. Pan-African food philosophy is meaningful.', cons: 'Theme park volumes on peak school holidays are very demanding. Outdoor service weather-dependent.', anonymous: true, helpful_count: 7, salary: 'R14 000/month' },
+    ],
+  },
+
+  // ─── PUB & BREW CHAINS ────────────────────────────────────────────────────────
+
+  {
+    id: 'mitchells-brewery',
+    name: "Mitchell's Waterfront Brewery",
+    industry: 'Brewpub / Restaurant',
+    size: '51–100 employees',
+    location: 'Cape Town, V&A Waterfront',
+    description: "Mitchell's Waterfront Brewery is South Africa's original craft brewery and brewpub, founded in 1984 — predating the global craft beer movement. Located at the V&A Waterfront, Mitchell's produces award-winning craft ales and lagers served fresh in its own restaurant and bar.",
+    overall_rating: 3.8,
+    ratings: { work_life_balance: 3.7, culture: 4.2, management: 3.8, career_growth: 3.7, compensation: 3.6 },
+    benefits: ['Craft beer education', 'Free beers on shift', 'V&A Waterfront location', 'Brewing process exposure', 'International tourist tips'],
+    website: 'mitchellsbrewery.com',
+    logo_url: 'https://logo.clearbit.com/mitchellsbrewery.com',
+    reviews: [
+      { id: 'mit-r1', role: 'Bartender', employment_status: 'Current', rating: 4, date: '2025-11', pros: "Mitchell's as South Africa's original craft brewery is a genuine talking point with every beer drinker. Craft beer education from the source is invaluable. V&A Waterfront international tourists are excited to try SA craft beer. Staff beer allowance after shift is a real perk.", cons: 'V&A Waterfront weekend tourist crowds are overwhelming. International tourists often need beer explained from scratch.', anonymous: true, helpful_count: 14, salary: 'R7 500/month + tips' },
+      { id: 'mit-r2', role: 'Brewer', employment_status: 'Current', rating: 4, date: '2025-09', pros: "Brewing beer at South Africa's founding craft brewery is historic. Mitchell's recipes are craft beer classics. Good exposure to all steps of the brewing process.", cons: 'Small brewery footprint limits production diversity. Brewing shifts involve heavy lifting and early starts.', anonymous: true, helpful_count: 9, salary: 'R12 000/month' },
+    ],
+  },
+
+  {
+    id: 'tiger-tiger-nightclub',
+    name: 'Tiger Tiger & Arcade Hospitality Group',
+    industry: 'Nightclub & Entertainment Venue',
+    size: '201–500 employees',
+    location: 'Johannesburg (Rivonia) · Cape Town (Waterfront)',
+    description: "Tiger Tiger is South Africa's most famous nightclub and entertainment group, operating flagship venues at Rivonia Road (Johannesburg) and the V&A Waterfront (Cape Town). A significant employer of bar, hospitality, and events staff in the premium South African nightlife segment.",
+    overall_rating: 3.5,
+    ratings: { work_life_balance: 2.8, culture: 4.0, management: 3.4, career_growth: 3.5, compensation: 3.5 },
+    benefits: ['Nightlife industry experience', 'High-volume bar training', 'Weekend tip income', 'Entertainment industry network', 'Event coordination exposure'],
+    website: 'tigertiger.co.za',
+    logo_url: 'https://logo.clearbit.com/tigertiger.co.za',
+    reviews: [
+      { id: 'tt-r1', role: 'Bartender', employment_status: 'Current', rating: 3, date: '2025-11', pros: 'Tiger Tiger weekend bar shifts teach high-volume cocktail and bar skills faster than any other environment. Tips on a busy Friday night are extraordinary. Entertainment industry network built here is valuable. Young team and high-energy environment.', cons: 'Work-life balance is essentially zero — Thursday, Friday, Saturday are all-night shifts. Early morning finishes affect personal life significantly.', anonymous: true, helpful_count: 16, salary: 'R7 000/month + tips' },
+      { id: 'tt-r2', role: 'Events Coordinator', employment_status: 'Current', rating: 4, date: '2025-09', pros: 'Tiger Tiger event coordination experience — corporate launches, birthday packages, PR events — is excellent for an events career. Exposure to SA entertainment and media industry through regular celeb events.', cons: 'Nightlife hours are extreme. Events often run past 3am. Recovery from Saturday nights is a significant personal cost.', anonymous: true, helpful_count: 10, salary: 'R14 000/month' },
+    ],
+  },
+
+  // ─── DESSERT & ICE CREAM ──────────────────────────────────────────────────────
+
+  {
+    id: 'the-creamery',
+    name: 'The Creamery',
+    industry: 'Artisan Ice Cream',
+    size: '51–100 employees',
+    location: 'Cape Town (Sea Point · Willowbridge) · Johannesburg',
+    description: "The Creamery is South Africa's most acclaimed artisan ice cream brand, handcrafting small-batch ice creams and sorbets using local Cape ingredients — including Winelands wine, rooibos, and seasonal Cape fruit. A premium artisan food brand with a devoted following.",
+    overall_rating: 4.1,
+    ratings: { work_life_balance: 4.0, culture: 4.5, management: 4.0, career_growth: 3.5, compensation: 3.4 },
+    benefits: ['Artisan ice cream production training', 'Free ice cream on shift', 'Cape ingredients knowledge', 'Pleasant store environment', 'Sea Point and Willowbridge lifestyle'],
+    website: 'thecreamery.co.za',
+    logo_url: 'https://logo.clearbit.com/thecreamery.co.za',
+    reviews: [
+      { id: 'crem-r1', role: 'Ice Cream Artisan', employment_status: 'Current', rating: 4, date: '2025-11', pros: "The Creamery's small-batch production is genuine artisan craft — understanding flavour layering, texture, and seasonal Cape ingredients is a proper food education. Free ice cream on shift. Customers arriving at The Creamery are always happy. Sea Point beachside environment is beautiful.", cons: 'Limited income growth path — small artisan operation. Busy summer season with very quiet winter.', anonymous: true, helpful_count: 13, salary: 'R7 500/month' },
+      { id: 'crem-r2', role: 'Store Host', employment_status: 'Current', rating: 4, date: '2025-08', pros: 'Selling products that make customers visibly delighted is one of the most rewarding hospitality experiences possible. Sea Point community is warm. Premium ice cream customers are always in a good mood.', cons: 'Very seasonal. Summer exhaustion versus winter quiet.', anonymous: true, helpful_count: 8, salary: 'R6 500/month' },
+    ],
+  },
+
+  {
+    id: 'morelli-gelato',
+    name: "Morelli's Gelato",
+    industry: 'Italian Gelato',
+    size: '51–100 employees',
+    location: 'Cape Town (V&A Waterfront · Camps Bay) · Johannesburg · Pretoria',
+    description: "Morelli's is a premium Italian gelato brand from Northern Ireland with multiple South African locations, producing authentic Italian-style gelato and sorbets. A premium dessert brand with a loyal Cape Town following at the V&A Waterfront and Camps Bay.",
+    overall_rating: 3.8,
+    ratings: { work_life_balance: 3.9, culture: 4.0, management: 3.8, career_growth: 3.4, compensation: 3.4 },
+    benefits: ['Italian gelato training', 'Free gelato on shift', 'V&A Waterfront and Camps Bay locations', 'International tourist tips', 'Premium dessert brand'],
+    website: 'morellis.co.za',
+    logo_url: 'https://logo.clearbit.com/morellis.co.za',
+    reviews: [
+      { id: 'mor-r1', role: 'Gelato Server', employment_status: 'Current', rating: 4, date: '2025-11', pros: "Camps Bay location means serving gelato to Cape Town's most beautiful beachside crowd on warm summer evenings — genuinely joyful work. International tourists at V&A Waterfront tip well. Free gelato daily. Italian product knowledge is pleasant to develop.", cons: 'Standing for long service hours. Very seasonal — Cape Town winter is extremely quiet.', anonymous: true, helpful_count: 11, salary: 'R6 500/month + tips' },
+      { id: 'mor-r2', role: 'Store Supervisor', employment_status: 'Current', rating: 3, date: '2025-08', pros: 'Good first supervisory experience in a small premium retail food environment. V&A Waterfront international traffic provides interesting work environment.', cons: 'Career path is very limited beyond store supervisor in a gelato chain. Very seasonal income.', anonymous: true, helpful_count: 6, salary: 'R9 000/month' },
+    ],
+  },
+
+  // ─── PICNIC & OUTDOOR DINING ──────────────────────────────────────────────────
+
+  {
+    id: 'paul-cluver-wines',
+    name: 'Paul Cluver Wine Estate',
+    industry: 'Wine Estate & Outdoor Amphitheatre',
+    size: '51–100 employees',
+    location: 'Elgin, Western Cape',
+    description: "Paul Cluver is a family-owned wine estate in the Elgin Valley known for exceptional cool-climate Riesling and Chardonnay, the Elgin Outdoor Amphitheatre (one of SA's most beautiful concert venues), and farm restaurant experiences. A unique hospitality employer combining wine, food, and live music in South Africa's premier apple farming valley.",
+    overall_rating: 4.3,
+    ratings: { work_life_balance: 4.1, culture: 4.8, management: 4.3, career_growth: 3.7, compensation: 3.7 },
+    benefits: ['Elgin Valley cool-climate lifestyle', 'Outdoor amphitheatre music events', 'Family estate warmth', 'Wine education', 'Apple valley fresh air working environment'],
+    website: 'cluver.com',
+    logo_url: 'https://logo.clearbit.com/cluver.com',
+    reviews: [
+      { id: 'pc-r1', role: 'Restaurant Host', employment_status: 'Current', rating: 5, date: '2025-11', pros: 'Paul Cluver combines exceptional wine, farm food, and live outdoor concerts in Elgin — one of the most beautiful corners of South Africa. Family ownership means personal relationships with management. Working at an amphitheatre concert is one of the best experiences in SA hospitality.', cons: 'Elgin Valley requires own transport. Very seasonal concert calendar means income variation.', anonymous: true, helpful_count: 17, salary: 'R8 000/month + tips' },
+      { id: 'pc-r2', role: 'Wine Host', employment_status: 'Current', rating: 4, date: '2025-09', pros: "Paul Cluver cool-climate Riesling and Pinot Noir are extraordinary wines to learn and sell. Elgin's apple farming community is warm and community-minded. Family estate values are genuinely lived.", cons: 'Remote Elgin location. Quiet outside concert and harvest season.', anonymous: true, helpful_count: 10, salary: 'R7 500/month + tips' },
+    ],
+  },
+
   {
     id: 'salt-restaurant-group',
     name: 'Salt Restaurant Group',

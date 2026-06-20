@@ -1,8 +1,9 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { Company, CompanyReview, MOCK_COMPANIES } from '@/lib/mock-companies'
+import { MOCK_JOBS } from '@/lib/mock-jobs'
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -318,6 +319,302 @@ function WriteReviewModal({ companyName, onClose, onSubmit }: {
             </button>
           </form>
         )}
+      </div>
+    </div>
+  )
+}
+
+// ─── Reviews tab (Indeed layout) ─────────────────────────────────────────────
+
+const POSITIVE_KEYWORDS = ['great team', 'good management', 'good pay', 'growth opportunities', 'nice environment', 'work-life balance', 'training', 'benefits', 'flexible hours', 'good culture']
+const NEGATIVE_KEYWORDS = ['long hours', 'low pay', 'poor management', 'high turnover', 'no growth', 'understaffed', 'stressful', 'no benefits', 'poor communication', 'bad management']
+
+function ReviewsTab({ company, reviews, overallRating, relatedCompanies, onWriteReview }: {
+  company: Company
+  reviews: CompanyReview[]
+  overallRating: number
+  relatedCompanies: Company[]
+  onWriteReview: () => void
+}) {
+  const [roleFilter, setRoleFilter] = useState('')
+  const [sortBy, setSortBy] = useState<'recent' | 'helpful' | 'highest' | 'lowest'>('recent')
+  const [statusFilter, setStatusFilter] = useState<'all' | 'Current' | 'Former'>('all')
+  const [page, setPage] = useState(1)
+  const [comparing, setComparing] = useState<string[]>([])
+  const PER_PAGE = 5
+
+  const companyJobs = useMemo(() =>
+    MOCK_JOBS.filter(j =>
+      j.employer_name.toLowerCase().includes(company.name.split(' ')[0].toLowerCase()) ||
+      company.name.toLowerCase().includes(j.employer_name.split(' ')[0].toLowerCase())
+    ).slice(0, 3),
+    [company.name]
+  )
+
+  const filtered = useMemo(() => {
+    let list = [...reviews]
+    if (statusFilter !== 'all') list = list.filter(r => r.employment_status === statusFilter)
+    if (roleFilter) list = list.filter(r => r.role.toLowerCase().includes(roleFilter.toLowerCase()))
+    if (sortBy === 'recent') list.sort((a, b) => b.date.localeCompare(a.date))
+    else if (sortBy === 'helpful') list.sort((a, b) => b.helpful_count - a.helpful_count)
+    else if (sortBy === 'highest') list.sort((a, b) => b.rating - a.rating)
+    else if (sortBy === 'lowest') list.sort((a, b) => a.rating - b.rating)
+    return list
+  }, [reviews, statusFilter, roleFilter, sortBy])
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PER_PAGE))
+  const paginated = filtered.slice((page - 1) * PER_PAGE, page * PER_PAGE)
+
+  // Sentiment keyword extraction from pros/cons
+  const allPros = reviews.map(r => r.pros.toLowerCase()).join(' ')
+  const allCons = reviews.map(r => r.cons.toLowerCase()).join(' ')
+  const positiveHits = POSITIVE_KEYWORDS.filter(k => allPros.includes(k.split(' ')[0]))
+  const negativeHits = NEGATIVE_KEYWORDS.filter(k => allCons.includes(k.split(' ')[0]))
+  const sentimentKeywords = [
+    ...positiveHits.slice(0, 4).map(k => ({ label: k, positive: true })),
+    ...negativeHits.slice(0, 3).map(k => ({ label: k, positive: false })),
+  ]
+
+  const ratingDimensions: { key: keyof Company['ratings']; label: string }[] = [
+    { key: 'work_life_balance', label: 'Work-life balance' },
+    { key: 'compensation', label: 'Pay & benefits' },
+    { key: 'career_growth', label: 'Job security & advancement' },
+    { key: 'management', label: 'Management' },
+    { key: 'culture', label: 'Culture' },
+  ]
+
+  function toggleCompare(id: string) {
+    setComparing(prev =>
+      prev.includes(id) ? prev.filter(x => x !== id) : prev.length < 2 ? [...prev, id] : prev
+    )
+  }
+
+  return (
+    <div className="flex gap-5 items-start">
+
+      {/* ── Left sidebar ── */}
+      <aside className="hidden lg:block w-60 shrink-0 space-y-4">
+        {/* Overall rating */}
+        <div className="bg-white border border-gray-200 rounded-xl p-4">
+          <div className="text-4xl font-bold text-gray-900">{overallRating.toFixed(1)}</div>
+          <StarRating rating={overallRating} size="md" />
+          <p className="text-xs text-gray-400 mt-1">{reviews.length} review{reviews.length !== 1 ? 's' : ''}</p>
+
+          <div className="mt-4 space-y-2.5">
+            {[5,4,3,2,1].map(star => {
+              const count = reviews.filter(r => Math.round(r.rating) === star).length
+              const pct = reviews.length ? (count / reviews.length) * 100 : 0
+              return (
+                <button key={star} onClick={() => { setStatusFilter('all'); setPage(1) }}
+                  className="flex items-center gap-1.5 w-full group">
+                  <span className="text-xs text-blue-600 hover:underline w-3">{star}</span>
+                  <svg className="w-3 h-3 text-amber-400 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                  <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                    <div className="h-1.5 bg-amber-400 rounded-full transition-all" style={{ width: `${pct}%` }} />
+                  </div>
+                  <span className="text-xs text-gray-400 w-4 text-right">{count}</span>
+                </button>
+              )
+            })}
+          </div>
+
+          <div className="mt-4 pt-4 border-t border-gray-100 space-y-2">
+            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Detailed ratings</p>
+            {ratingDimensions.map(d => (
+              <div key={d.key} className="flex items-center justify-between">
+                <span className="text-xs text-blue-600 hover:underline cursor-default">{d.label}</span>
+                <span className="text-xs font-semibold text-gray-700">{company.ratings[d.key].toFixed(1)}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* What people are saying */}
+        {sentimentKeywords.length > 0 && (
+          <div className="bg-white border border-gray-200 rounded-xl p-4">
+            <p className="text-xs font-bold text-gray-800 mb-3">What people are saying</p>
+            <div className="space-y-2">
+              {sentimentKeywords.map(k => (
+                <div key={k.label} className="flex items-center gap-2">
+                  <div className={`w-4 h-4 rounded-full flex items-center justify-center shrink-0 ${k.positive ? 'bg-green-100' : 'bg-red-100'}`}>
+                    <span className={`text-[10px] font-bold ${k.positive ? 'text-green-600' : 'text-red-500'}`}>
+                      {k.positive ? '+' : '–'}
+                    </span>
+                  </div>
+                  <span className="text-xs text-gray-700 capitalize">{k.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </aside>
+
+      {/* ── Main content ── */}
+      <div className="flex-1 min-w-0 space-y-4">
+
+        {/* Filters row */}
+        <div className="bg-white border border-gray-200 rounded-xl p-4 space-y-3">
+          <div className="flex gap-2">
+            <div className="flex-1 relative">
+              <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z" />
+              </svg>
+              <input value={roleFilter} onChange={e => { setRoleFilter(e.target.value); setPage(1) }}
+                placeholder="Job title, keyword"
+                className="w-full border border-gray-200 rounded-lg pl-9 pr-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400" />
+            </div>
+            <button onClick={() => setPage(1)}
+              className="bg-blue-600 text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+              Search
+            </button>
+          </div>
+          <div className="flex items-center gap-2 flex-wrap">
+            {(['all', 'Current', 'Former'] as const).map(f => (
+              <button key={f} onClick={() => { setStatusFilter(f); setPage(1) }}
+                className={`text-xs font-medium px-3 py-1.5 rounded-full border transition ${
+                  statusFilter === f ? 'bg-gray-900 text-white border-gray-900' : 'text-gray-600 border-gray-200 hover:border-gray-400'
+                }`}>
+                {f === 'all' ? 'All employees' : `${f} employees`}
+              </button>
+            ))}
+            <div className="ml-auto">
+              <select value={sortBy} onChange={e => { setSortBy(e.target.value as typeof sortBy); setPage(1) }}
+                className="text-xs border border-gray-200 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white text-gray-700">
+                <option value="recent">Most recent</option>
+                <option value="helpful">Most helpful</option>
+                <option value="highest">Highest rating</option>
+                <option value="lowest">Lowest rating</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        {/* Review count + write */}
+        <div className="flex items-center justify-between">
+          <p className="text-sm font-bold text-gray-800">{filtered.length.toLocaleString()} review{filtered.length !== 1 ? 's' : ''}</p>
+          <button onClick={onWriteReview} className="text-sm font-semibold text-blue-600 hover:underline">
+            + Write a review
+          </button>
+        </div>
+
+        {/* Reviews + inline jobs */}
+        {filtered.length === 0 ? (
+          <div className="bg-white border border-gray-200 rounded-xl p-10 text-center">
+            <p className="text-sm text-gray-400">No reviews match your filters.</p>
+          </div>
+        ) : (
+          <>
+            {paginated.slice(0, 3).map(r => (
+              <div key={r.id} className="bg-white border border-gray-200 rounded-xl p-5">
+                <ReviewCard review={r} />
+              </div>
+            ))}
+
+            {/* Inline jobs section (after 3rd review) */}
+            {companyJobs.length > 0 && page === 1 && (
+              <div className="bg-white border border-gray-200 rounded-xl p-5">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-sm font-bold text-gray-900">Jobs at {company.name}</h3>
+                  <a href={`/?q=${encodeURIComponent(company.name)}`}
+                    className="text-xs text-blue-600 hover:underline font-medium flex items-center gap-1">
+                    See more jobs →
+                  </a>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  {companyJobs.map(job => (
+                    <a key={job.id} href={`/jobs/${job.id}`}
+                      className="border border-gray-200 rounded-lg p-3 hover:shadow-sm hover:border-gray-300 transition group block">
+                      <p className="text-xs font-semibold text-blue-600 group-hover:underline line-clamp-2">{job.title}</p>
+                      <p className="text-xs text-gray-500 mt-1 truncate">{job.location}</p>
+                      {job.pay && <p className="text-xs font-medium text-gray-700 mt-1">{job.pay}</p>}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {paginated.slice(3).map(r => (
+              <div key={r.id} className="bg-white border border-gray-200 rounded-xl p-5">
+                <ReviewCard review={r} />
+              </div>
+            ))}
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="flex items-center justify-center gap-1 pt-2">
+                <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}
+                  className="px-3 py-1.5 text-sm border border-gray-200 rounded-lg disabled:opacity-30 hover:bg-gray-50 transition">
+                  ‹
+                </button>
+                {Array.from({ length: Math.min(totalPages, 7) }, (_, i) => {
+                  const p = i + 1
+                  return (
+                    <button key={p} onClick={() => setPage(p)}
+                      className={`w-8 h-8 text-sm rounded-lg border transition ${
+                        page === p ? 'bg-blue-600 text-white border-blue-600' : 'border-gray-200 text-gray-600 hover:bg-gray-50'
+                      }`}>
+                      {p}
+                    </button>
+                  )
+                })}
+                <button onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages}
+                  className="px-3 py-1.5 text-sm border border-gray-200 rounded-lg disabled:opacity-30 hover:bg-gray-50 transition">
+                  ›
+                </button>
+              </div>
+            )}
+          </>
+        )}
+
+        {/* Related companies */}
+        {relatedCompanies.length > 0 && (
+          <div className="bg-white border border-gray-200 rounded-xl p-5">
+            <h3 className="text-sm font-bold text-gray-900 mb-4">More companies you might be interested in</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              {relatedCompanies.map(c => (
+                <div key={c.id} className="border border-gray-200 rounded-xl p-4 flex flex-col gap-2">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded border border-gray-100 bg-white flex items-center justify-center overflow-hidden shrink-0">
+                      {c.logo_url
+                        ? <img src={c.logo_url} alt={c.name} className="w-full h-full object-contain p-0.5" onError={e => { (e.target as HTMLImageElement).style.display = 'none' }} />
+                        : <span className="text-xs font-bold text-gray-400">{c.name.charAt(0)}</span>
+                      }
+                    </div>
+                    <div className="min-w-0">
+                      <a href={`/companies/${c.id}`} className="text-xs font-semibold text-gray-800 hover:text-blue-600 block truncate">{c.name}</a>
+                      <div className="flex items-center gap-1">
+                        <StarRating rating={c.overall_rating} />
+                        <span className="text-xs text-gray-500">{c.overall_rating.toFixed(1)}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <p className="text-[11px] text-gray-500 line-clamp-2">{c.description.slice(0, 80)}…</p>
+                  <button
+                    onClick={() => toggleCompare(c.id)}
+                    className={`mt-auto text-xs font-semibold py-1.5 rounded-full border transition ${
+                      comparing.includes(c.id)
+                        ? 'bg-blue-600 text-white border-blue-600'
+                        : 'text-blue-600 border-blue-200 hover:bg-blue-50'
+                    }`}
+                  >
+                    {comparing.includes(c.id) ? '✓ Added' : 'Compare'}
+                  </button>
+                </div>
+              ))}
+            </div>
+            {comparing.length > 0 && (
+              <div className="mt-4 p-3 bg-blue-50 border border-blue-100 rounded-xl flex items-center justify-between">
+                <span className="text-xs text-blue-700 font-medium">
+                  Comparing: {comparing.map(id => relatedCompanies.find(c => c.id === id)?.name).filter(Boolean).join(' vs ')}
+                </span>
+                <button onClick={() => setComparing([])} className="text-xs text-blue-600 hover:underline">Clear</button>
+              </div>
+            )}
+          </div>
+        )}
+
       </div>
     </div>
   )
@@ -663,62 +960,13 @@ export default function CompanyClient({ company }: { company: Company }) {
 
           {/* ── REVIEWS ── */}
           {activeTab === 'reviews' && (
-            <section className="bg-white border border-gray-200 rounded-xl p-5">
-              {/* Rating summary bar */}
-              <div className="flex items-center gap-6 pb-5 mb-5 border-b border-gray-100">
-                <div className="text-center shrink-0">
-                  <div className="text-4xl font-bold text-gray-900">{overallRating.toFixed(1)}</div>
-                  <StarRating rating={overallRating} size="md" />
-                  <div className="text-xs text-gray-400 mt-1">{reviews.length} reviews</div>
-                </div>
-                <div className="flex-1 space-y-2">
-                  {[5,4,3,2,1].map(star => {
-                    const count = reviews.filter(r => Math.round(r.rating) === star).length
-                    const pct = reviews.length ? (count / reviews.length) * 100 : 0
-                    return (
-                      <div key={star} className="flex items-center gap-2">
-                        <span className="text-xs text-gray-500 w-3">{star}</span>
-                        <svg className="w-3 h-3 text-amber-400 shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                        <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
-                          <div className="h-2 bg-amber-400 rounded-full" style={{ width: `${pct}%` }} />
-                        </div>
-                        <span className="text-xs text-gray-400 w-6">{count}</span>
-                      </div>
-                    )
-                  })}
-                </div>
-              </div>
-
-              {/* Filters */}
-              <div className="flex items-center justify-between flex-wrap gap-3 mb-5">
-                <div className="flex gap-2 flex-wrap">
-                  {(['all', 'Current', 'Former'] as const).map(f => (
-                    <button key={f} onClick={() => setReviewFilter(f)}
-                      className={`text-sm font-medium px-4 py-1.5 rounded-full border transition ${
-                        reviewFilter === f
-                          ? 'bg-gray-900 text-white border-gray-900'
-                          : 'text-gray-600 border-gray-200 hover:border-gray-400'
-                      }`}>
-                      {f === 'all' ? 'All reviews' : `${f} employees`}
-                    </button>
-                  ))}
-                </div>
-                <button onClick={() => setShowModal(true)}
-                  className="text-sm font-semibold text-blue-600 hover:underline">
-                  + Write a review
-                </button>
-              </div>
-
-              {filteredReviews.length === 0 ? (
-                <p className="text-sm text-gray-400 text-center py-8">No reviews match this filter.</p>
-              ) : (
-                <div>
-                  {filteredReviews.map(r => <ReviewCard key={r.id} review={r} />)}
-                </div>
-              )}
-            </section>
+            <ReviewsTab
+              company={company}
+              reviews={reviews}
+              overallRating={overallRating}
+              relatedCompanies={relatedCompanies}
+              onWriteReview={() => setShowModal(true)}
+            />
           )}
 
           {/* ── SALARIES ── */}

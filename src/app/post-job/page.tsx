@@ -1,4 +1,6 @@
 import type { Metadata } from 'next'
+import { redirect } from 'next/navigation'
+import { getSession } from '@/lib/supabase-server'
 import PostJobForm from './PostJobForm'
 
 export const metadata: Metadata = {
@@ -6,7 +8,11 @@ export const metadata: Metadata = {
   description: 'Post a hospitality job in South Africa. Free during beta.',
 }
 
-export default function PostJobPage() {
+export default async function PostJobPage() {
+  const session = await getSession()
+  if (!session) {
+    redirect('/auth/login?next=/post-job&role=employer')
+  }
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero header */}

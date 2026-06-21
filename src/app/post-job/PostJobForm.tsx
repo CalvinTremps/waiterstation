@@ -5,6 +5,25 @@ import { ROLE_CATEGORIES, ROLE_LABELS, EMPLOYMENT_TYPE_LABELS, EmploymentType, R
 
 const EMPLOYMENT_TYPES: EmploymentType[] = ['permanent', 'seasonal', 'event']
 
+const ROLE_ICONS: Record<string, string> = {
+  waiter: '🍽️',
+  chef: '👨‍🍳',
+  kitchen_staff: '🔪',
+  housekeeping: '🛏️',
+  front_desk: '🏨',
+  bartender: '🍸',
+  barista: '☕',
+  host: '🤝',
+  manager: '📋',
+  other: '✨',
+}
+
+const EMPLOYMENT_DESCRIPTIONS: Record<EmploymentType, string> = {
+  permanent: 'Ongoing role',
+  seasonal: 'Fixed period',
+  event: 'Single event',
+}
+
 export default function PostJobForm() {
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
@@ -44,27 +63,23 @@ export default function PostJobForm() {
 
   if (success) {
     return (
-      <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-8 text-center">
-        <div className="w-14 h-14 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
-          <svg className="w-7 h-7 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+      <div className="bg-white border border-gray-200 rounded-2xl p-10 text-center shadow-sm">
+        <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-5">
+          <svg className="w-8 h-8 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
           </svg>
         </div>
-        <h2 className="font-bold text-gray-900 text-xl">Listing submitted!</h2>
-        <p className="text-gray-500 text-sm mt-2 leading-relaxed max-w-xs mx-auto">
-          Your job will go live once we've reviewed it — usually within a few hours during business hours.
+        <h2 className="font-bold text-gray-900 text-2xl">Listing submitted!</h2>
+        <p className="text-gray-500 text-sm mt-3 leading-relaxed max-w-xs mx-auto">
+          Your job will go live once we have reviewed it — usually within a few hours during business hours.
         </p>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-6">
-          <a
-            href="/employer"
-            className="inline-block bg-emerald-600 text-white font-semibold px-6 py-3 rounded-xl text-sm hover:bg-emerald-700 transition"
-          >
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8">
+          <a href="/employer"
+            className="bg-emerald-600 text-white font-semibold px-6 py-3 rounded-xl text-sm hover:bg-emerald-700 transition">
             View my listings
           </a>
-          <a
-            href="/post-job"
-            className="inline-block border border-gray-200 text-gray-700 font-semibold px-6 py-3 rounded-xl text-sm hover:bg-gray-50 transition"
-          >
+          <a href="/post-job"
+            className="border border-gray-200 text-gray-700 font-semibold px-6 py-3 rounded-xl text-sm hover:bg-gray-50 transition">
             Post another job
           </a>
         </div>
@@ -73,108 +88,114 @@ export default function PostJobForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
+    <form onSubmit={handleSubmit} className="space-y-4">
 
-      {/* Role category — icon grid */}
-      <Section label="What role are you hiring for?" required>
-        <div className="grid grid-cols-2 gap-2">
-          {ROLE_CATEGORIES.map(r => (
-            <button
-              key={r}
-              type="button"
-              onClick={() => setRole(r === role ? '' : r)}
-              className={`flex items-center gap-2.5 px-3 py-3 rounded-2xl border text-left text-sm font-medium transition
-                ${role === r
-                  ? 'bg-emerald-600 text-white border-emerald-600'
-                  : 'bg-white text-gray-700 border-gray-200 hover:border-emerald-300'
-                }`}
-            >
-              <span className="leading-tight">{ROLE_LABELS[r]}</span>
-            </button>
-          ))}
+      {/* Role category */}
+      <Card step="1" title="What role are you hiring for?" required>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+          {ROLE_CATEGORIES.map(r => {
+            const icon = ROLE_ICONS[r] ?? '✨'
+            const selected = role === r
+            return (
+              <button key={r} type="button" onClick={() => setRole(r === role ? '' : r)}
+                className={`flex flex-col items-center gap-2 px-3 py-4 rounded-xl border-2 text-center transition group ${
+                  selected
+                    ? 'border-emerald-500 bg-emerald-50'
+                    : 'border-gray-200 bg-white hover:border-emerald-300 hover:bg-gray-50'
+                }`}>
+                <span className="text-2xl leading-none">{icon}</span>
+                <span className={`text-xs font-semibold leading-tight ${selected ? 'text-emerald-700' : 'text-gray-700'}`}>
+                  {ROLE_LABELS[r]}
+                </span>
+              </button>
+            )
+          })}
         </div>
-      </Section>
+      </Card>
 
-      <Section label="Job title" required>
-        <input
-          name="title"
-          required
-          placeholder="e.g. Experienced Waiter, Head Chef"
-          className={input}
-        />
-      </Section>
-
-      <Section label="Establishment name" required>
-        <input
-          name="employer_name"
-          required
-          placeholder="e.g. The Grand Hotel, Café Bello"
-          className={input}
-        />
-      </Section>
-
-      <Section label="Location" required>
-        <input
-          name="location"
-          required
-          placeholder="e.g. Cape Town, Sandton, Durban North"
-          className={input}
-        />
-      </Section>
-
-      {/* Employment type — segmented */}
-      <Section label="Employment type" required>
-        <div className="flex gap-1.5 bg-gray-100 rounded-2xl p-1">
-          {EMPLOYMENT_TYPES.map(t => (
-            <button
-              key={t}
-              type="button"
-              onClick={() => setEmpType(t === empType ? '' : t)}
-              className={`flex-1 text-sm font-medium py-2.5 rounded-xl transition
-                ${empType === t ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
-            >
-              {EMPLOYMENT_TYPE_LABELS[t]}
-            </button>
-          ))}
+      {/* Employment type */}
+      <Card step="2" title="Employment type" required>
+        <div className="grid grid-cols-3 gap-2">
+          {EMPLOYMENT_TYPES.map(t => {
+            const selected = empType === t
+            return (
+              <button key={t} type="button" onClick={() => setEmpType(t === empType ? '' : t)}
+                className={`flex flex-col items-center gap-1.5 px-3 py-4 rounded-xl border-2 transition ${
+                  selected
+                    ? 'border-emerald-500 bg-emerald-50'
+                    : 'border-gray-200 bg-white hover:border-emerald-300'
+                }`}>
+                <span className={`text-sm font-bold ${selected ? 'text-emerald-700' : 'text-gray-800'}`}>
+                  {EMPLOYMENT_TYPE_LABELS[t]}
+                </span>
+                <span className={`text-[11px] ${selected ? 'text-emerald-600' : 'text-gray-400'}`}>
+                  {EMPLOYMENT_DESCRIPTIONS[t]}
+                </span>
+              </button>
+            )
+          })}
         </div>
-      </Section>
+      </Card>
 
-      <Section label="Pay" hint="Optional - e.g. R6 000/month, R120/hour + tips">
-        <input name="pay" placeholder="e.g. R6 000/month" className={input} />
-      </Section>
+      {/* Job details */}
+      <Card step="3" title="Job details">
+        <div className="space-y-4">
+          <Field label="Job title" required>
+            <input name="title" required placeholder="e.g. Experienced Waiter, Head Chef" className={input} />
+          </Field>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <Field label="Establishment name" required>
+              <input name="employer_name" required placeholder="e.g. The Grand Hotel" className={input} />
+            </Field>
+            <Field label="Location" required>
+              <input name="location" required placeholder="e.g. Cape Town, Sandton" className={input} />
+            </Field>
+          </div>
+          <Field label="Pay" hint="Optional — helps attract more applicants">
+            <input name="pay" placeholder="e.g. R6 000/month + tips" className={input} />
+          </Field>
+        </div>
+      </Card>
 
-      <Section label="Job description" required>
-        <textarea
-          name="description"
-          required
-          rows={5}
-          placeholder="Describe the role, hours, what you're looking for in a candidate..."
-          className={input}
-        />
-      </Section>
+      {/* Description */}
+      <Card step="4" title="Job description" required>
+        <textarea name="description" required rows={6}
+          placeholder="Describe the role, hours, what kind of candidate you're looking for, and anything else that helps someone decide to apply..."
+          className={input + ' resize-none'} />
+        <p className="text-xs text-gray-400 mt-1.5">Tip: listings with a clear description get significantly more quality applications.</p>
+      </Card>
 
-      <Section label="Your contact number or email" required hint="Applicants who apply on Waiterstation will be given this to reach you (e.g. +27 82 123 4567 or hello@venue.co.za)">
-        <input
-          name="contact_method"
-          required
-          placeholder="+27 82 123 4567"
-          className={input}
-          inputMode="tel"
-        />
-      </Section>
+      {/* Contact */}
+      <Card step="5" title="How should applicants reach you?" required>
+        <Field label="Phone number or email" required
+          hint="Applicants who apply through Waiterstation will receive this to contact you directly">
+          <input name="contact_method" required placeholder="+27 82 123 4567 or hello@venue.co.za"
+            className={input} inputMode="tel" />
+        </Field>
+      </Card>
 
       {error && (
-        <div className="bg-red-50 border border-red-100 rounded-2xl px-4 py-3 text-red-600 text-sm">
+        <div className="bg-red-50 border border-red-100 rounded-xl px-4 py-3 text-red-600 text-sm flex items-center gap-2">
+          <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
           {error}
         </div>
       )}
 
-      <button
-        type="submit"
-        disabled={loading}
-        className="w-full bg-emerald-600 text-white font-bold py-4 rounded-2xl text-base hover:bg-emerald-700 active:bg-emerald-800 transition disabled:opacity-60"
-      >
-        {loading ? 'Submitting…' : 'Submit listing'}
+      <button type="submit" disabled={loading}
+        className="w-full bg-emerald-600 text-white font-bold py-4 rounded-xl text-base hover:bg-emerald-700 active:bg-emerald-800 transition disabled:opacity-60 flex items-center justify-center gap-2">
+        {loading ? (
+          <>
+            <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth={4} />
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+            </svg>
+            Submitting...
+          </>
+        ) : (
+          'Submit listing'
+        )}
       </button>
 
       <p className="text-xs text-gray-400 text-center pb-4">
@@ -184,18 +205,36 @@ export default function PostJobForm() {
   )
 }
 
-function Section({ label, hint, required, children }: {
-  label: string; hint?: string; required?: boolean; children: React.ReactNode
+function Card({ step, title, required, children }: {
+  step: string; title: string; required?: boolean; children: React.ReactNode
 }) {
   return (
-    <div>
-      <label className="block text-sm font-semibold text-gray-800 mb-1">
-        {label}{required && <span className="text-emerald-600 ml-0.5">*</span>}
-      </label>
-      {hint && <p className="text-xs text-gray-400 mb-2">{hint}</p>}
+    <div className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm">
+      <div className="flex items-center gap-2.5 mb-4">
+        <span className="w-6 h-6 rounded-full bg-gray-900 text-white text-xs font-bold flex items-center justify-center shrink-0">
+          {step}
+        </span>
+        <h2 className="font-bold text-gray-900 text-base">
+          {title}{required && <span className="text-emerald-500 ml-0.5">*</span>}
+        </h2>
+      </div>
       {children}
     </div>
   )
 }
 
-const input = 'w-full bg-white border border-gray-200 rounded-2xl px-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400 placeholder:text-gray-400'
+function Field({ label, hint, required, children }: {
+  label: string; hint?: string; required?: boolean; children: React.ReactNode
+}) {
+  return (
+    <div>
+      <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+        {label}{required && <span className="text-emerald-500 ml-0.5">*</span>}
+      </label>
+      {hint && <p className="text-xs text-gray-400 mb-1.5">{hint}</p>}
+      {children}
+    </div>
+  )
+}
+
+const input = 'w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:bg-white focus:border-emerald-400 placeholder:text-gray-400 transition'

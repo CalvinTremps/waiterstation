@@ -1,6 +1,5 @@
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
 const FROM = 'Waiterstation <notifications@waiterstation.co.za>'
 
 export async function sendNewApplicationEmail({
@@ -22,6 +21,7 @@ export async function sendNewApplicationEmail({
 }) {
   if (!process.env.RESEND_API_KEY) return
 
+  const resend = new Resend(process.env.RESEND_API_KEY)
   await resend.emails.send({
     from: FROM,
     to: employerEmail,

@@ -32,6 +32,11 @@ export interface Job {
   category_label?: string
   area?: string[]
   source_url?: string
+  // Franchise / brand linking
+  parent_company_id?: string | null
+  franchise_name?: string | null
+  franchise_email?: string | null
+  brand_link_status?: 'pending' | 'approved' | 'rejected' | null
 }
 
 export const ROLE_LABELS: Record<RoleCategory, string> = {

@@ -2,6 +2,8 @@ import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import type { Metadata } from 'next'
 import { MOCK_COMPANIES } from '@/lib/mock-companies'
+import { createServerClient } from '@/lib/supabase-server'
+import { Job } from '@/lib/types'
 import CompanyClient from './CompanyClient'
 
 interface Props {
@@ -27,9 +29,23 @@ export default async function CompanyPage({ params }: Props) {
   const company = MOCK_COMPANIES.find(c => c.id === id)
   if (!company) notFound()
 
+  // Fetch approved franchise jobs linked to this brand
+  let franchiseJobs: Job[] = []
+  try {
+    const supabase = await createServerClient()
+    const { data } = await supabase
+      .from('jobs')
+      .select('*')
+      .eq('parent_company_id', id)
+      .eq('brand_link_status', 'approved')
+      .eq('status', 'approved')
+      .order('created_at', { ascending: false })
+    franchiseJobs = data ?? []
+  } catch {}
+
   return (
     <Suspense>
-      <CompanyClient company={company} />
+      <CompanyClient company={company} franchiseJobs={franchiseJobs} />
     </Suspense>
   )
 }

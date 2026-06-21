@@ -13,7 +13,11 @@ export async function POST(req: NextRequest) {
 
   const body = await req.json()
 
-  const { title, role_category, location, employment_type, pay, description, employer_name, contact_method } = body
+  const {
+    title, role_category, location, employment_type, pay, description,
+    employer_name, contact_method,
+    parent_company_id, franchise_name, franchise_email, brand_link_status,
+  } = body
 
   if (!title || !role_category || !location || !employment_type || !description || !employer_name || !contact_method) {
     return NextResponse.json({ error: 'All required fields must be filled.' }, { status: 400 })
@@ -41,6 +45,10 @@ export async function POST(req: NextRequest) {
     contact_method: contact_method.trim(),
     status: 'pending',
     employer_id: session?.user.id ?? null,
+    parent_company_id: parent_company_id ?? null,
+    franchise_name: franchise_name?.trim() ?? null,
+    franchise_email: franchise_email?.trim() ?? null,
+    brand_link_status: brand_link_status ?? null,
   })
 
   if (error) {

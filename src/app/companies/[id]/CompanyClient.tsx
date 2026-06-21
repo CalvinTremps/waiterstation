@@ -733,7 +733,12 @@ function JobsTab({ company, relatedCompanies, allJobs }: {
               <div className="flex items-start justify-between gap-2">
                 <div className="min-w-0 flex-1">
                   <p className="text-sm font-semibold text-blue-600 leading-tight line-clamp-2">{job.title}</p>
-                  <p className="text-xs text-gray-500 mt-0.5">{job.employer_name}</p>
+                  <div className="flex items-center gap-1.5 flex-wrap mt-0.5">
+                    <p className="text-xs text-gray-500">{job.employer_name}</p>
+                    {job.franchise_name && job.brand_link_status === 'approved' && (
+                      <span className="text-[10px] font-semibold bg-purple-100 text-purple-700 px-1.5 py-0.5 rounded-full">Franchise</span>
+                    )}
+                  </div>
                   <p className="text-xs text-gray-400 mt-0.5 truncate">{job.location}</p>
                   <div className="flex items-center gap-2 mt-1.5 flex-wrap">
                     <span className={`text-[11px] px-2 py-0.5 rounded-full font-medium capitalize ${empTypeColors[job.employment_type] ?? 'bg-gray-100 text-gray-600'}`}>
@@ -785,7 +790,12 @@ function JobsTab({ company, relatedCompanies, allJobs }: {
                 </div>
                 <div className="min-w-0 flex-1">
                   <h3 className="text-base font-bold text-gray-900 leading-tight">{selectedJob.title}</h3>
-                  <p className="text-sm text-gray-600 mt-0.5">{selectedJob.employer_name} · {selectedJob.location}</p>
+                  <div className="flex items-center gap-2 flex-wrap mt-0.5">
+                    <p className="text-sm text-gray-600">{selectedJob.employer_name} · {selectedJob.location}</p>
+                    {selectedJob.franchise_name && selectedJob.brand_link_status === 'approved' && (
+                      <span className="text-[11px] font-semibold bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full">Franchise location</span>
+                    )}
+                  </div>
                   <div className="flex items-center gap-2 mt-1.5 flex-wrap">
                     <span className={`text-xs px-2.5 py-1 rounded-full font-medium capitalize ${empTypeColors[selectedJob.employment_type] ?? 'bg-gray-100 text-gray-600'}`}>
                       {selectedJob.employment_type.replace('-', ' ')}
@@ -1238,7 +1248,7 @@ function SalariesTab({ company, reviews, relatedCompanies, onWriteReview }: {
 
 type Tab = 'overview' | 'reviews' | 'salaries' | 'jobs' | 'benefits'
 
-export default function CompanyClient({ company }: { company: Company }) {
+export default function CompanyClient({ company, franchiseJobs = [] }: { company: Company; franchiseJobs?: import('@/lib/types').Job[] }) {
   const searchParams = useSearchParams()
   const router = useRouter()
   const initialTab = (searchParams.get('tab') as Tab | null) ?? 'overview'
@@ -1289,7 +1299,7 @@ export default function CompanyClient({ company }: { company: Company }) {
     { key: 'compensation', label: 'Compensation' },
   ]
 
-  const allCompanyJobs = useMemo(() =>
+  const mockMatchedJobs = useMemo(() =>
     MOCK_JOBS.filter(j =>
       j.employer_name.toLowerCase().includes(company.name.split(' ')[0].toLowerCase()) ||
       company.name.toLowerCase().includes(j.employer_name.split(' ')[0].toLowerCase())
@@ -1297,11 +1307,25 @@ export default function CompanyClient({ company }: { company: Company }) {
     [company.name]
   )
 
+  // Merge real franchise jobs (from Supabase) with mock matches, deduped by id
+  const allCompanyJobs = useMemo(() => {
+    const seen = new Set(franchiseJobs.map(j => j.id))
+    const merged = [...franchiseJobs]
+    for (const j of mockMatchedJobs) {
+      if (!seen.has(j.id)) merged.push(j)
+    }
+    return merged
+  }, [franchiseJobs, mockMatchedJobs])
+
+  const jobCount = franchiseJobs.length > 0
+    ? allCompanyJobs.length
+    : (allCompanyJobs.length || MOCK_JOBS.slice(0, 12).length)
+
   const tabs: { id: Tab; label: string }[] = [
     { id: 'overview', label: 'Overview' },
     { id: 'reviews', label: `Reviews (${reviews.length})` },
     { id: 'salaries', label: 'Salaries' },
-    { id: 'jobs', label: `Jobs (${allCompanyJobs.length || MOCK_JOBS.slice(0, 12).length})` },
+    { id: 'jobs', label: `Jobs (${jobCount})` },
     { id: 'benefits', label: 'Benefits' },
   ]
 

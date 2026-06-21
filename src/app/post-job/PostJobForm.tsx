@@ -1,7 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { ROLE_CATEGORIES, ROLE_LABELS, EMPLOYMENT_TYPE_LABELS, EmploymentType, RoleCategory } from '@/lib/types'
+import { MOCK_COMPANIES } from '@/lib/mock-companies'
 
 const EMPLOYMENT_TYPES: EmploymentType[] = ['permanent', 'seasonal', 'event']
 
@@ -31,6 +32,30 @@ export default function PostJobForm() {
   const [role, setRole] = useState<RoleCategory | ''>('')
   const [empType, setEmpType] = useState<EmploymentType | ''>('')
 
+  // Franchise state
+  const [isFranchise, setIsFranchise] = useState(false)
+  const [brandSearch, setBrandSearch] = useState('')
+  const [selectedBrandId, setSelectedBrandId] = useState('')
+  const [franchiseName, setFranchiseName] = useState('')
+  const [franchiseEmail, setFranchiseEmail] = useState('')
+  const [brandDropdownOpen, setBrandDropdownOpen] = useState(false)
+
+  const filteredBrands = useMemo(() =>
+    MOCK_COMPANIES.filter(c =>
+      c.name.toLowerCase().includes(brandSearch.toLowerCase())
+    ).slice(0, 8),
+    [brandSearch]
+  )
+
+  const selectedBrand = MOCK_COMPANIES.find(c => c.id === selectedBrandId)
+
+  function emailDomainValid() {
+    if (!selectedBrand?.website || !franchiseEmail) return true
+    const brandDomain = selectedBrand.website.replace(/^www\./, '').toLowerCase()
+    const emailDomain = franchiseEmail.split('@')[1]?.toLowerCase() ?? ''
+    return emailDomain === brandDomain || emailDomain.endsWith('.' + brandDomain)
+  }
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     if (!role) { setError('Please select a role category.'); return }
@@ -39,6 +64,16 @@ export default function PostJobForm() {
     setError('')
 
     const form = e.currentTarget
+    if (isFranchise) {
+      if (!selectedBrandId) { setError('Please select a parent brand.'); setLoading(false); return }
+      if (!franchiseName.trim()) { setError('Please enter your branch/franchise name.'); setLoading(false); return }
+      if (!franchiseEmail.trim()) { setError('Please provide a corporate email for brand verification.'); setLoading(false); return }
+      if (!emailDomainValid()) {
+        setError(`Your email domain must match ${selectedBrand?.website}. Use your corporate email address.`)
+        setLoading(false); return
+      }
+    }
+
     const data = {
       title: (form.elements.namedItem('title') as HTMLInputElement).value,
       role_category: role,
@@ -46,8 +81,14 @@ export default function PostJobForm() {
       employment_type: empType,
       pay: (form.elements.namedItem('pay') as HTMLInputElement).value,
       description: (form.elements.namedItem('description') as HTMLTextAreaElement).value,
-      employer_name: (form.elements.namedItem('employer_name') as HTMLInputElement).value,
+      employer_name: isFranchise ? franchiseName.trim() : (form.elements.namedItem('employer_name') as HTMLInputElement).value,
       contact_method: (form.elements.namedItem('contact_method') as HTMLInputElement).value,
+      ...(isFranchise && {
+        parent_company_id: selectedBrandId,
+        franchise_name: franchiseName.trim(),
+        franchise_email: franchiseEmail.trim(),
+        brand_link_status: 'pending',
+      }),
     }
 
     const res = await fetch('/api/jobs', {
@@ -172,6 +213,122 @@ export default function PostJobForm() {
           <input name="contact_method" required placeholder="+27 82 123 4567 or hello@venue.co.za"
             className={input} inputMode="tel" />
         </Field>
+      </Card>
+
+      {/* Franchise / brand link */}
+      <Card step="6" title="Is this a franchise or branch of a known brand?">
+        <div className="space-y-4">
+          {/* Toggle */}
+          <button type="button"
+            onClick={() => { setIsFranchise(v => !v); setSelectedBrandId(''); setBrandSearch(''); setFranchiseName(''); setFranchiseEmail('') }}
+            className={`w-full flex items-center justify-between px-4 py-3.5 rounded-xl border-2 transition ${
+              isFranchise ? 'border-emerald-500 bg-emerald-50' : 'border-gray-200 bg-white hover:border-emerald-300'
+            }`}>
+            <div className="flex items-center gap-3">
+              <span className="text-xl">🏪</span>
+              <div className="text-left">
+                <p className={`text-sm font-semibold ${isFranchise ? 'text-emerald-800' : 'text-gray-800'}`}>
+                  Yes, I'm posting for a franchise / branch
+                </p>
+                <p className="text-xs text-gray-500 mt-0.5">e.g. Nando's Sandton, Spur Century City</p>
+              </div>
+            </div>
+            <div className={`w-10 h-6 rounded-full transition-colors relative shrink-0 ${isFranchise ? 'bg-emerald-500' : 'bg-gray-200'}`}>
+              <span className={`absolute top-1 w-4 h-4 bg-white rounded-full shadow transition-all ${isFranchise ? 'left-5' : 'left-1'}`} />
+            </div>
+          </button>
+
+          {isFranchise && (
+            <div className="space-y-4 pt-1">
+
+              {/* Brand search */}
+              <Field label="Parent brand" required>
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Search for a brand (e.g. Nando's, Spur...)"
+                    value={selectedBrand ? selectedBrand.name : brandSearch}
+                    onChange={e => { setBrandSearch(e.target.value); setSelectedBrandId(''); setBrandDropdownOpen(true) }}
+                    onFocus={() => setBrandDropdownOpen(true)}
+                    className={input}
+                    autoComplete="off"
+                  />
+                  {selectedBrandId && (
+                    <button type="button" onClick={() => { setSelectedBrandId(''); setBrandSearch(''); setBrandDropdownOpen(false) }}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  )}
+                  {brandDropdownOpen && !selectedBrandId && filteredBrands.length > 0 && (
+                    <div className="absolute z-20 top-full mt-1 left-0 right-0 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden">
+                      {filteredBrands.map(brand => (
+                        <button key={brand.id} type="button"
+                          onMouseDown={() => { setSelectedBrandId(brand.id); setBrandSearch(''); setBrandDropdownOpen(false) }}
+                          className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 text-left transition">
+                          <div className="w-7 h-7 rounded-lg bg-emerald-100 flex items-center justify-center shrink-0">
+                            <span className="text-xs font-bold text-emerald-700">{brand.name[0]}</span>
+                          </div>
+                          <div>
+                            <p className="text-sm font-semibold text-gray-900">{brand.name}</p>
+                            <p className="text-xs text-gray-400">{brand.industry}</p>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                {selectedBrand && (
+                  <div className="mt-2 flex items-center gap-2 text-xs text-emerald-700 bg-emerald-50 px-3 py-2 rounded-lg">
+                    <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Linked to <strong>{selectedBrand.name}</strong> · Your job will appear on their brand page once approved
+                  </div>
+                )}
+              </Field>
+
+              {/* Branch name */}
+              <Field label="Your branch / franchise name" required hint="How your specific location is known (e.g. Nando's Sandton, Spur V&A Waterfront)">
+                <input
+                  type="text"
+                  placeholder="e.g. Nando's Sandton"
+                  value={franchiseName}
+                  onChange={e => setFranchiseName(e.target.value)}
+                  className={input}
+                />
+              </Field>
+
+              {/* Corporate email */}
+              <Field label="Corporate / franchise email" required
+                hint={selectedBrand ? `Must end in @${selectedBrand.website} to verify you're an authorised ${selectedBrand.name} franchisee` : 'Used to verify you are an authorised franchisee'}>
+                <input
+                  type="email"
+                  placeholder={selectedBrand ? `you@${selectedBrand.website}` : 'your@corporate-email.co.za'}
+                  value={franchiseEmail}
+                  onChange={e => setFranchiseEmail(e.target.value)}
+                  className={input}
+                />
+                {franchiseEmail && selectedBrand && (
+                  emailDomainValid()
+                    ? <p className="text-xs text-emerald-600 mt-1.5 flex items-center gap-1">
+                        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                        Domain matches — your request will go to admin for final approval
+                      </p>
+                    : <p className="text-xs text-red-500 mt-1.5 flex items-center gap-1">
+                        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                        Email domain must be @{selectedBrand.website}
+                      </p>
+                )}
+              </Field>
+
+              <div className="bg-amber-50 border border-amber-100 rounded-xl px-4 py-3 text-xs text-amber-700 leading-relaxed">
+                <strong>How it works:</strong> Your job will be submitted for normal review. The brand link is reviewed separately — once approved, your listing appears on the {selectedBrand?.name ?? 'brand'} page, labelled as a franchise. Applications still go directly to you.
+              </div>
+            </div>
+          )}
+        </div>
       </Card>
 
       {error && (

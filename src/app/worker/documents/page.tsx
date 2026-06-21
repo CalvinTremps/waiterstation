@@ -12,7 +12,7 @@ const TYPE_LABELS: Record<WorkerDocument['type'], string> = {
 }
 
 const TYPE_COLORS: Record<WorkerDocument['type'], string> = {
-  cv: 'bg-emerald-50 text-emerald-700',
+  cv: 'bg-gray-100 text-gray-800',
   reference: 'bg-blue-50 text-blue-700',
   certificate: 'bg-amber-50 text-amber-700',
   id: 'bg-purple-50 text-purple-700',
@@ -100,7 +100,7 @@ export default function DocumentsPage() {
           <p className="text-sm text-gray-500 mt-0.5">Manage your CV, references, and certificates</p>
         </div>
         <button onClick={() => setShowUpload(o => !o)}
-          className="bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition shrink-0 flex items-center gap-2">
+          className="bg-gray-900 hover:bg-gray-800 text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition shrink-0 flex items-center gap-2">
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
           </svg>
@@ -123,35 +123,35 @@ export default function DocumentsPage() {
 
       {/* Upload form */}
       {showUpload && (
-        <div className="bg-white border border-emerald-200 rounded-xl p-5 space-y-4">
+        <div className="bg-white border border-gray-200 rounded-xl p-5 space-y-4">
           <h2 className="font-semibold text-gray-900">Upload document</h2>
 
           <div>
-            <label className="block text-xs font-semibold text-gray-700 mb-1.5">Document name <span className="text-emerald-600">*</span></label>
+            <label className="block text-xs font-semibold text-gray-700 mb-1.5">Document name <span className="text-gray-900">*</span></label>
             <input value={newName} onChange={e => setNewName(e.target.value)}
               placeholder="e.g. My CV, Reference from The Test Kitchen"
-              className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-400" />
+              className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-gray-500" />
           </div>
 
           <div>
             <label className="block text-xs font-semibold text-gray-700 mb-1.5">Document type</label>
             <select value={newType} onChange={e => setNewType(e.target.value as WorkerDocument['type'])}
-              className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-400 bg-white">
+              className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-gray-500 bg-white">
               {(Object.keys(TYPE_LABELS) as WorkerDocument['type'][]).map(t => (
                 <option key={t} value={t}>{TYPE_LABELS[t]}</option>
               ))}
             </select>
           </div>
 
-          <div className="border-2 border-dashed border-gray-200 rounded-xl p-8 text-center text-gray-400 hover:border-emerald-300 transition cursor-pointer"
+          <div className="border-2 border-dashed border-gray-200 rounded-xl p-8 text-center text-gray-400 hover:border-gray-300 transition cursor-pointer"
             onClick={simulateUpload}>
             {uploading ? (
               <div className="flex flex-col items-center gap-2">
-                <svg className="w-8 h-8 text-emerald-500 animate-spin" fill="none" viewBox="0 0 24 24">
+                <svg className="w-8 h-8 text-gray-700 animate-spin" fill="none" viewBox="0 0 24 24">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth={4} />
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                 </svg>
-                <p className="text-sm font-medium text-emerald-600">Uploading...</p>
+                <p className="text-sm font-medium text-gray-900">Uploading...</p>
               </div>
             ) : (
               <>
@@ -166,7 +166,7 @@ export default function DocumentsPage() {
 
           <div className="flex gap-3">
             <button onClick={simulateUpload} disabled={!newName.trim() || uploading}
-              className="bg-emerald-600 hover:bg-emerald-700 disabled:opacity-40 text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition">
+              className="bg-gray-900 hover:bg-gray-800 disabled:opacity-40 text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition">
               {uploading ? 'Uploading...' : 'Upload'}
             </button>
             <button onClick={() => setShowUpload(false)}
@@ -214,7 +214,7 @@ export default function DocumentsPage() {
                 </div>
               </div>
               <div className="flex items-center gap-1 shrink-0">
-                <button className="p-2 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition"
+                <button className="p-2 text-gray-400 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition"
                   title="Download">
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />

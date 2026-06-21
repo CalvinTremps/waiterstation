@@ -105,8 +105,8 @@ export default function PostJobForm() {
   if (success) {
     return (
       <div className="bg-white border border-gray-200 rounded-2xl p-10 text-center shadow-sm">
-        <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-5">
-          <svg className="w-8 h-8 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+        <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-5">
+          <svg className="w-8 h-8 text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
           </svg>
         </div>
@@ -116,7 +116,7 @@ export default function PostJobForm() {
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8">
           <a href="/employer"
-            className="bg-emerald-600 text-white font-semibold px-6 py-3 rounded-xl text-sm hover:bg-emerald-700 transition">
+            className="bg-gray-900 text-white font-semibold px-6 py-3 rounded-xl text-sm hover:bg-gray-800 transition">
             View my listings
           </a>
           <a href="/post-job"
@@ -141,11 +141,11 @@ export default function PostJobForm() {
               <button key={r} type="button" onClick={() => setRole(r === role ? '' : r)}
                 className={`flex flex-col items-center gap-2 px-3 py-4 rounded-xl border-2 text-center transition group ${
                   selected
-                    ? 'border-emerald-500 bg-emerald-50'
-                    : 'border-gray-200 bg-white hover:border-emerald-300 hover:bg-gray-50'
+                    ? 'border-gray-700 bg-gray-100'
+                    : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'
                 }`}>
                 <span className="text-2xl leading-none">{icon}</span>
-                <span className={`text-xs font-semibold leading-tight ${selected ? 'text-emerald-700' : 'text-gray-700'}`}>
+                <span className={`text-xs font-semibold leading-tight ${selected ? 'text-gray-800' : 'text-gray-700'}`}>
                   {ROLE_LABELS[r]}
                 </span>
               </button>
@@ -163,13 +163,13 @@ export default function PostJobForm() {
               <button key={t} type="button" onClick={() => setEmpType(t === empType ? '' : t)}
                 className={`flex flex-col items-center gap-1.5 px-3 py-4 rounded-xl border-2 transition ${
                   selected
-                    ? 'border-emerald-500 bg-emerald-50'
-                    : 'border-gray-200 bg-white hover:border-emerald-300'
+                    ? 'border-gray-700 bg-gray-100'
+                    : 'border-gray-200 bg-white hover:border-gray-300'
                 }`}>
-                <span className={`text-sm font-bold ${selected ? 'text-emerald-700' : 'text-gray-800'}`}>
+                <span className={`text-sm font-bold ${selected ? 'text-gray-800' : 'text-gray-800'}`}>
                   {EMPLOYMENT_TYPE_LABELS[t]}
                 </span>
-                <span className={`text-[11px] ${selected ? 'text-emerald-600' : 'text-gray-400'}`}>
+                <span className={`text-[11px] ${selected ? 'text-gray-900' : 'text-gray-400'}`}>
                   {EMPLOYMENT_DESCRIPTIONS[t]}
                 </span>
               </button>
@@ -222,18 +222,18 @@ export default function PostJobForm() {
           <button type="button"
             onClick={() => { setIsFranchise(v => !v); setSelectedBrandId(''); setBrandSearch(''); setFranchiseName(''); setFranchiseEmail('') }}
             className={`w-full flex items-center justify-between px-4 py-3.5 rounded-xl border-2 transition ${
-              isFranchise ? 'border-emerald-500 bg-emerald-50' : 'border-gray-200 bg-white hover:border-emerald-300'
+              isFranchise ? 'border-gray-700 bg-gray-100' : 'border-gray-200 bg-white hover:border-gray-300'
             }`}>
             <div className="flex items-center gap-3">
               <span className="text-xl">🏪</span>
               <div className="text-left">
-                <p className={`text-sm font-semibold ${isFranchise ? 'text-emerald-800' : 'text-gray-800'}`}>
+                <p className={`text-sm font-semibold ${isFranchise ? 'text-gray-900' : 'text-gray-800'}`}>
                   Yes, I'm posting for a franchise / branch
                 </p>
                 <p className="text-xs text-gray-500 mt-0.5">e.g. Nando's Sandton, Spur Century City</p>
               </div>
             </div>
-            <div className={`w-10 h-6 rounded-full transition-colors relative shrink-0 ${isFranchise ? 'bg-emerald-500' : 'bg-gray-200'}`}>
+            <div className={`w-10 h-6 rounded-full transition-colors relative shrink-0 ${isFranchise ? 'bg-gray-700' : 'bg-gray-200'}`}>
               <span className={`absolute top-1 w-4 h-4 bg-white rounded-full shadow transition-all ${isFranchise ? 'left-5' : 'left-1'}`} />
             </div>
           </button>
@@ -267,8 +267,8 @@ export default function PostJobForm() {
                         <button key={brand.id} type="button"
                           onMouseDown={() => { setSelectedBrandId(brand.id); setBrandSearch(''); setBrandDropdownOpen(false) }}
                           className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 text-left transition">
-                          <div className="w-7 h-7 rounded-lg bg-emerald-100 flex items-center justify-center shrink-0">
-                            <span className="text-xs font-bold text-emerald-700">{brand.name[0]}</span>
+                          <div className="w-7 h-7 rounded-lg bg-gray-100 flex items-center justify-center shrink-0">
+                            <span className="text-xs font-bold text-gray-800">{brand.name[0]}</span>
                           </div>
                           <div>
                             <p className="text-sm font-semibold text-gray-900">{brand.name}</p>
@@ -280,7 +280,7 @@ export default function PostJobForm() {
                   )}
                 </div>
                 {selectedBrand && (
-                  <div className="mt-2 flex items-center gap-2 text-xs text-emerald-700 bg-emerald-50 px-3 py-2 rounded-lg">
+                  <div className="mt-2 flex items-center gap-2 text-xs text-gray-800 bg-gray-100 px-3 py-2 rounded-lg">
                     <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                     </svg>
@@ -312,7 +312,7 @@ export default function PostJobForm() {
                 />
                 {franchiseEmail && selectedBrand && (
                   emailDomainValid()
-                    ? <p className="text-xs text-emerald-600 mt-1.5 flex items-center gap-1">
+                    ? <p className="text-xs text-gray-900 mt-1.5 flex items-center gap-1">
                         <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
                         Domain matches — your request will go to admin for final approval
                       </p>
@@ -341,7 +341,7 @@ export default function PostJobForm() {
       )}
 
       <button type="submit" disabled={loading}
-        className="w-full bg-emerald-600 text-white font-bold py-4 rounded-xl text-base hover:bg-emerald-700 active:bg-emerald-800 transition disabled:opacity-60 flex items-center justify-center gap-2">
+        className="w-full bg-gray-900 text-white font-bold py-4 rounded-xl text-base hover:bg-gray-800 active:bg-gray-900 transition disabled:opacity-60 flex items-center justify-center gap-2">
         {loading ? (
           <>
             <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
@@ -372,7 +372,7 @@ function Card({ step, title, required, children }: {
           {step}
         </span>
         <h2 className="font-bold text-gray-900 text-base">
-          {title}{required && <span className="text-emerald-500 ml-0.5">*</span>}
+          {title}{required && <span className="text-gray-700 ml-0.5">*</span>}
         </h2>
       </div>
       {children}
@@ -386,7 +386,7 @@ function Field({ label, hint, required, children }: {
   return (
     <div>
       <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-        {label}{required && <span className="text-emerald-500 ml-0.5">*</span>}
+        {label}{required && <span className="text-gray-700 ml-0.5">*</span>}
       </label>
       {hint && <p className="text-xs text-gray-400 mb-1.5">{hint}</p>}
       {children}
@@ -394,4 +394,4 @@ function Field({ label, hint, required, children }: {
   )
 }
 
-const input = 'w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:bg-white focus:border-emerald-400 placeholder:text-gray-400 transition'
+const input = 'w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-gray-500 focus:bg-white focus:border-gray-500 placeholder:text-gray-400 transition'

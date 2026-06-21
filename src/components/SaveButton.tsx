@@ -35,7 +35,7 @@ export default function SaveButton({ jobId, size = 'sm' }: { jobId: string; size
 
   const iconSize = size === 'lg' ? 'w-5 h-5' : 'w-4 h-4'
   const btnSize = size === 'lg'
-    ? 'p-2.5 rounded-xl border border-gray-200 bg-white hover:border-emerald-300'
+    ? 'p-2.5 rounded-xl border border-gray-200 bg-white hover:border-gray-300'
     : 'p-1.5 rounded-lg hover:bg-gray-100'
 
   return (
@@ -46,7 +46,7 @@ export default function SaveButton({ jobId, size = 'sm' }: { jobId: string; size
       className={`shrink-0 transition ${btnSize}`}
     >
       <svg
-        className={`${iconSize} transition-colors ${saved ? 'text-emerald-600 fill-emerald-600' : 'text-gray-400 fill-none'}`}
+        className={`${iconSize} transition-colors ${saved ? 'text-gray-900 fill-gray-900' : 'text-gray-400 fill-none'}`}
         viewBox="0 0 24 24"
         stroke="currentColor"
         strokeWidth={2}

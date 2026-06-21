@@ -20,8 +20,8 @@ const STATUS_STYLES: Record<AppStatus, string> = {
   viewed:      'bg-blue-50 text-blue-700',
   shortlisted: 'bg-amber-50 text-amber-700',
   interview:   'bg-purple-50 text-purple-700',
-  offered:     'bg-emerald-50 text-emerald-700',
-  hired:       'bg-emerald-100 text-emerald-800',
+  offered:     'bg-gray-100 text-gray-800',
+  hired:       'bg-gray-100 text-gray-900',
   rejected:    'bg-red-50 text-red-600',
   withdrawn:   'bg-gray-100 text-gray-400',
 }
@@ -77,8 +77,8 @@ function ApplicationCard({ app, onWithdraw }: { app: RealWorkerApplication; onWi
       </div>
 
       {app.status === 'offered' && (
-        <div className="bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-2.5">
-          <p className="text-xs font-semibold text-emerald-800">Offer received — the employer will contact you directly.</p>
+        <div className="bg-gray-100 border border-gray-200 rounded-lg px-3 py-2.5">
+          <p className="text-xs font-semibold text-gray-900">Offer received — the employer will contact you directly.</p>
         </div>
       )}
 
@@ -106,7 +106,7 @@ function ApplicationCard({ app, onWithdraw }: { app: RealWorkerApplication; onWi
           )
         )}
         {isActive(app.status) && (
-          <a href={`/jobs/${app.job_id}`} className="text-xs text-emerald-700 font-medium hover:underline">
+          <a href={`/jobs/${app.job_id}`} className="text-xs text-gray-800 font-medium hover:underline">
             View job →
           </a>
         )}
@@ -175,7 +175,7 @@ export default function ApplicationsClient({ initialApplications }: { initialApp
 
       <input value={search} onChange={e => setSearch(e.target.value)}
         placeholder="Search by job or employer..."
-        className="w-full max-w-sm text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-400" />
+        className="w-full max-w-sm text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-500" />
 
       {applications.length === 0 ? (
         <div className="text-center py-20 text-gray-400">
@@ -184,7 +184,7 @@ export default function ApplicationsClient({ initialApplications }: { initialApp
           </svg>
           <p className="font-medium">No applications yet</p>
           <p className="text-sm mt-1">
-            <a href="/" className="text-emerald-600 font-semibold hover:underline">Browse jobs</a> and apply in seconds.
+            <a href="/" className="text-gray-900 font-semibold hover:underline">Browse jobs</a> and apply in seconds.
           </p>
         </div>
       ) : filtered.length === 0 ? (

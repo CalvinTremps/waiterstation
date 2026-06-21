@@ -446,7 +446,7 @@ function CompaniesPageInner() {
           <div className="mt-10 bg-gray-50 border border-gray-200 rounded-xl p-6 text-center">
             <p className="font-semibold text-gray-900 mb-1">Know a workplace not listed here?</p>
             <p className="text-sm text-gray-500 mb-4">Share your experience in the community to help other hospitality workers.</p>
-            <a href="/community" className="text-sm font-semibold text-white bg-emerald-600 px-5 py-2.5 rounded-md hover:bg-emerald-700 transition inline-block">
+            <a href="/community" className="text-sm font-semibold text-white bg-gray-900 px-5 py-2.5 rounded-md hover:bg-gray-800 transition inline-block">
               Go to Community
             </a>
           </div>

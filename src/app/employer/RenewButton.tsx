@@ -17,7 +17,7 @@ export default function RenewButton({ jobId }: { jobId: string }) {
     <button
       onClick={handleRenew}
       disabled={loading}
-      className="text-xs font-medium text-emerald-700 border border-emerald-200 px-3 py-1.5 rounded hover:bg-emerald-50 transition disabled:opacity-50"
+      className="text-xs font-medium text-gray-800 border border-gray-200 px-3 py-1.5 rounded hover:bg-gray-100 transition disabled:opacity-50"
     >
       {loading ? 'Renewing...' : 'Renew listing'}
     </button>

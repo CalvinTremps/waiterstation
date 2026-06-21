@@ -83,7 +83,7 @@ export default function PrivacyPage() {
           </ul>
           <p className="mt-3">
             To exercise any of these rights, contact us at{' '}
-            <a href="mailto:hello@waiterstation.co.za" className="text-emerald-600 hover:underline">hello@waiterstation.co.za</a>.
+            <a href="mailto:hello@waiterstation.co.za" className="text-gray-900 hover:underline">hello@waiterstation.co.za</a>.
           </p>
         </section>
 
@@ -107,7 +107,7 @@ export default function PrivacyPage() {
           <h2 className="text-base font-semibold text-gray-800 mb-2">10. Contact</h2>
           <p>
             Questions about this policy? Email us at{' '}
-            <a href="mailto:hello@waiterstation.co.za" className="text-emerald-600 hover:underline">hello@waiterstation.co.za</a>.
+            <a href="mailto:hello@waiterstation.co.za" className="text-gray-900 hover:underline">hello@waiterstation.co.za</a>.
           </p>
         </section>
 

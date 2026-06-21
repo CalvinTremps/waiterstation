@@ -308,7 +308,7 @@ export const MOCK_MESSAGES: WorkerMessage[] = [
     last_message: 'Hi Thabo, congratulations! We would like to extend a formal offer...',
     last_message_at: daysAgo(2),
     unread: true,
-    avatar_color: 'bg-emerald-700',
+    avatar_color: 'bg-gray-800',
     avatar_initials: 'OO',
     thread: [
       { from: 'employer', text: 'Hi Thabo, thank you for coming in for the interview. We were very impressed with your experience and wine knowledge.', at: daysAgo(4) },

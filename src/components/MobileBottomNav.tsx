@@ -3,7 +3,7 @@ import { usePathname } from 'next/navigation'
 
 function NavItem({ href, label, active, children }: { href: string; label: string; active: boolean; children: React.ReactNode }) {
   return (
-    <a href={href} className={`flex-1 flex flex-col items-center justify-center gap-1 py-2.5 transition ${active ? 'text-emerald-600' : 'text-gray-400 hover:text-gray-600'}`}>
+    <a href={href} className={`flex-1 flex flex-col items-center justify-center gap-1 py-2.5 transition ${active ? 'text-gray-900' : 'text-gray-400 hover:text-gray-600'}`}>
       {children}
       <span className="text-[10px] font-medium leading-none">{label}</span>
     </a>
@@ -38,7 +38,7 @@ export default function MobileBottomNav() {
           </svg>
         </NavItem>
         <div className="flex-1 flex items-center justify-center">
-          <a href="/post-job" className="bg-emerald-600 text-white rounded-full w-11 h-11 flex items-center justify-center hover:bg-emerald-700 transition shadow-md" aria-label="Post a job">
+          <a href="/post-job" className="bg-gray-900 text-white rounded-full w-11 h-11 flex items-center justify-center hover:bg-gray-800 transition shadow-md" aria-label="Post a job">
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4"/>
             </svg>

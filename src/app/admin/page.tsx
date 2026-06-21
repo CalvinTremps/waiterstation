@@ -83,7 +83,7 @@ export default async function AdminPage({
       {/* Stats */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
         <StatCard label="Pending" value={pendingCount ?? 0} color="text-amber-600" />
-        <StatCard label="Live jobs" value={approvedCount ?? 0} color="text-emerald-600" />
+        <StatCard label="Live jobs" value={approvedCount ?? 0} color="text-gray-900" />
         <StatCard label="Expired" value={expiredCount ?? 0} color="text-gray-400" />
         <StatCard label="Workers" value={workerCount ?? 0} color="text-blue-600" />
       </div>
@@ -96,13 +96,13 @@ export default async function AdminPage({
             href={`/admin?tab=${t.key}`}
             className={`shrink-0 flex items-center gap-1.5 px-4 py-2 rounded-md text-sm font-medium transition
               ${tab === t.key
-                ? t.highlight ? 'bg-purple-600 text-white' : 'bg-emerald-600 text-white'
+                ? t.highlight ? 'bg-purple-600 text-white' : 'bg-gray-900 text-white'
                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
           >
             {t.label}
             <span className={`text-xs font-bold px-1.5 py-0.5 rounded-md
               ${tab === t.key
-                ? t.highlight ? 'bg-purple-500 text-white' : 'bg-emerald-500 text-white'
+                ? t.highlight ? 'bg-purple-500 text-white' : 'bg-gray-700 text-white'
                 : 'bg-gray-200 text-gray-500'}`}>
               {t.count}
             </span>
@@ -143,7 +143,7 @@ export default async function AdminPage({
                         <p><span className="font-medium text-gray-700">Brand website:</span> {brand?.website}</p>
                         <p className="text-[11px] text-gray-400">
                           Domain match: {job.franchise_email?.split('@')[1] === brand?.website
-                            ? <span className="text-emerald-600 font-semibold">✓ Matches</span>
+                            ? <span className="text-gray-900 font-semibold">✓ Matches</span>
                             : <span className="text-red-500 font-semibold">✗ Mismatch — review carefully</span>}
                         </p>
                       </div>
@@ -191,7 +191,7 @@ export default async function AdminPage({
                       <span>{ROLE_LABELS[job.role_category]}</span>
                       <span>·</span>
                       <span>{EMPLOYMENT_TYPE_LABELS[job.employment_type]}</span>
-                      {job.pay && <><span>·</span><span className="text-emerald-700 font-medium">{job.pay}</span></>}
+                      {job.pay && <><span>·</span><span className="text-gray-800 font-medium">{job.pay}</span></>}
                     </div>
                   </div>
                 </div>

@@ -73,7 +73,7 @@ const FEATURE_TABS = [
 const HIRING_OPTIONS = [
   {
     badge: 'Free',
-    badgeColor: 'bg-emerald-100 text-emerald-700',
+    badgeColor: 'bg-gray-100 text-gray-800',
     title: 'Post a job',
     subtitle: 'Start hiring today',
     description: 'List your role and reach active hospitality job seekers across South Africa at no cost during our beta.',
@@ -85,7 +85,7 @@ const HIRING_OPTIONS = [
     ],
     cta: 'Post for free',
     ctaHref: '/post-job',
-    ctaStyle: 'bg-emerald-600 hover:bg-emerald-700 text-white',
+    ctaStyle: 'bg-gray-900 hover:bg-gray-800 text-white',
     highlight: false,
   },
   {
@@ -137,7 +137,7 @@ const TESTIMONIALS = [
     name: 'Cape Town restaurant owner',
     role: 'Fine dining, V&A Waterfront',
     initials: 'CT',
-    color: 'bg-emerald-600',
+    color: 'bg-gray-900',
   },
   {
     quote: 'No CVs, no recruitment agencies, no drama. Just people who saw the job and were interested. Exactly what we needed.',
@@ -161,7 +161,7 @@ const RESOURCES = [
     title: 'Writing a job post that gets results',
     description: 'Practical tips for writing listings that attract the right hospitality candidates quickly.',
     href: '/how-it-works',
-    gradient: 'from-emerald-400 to-teal-500',
+    gradient: 'from-gray-500 to-teal-500',
     icon: (
       <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
@@ -269,7 +269,7 @@ function FeatureTabs() {
             ))}
           </div>
           <a href={tab.ctaHref}
-            className="inline-flex items-center gap-1.5 mt-6 text-sm font-semibold text-emerald-600 hover:underline">
+            className="inline-flex items-center gap-1.5 mt-6 text-sm font-semibold text-gray-900 hover:underline">
             {tab.cta}
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -287,7 +287,7 @@ function FeatureTabs() {
             </div>
             <div className="p-4 space-y-3">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-emerald-600 flex items-center justify-center shrink-0">
+                <div className="w-8 h-8 rounded-lg bg-gray-900 flex items-center justify-center shrink-0">
                   <span className="text-white text-xs font-bold">W</span>
                 </div>
                 <div>
@@ -297,13 +297,13 @@ function FeatureTabs() {
               </div>
               {activeTab === 'post' && (
                 <>
-                  <div className="border border-emerald-200 bg-emerald-50 rounded-lg p-3">
+                  <div className="border border-gray-200 bg-gray-100 rounded-lg p-3">
                     <div className="flex items-center gap-2 mb-2">
-                      <div className="w-2 h-2 rounded-full bg-emerald-500" />
-                      <div className="h-2.5 w-28 bg-emerald-300 rounded" />
+                      <div className="w-2 h-2 rounded-full bg-gray-700" />
+                      <div className="h-2.5 w-28 bg-gray-300 rounded" />
                     </div>
-                    <div className="h-2 w-40 bg-emerald-200 rounded mb-1" />
-                    <div className="h-2 w-32 bg-emerald-200 rounded" />
+                    <div className="h-2 w-40 bg-gray-200 rounded mb-1" />
+                    <div className="h-2 w-32 bg-gray-200 rounded" />
                   </div>
                   {[1,2,3].map(n => (
                     <div key={n} className="flex items-center gap-3 p-2.5 border border-gray-100 rounded-lg">
@@ -312,7 +312,7 @@ function FeatureTabs() {
                         <div className="h-2.5 bg-gray-200 rounded w-3/4 mb-1" />
                         <div className="h-2 bg-gray-100 rounded w-1/2" />
                       </div>
-                      <div className="h-5 w-12 bg-emerald-100 rounded-full" />
+                      <div className="h-5 w-12 bg-gray-100 rounded-full" />
                     </div>
                   ))}
                 </>
@@ -332,19 +332,19 @@ function FeatureTabs() {
                         <div className="text-xs font-semibold text-gray-700">{app.name}</div>
                         <div className="text-[10px] text-gray-400">{app.role}</div>
                       </div>
-                      {app.badge && <span className="text-[10px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full font-semibold">{app.badge}</span>}
+                      {app.badge && <span className="text-[10px] bg-gray-100 text-gray-800 px-2 py-0.5 rounded-full font-semibold">{app.badge}</span>}
                     </div>
                   ))}
                 </div>
               )}
               {activeTab === 'hire' && (
                 <>
-                  <div className="flex items-center justify-between p-3 bg-emerald-50 border border-emerald-200 rounded-lg">
+                  <div className="flex items-center justify-between p-3 bg-gray-100 border border-gray-200 rounded-lg">
                     <div>
-                      <div className="text-xs font-bold text-emerald-800">Waiter hired! 🎉</div>
-                      <div className="text-[10px] text-emerald-600 mt-0.5">Senior Waiter · Cape Town</div>
+                      <div className="text-xs font-bold text-gray-900">Waiter hired! 🎉</div>
+                      <div className="text-[10px] text-gray-900 mt-0.5">Senior Waiter · Cape Town</div>
                     </div>
-                    <div className="text-[10px] text-emerald-600 font-medium">48h</div>
+                    <div className="text-[10px] text-gray-900 font-medium">48h</div>
                   </div>
                   <div className="grid grid-cols-3 gap-2">
                     {[
@@ -381,7 +381,7 @@ export default function EmployersPage() {
 
         <div className="relative max-w-6xl mx-auto px-4 py-20 md:py-28 grid md:grid-cols-2 gap-12 items-center">
           <div>
-            <span className="inline-block text-xs font-bold uppercase tracking-widest text-emerald-400 mb-4">
+            <span className="inline-block text-xs font-bold uppercase tracking-widest text-gray-500 mb-4">
               Waiterstation for Employers
             </span>
             <h1 className="text-3xl md:text-5xl font-extrabold leading-tight mb-5">
@@ -392,7 +392,7 @@ export default function EmployersPage() {
             </p>
             <div className="flex items-center gap-3 flex-wrap">
               <a href="/post-job"
-                className="inline-block bg-emerald-500 hover:bg-emerald-400 text-white font-bold px-7 py-3.5 rounded-lg text-sm transition">
+                className="inline-block bg-gray-700 hover:bg-gray-500 text-white font-bold px-7 py-3.5 rounded-lg text-sm transition">
                 Post a job
               </a>
               <a href="#how-it-works"
@@ -408,11 +408,11 @@ export default function EmployersPage() {
               <p className="text-xs font-semibold text-gray-500 mb-3">Post your first job in 2 minutes</p>
               <div className="space-y-2 mb-3">
                 <input name="prefill_title" placeholder="What role are you hiring?"
-                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-xs text-gray-800 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-emerald-400 placeholder:text-gray-400" />
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-xs text-gray-800 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 placeholder:text-gray-400" />
                 <input name="prefill_location" placeholder="Cape Town, Johannesburg, Durban…"
-                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-xs text-gray-800 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-emerald-400 placeholder:text-gray-400" />
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-xs text-gray-800 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 placeholder:text-gray-400" />
               </div>
-              <button type="submit" className="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold py-2 rounded-lg transition">Get started</button>
+              <button type="submit" className="w-full bg-gray-900 hover:bg-gray-800 text-white text-xs font-bold py-2 rounded-lg transition">Get started</button>
               <div className="mt-3 space-y-1.5">
                 {[
                   { name: 'Thabo N.', role: 'Senior Waiter · Cape Town', exp: '5 yrs' },
@@ -420,8 +420,8 @@ export default function EmployersPage() {
                   { name: 'Amahle K.', role: 'Hotel Receptionist · Durban', exp: '4 yrs' },
                 ].map(p => (
                   <div key={p.name} className="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-gray-50">
-                    <div className="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center shrink-0">
-                      <span className="text-[9px] font-bold text-emerald-700">{p.name.charAt(0)}</span>
+                    <div className="w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center shrink-0">
+                      <span className="text-[9px] font-bold text-gray-800">{p.name.charAt(0)}</span>
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-[11px] font-semibold text-gray-800 truncate">{p.name}</p>
@@ -434,10 +434,10 @@ export default function EmployersPage() {
             </form>
 
             <div className="bg-gray-900 border border-gray-700 rounded-2xl p-5 w-full max-w-xs text-center">
-              <div className="text-3xl font-extrabold text-emerald-400">10 000+</div>
+              <div className="text-3xl font-extrabold text-gray-500">10 000+</div>
               <p className="text-sm text-gray-300 mt-1">SA hospitality job seekers on the platform</p>
               <a href="/post-job"
-                className="mt-4 inline-block bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-5 py-2 rounded-lg transition">
+                className="mt-4 inline-block bg-gray-900 hover:bg-gray-700 text-white text-xs font-bold px-5 py-2 rounded-lg transition">
                 Get started
               </a>
             </div>
@@ -448,7 +448,7 @@ export default function EmployersPage() {
       {/* Everything you need */}
       <div className="bg-white px-4 py-20">
         <div className="max-w-5xl mx-auto">
-          <p className="text-center text-xs font-bold uppercase tracking-widest text-emerald-600 mb-2">End-to-end hiring</p>
+          <p className="text-center text-xs font-bold uppercase tracking-widest text-gray-900 mb-2">End-to-end hiring</p>
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900 text-center mb-12">
             Everything you need for hospitality hiring
           </h2>
@@ -459,7 +459,7 @@ export default function EmployersPage() {
       {/* Flexible ways */}
       <div id="how-it-works" className="bg-gray-50 border-y border-gray-100 px-4 py-20">
         <div className="max-w-5xl mx-auto">
-          <p className="text-center text-xs font-bold uppercase tracking-widest text-emerald-600 mb-2">Flexible options</p>
+          <p className="text-center text-xs font-bold uppercase tracking-widest text-gray-900 mb-2">Flexible options</p>
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900 text-center mb-3">
             Flexible ways to get started
           </h2>
@@ -481,7 +481,7 @@ export default function EmployersPage() {
                 <ul className="space-y-2 mb-6 flex-1">
                   {opt.points.map(p => (
                     <li key={p} className="flex items-start gap-2 text-sm text-gray-700">
-                      <svg className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <svg className="w-4 h-4 text-gray-700 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                       </svg>
                       {p}
@@ -516,7 +516,7 @@ export default function EmployersPage() {
       </div>
 
       {/* How it works steps */}
-      <div className="bg-emerald-600 text-white px-4 py-16">
+      <div className="bg-gray-900 text-white px-4 py-16">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-xl md:text-2xl font-bold text-center mb-12">From post to hire in 4 steps</h2>
           <div className="grid md:grid-cols-4 gap-8 text-center relative">
@@ -528,17 +528,17 @@ export default function EmployersPage() {
               { step: '4', label: 'Applications arrive', sub: 'Candidates apply directly and you get their contact details' },
             ].map(({ step, label, sub }) => (
               <div key={step} className="relative">
-                <div className="w-12 h-12 rounded-full bg-white text-emerald-600 font-extrabold text-lg flex items-center justify-center mx-auto mb-4 shadow-md">
+                <div className="w-12 h-12 rounded-full bg-white text-gray-900 font-extrabold text-lg flex items-center justify-center mx-auto mb-4 shadow-md">
                   {step}
                 </div>
                 <p className="font-bold text-sm mb-1">{label}</p>
-                <p className="text-xs text-emerald-100 leading-relaxed">{sub}</p>
+                <p className="text-xs text-gray-100 leading-relaxed">{sub}</p>
               </div>
             ))}
           </div>
           <div className="text-center mt-10">
             <a href="/post-job"
-              className="inline-block bg-white text-emerald-600 font-bold px-7 py-3.5 rounded-lg text-sm hover:bg-emerald-50 transition">
+              className="inline-block bg-white text-gray-900 font-bold px-7 py-3.5 rounded-lg text-sm hover:bg-gray-100 transition">
               Post your first job →
             </a>
           </div>
@@ -548,12 +548,12 @@ export default function EmployersPage() {
       {/* Testimonials */}
       <div className="bg-white px-4 py-16">
         <div className="max-w-4xl mx-auto">
-          <p className="text-center text-xs font-bold uppercase tracking-widest text-emerald-600 mb-2">What employers say</p>
+          <p className="text-center text-xs font-bold uppercase tracking-widest text-gray-900 mb-2">What employers say</p>
           <h2 className="text-xl md:text-2xl font-bold text-gray-900 text-center mb-10">Real results from real employers</h2>
           <div className="grid md:grid-cols-3 gap-5">
             {TESTIMONIALS.map((t, i) => (
               <div key={i} className="bg-gray-50 border border-gray-100 rounded-2xl p-5 flex flex-col">
-                <svg className="w-6 h-6 text-emerald-400 mb-3 shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                <svg className="w-6 h-6 text-gray-500 mb-3 shrink-0" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
                 </svg>
                 <p className="text-sm text-gray-700 leading-relaxed flex-1 mb-4">"{t.quote}"</p>
@@ -589,9 +589,9 @@ export default function EmployersPage() {
                 </div>
                 <div className="p-4">
                   <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-1">{r.label}</p>
-                  <p className="text-sm font-bold text-gray-900 group-hover:text-emerald-600 transition mb-1">{r.title}</p>
+                  <p className="text-sm font-bold text-gray-900 group-hover:text-gray-900 transition mb-1">{r.title}</p>
                   <p className="text-xs text-gray-500 leading-relaxed">{r.description}</p>
-                  <span className="inline-flex items-center gap-1 mt-3 text-xs font-semibold text-emerald-600 group-hover:underline">
+                  <span className="inline-flex items-center gap-1 mt-3 text-xs font-semibold text-gray-900 group-hover:underline">
                     Read more →
                   </span>
                 </div>
@@ -609,7 +609,7 @@ export default function EmployersPage() {
             <p className="text-sm text-gray-500 leading-relaxed">
               Everything you need to know about hiring on Waiterstation. Can't find your answer?
             </p>
-            <a href="/community" className="inline-flex items-center gap-1 mt-4 text-sm font-semibold text-emerald-600 hover:underline">
+            <a href="/community" className="inline-flex items-center gap-1 mt-4 text-sm font-semibold text-gray-900 hover:underline">
               Ask in the community →
             </a>
           </div>
@@ -619,14 +619,14 @@ export default function EmployersPage() {
 
       {/* Bottom CTA */}
       <div className="bg-gray-950 text-white px-4 py-20 text-center">
-        <p className="text-xs font-bold uppercase tracking-widest text-emerald-400 mb-3">We're here to help</p>
+        <p className="text-xs font-bold uppercase tracking-widest text-gray-500 mb-3">We're here to help</p>
         <h2 className="text-2xl md:text-3xl font-bold mb-3">Ready to find your next hire?</h2>
         <p className="text-gray-400 text-sm mb-8 max-w-md mx-auto">
           It takes under 2 minutes. Post your listing and start receiving direct applications from hospitality workers today.
         </p>
         <div className="flex items-center justify-center gap-3 flex-wrap">
           <a href="/post-job"
-            className="inline-block bg-emerald-500 hover:bg-emerald-400 text-white font-bold px-8 py-4 rounded-lg text-sm transition">
+            className="inline-block bg-gray-700 hover:bg-gray-500 text-white font-bold px-8 py-4 rounded-lg text-sm transition">
             Post a job for free
           </a>
           <a href="/faq"

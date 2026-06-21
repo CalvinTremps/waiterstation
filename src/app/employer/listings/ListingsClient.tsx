@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Job } from '@/lib/types'
 
 const STATUS_STYLES: Record<string, string> = {
-  approved: 'bg-emerald-50 text-emerald-700',
+  approved: 'bg-gray-100 text-gray-800',
   pending:  'bg-amber-50 text-amber-700',
   expired:  'bg-red-50 text-red-600',
 }
@@ -61,7 +61,7 @@ export default function ListingsClient({ initialJobs }: { initialJobs: Job[] }) 
           <p className="text-sm text-gray-500 mt-0.5">{jobs.length} job{jobs.length !== 1 ? 's' : ''} posted</p>
         </div>
         <a href="/post-job"
-          className="flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition">
+          className="flex items-center gap-1.5 bg-gray-900 hover:bg-gray-800 text-white text-sm font-semibold px-4 py-2 rounded-lg transition">
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4"/>
           </svg>
@@ -88,7 +88,7 @@ export default function ListingsClient({ initialJobs }: { initialJobs: Job[] }) 
             {jobs.length === 0 ? (
               <div className="space-y-3">
                 <p className="font-medium">No listings yet</p>
-                <a href="/post-job" className="inline-block text-sm font-semibold text-emerald-700 hover:underline">
+                <a href="/post-job" className="inline-block text-sm font-semibold text-gray-800 hover:underline">
                   Post your first job →
                 </a>
               </div>
@@ -105,7 +105,7 @@ export default function ListingsClient({ initialJobs }: { initialJobs: Job[] }) 
                 <div className="min-w-0">
                   <p className="font-semibold text-gray-900 text-sm">{job.title}</p>
                   <p className="text-xs text-gray-500 mt-0.5">{job.location} · {EMP_LABELS[job.employment_type] ?? job.employment_type}</p>
-                  {job.pay && <p className="text-xs text-emerald-600 font-medium mt-0.5">{job.pay}</p>}
+                  {job.pay && <p className="text-xs text-gray-900 font-medium mt-0.5">{job.pay}</p>}
                   <p className="text-xs text-gray-400 mt-1">
                     Posted {new Date(job.created_at).toLocaleDateString('en-ZA', { day: 'numeric', month: 'short', year: 'numeric' })}
                   </p>
@@ -134,7 +134,7 @@ export default function ListingsClient({ initialJobs }: { initialJobs: Job[] }) 
                   <button
                     onClick={() => renewJob(job.id)}
                     disabled={actionLoading === job.id}
-                    className="text-xs font-medium text-emerald-700 bg-emerald-50 hover:bg-emerald-100 px-3 py-1.5 rounded-lg transition disabled:opacity-50">
+                    className="text-xs font-medium text-gray-800 bg-gray-100 hover:bg-gray-100 px-3 py-1.5 rounded-lg transition disabled:opacity-50">
                     {actionLoading === job.id ? 'Renewing…' : 'Renew listing'}
                   </button>
                 )}

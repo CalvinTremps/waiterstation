@@ -31,13 +31,13 @@ const LANGUAGE_OPTIONS = ['English', 'Afrikaans', 'Xhosa', 'Zulu', 'Sotho', 'Tsw
 
 const CERT_OPTIONS = ['WSET Level 1', 'WSET Level 2', 'WSET Level 3', 'Food Handlers Certificate', 'RASA Member', 'Flair Certificate', 'First Aid', 'Responsible Service of Alcohol']
 
-const input = 'w-full bg-white border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400 placeholder:text-gray-400'
+const input = 'w-full bg-white border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-gray-500 placeholder:text-gray-400'
 
 function Field({ label, hint, required, children }: { label: string; hint?: string; required?: boolean; children: React.ReactNode }) {
   return (
     <div>
       <label className="block text-sm font-semibold text-gray-800 mb-1.5">
-        {label}{required && <span className="text-emerald-600 ml-0.5">*</span>}
+        {label}{required && <span className="text-gray-900 ml-0.5">*</span>}
       </label>
       {hint && <p className="text-xs text-gray-400 mb-1.5">{hint}</p>}
       {children}
@@ -62,14 +62,14 @@ function ExperienceCard({ exp, onDelete }: { exp: WorkerExperience; onDelete: ()
   return (
     <div className="border border-gray-100 rounded-xl p-4 flex gap-3">
       <div className="w-2 shrink-0 mt-1">
-        <div className={`w-2 h-2 rounded-full ${exp.current ? 'bg-emerald-500' : 'bg-gray-300'}`} />
+        <div className={`w-2 h-2 rounded-full ${exp.current ? 'bg-gray-700' : 'bg-gray-300'}`} />
       </div>
       <div className="flex-1 min-w-0">
         <p className="font-semibold text-gray-900 text-sm">{exp.role}</p>
         <p className="text-sm text-gray-600">{exp.employer}</p>
         <p className="text-xs text-gray-400 mt-0.5">
           {fromMonth}/{fromYear} - {toLabel}
-          {exp.current && <span className="ml-1.5 text-emerald-600 font-semibold">Current</span>}
+          {exp.current && <span className="ml-1.5 text-gray-900 font-semibold">Current</span>}
         </p>
         {exp.description && (
           <p className="text-xs text-gray-500 mt-2 leading-relaxed">{exp.description}</p>
@@ -142,7 +142,7 @@ export default function WorkerProfilePage() {
           <span className="text-xs text-gray-500 font-medium">Open to work</span>
           <button onClick={() => set('open_to_work', !profile.open_to_work)}
             className={`relative inline-flex h-5 w-9 items-center rounded-full transition ${
-              profile.open_to_work ? 'bg-emerald-500' : 'bg-gray-300'
+              profile.open_to_work ? 'bg-gray-700' : 'bg-gray-300'
             }`}>
             <span className={`inline-block h-3.5 w-3.5 rounded-full bg-white shadow transition-transform ${
               profile.open_to_work ? 'translate-x-4.5' : 'translate-x-0.5'
@@ -165,8 +165,8 @@ export default function WorkerProfilePage() {
 
       {activeTab === 'preview' ? (
         <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-          <div className="bg-gradient-to-r from-emerald-700 to-emerald-500 h-20 relative">
-            <div className="absolute -bottom-8 left-5 w-16 h-16 bg-white rounded-xl border-2 border-white shadow flex items-center justify-center text-2xl font-bold text-emerald-700">
+          <div className="bg-gradient-to-r from-gray-800 to-gray-700 h-20 relative">
+            <div className="absolute -bottom-8 left-5 w-16 h-16 bg-white rounded-xl border-2 border-white shadow flex items-center justify-center text-2xl font-bold text-gray-800">
               {profile.name.charAt(0)}
             </div>
           </div>
@@ -175,7 +175,7 @@ export default function WorkerProfilePage() {
               <div className="flex items-center gap-2 flex-wrap">
                 <h2 className="text-xl font-bold text-gray-900">{profile.name}</h2>
                 {profile.open_to_work && (
-                  <span className="text-[11px] font-semibold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full">Open to work</span>
+                  <span className="text-[11px] font-semibold bg-gray-100 text-gray-800 px-2 py-0.5 rounded-full">Open to work</span>
                 )}
               </div>
               <p className="text-sm text-gray-500 mt-0.5 capitalize">
@@ -285,7 +285,7 @@ export default function WorkerProfilePage() {
                   <button key={r.key} type="button" onClick={() => set('role_category', r.key)}
                     className={`text-sm px-3 py-2.5 rounded-lg border text-left transition ${
                       profile.role_category === r.key
-                        ? 'border-emerald-400 bg-emerald-50 text-emerald-800 font-semibold'
+                        ? 'border-gray-500 bg-gray-100 text-gray-900 font-semibold'
                         : 'border-gray-200 text-gray-600 hover:border-gray-300'
                     }`}>
                     {r.label}
@@ -312,7 +312,7 @@ export default function WorkerProfilePage() {
                   <button key={s} type="button" onClick={() => toggleSkill(s)}
                     className={`text-xs px-3 py-2 rounded-lg border text-left transition ${
                       profile.skills.includes(s)
-                        ? 'border-emerald-400 bg-emerald-50 text-emerald-800 font-semibold'
+                        ? 'border-gray-500 bg-gray-100 text-gray-900 font-semibold'
                         : 'border-gray-200 text-gray-600 hover:border-gray-300'
                     }`}>
                     {s}
@@ -364,7 +364,7 @@ export default function WorkerProfilePage() {
             </div>
 
             {addingExp ? (
-              <div className="border border-emerald-200 bg-emerald-50 rounded-xl p-4 space-y-3 mt-3">
+              <div className="border border-gray-200 bg-gray-100 rounded-xl p-4 space-y-3 mt-3">
                 <p className="text-sm font-semibold text-gray-800">Add experience</p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
@@ -397,7 +397,7 @@ export default function WorkerProfilePage() {
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input type="checkbox" checked={newExp.current ?? false}
                     onChange={e => setNewExp(p => ({ ...p, current: e.target.checked }))}
-                    className="w-4 h-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-400" />
+                    className="w-4 h-4 rounded border-gray-300 text-gray-900 focus:ring-gray-500" />
                   <span className="text-sm text-gray-700">I currently work here</span>
                 </label>
                 <div>
@@ -409,7 +409,7 @@ export default function WorkerProfilePage() {
                 <div className="flex gap-3">
                   <button onClick={addExperience}
                     disabled={!newExp.employer || !newExp.role || !newExp.from}
-                    className="bg-emerald-600 hover:bg-emerald-700 disabled:opacity-40 text-white text-xs font-semibold px-4 py-2 rounded-lg transition">
+                    className="bg-gray-900 hover:bg-gray-800 disabled:opacity-40 text-white text-xs font-semibold px-4 py-2 rounded-lg transition">
                     Add
                   </button>
                   <button onClick={() => { setAddingExp(false); setNewExp({ current: true }) }}
@@ -420,7 +420,7 @@ export default function WorkerProfilePage() {
               </div>
             ) : (
               <button onClick={() => setAddingExp(true)}
-                className="w-full border-2 border-dashed border-gray-200 rounded-xl py-3 text-sm text-gray-400 hover:border-emerald-300 hover:text-emerald-600 transition flex items-center justify-center gap-2 mt-2">
+                className="w-full border-2 border-dashed border-gray-200 rounded-xl py-3 text-sm text-gray-400 hover:border-gray-300 hover:text-gray-900 transition flex items-center justify-center gap-2 mt-2">
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
                 </svg>
@@ -432,11 +432,11 @@ export default function WorkerProfilePage() {
           {/* Save */}
           <div className="flex items-center gap-3 pb-6">
             <button onClick={handleSave}
-              className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-2.5 rounded-lg text-sm transition">
+              className="bg-gray-900 hover:bg-gray-800 text-white font-semibold px-6 py-2.5 rounded-lg text-sm transition">
               Save profile
             </button>
             {saved && (
-              <span className="text-sm text-emerald-600 font-medium flex items-center gap-1">
+              <span className="text-sm text-gray-900 font-medium flex items-center gap-1">
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                 </svg>

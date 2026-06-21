@@ -49,7 +49,7 @@ export default function AnalyticsPage() {
           <p className="text-sm text-gray-500 mt-0.5">Last 14 days across all listings</p>
         </div>
         <select value={selectedJob} onChange={e => setSelectedJob(e.target.value)}
-          className="text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-400">
+          className="text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-gray-500">
           <option value="all">All listings</option>
           {liveJobs.map(j => <option key={j.id} value={j.id}>{j.title}</option>)}
         </select>
@@ -66,7 +66,7 @@ export default function AnalyticsPage() {
           <div key={k.label} className="bg-white border border-gray-200 rounded-xl p-4">
             <p className="text-xs text-gray-500 font-medium">{k.label}</p>
             <p className="text-2xl font-bold text-gray-900 mt-1">{k.value}</p>
-            <p className={`text-xs font-semibold mt-1 ${k.up ? 'text-emerald-600' : 'text-red-500'}`}>{k.change} vs prev period</p>
+            <p className={`text-xs font-semibold mt-1 ${k.up ? 'text-gray-900' : 'text-red-500'}`}>{k.change} vs prev period</p>
           </div>
         ))}
       </div>
@@ -80,7 +80,7 @@ export default function AnalyticsPage() {
           </div>
           <div className="overflow-x-auto">
             <div style={{ minWidth: '280px' }}>
-              <BarChart data={viewsData} maxVal={maxViews} color="bg-emerald-400" />
+              <BarChart data={viewsData} maxVal={maxViews} color="bg-gray-500" />
             </div>
           </div>
         </div>
@@ -134,14 +134,14 @@ export default function AnalyticsPage() {
                   <span className="text-sm font-semibold text-gray-800">{j.applicants}</span>
                   <div className="flex items-center gap-1.5">
                     <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                      <div className="h-full bg-emerald-500 rounded-full"
+                      <div className="h-full bg-gray-700 rounded-full"
                         style={{ width: `${Math.min(100, parseFloat(conv) * 10)}%` }} />
                     </div>
                     <span className="text-xs font-semibold text-gray-700 w-10">{conv}%</span>
                   </div>
                   <div className="flex items-end gap-px h-8 w-28">
                     {(j.daily_views.length ? j.daily_views : [0]).slice(-10).map((v, i) => (
-                      <div key={i} className="flex-1 bg-emerald-300 rounded-sm"
+                      <div key={i} className="flex-1 bg-gray-300 rounded-sm"
                         style={{ height: `${Math.max(15, (v / max) * 100)}%` }} />
                     ))}
                   </div>
@@ -159,10 +159,10 @@ export default function AnalyticsPage() {
           {[
             { label: 'Views', value: totalViews, color: 'bg-gray-200' },
             { label: 'Applications', value: totalApplicants, color: 'bg-blue-300' },
-            { label: 'Shortlisted', value: 6, color: 'bg-emerald-300' },
+            { label: 'Shortlisted', value: 6, color: 'bg-gray-300' },
             { label: 'Interviewed', value: 4, color: 'bg-purple-300' },
             { label: 'Offered', value: 2, color: 'bg-amber-300' },
-            { label: 'Hired', value: 0, color: 'bg-emerald-600' },
+            { label: 'Hired', value: 0, color: 'bg-gray-900' },
           ].map((f, i, arr) => (
             <div key={f.label} className="flex items-center gap-3">
               <span className="text-xs text-gray-500 w-24 text-right shrink-0">{f.label}</span>

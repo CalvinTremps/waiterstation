@@ -10,7 +10,7 @@ const COLORS = [
   'bg-teal-100 text-teal-700',
   'bg-amber-100 text-amber-800',
   'bg-indigo-100 text-indigo-700',
-  'bg-emerald-100 text-emerald-700',
+  'bg-gray-100 text-gray-800',
 ]
 
 function colorFor(name: string): string {

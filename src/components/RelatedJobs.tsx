@@ -40,11 +40,11 @@ export default async function RelatedJobs({ roleCategory, excludeId }: { roleCat
                 {job.employer_name.trim().charAt(0).toUpperCase()}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="font-semibold text-sm text-gray-900 group-hover:text-emerald-700 transition truncate">{job.title}</p>
+                <p className="font-semibold text-sm text-gray-900 group-hover:text-gray-800 transition truncate">{job.title}</p>
                 <p className="text-xs text-gray-500">{job.employer_name} · {job.location}</p>
               </div>
               <div className="text-right shrink-0">
-                {job.pay && <p className="text-xs font-semibold text-emerald-700">{job.pay}</p>}
+                {job.pay && <p className="text-xs font-semibold text-gray-800">{job.pay}</p>}
                 <p className="text-xs text-gray-400">{daysAgo === 0 ? 'Today' : daysAgo === 1 ? '1d' : daysAgo + 'd'}</p>
               </div>
             </a>

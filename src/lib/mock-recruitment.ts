@@ -169,7 +169,7 @@ export const MOCK_APPLICANTS: Applicant[] = [
     saved: true,
     rating: 4,
     avatar_initials: 'TN',
-    avatar_color: 'bg-emerald-600',
+    avatar_color: 'bg-gray-900',
   },
   {
     id: 'ap-2',
@@ -323,7 +323,7 @@ export const MOCK_APPLICANTS: Applicant[] = [
     saved: true,
     rating: 5,
     avatar_initials: 'DM',
-    avatar_color: 'bg-emerald-700',
+    avatar_color: 'bg-gray-800',
   },
   {
     id: 'ap-9',
@@ -495,8 +495,8 @@ export const PIPELINE_STAGES: { key: PipelineStage; label: string; color: string
   { key: 'reviewed',   label: 'Reviewed',    color: 'bg-blue-50 text-blue-700' },
   { key: 'shortlisted',label: 'Shortlisted', color: 'bg-amber-50 text-amber-700' },
   { key: 'interview',  label: 'Interview',   color: 'bg-purple-50 text-purple-700' },
-  { key: 'offered',    label: 'Offered',     color: 'bg-emerald-50 text-emerald-700' },
-  { key: 'hired',      label: 'Hired',       color: 'bg-emerald-600 text-white' },
+  { key: 'offered',    label: 'Offered',     color: 'bg-gray-100 text-gray-800' },
+  { key: 'hired',      label: 'Hired',       color: 'bg-gray-900 text-white' },
   { key: 'rejected',   label: 'Rejected',    color: 'bg-red-50 text-red-600' },
 ]
 

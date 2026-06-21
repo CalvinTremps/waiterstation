@@ -5,7 +5,7 @@ import { CAREER_TIPS } from '@/lib/mock-worker'
 
 const CATEGORY_COLORS: Record<string, string> = {
   Interview: 'bg-blue-50 text-blue-700',
-  Pay: 'bg-emerald-50 text-emerald-700',
+  Pay: 'bg-gray-100 text-gray-800',
   Career: 'bg-purple-50 text-purple-700',
   CV: 'bg-amber-50 text-amber-700',
   Rights: 'bg-red-50 text-red-700',
@@ -104,7 +104,7 @@ export default function TipsPage() {
                   title={isBookmarked ? 'Remove bookmark' : 'Bookmark'}
                   className={`shrink-0 p-1.5 rounded-lg transition ${
                     isBookmarked
-                      ? 'text-emerald-600 bg-emerald-50'
+                      ? 'text-gray-900 bg-gray-100'
                       : 'text-gray-300 hover:text-gray-500 hover:bg-gray-50'
                   }`}>
                   <svg className="w-4 h-4" fill={isBookmarked ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

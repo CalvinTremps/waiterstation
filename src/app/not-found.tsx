@@ -13,7 +13,7 @@ export default function NotFound() {
       <div className="flex flex-col sm:flex-row gap-3">
         <a
           href="/"
-          className="bg-emerald-600 text-white font-semibold px-6 py-3 rounded-md text-sm hover:bg-emerald-700 transition"
+          className="bg-gray-900 text-white font-semibold px-6 py-3 rounded-md text-sm hover:bg-gray-800 transition"
         >
           Browse jobs
         </a>

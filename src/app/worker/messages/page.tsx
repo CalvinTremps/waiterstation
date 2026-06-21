@@ -70,7 +70,7 @@ export default function MessagesPage() {
             {messages.map(m => (
               <button key={m.id} onClick={() => selectThread(m.id)}
                 className={`w-full flex items-start gap-3 px-4 py-3.5 text-left transition ${
-                  selectedId === m.id ? 'bg-emerald-50' : 'hover:bg-gray-50'
+                  selectedId === m.id ? 'bg-gray-100' : 'hover:bg-gray-50'
                 }`}>
                 <div className={`w-10 h-10 rounded-full ${m.avatar_color} flex items-center justify-center text-white text-xs font-bold shrink-0`}>
                   {m.avatar_initials}
@@ -119,11 +119,11 @@ export default function MessagesPage() {
                 <div key={i} className={`flex ${msg.from === 'me' ? 'justify-end' : 'justify-start'}`}>
                   <div className={`max-w-[80%] rounded-2xl px-4 py-2.5 ${
                     msg.from === 'me'
-                      ? 'bg-emerald-600 text-white rounded-br-sm'
+                      ? 'bg-gray-900 text-white rounded-br-sm'
                       : 'bg-gray-100 text-gray-800 rounded-bl-sm'
                   }`}>
                     <p className="text-sm leading-relaxed">{msg.text}</p>
-                    <p className={`text-[10px] mt-1 ${msg.from === 'me' ? 'text-emerald-200' : 'text-gray-400'}`}>
+                    <p className={`text-[10px] mt-1 ${msg.from === 'me' ? 'text-gray-200' : 'text-gray-400'}`}>
                       {fmtFull(msg.at)}
                     </p>
                   </div>
@@ -139,10 +139,10 @@ export default function MessagesPage() {
                 onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendReply() } }}
                 rows={2}
                 placeholder="Type a reply... (Enter to send)"
-                className="flex-1 text-sm border border-gray-200 rounded-xl px-3 py-2.5 resize-none focus:outline-none focus:ring-2 focus:ring-emerald-400 placeholder:text-gray-400"
+                className="flex-1 text-sm border border-gray-200 rounded-xl px-3 py-2.5 resize-none focus:outline-none focus:ring-2 focus:ring-gray-500 placeholder:text-gray-400"
               />
               <button onClick={sendReply} disabled={!reply.trim() || sending}
-                className="bg-emerald-600 hover:bg-emerald-700 disabled:opacity-40 text-white p-2.5 rounded-xl transition shrink-0">
+                className="bg-gray-900 hover:bg-gray-800 disabled:opacity-40 text-white p-2.5 rounded-xl transition shrink-0">
                 {sending ? (
                   <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth={4} />

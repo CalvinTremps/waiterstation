@@ -90,7 +90,7 @@ export default function FAQPage() {
 
       <div className="text-center mb-12">
         <h1 className="text-2xl font-bold text-gray-900 mb-2">Frequently asked questions</h1>
-        <p className="text-sm text-gray-400">Can't find your answer? <a href="/community" className="text-emerald-600 hover:underline">Ask the community</a></p>
+        <p className="text-sm text-gray-400">Can't find your answer? <a href="/community" className="text-gray-900 hover:underline">Ask the community</a></p>
       </div>
 
       <section className="mb-12">
@@ -112,7 +112,7 @@ export default function FAQPage() {
       <div className="bg-gray-50 rounded-lg border border-gray-200 p-6 text-center">
         <p className="font-semibold text-gray-900 mb-1">Still stuck?</p>
         <p className="text-sm text-gray-500 mb-4">Ask a question in the community. Fellow workers and employers can help.</p>
-        <a href="/community" className="text-sm font-semibold text-white bg-emerald-600 px-5 py-2.5 rounded-md hover:bg-emerald-700 transition inline-block">
+        <a href="/community" className="text-sm font-semibold text-white bg-gray-900 px-5 py-2.5 rounded-md hover:bg-gray-800 transition inline-block">
           Go to Community
         </a>
       </div>

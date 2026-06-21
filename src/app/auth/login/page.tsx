@@ -16,7 +16,7 @@ export default async function LoginPage({
   return (
     <div className="max-w-sm mx-auto px-4 py-16">
       <div className="text-center mb-8">
-        <div className="w-12 h-12 rounded-2xl bg-emerald-600 flex items-center justify-center text-white text-xl font-bold mx-auto mb-4">W</div>
+        <div className="w-12 h-12 rounded-2xl bg-gray-900 flex items-center justify-center text-white text-xl font-bold mx-auto mb-4">W</div>
         {isEmployer ? (
           <>
             <h1 className="text-2xl font-bold text-gray-900">Employer sign in</h1>

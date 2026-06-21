@@ -87,7 +87,7 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
           {job.pay && (
             <div className="mt-4 pt-4 border-t border-gray-100">
               <p className="text-xs text-gray-400 uppercase tracking-wide font-medium">Pay</p>
-              <p className="text-emerald-700 font-semibold mt-0.5">{job.pay}</p>
+              <p className="text-gray-800 font-semibold mt-0.5">{job.pay}</p>
             </div>
           )}
         </div>

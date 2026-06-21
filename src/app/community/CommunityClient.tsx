@@ -170,7 +170,7 @@ function PostThread({ post, onClose }: { post: CommunityPost; onClose: () => voi
             <div className="flex items-center gap-5">
               <button
                 onClick={() => { setPostLiked(l => !l); setPostLikes(c => postLiked ? c - 1 : c + 1) }}
-                className={`flex items-center gap-1.5 text-xs font-medium transition ${postLiked ? 'text-emerald-600' : 'text-gray-400 hover:text-gray-700'}`}
+                className={`flex items-center gap-1.5 text-xs font-medium transition ${postLiked ? 'text-gray-900' : 'text-gray-400 hover:text-gray-700'}`}
               >
                 <svg className="w-3.5 h-3.5" fill={postLiked ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M14 9V5a3 3 0 00-3-3l-4 9v11h11.28a2 2 0 002-1.7l1.38-9a2 2 0 00-2-2.3H14z" />
@@ -210,7 +210,7 @@ function PostThread({ post, onClose }: { post: CommunityPost; onClose: () => voi
                   <div className="flex items-center gap-4 mt-2">
                     <button
                       onClick={() => handleLikeReply(reply.id)}
-                      className={`flex items-center gap-1 text-xs font-medium transition ${reply.liked ? 'text-emerald-600' : 'text-gray-400 hover:text-gray-600'}`}
+                      className={`flex items-center gap-1 text-xs font-medium transition ${reply.liked ? 'text-gray-900' : 'text-gray-400 hover:text-gray-600'}`}
                     >
                       <svg className="w-3 h-3" fill={reply.liked ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M14 9V5a3 3 0 00-3-3l-4 9v11h11.28a2 2 0 002-1.7l1.38-9a2 2 0 00-2-2.3H14z" />
@@ -260,14 +260,14 @@ function PostThread({ post, onClose }: { post: CommunityPost; onClose: () => voi
                 }}
                 placeholder="Add a comment..."
                 rows={1}
-                className="w-full text-sm text-gray-800 placeholder:text-gray-400 bg-gray-50 border border-gray-200 rounded-2xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-400 resize-none overflow-hidden leading-relaxed"
+                className="w-full text-sm text-gray-800 placeholder:text-gray-400 bg-gray-50 border border-gray-200 rounded-2xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-gray-500 resize-none overflow-hidden leading-relaxed"
                 style={{ minHeight: 40 }}
               />
             </div>
             <button
               onClick={handleSubmitComment}
               disabled={!comment.trim()}
-              className="shrink-0 w-9 h-9 rounded-full bg-emerald-600 text-white flex items-center justify-center hover:bg-emerald-700 transition disabled:opacity-30 disabled:cursor-not-allowed"
+              className="shrink-0 w-9 h-9 rounded-full bg-gray-900 text-white flex items-center justify-center hover:bg-gray-800 transition disabled:opacity-30 disabled:cursor-not-allowed"
               aria-label="Post comment"
             >
               <svg className="w-4 h-4 rotate-90" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -276,7 +276,7 @@ function PostThread({ post, onClose }: { post: CommunityPost; onClose: () => voi
             </button>
           </div>
           <p className="text-[10px] text-gray-400 mt-1.5 ml-10">
-            Posting anonymously · <a href="/auth/login" className="text-emerald-600 hover:underline">Sign in</a> to use your profile
+            Posting anonymously · <a href="/auth/login" className="text-gray-900 hover:underline">Sign in</a> to use your profile
           </p>
         </div>
       </div>
@@ -332,7 +332,7 @@ function PostCard({ post, onOpen }: { post: CommunityPost; onOpen: () => void })
         <button
           onClick={stopAndLike}
           aria-label={liked ? 'Unlike' : 'Like'}
-          className={`flex items-center gap-1.5 text-xs font-medium transition ${liked ? 'text-emerald-600' : 'text-gray-400 hover:text-gray-700'}`}
+          className={`flex items-center gap-1.5 text-xs font-medium transition ${liked ? 'text-gray-900' : 'text-gray-400 hover:text-gray-700'}`}
         >
           <svg className="w-3.5 h-3.5" fill={liked ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M14 9V5a3 3 0 00-3-3l-4 9v11h11.28a2 2 0 002-1.7l1.38-9a2 2 0 00-2-2.3H14z"/>
@@ -411,7 +411,7 @@ function CreatePostModal({ onClose, onPost }: { onClose: () => void; onPost: (po
           <div className="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center text-sm font-bold text-gray-500">Y</div>
           <div>
             <p className="text-sm font-medium text-gray-700">Posting anonymously</p>
-            <p className="text-xs text-gray-400"><a href="/auth/login" className="text-emerald-600 hover:underline">Sign in</a> to post with your profile</p>
+            <p className="text-xs text-gray-400"><a href="/auth/login" className="text-gray-900 hover:underline">Sign in</a> to post with your profile</p>
           </div>
         </div>
 
@@ -436,7 +436,7 @@ function CreatePostModal({ onClose, onPost }: { onClose: () => void; onPost: (po
           value={content}
           onChange={e => setContent(e.target.value)}
           placeholder="Ask a question, share an experience, or start a discussion..."
-          className="w-full h-32 text-sm text-gray-700 placeholder:text-gray-400 border border-gray-200 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-emerald-400 resize-none"
+          className="w-full h-32 text-sm text-gray-700 placeholder:text-gray-400 border border-gray-200 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-gray-500 resize-none"
           autoFocus
         />
 
@@ -445,7 +445,7 @@ function CreatePostModal({ onClose, onPost }: { onClose: () => void; onPost: (po
           <button
             onClick={handlePost}
             disabled={!content.trim()}
-            className="bg-emerald-600 text-white text-sm font-semibold px-5 py-2 rounded-full hover:bg-emerald-700 transition disabled:opacity-40 disabled:cursor-not-allowed"
+            className="bg-gray-900 text-white text-sm font-semibold px-5 py-2 rounded-full hover:bg-gray-800 transition disabled:opacity-40 disabled:cursor-not-allowed"
           >
             Post
           </button>
@@ -494,7 +494,7 @@ export default function CommunityClient() {
                 </div>
               </div>
               <a href="/auth/login" className="block text-center text-sm font-medium text-gray-600 border border-gray-200 rounded-md py-1.5 hover:bg-gray-50 transition mb-2">Sign in</a>
-              <button onClick={() => setShowModal(true)} className="w-full bg-emerald-600 text-white text-sm font-semibold py-2 rounded-md hover:bg-emerald-700 transition">
+              <button onClick={() => setShowModal(true)} className="w-full bg-gray-900 text-white text-sm font-semibold py-2 rounded-md hover:bg-gray-800 transition">
                 + Create post
               </button>
             </div>
@@ -526,11 +526,11 @@ export default function CommunityClient() {
             <div className="max-w-2xl mx-auto">
               <button
                 onClick={() => setShowModal(true)}
-                className="w-full flex items-center gap-3 bg-white border border-gray-200 rounded-xl px-4 py-3 mb-4 hover:border-emerald-300 transition text-left group"
+                className="w-full flex items-center gap-3 bg-white border border-gray-200 rounded-xl px-4 py-3 mb-4 hover:border-gray-300 transition text-left group"
               >
                 <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-sm font-bold text-gray-400 shrink-0">G</div>
                 <span className="text-sm text-gray-400 group-hover:text-gray-500 flex-1">Share a tip, ask a question...</span>
-                <span className="text-xs font-semibold text-emerald-600 shrink-0">Post</span>
+                <span className="text-xs font-semibold text-gray-900 shrink-0">Post</span>
               </button>
 
               {/* Mobile bowl filter */}
@@ -566,7 +566,7 @@ export default function CommunityClient() {
                       <svg className="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
                     </div>
                     <p className="font-medium text-gray-600">No posts in this bowl yet</p>
-                    <button onClick={() => setShowModal(true)} className="mt-3 text-sm text-emerald-600 hover:underline font-medium">Be the first to post</button>
+                    <button onClick={() => setShowModal(true)} className="mt-3 text-sm text-gray-900 hover:underline font-medium">Be the first to post</button>
                   </div>
                 ) : (
                   filtered.map(post => (
@@ -600,16 +600,16 @@ export default function CommunityClient() {
                 {COMMUNITY_BOWLS.map(b => (
                   <div key={b.label} className="flex items-center justify-between py-1">
                     <span className="text-sm text-gray-700">{b.emoji} {b.label}</span>
-                    <button onClick={() => setActiveBowl(b.label)} className="text-xs font-semibold text-emerald-600 hover:underline">Browse</button>
+                    <button onClick={() => setActiveBowl(b.label)} className="text-xs font-semibold text-gray-900 hover:underline">Browse</button>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="bg-emerald-50 rounded-xl border border-emerald-100 p-4">
-              <p className="text-sm font-bold text-emerald-800 mb-1">Share your experience</p>
-              <p className="text-xs text-emerald-700 mb-3 leading-relaxed">Help fellow hospitality workers with salary info, interview tips, and workplace insights.</p>
-              <button onClick={() => setShowModal(true)} className="w-full bg-emerald-600 text-white text-xs font-semibold py-2 rounded-full hover:bg-emerald-700 transition">
+            <div className="bg-gray-100 rounded-xl border border-gray-100 p-4">
+              <p className="text-sm font-bold text-gray-900 mb-1">Share your experience</p>
+              <p className="text-xs text-gray-800 mb-3 leading-relaxed">Help fellow hospitality workers with salary info, interview tips, and workplace insights.</p>
+              <button onClick={() => setShowModal(true)} className="w-full bg-gray-900 text-white text-xs font-semibold py-2 rounded-full hover:bg-gray-800 transition">
                 Start a discussion
               </button>
             </div>

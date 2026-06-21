@@ -96,7 +96,7 @@ export default function WorkerLayout({ children }: { children: React.ReactNode }
       <aside className="hidden lg:flex flex-col w-56 shrink-0 bg-white border-r border-gray-100 sticky top-0 h-screen">
         <div className="px-4 py-5 border-b border-gray-100">
           <Link href="/" className="flex items-center gap-2">
-            <span className="text-emerald-600 font-bold text-xl tracking-tight">waiter</span>
+            <span className="text-gray-900 font-bold text-xl tracking-tight">waiter</span>
             <span className="text-gray-800 font-bold text-xl tracking-tight">station</span>
           </Link>
           <p className="text-[11px] text-gray-400 mt-0.5 font-medium">Candidate Portal</p>
@@ -107,15 +107,15 @@ export default function WorkerLayout({ children }: { children: React.ReactNode }
             <Link key={item.href} href={item.href}
               className={`flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition group ${
                 isActive(item)
-                  ? 'bg-emerald-50 text-emerald-700'
+                  ? 'bg-gray-100 text-gray-800'
                   : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
               }`}>
-              <span className={isActive(item) ? 'text-emerald-600' : 'text-gray-400 group-hover:text-gray-600'}>
+              <span className={isActive(item) ? 'text-gray-900' : 'text-gray-400 group-hover:text-gray-600'}>
                 {item.icon}
               </span>
               <span className="flex-1">{item.label}</span>
               {item.badge ? (
-                <span className="text-[10px] font-bold bg-emerald-600 text-white rounded-full w-4 h-4 flex items-center justify-center">
+                <span className="text-[10px] font-bold bg-gray-900 text-white rounded-full w-4 h-4 flex items-center justify-center">
                   {item.badge}
                 </span>
               ) : null}
@@ -125,7 +125,7 @@ export default function WorkerLayout({ children }: { children: React.ReactNode }
 
         <div className="p-3 border-t border-gray-100 space-y-2">
           <Link href="/jobs"
-            className="flex items-center justify-center gap-2 w-full bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold py-2.5 rounded-lg transition">
+            className="flex items-center justify-center gap-2 w-full bg-gray-900 hover:bg-gray-800 text-white text-sm font-semibold py-2.5 rounded-lg transition">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
@@ -142,11 +142,11 @@ export default function WorkerLayout({ children }: { children: React.ReactNode }
         {/* Mobile header */}
         <header className="lg:hidden bg-white border-b border-gray-100 px-4 py-3 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-1.5">
-            <span className="text-emerald-600 font-bold text-lg">waiter</span>
+            <span className="text-gray-900 font-bold text-lg">waiter</span>
             <span className="text-gray-800 font-bold text-lg">station</span>
           </Link>
           <Link href="/jobs"
-            className="bg-emerald-600 text-white text-xs font-semibold px-3 py-1.5 rounded-lg">
+            className="bg-gray-900 text-white text-xs font-semibold px-3 py-1.5 rounded-lg">
             Browse Jobs
           </Link>
         </header>
@@ -169,10 +169,10 @@ export default function WorkerLayout({ children }: { children: React.ReactNode }
           return (
             <Link key={item.href} href={item.href}
               className={`flex-1 flex flex-col items-center justify-center py-2 gap-0.5 text-[10px] font-medium transition relative ${
-                active ? 'text-emerald-600' : 'text-gray-400'
+                active ? 'text-gray-900' : 'text-gray-400'
               }`}>
               {item.badge ? (
-                <span className="absolute top-1.5 right-1/2 translate-x-3 -translate-y-0.5 text-[9px] font-bold bg-emerald-600 text-white rounded-full w-3.5 h-3.5 flex items-center justify-center">
+                <span className="absolute top-1.5 right-1/2 translate-x-3 -translate-y-0.5 text-[9px] font-bold bg-gray-900 text-white rounded-full w-3.5 h-3.5 flex items-center justify-center">
                   {item.badge}
                 </span>
               ) : null}

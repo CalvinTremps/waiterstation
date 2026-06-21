@@ -18,11 +18,11 @@ export default function JobCard({ job }: { job: Job }) {
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0">
             <div className="flex items-center gap-1.5 flex-wrap">
-              <h2 className="font-semibold text-gray-900 text-[15px] leading-snug truncate group-hover:text-emerald-700 transition-colors">
+              <h2 className="font-semibold text-gray-900 text-[15px] leading-snug truncate group-hover:text-gray-800 transition-colors">
                 {job.title}
               </h2>
               {isNew && (
-                <span className="shrink-0 text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 uppercase tracking-wide leading-none">
+                <span className="shrink-0 text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-gray-100 text-gray-800 uppercase tracking-wide leading-none">
                   New
                 </span>
               )}
@@ -47,7 +47,7 @@ export default function JobCard({ job }: { job: Job }) {
             {EMPLOYMENT_TYPE_LABELS[job.employment_type]}
           </span>
           {job.pay && (
-            <span className="text-xs font-semibold text-emerald-700">{job.pay}</span>
+            <span className="text-xs font-semibold text-gray-800">{job.pay}</span>
           )}
         </div>
       </div>

@@ -40,7 +40,7 @@ export default function ApplicationsClient() {
       <div className="text-center py-20">
         <p className="font-semibold text-gray-700 mb-1">No applications yet</p>
         <p className="text-sm text-gray-400 mb-6">Jobs you apply to on Waiterstation will appear here.</p>
-        <a href="/" className="inline-block bg-emerald-600 text-white font-semibold px-6 py-3 rounded-md text-sm hover:bg-emerald-700 transition">
+        <a href="/" className="inline-block bg-gray-900 text-white font-semibold px-6 py-3 rounded-md text-sm hover:bg-gray-800 transition">
           Browse jobs
         </a>
       </div>
@@ -65,11 +65,11 @@ export default function ApplicationsClient() {
               {app.employerName.trim().charAt(0).toUpperCase()}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="font-semibold text-gray-900 text-sm truncate group-hover:text-emerald-700 transition">{app.jobTitle}</p>
+              <p className="font-semibold text-gray-900 text-sm truncate group-hover:text-gray-800 transition">{app.jobTitle}</p>
               <p className="text-xs text-gray-500">{app.employerName} · {app.location}</p>
             </div>
             <div className="text-right shrink-0">
-              <span className="text-[11px] font-medium px-2 py-0.5 rounded bg-emerald-50 text-emerald-700">Applied</span>
+              <span className="text-[11px] font-medium px-2 py-0.5 rounded bg-gray-100 text-gray-800">Applied</span>
               <p className="text-xs text-gray-400 mt-0.5">{when}</p>
             </div>
           </a>

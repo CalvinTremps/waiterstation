@@ -46,7 +46,7 @@ export default function EditJobForm({ job }: { job: Job }) {
           {ROLE_CATEGORIES.map(r => (
             <button key={r} type="button" onClick={() => setRole(r)}
               className={`flex items-center gap-2.5 px-3 py-3 rounded-2xl border text-left text-sm font-medium transition
-                ${role === r ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-gray-700 border-gray-200 hover:border-emerald-300'}`}>
+                ${role === r ? 'bg-gray-900 text-white border-gray-900' : 'bg-white text-gray-700 border-gray-200 hover:border-gray-300'}`}>
               <span className="leading-tight">{ROLE_LABELS[r]}</span>
             </button>
           ))}
@@ -93,7 +93,7 @@ export default function EditJobForm({ job }: { job: Job }) {
           Cancel
         </button>
         <button type="submit" disabled={loading}
-          className="flex-1 bg-emerald-600 text-white font-bold py-3.5 rounded-2xl text-sm hover:bg-emerald-700 transition disabled:opacity-60">
+          className="flex-1 bg-gray-900 text-white font-bold py-3.5 rounded-2xl text-sm hover:bg-gray-800 transition disabled:opacity-60">
           {loading ? 'Saving…' : 'Save changes'}
         </button>
       </div>
@@ -105,11 +105,11 @@ function Section({ label, hint, required, children }: { label: string; hint?: st
   return (
     <div>
       <label className="block text-sm font-semibold text-gray-800 mb-1">
-        {label}{required && <span className="text-emerald-600 ml-0.5">*</span>}
+        {label}{required && <span className="text-gray-900 ml-0.5">*</span>}
       </label>
       {hint && <p className="text-xs text-gray-400 mb-2">{hint}</p>}
       {children}
     </div>
   )
 }
-const input = 'w-full bg-white border border-gray-200 rounded-2xl px-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400 placeholder:text-gray-400'
+const input = 'w-full bg-white border border-gray-200 rounded-2xl px-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-gray-500 placeholder:text-gray-400'

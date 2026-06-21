@@ -19,8 +19,8 @@ export default async function PostJobPage() {
       <div className="bg-white border-b border-gray-100">
         <div className="max-w-5xl mx-auto px-4 md:px-8 py-10">
           <div className="flex items-center gap-3 mb-4">
-            <span className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-100 px-3 py-1 rounded-full uppercase tracking-wide">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" />
+            <span className="inline-flex items-center gap-1.5 text-xs font-bold text-gray-800 bg-gray-100 border border-gray-100 px-3 py-1 rounded-full uppercase tracking-wide">
+              <span className="w-1.5 h-1.5 rounded-full bg-gray-700 inline-block" />
               Free during beta
             </span>
           </div>
@@ -54,7 +54,7 @@ export default async function PostJobPage() {
                   { n: '4', title: 'Receive applications', body: 'Applicants contact you directly via your provided number or email.' },
                 ].map(step => (
                   <li key={step.n} className="flex gap-3">
-                    <span className="w-6 h-6 rounded-full bg-emerald-600 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
+                    <span className="w-6 h-6 rounded-full bg-gray-900 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
                       {step.n}
                     </span>
                     <div>
@@ -66,12 +66,12 @@ export default async function PostJobPage() {
               </ol>
             </div>
 
-            <div className="bg-emerald-50 border border-emerald-100 rounded-2xl p-5">
+            <div className="bg-gray-100 border border-gray-100 rounded-2xl p-5">
               <div className="flex items-center gap-2 mb-3">
-                <svg className="w-4 h-4 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <svg className="w-4 h-4 text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
-                <p className="font-bold text-emerald-800 text-sm">Free during beta</p>
+                <p className="font-bold text-gray-900 text-sm">Free during beta</p>
               </div>
               <ul className="space-y-2">
                 {[
@@ -80,7 +80,7 @@ export default async function PostJobPage() {
                   'Reach workers across South Africa',
                   'No commission, no hidden fees',
                 ].map(t => (
-                  <li key={t} className="text-xs text-emerald-700 flex items-start gap-2">
+                  <li key={t} className="text-xs text-gray-800 flex items-start gap-2">
                     <span className="mt-0.5 shrink-0">·</span>
                     {t}
                   </li>
@@ -91,7 +91,7 @@ export default async function PostJobPage() {
             <div className="bg-white border border-gray-200 rounded-2xl p-5">
               <p className="text-xs text-gray-500 leading-relaxed">
                 Questions? Email us at{' '}
-                <a href="mailto:hello@waiterstation.co.za" className="text-emerald-600 hover:underline font-medium">
+                <a href="mailto:hello@waiterstation.co.za" className="text-gray-900 hover:underline font-medium">
                   hello@waiterstation.co.za
                 </a>
               </p>

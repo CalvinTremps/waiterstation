@@ -41,7 +41,7 @@ export default function ApplicantDetailPage({ params }: { params: Promise<{ id: 
     return (
       <div className="text-center py-24 text-gray-400">
         <p className="font-medium">Applicant not found</p>
-        <a href="/employer/applicants" className="text-emerald-600 text-sm mt-2 inline-block">Back to applicants</a>
+        <a href="/employer/applicants" className="text-gray-900 text-sm mt-2 inline-block">Back to applicants</a>
       </div>
     )
   }
@@ -106,7 +106,7 @@ export default function ApplicantDetailPage({ params }: { params: Promise<{ id: 
               </div>
               <div className="flex items-center gap-2">
                 <button onClick={toggleSaved}
-                  className={`p-2 rounded-lg border transition ${applicant.saved ? 'border-emerald-200 bg-emerald-50 text-emerald-600' : 'border-gray-200 text-gray-400 hover:text-gray-600'}`}>
+                  className={`p-2 rounded-lg border transition ${applicant.saved ? 'border-gray-200 bg-gray-100 text-gray-900' : 'border-gray-200 text-gray-400 hover:text-gray-600'}`}>
                   <svg className="w-4 h-4" fill={applicant.saved ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
                   </svg>
@@ -148,7 +148,7 @@ export default function ApplicantDetailPage({ params }: { params: Promise<{ id: 
               <button key={s} onClick={() => setStage(s)}
                 className={`shrink-0 text-xs font-semibold px-3 py-2 rounded-lg border transition whitespace-nowrap ${
                   isCurrent ? info.color + ' border-transparent' :
-                  isPast ? 'bg-emerald-50 text-emerald-600 border-transparent opacity-60' :
+                  isPast ? 'bg-gray-100 text-gray-900 border-transparent opacity-60' :
                   'bg-white text-gray-500 border-gray-200 hover:border-gray-300'
                 }`}>
                 {isCurrent && <span className="mr-1">&#10003;</span>}
@@ -171,7 +171,7 @@ export default function ApplicantDetailPage({ params }: { params: Promise<{ id: 
           <div className="mt-3 pt-3 border-t border-gray-100">
             {!showBookInterview ? (
               <button onClick={() => setShowBookInterview(true)}
-                className="text-sm text-emerald-600 font-medium hover:underline flex items-center gap-1.5">
+                className="text-sm text-gray-900 font-medium hover:underline flex items-center gap-1.5">
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                 </svg>
@@ -181,11 +181,11 @@ export default function ApplicantDetailPage({ params }: { params: Promise<{ id: 
               <div className="space-y-3">
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                   <input type="date" value={interviewDate} onChange={e => setInterviewDate(e.target.value)}
-                    className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-400" />
+                    className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-500" />
                   <input type="time" value={interviewTime} onChange={e => setInterviewTime(e.target.value)}
-                    className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-400" />
+                    className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-500" />
                   <select value={interviewType} onChange={e => setInterviewType(e.target.value as typeof interviewType)}
-                    className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-400">
+                    className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-gray-500">
                     <option value="in-person">In person</option>
                     <option value="phone">Phone call</option>
                     <option value="video">Video call</option>
@@ -193,7 +193,7 @@ export default function ApplicantDetailPage({ params }: { params: Promise<{ id: 
                 </div>
                 <div className="flex gap-2">
                   <button onClick={bookInterview}
-                    className="text-sm font-semibold bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg transition">
+                    className="text-sm font-semibold bg-gray-900 hover:bg-gray-800 text-white px-4 py-2 rounded-lg transition">
                     Confirm booking
                   </button>
                   <button onClick={() => setShowBookInterview(false)}
@@ -220,7 +220,7 @@ export default function ApplicantDetailPage({ params }: { params: Promise<{ id: 
                 <span className="text-gray-400 capitalize">{i.type}</span>
                 <span className={`text-xs font-semibold px-2 py-0.5 rounded-full capitalize ${
                   i.outcome === 'pending' ? 'bg-blue-50 text-blue-600' :
-                  i.outcome === 'offered' ? 'bg-emerald-50 text-emerald-600' :
+                  i.outcome === 'offered' ? 'bg-gray-100 text-gray-900' :
                   i.outcome === 'rejected' ? 'bg-red-50 text-red-500' :
                   'bg-gray-100 text-gray-500'
                 }`}>{i.outcome}</span>
@@ -245,14 +245,14 @@ export default function ApplicantDetailPage({ params }: { params: Promise<{ id: 
       <div className="bg-white border border-gray-200 rounded-xl p-5">
         <div className="flex items-center justify-between mb-3">
           <h2 className="font-semibold text-gray-900">Private Notes</h2>
-          {notesSaved && <span className="text-xs text-emerald-600 font-medium">Saved!</span>}
+          {notesSaved && <span className="text-xs text-gray-900 font-medium">Saved!</span>}
         </div>
         <textarea
           value={note}
           onChange={e => setNote(e.target.value)}
           rows={4}
           placeholder="Add notes about this candidate — only visible to you..."
-          className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-400 resize-none placeholder:text-gray-400"
+          className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-gray-500 resize-none placeholder:text-gray-400"
         />
         <div className="flex justify-end mt-2">
           <button onClick={saveNotes}
@@ -265,7 +265,7 @@ export default function ApplicantDetailPage({ params }: { params: Promise<{ id: 
       {/* Action buttons */}
       <div className="flex gap-3 flex-wrap pb-6">
         <a href={`mailto:${applicant.email}`}
-          className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition">
+          className="flex items-center gap-2 bg-gray-900 hover:bg-gray-800 text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition">
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
           </svg>

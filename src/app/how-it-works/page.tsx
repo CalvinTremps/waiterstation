@@ -43,7 +43,7 @@ export default function HowItWorksPage() {
             },
           ].map(({ step, title, body }) => (
             <div key={step} className="flex gap-4">
-              <div className="w-8 h-8 rounded-full bg-emerald-600 text-white text-sm font-bold flex items-center justify-center shrink-0 mt-0.5">
+              <div className="w-8 h-8 rounded-full bg-gray-900 text-white text-sm font-bold flex items-center justify-center shrink-0 mt-0.5">
                 {step}
               </div>
               <div>
@@ -54,7 +54,7 @@ export default function HowItWorksPage() {
           ))}
         </div>
         <div className="mt-8">
-          <a href="/" className="inline-flex items-center gap-2 bg-emerald-600 text-white font-semibold px-6 py-3 rounded-md text-sm hover:bg-emerald-700 transition">
+          <a href="/" className="inline-flex items-center gap-2 bg-gray-900 text-white font-semibold px-6 py-3 rounded-md text-sm hover:bg-gray-800 transition">
             Browse jobs
           </a>
         </div>

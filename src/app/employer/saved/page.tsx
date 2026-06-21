@@ -27,7 +27,7 @@ export default function SavedCandidatesPage() {
       <input
         value={search} onChange={e => setSearch(e.target.value)}
         placeholder="Search saved candidates..."
-        className="w-full max-w-sm text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+        className="w-full max-w-sm text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-500"
       />
 
       {filtered.length === 0 ? (
@@ -83,7 +83,7 @@ export default function SavedCandidatesPage() {
                       Email
                     </a>
                     <a href={`/employer/applicants/${a.id}`}
-                      className="text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg transition">
+                      className="text-xs font-semibold bg-gray-900 hover:bg-gray-800 text-white px-3 py-1.5 rounded-lg transition">
                       View profile
                     </a>
                   </div>

@@ -11,7 +11,7 @@ const TYPE_ICONS: Record<string, string> = {
 
 const OUTCOME_STYLES: Record<string, string> = {
   pending: 'bg-blue-50 text-blue-700',
-  offered: 'bg-emerald-50 text-emerald-700',
+  offered: 'bg-gray-100 text-gray-800',
   rejected: 'bg-red-50 text-red-600',
   'no-show': 'bg-gray-100 text-gray-500',
 }
@@ -61,7 +61,7 @@ export default function InterviewsPage() {
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {[
           { label: 'Upcoming', value: upcoming.length, color: 'text-blue-600' },
-          { label: 'Offers extended', value: interviews.filter(i => i.outcome === 'offered').length, color: 'text-emerald-600' },
+          { label: 'Offers extended', value: interviews.filter(i => i.outcome === 'offered').length, color: 'text-gray-900' },
           { label: 'Not selected', value: interviews.filter(i => i.outcome === 'rejected').length, color: 'text-red-500' },
           { label: 'No-shows', value: interviews.filter(i => i.outcome === 'no-show').length, color: 'text-gray-400' },
         ].map(s => (
@@ -94,14 +94,14 @@ export default function InterviewsPage() {
             const isPast = i.date < now || i.outcome !== 'pending'
             return (
               <div key={i.id} className={`bg-white border rounded-xl p-5 transition ${
-                i.outcome === 'offered' ? 'border-emerald-200' :
+                i.outcome === 'offered' ? 'border-gray-200' :
                 i.outcome === 'rejected' ? 'border-red-100' :
                 'border-gray-200'
               }`}>
                 <div className="flex items-start gap-4">
                   {/* Date badge */}
                   <div className={`rounded-xl px-3 py-2 text-center shrink-0 min-w-[52px] ${
-                    isPast ? 'bg-gray-100 text-gray-500' : 'bg-emerald-50 text-emerald-700'
+                    isPast ? 'bg-gray-100 text-gray-500' : 'bg-gray-100 text-gray-800'
                   }`}>
                     <p className="text-lg font-bold leading-none">{new Date(i.date).getDate()}</p>
                     <p className="text-[11px] leading-none mt-1">{new Date(i.date).toLocaleDateString('en-ZA', { month: 'short' })}</p>
@@ -112,7 +112,7 @@ export default function InterviewsPage() {
                     <div className="flex items-start justify-between gap-2 flex-wrap">
                       <div>
                         <a href={`/employer/applicants/${i.applicant_id}`}
-                          className="font-semibold text-gray-900 hover:text-emerald-700 transition">
+                          className="font-semibold text-gray-900 hover:text-gray-800 transition">
                           {i.applicant_name}
                         </a>
                         <p className="text-sm text-gray-500 mt-0.5">{i.job_title}</p>
@@ -152,7 +152,7 @@ export default function InterviewsPage() {
                       <div className="flex gap-2 flex-wrap">
                         <span className="text-xs font-semibold text-gray-500 self-center mr-2">Mark outcome:</span>
                         <button onClick={() => setOutcome(i.id, 'offered')}
-                          className="text-xs font-semibold px-3 py-1.5 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition">
+                          className="text-xs font-semibold px-3 py-1.5 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition">
                           Offer extended
                         </button>
                         <button onClick={() => setOutcome(i.id, 'rejected')}

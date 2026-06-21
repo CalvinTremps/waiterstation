@@ -68,12 +68,12 @@ export default function EmployerLayout({ children }: { children: React.ReactNode
                     : 'text-gray-500 hover:text-gray-800 hover:bg-white/60'
                 }`}
               >
-                <span className={isActive(item.href) ? 'text-emerald-600' : 'text-gray-400'}>
+                <span className={isActive(item.href) ? 'text-gray-900' : 'text-gray-400'}>
                   {item.icon}
                 </span>
                 <span className="flex-1">{item.label}</span>
                 {item.badge && (
-                  <span className="bg-emerald-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full leading-none">
+                  <span className="bg-gray-900 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full leading-none">
                     {item.badge}
                   </span>
                 )}
@@ -83,7 +83,7 @@ export default function EmployerLayout({ children }: { children: React.ReactNode
 
           <div className="mt-auto pt-6 pb-6 px-3 border-t border-gray-200 mt-8">
             <a href="/post-job"
-              className="flex items-center justify-center gap-1.5 w-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold py-2.5 rounded-lg transition">
+              className="flex items-center justify-center gap-1.5 w-full bg-gray-900 hover:bg-gray-800 text-white text-xs font-bold py-2.5 rounded-lg transition">
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4"/>
               </svg>
@@ -98,10 +98,10 @@ export default function EmployerLayout({ children }: { children: React.ReactNode
             {NAV.slice(0, 4).map(item => (
               <a key={item.href} href={item.href}
                 className={`flex flex-col items-center gap-1 px-3 py-2 rounded-xl transition relative ${
-                  isActive(item.href) ? 'text-emerald-600' : 'text-gray-400'
+                  isActive(item.href) ? 'text-gray-900' : 'text-gray-400'
                 }`}>
                 {item.badge && (
-                  <span className="absolute top-1 right-1 w-3.5 h-3.5 bg-emerald-600 text-white text-[8px] font-bold rounded-full flex items-center justify-center">
+                  <span className="absolute top-1 right-1 w-3.5 h-3.5 bg-gray-900 text-white text-[8px] font-bold rounded-full flex items-center justify-center">
                     {item.badge}
                   </span>
                 )}
@@ -115,7 +115,7 @@ export default function EmployerLayout({ children }: { children: React.ReactNode
             <a href="/employer/analytics"
               className={`flex flex-col items-center gap-1 px-3 py-2 rounded-xl transition ${
                 ['/employer/analytics','/employer/saved','/employer/profile'].some(h => pathname.startsWith(h))
-                  ? 'text-emerald-600' : 'text-gray-400'
+                  ? 'text-gray-900' : 'text-gray-400'
               }`}>
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"/>

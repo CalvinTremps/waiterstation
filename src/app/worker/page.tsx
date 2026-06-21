@@ -14,8 +14,8 @@ const STATUS_STYLES: Record<string, string> = {
   viewed: 'bg-blue-50 text-blue-700',
   shortlisted: 'bg-amber-50 text-amber-700',
   interview: 'bg-purple-50 text-purple-700',
-  offered: 'bg-emerald-50 text-emerald-700',
-  hired: 'bg-emerald-100 text-emerald-800',
+  offered: 'bg-gray-100 text-gray-800',
+  hired: 'bg-gray-100 text-gray-900',
   not_selected: 'bg-red-50 text-red-600',
   withdrawn: 'bg-gray-100 text-gray-400',
 }
@@ -54,7 +54,7 @@ export default function WorkerDashboard() {
   const profilePct = Math.round((profileFields.filter(Boolean).length / profileFields.length) * 100)
 
   const stats = [
-    { label: 'Active applications', value: activeApps.length, href: '/worker/applications', color: 'text-emerald-600' },
+    { label: 'Active applications', value: activeApps.length, href: '/worker/applications', color: 'text-gray-900' },
     { label: 'Offers received', value: offers.length, href: '/worker/applications', color: 'text-amber-600' },
     { label: 'Upcoming interviews', value: upcoming.length, href: '/worker/interviews', color: 'text-purple-600' },
     { label: 'Unread messages', value: unread.length, href: '/worker/messages', color: 'text-blue-600' },
@@ -75,7 +75,7 @@ export default function WorkerDashboard() {
           </p>
         </div>
         <Link href="/jobs"
-          className="bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition shrink-0">
+          className="bg-gray-900 hover:bg-gray-800 text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition shrink-0">
           Browse new jobs
         </Link>
       </div>
@@ -109,7 +109,7 @@ export default function WorkerDashboard() {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         {stats.map(s => (
           <Link key={s.label} href={s.href}
-            className="bg-white border border-gray-200 rounded-xl p-4 hover:border-emerald-300 transition group">
+            className="bg-white border border-gray-200 rounded-xl p-4 hover:border-gray-300 transition group">
             <p className="text-xs text-gray-500 font-medium">{s.label}</p>
             <p className={`text-3xl font-bold mt-1 ${s.color}`}>{s.value}</p>
           </Link>
@@ -123,25 +123,25 @@ export default function WorkerDashboard() {
             <h2 className="font-semibold text-gray-900">Profile strength</h2>
             <p className="text-xs text-gray-400 mt-0.5">A complete profile gets 3x more views from employers</p>
           </div>
-          <Link href="/worker/profile" className="text-xs font-semibold text-emerald-600 hover:underline">
+          <Link href="/worker/profile" className="text-xs font-semibold text-gray-900 hover:underline">
             Edit profile
           </Link>
         </div>
         <div className="flex items-center gap-3">
           <div className="flex-1 bg-gray-100 rounded-full h-2.5 overflow-hidden">
-            <div className="h-full bg-emerald-500 rounded-full transition-all" style={{ width: `${profilePct}%` }} />
+            <div className="h-full bg-gray-700 rounded-full transition-all" style={{ width: `${profilePct}%` }} />
           </div>
           <span className="text-sm font-bold text-gray-700 w-10 shrink-0">{profilePct}%</span>
         </div>
         {profilePct < 100 && (
           <div className="mt-3 flex flex-wrap gap-2">
             {!MOCK_WORKER_PROFILE.bio && (
-              <Link href="/worker/profile" className="text-xs bg-gray-100 text-gray-600 hover:bg-emerald-50 hover:text-emerald-700 px-2.5 py-1 rounded-full transition">
+              <Link href="/worker/profile" className="text-xs bg-gray-100 text-gray-600 hover:bg-gray-100 hover:text-gray-800 px-2.5 py-1 rounded-full transition">
                 + Add bio
               </Link>
             )}
             {!MOCK_WORKER_PROFILE.phone && (
-              <Link href="/worker/profile" className="text-xs bg-gray-100 text-gray-600 hover:bg-emerald-50 hover:text-emerald-700 px-2.5 py-1 rounded-full transition">
+              <Link href="/worker/profile" className="text-xs bg-gray-100 text-gray-600 hover:bg-gray-100 hover:text-gray-800 px-2.5 py-1 rounded-full transition">
                 + Add phone
               </Link>
             )}
@@ -154,7 +154,7 @@ export default function WorkerDashboard() {
         <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
           <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
             <h2 className="font-semibold text-gray-900">Recent applications</h2>
-            <Link href="/worker/applications" className="text-xs font-semibold text-emerald-600 hover:underline">
+            <Link href="/worker/applications" className="text-xs font-semibold text-gray-900 hover:underline">
               View all
             </Link>
           </div>
@@ -180,14 +180,14 @@ export default function WorkerDashboard() {
         <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
           <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
             <h2 className="font-semibold text-gray-900">Upcoming interviews</h2>
-            <Link href="/worker/interviews" className="text-xs font-semibold text-emerald-600 hover:underline">
+            <Link href="/worker/interviews" className="text-xs font-semibold text-gray-900 hover:underline">
               View all
             </Link>
           </div>
           {upcoming.length === 0 ? (
             <div className="px-5 py-10 text-center text-gray-400">
               <p className="text-sm">No upcoming interviews</p>
-              <Link href="/jobs" className="text-xs text-emerald-600 hover:underline mt-1 block">Browse open roles</Link>
+              <Link href="/jobs" className="text-xs text-gray-900 hover:underline mt-1 block">Browse open roles</Link>
             </div>
           ) : (
             <div className="divide-y divide-gray-50">
@@ -227,7 +227,7 @@ export default function WorkerDashboard() {
               New messages
               <span className="ml-2 text-xs font-bold bg-blue-600 text-white px-2 py-0.5 rounded-full">{unread.length}</span>
             </h2>
-            <Link href="/worker/messages" className="text-xs font-semibold text-emerald-600 hover:underline">
+            <Link href="/worker/messages" className="text-xs font-semibold text-gray-900 hover:underline">
               View all
             </Link>
           </div>

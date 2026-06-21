@@ -78,9 +78,9 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
     <>
       {/* Mobile-only hero */}
       <div className="md:hidden text-white px-5 pt-10 pb-14" style={{ background: 'linear-gradient(135deg, #064e3b 0%, #065f46 40%, #047857 100%)' }}>
-        <p className="text-emerald-300 text-xs font-semibold uppercase tracking-widest mb-2">South Africa's hospitality job board</p>
+        <p className="text-gray-300 text-xs font-semibold uppercase tracking-widest mb-2">South Africa's hospitality job board</p>
         <h1 className="text-[28px] font-bold leading-tight tracking-tight">Find your next hospitality job</h1>
-        <p className="text-emerald-100/90 mt-2.5 text-sm leading-relaxed">
+        <p className="text-gray-100/90 mt-2.5 text-sm leading-relaxed">
           {totalLive > 0 && <><span className="font-bold text-white">{totalLive.toLocaleString()} open positions</span>{' '}</>}
           across South Africa. Apply in seconds — no CV required.
         </p>

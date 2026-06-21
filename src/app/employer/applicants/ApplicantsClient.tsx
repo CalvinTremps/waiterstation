@@ -21,8 +21,8 @@ const STAGE_COLORS: Record<ApplicationStatus, string> = {
   viewed:      'bg-blue-50 text-blue-700',
   shortlisted: 'bg-amber-50 text-amber-700',
   interview:   'bg-purple-50 text-purple-700',
-  offered:     'bg-emerald-50 text-emerald-700',
-  hired:       'bg-emerald-100 text-emerald-800',
+  offered:     'bg-gray-100 text-gray-800',
+  hired:       'bg-gray-100 text-gray-900',
   rejected:    'bg-red-50 text-red-600',
   withdrawn:   'bg-gray-100 text-gray-400',
 }
@@ -52,7 +52,7 @@ function initials(name: string) {
 }
 
 const AVATAR_COLORS = [
-  'bg-blue-500', 'bg-emerald-500', 'bg-violet-500', 'bg-amber-500',
+  'bg-blue-500', 'bg-gray-700', 'bg-violet-500', 'bg-amber-500',
   'bg-rose-500', 'bg-cyan-500', 'bg-orange-500', 'bg-teal-500',
 ]
 
@@ -137,10 +137,10 @@ export default function ApplicantsClient({
         <input
           value={search} onChange={e => setSearch(e.target.value)}
           placeholder="Search by name or role..."
-          className="flex-1 text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+          className="flex-1 text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-500"
         />
         <select value={jobId} onChange={e => setJobId(e.target.value)}
-          className="text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-400">
+          className="text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-gray-500">
           <option value="all">All listings</option>
           {jobs.map(j => <option key={j.id} value={j.id}>{j.title}</option>)}
         </select>
@@ -178,7 +178,7 @@ export default function ApplicantsClient({
 
                   <div className="flex items-center gap-3 mt-2 flex-wrap">
                     <a href={`tel:${a.applicant_phone}`}
-                      className="text-xs font-medium text-emerald-700 flex items-center gap-1 hover:underline">
+                      className="text-xs font-medium text-gray-800 flex items-center gap-1 hover:underline">
                       <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
                       </svg>

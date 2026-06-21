@@ -10,7 +10,7 @@ import ApplyModal from './ApplyModal'
 const EMPLOYMENT_TYPES: EmploymentType[] = ['permanent', 'seasonal', 'event']
 
 const EMP_COLORS: Record<string, string> = {
-  permanent: 'bg-emerald-50 text-emerald-700',
+  permanent: 'bg-gray-100 text-gray-800',
   seasonal:  'bg-blue-50 text-blue-700',
   event:     'bg-purple-50 text-purple-700',
 }
@@ -169,7 +169,7 @@ export default function JobBrowser({
                 <button key={val || 'all'} onClick={() => updateFilter('type', val)}
                   className={`text-sm py-3.5 px-5 border-b-2 transition whitespace-nowrap font-medium ${
                     currentType === val
-                      ? 'border-emerald-600 text-emerald-700'
+                      ? 'border-gray-900 text-gray-800'
                       : 'border-transparent text-gray-500 hover:text-gray-800'
                   }`}>
                   {label}
@@ -208,13 +208,13 @@ export default function JobBrowser({
                       if (e.target.checked) next.set('payOnly', '1')
                       router.push(`/?${next.toString()}`)
                     }}
-                    className="w-3.5 h-3.5 accent-emerald-600 cursor-pointer"
+                    className="w-3.5 h-3.5 accent-gray-900 cursor-pointer"
                   />
                   <span className="text-xs text-gray-500 font-medium whitespace-nowrap">Pay listed</span>
                 </label>
                 <span className="text-xs text-gray-400 font-medium">{jobs.length} {jobs.length === 1 ? 'job' : 'jobs'}</span>
                 {hasFilters && (
-                  <button onClick={clearFilters} className="text-xs text-emerald-700 font-semibold hover:underline">Clear</button>
+                  <button onClick={clearFilters} className="text-xs text-gray-800 font-semibold hover:underline">Clear</button>
                 )}
               </div>
             </div>
@@ -241,7 +241,7 @@ export default function JobBrowser({
               {visibleCount < jobs.length && (
                 <div className="text-center py-3">
                   <button onClick={() => setVisibleCount(c => c + 20)}
-                    className="text-sm font-medium text-emerald-700 hover:underline">
+                    className="text-sm font-medium text-gray-800 hover:underline">
                     Show {Math.min(jobs.length - visibleCount, 20)} more
                   </button>
                 </div>
@@ -322,7 +322,7 @@ function DesktopSearchBar({ currentRole, currentLocation, currentQuery, onSearch
           className="flex-1 text-sm text-gray-700 placeholder:text-gray-400 bg-transparent focus:outline-none min-w-0" />
       </div>
       <button type="submit"
-        className="bg-emerald-600 hover:bg-emerald-700 transition text-white text-sm font-semibold px-6 h-11 shrink-0 flex items-center gap-2">
+        className="bg-gray-900 hover:bg-gray-800 transition text-white text-sm font-semibold px-6 h-11 shrink-0 flex items-center gap-2">
         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <circle cx="11" cy="11" r="8"/><path strokeLinecap="round" d="M21 21l-4.35-4.35"/>
         </svg>
@@ -345,7 +345,7 @@ function DesktopJobCard({ job, selected, saved, onSelect, onToggleSave }: {
       onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') onSelect() }}
       className={`w-full text-left rounded-xl border p-4 transition-all group cursor-pointer ${
         selected
-          ? 'border-emerald-400 bg-white shadow-md'
+          ? 'border-gray-500 bg-white shadow-md'
           : 'border-gray-200 bg-white hover:border-gray-300 hover:shadow-sm'
       }`}>
       <div className="flex items-start gap-3">
@@ -361,11 +361,11 @@ function DesktopJobCard({ job, selected, saved, onSelect, onToggleSave }: {
             </div>
             <div className="flex items-center gap-1.5 shrink-0">
               {isNew(job.created_at) && (
-                <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded">New</span>
+                <span className="text-[10px] font-bold text-gray-800 bg-gray-100 px-1.5 py-0.5 rounded">New</span>
               )}
               <span className="text-[11px] text-gray-400">{timeAgo(job.created_at)}</span>
               <button onClick={onToggleSave}
-                className="p-0.5 text-gray-300 hover:text-emerald-500 transition opacity-0 group-hover:opacity-100">
+                className="p-0.5 text-gray-300 hover:text-gray-700 transition opacity-0 group-hover:opacity-100">
                 <svg className="w-3.5 h-3.5" fill={saved ? 'currentColor' : 'none'}
                   viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
                   style={{ color: saved ? '#10b981' : undefined }}>
@@ -393,7 +393,7 @@ function DesktopJobCard({ job, selected, saved, onSelect, onToggleSave }: {
               {job.employment_type === 'event' ? 'Event' : EMPLOYMENT_TYPE_LABELS[job.employment_type]}
             </span>
             {job.pay && (
-              <span className="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">
+              <span className="text-[11px] font-semibold text-gray-800 bg-gray-100 px-2 py-0.5 rounded-full">
                 {job.pay}
               </span>
             )}
@@ -450,7 +450,7 @@ function DesktopJobDetail({ job, isLoggedIn }: { job: Job; isLoggedIn: boolean }
                 {job.pay && (
                   <>
                     <span className="text-gray-300">·</span>
-                    <span className="text-xs font-semibold text-emerald-700">{job.pay}</span>
+                    <span className="text-xs font-semibold text-gray-800">{job.pay}</span>
                   </>
                 )}
                 <span className="text-gray-300">·</span>
@@ -468,7 +468,7 @@ function DesktopJobDetail({ job, isLoggedIn }: { job: Job; isLoggedIn: boolean }
               </a>
             )}
             <button onClick={handleApply}
-              className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-5 py-2 rounded-lg text-sm transition">
+              className="bg-gray-900 hover:bg-gray-800 text-white font-bold px-5 py-2 rounded-lg text-sm transition">
               Apply now
             </button>
           </div>
@@ -495,8 +495,8 @@ function DesktopJobDetail({ job, isLoggedIn }: { job: Job; isLoggedIn: boolean }
 
         {!isLoggedIn && (
           <p className="text-xs text-gray-400 bg-gray-50 border border-gray-100 rounded-lg px-4 py-2.5">
-            <a href="/auth/login?next=/" className="text-emerald-600 font-semibold hover:underline">Sign in</a> or{' '}
-            <a href="/auth/login?next=/" className="text-emerald-600 font-semibold hover:underline">create a free account</a> to apply — takes 30 seconds.
+            <a href="/auth/login?next=/" className="text-gray-900 font-semibold hover:underline">Sign in</a> or{' '}
+            <a href="/auth/login?next=/" className="text-gray-900 font-semibold hover:underline">create a free account</a> to apply — takes 30 seconds.
           </p>
         )}
 
@@ -526,7 +526,7 @@ function DesktopJobDetail({ job, isLoggedIn }: { job: Job; isLoggedIn: boolean }
             ].map(d => (
               <div key={d.label}>
                 <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-0.5">{d.label}</p>
-                <p className={`text-sm font-medium ${d.label === 'Pay' ? 'text-emerald-700' : 'text-gray-800'}`}>{d.value}</p>
+                <p className={`text-sm font-medium ${d.label === 'Pay' ? 'text-gray-800' : 'text-gray-800'}`}>{d.value}</p>
               </div>
             ))}
           </div>
@@ -554,7 +554,7 @@ function DesktopJobDetail({ job, isLoggedIn }: { job: Job; isLoggedIn: boolean }
                         <span key={b} className="text-[11px] text-gray-600 bg-white border border-gray-200 px-2 py-0.5 rounded-full">{b}</span>
                       ))}
                     </div>
-                    <a href={`/companies/${co.id}`} className="inline-block mt-3 text-xs font-semibold text-emerald-700 hover:underline">
+                    <a href={`/companies/${co.id}`} className="inline-block mt-3 text-xs font-semibold text-gray-800 hover:underline">
                       See company profile & reviews →
                     </a>
                   </>
@@ -569,12 +569,12 @@ function DesktopJobDetail({ job, isLoggedIn }: { job: Job; isLoggedIn: boolean }
         {/* Bottom apply */}
         <div className="pt-2 pb-6">
           <button onClick={handleApply}
-            className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl text-sm transition">
+            className="w-full bg-gray-900 hover:bg-gray-800 text-white font-bold py-3 rounded-xl text-sm transition">
             Apply for this position
           </button>
           {!isLoggedIn && (
             <p className="text-xs text-center text-gray-400 mt-2">
-              <a href="/auth/login?next=/" className="text-emerald-600 font-medium hover:underline">Sign in</a> required to apply
+              <a href="/auth/login?next=/" className="text-gray-900 font-medium hover:underline">Sign in</a> required to apply
             </p>
           )}
         </div>
@@ -602,10 +602,10 @@ function MobileJobCard({ job, saved, onToggleSave }: {
         </div>
         <div className="flex items-center gap-1.5 shrink-0">
           {isNew(job.created_at) && (
-            <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded">New</span>
+            <span className="text-[10px] font-bold text-gray-800 bg-gray-100 px-1.5 py-0.5 rounded">New</span>
           )}
           <button onClick={e => { e.preventDefault(); onToggleSave() }}
-            className="text-gray-300 hover:text-emerald-500 transition">
+            className="text-gray-300 hover:text-gray-700 transition">
             <svg className="w-4 h-4" fill={saved ? 'currentColor' : 'none'}
               viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
               style={{ color: saved ? '#10b981' : undefined }}>
@@ -629,7 +629,7 @@ function MobileJobCard({ job, saved, onToggleSave }: {
           {job.employment_type === 'event' ? 'Event' : EMPLOYMENT_TYPE_LABELS[job.employment_type]}
         </span>
         {job.pay && (
-          <span className="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">
+          <span className="text-[11px] font-semibold text-gray-800 bg-gray-100 px-2 py-0.5 rounded-full">
             {job.pay}
           </span>
         )}
@@ -672,7 +672,7 @@ function MobileFilters({ currentRole, currentType, currentLocation, currentQuery
         </span>
         <input type="search" placeholder="Job title or keyword…" defaultValue={currentQuery}
           onChange={e => handleSearch(e.target.value)}
-          className="w-full bg-white border border-gray-200 rounded-xl pl-9 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400 shadow-sm" />
+          className="w-full bg-white border border-gray-200 rounded-xl pl-9 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-gray-500 shadow-sm" />
       </div>
       <div className="relative">
         <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
@@ -683,7 +683,7 @@ function MobileFilters({ currentRole, currentType, currentLocation, currentQuery
         </span>
         <input type="search" placeholder="City or province…" defaultValue={currentLocation}
           onChange={e => handleLocation(e.target.value)}
-          className="w-full bg-white border border-gray-200 rounded-xl pl-9 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400 shadow-sm" />
+          className="w-full bg-white border border-gray-200 rounded-xl pl-9 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-gray-500 shadow-sm" />
       </div>
       {/* Role pills */}
       <div className="flex gap-1.5 overflow-x-auto no-scrollbar pb-1 -mx-4 px-4">
@@ -706,7 +706,7 @@ function MobileFilters({ currentRole, currentType, currentLocation, currentQuery
         ))}
       </div>
       {hasFilters && (
-        <button onClick={onClear} className="text-xs text-emerald-700 font-semibold underline underline-offset-2">
+        <button onClick={onClear} className="text-xs text-gray-800 font-semibold underline underline-offset-2">
           Clear filters
         </button>
       )}
@@ -741,7 +741,7 @@ function EmptyState({ onClear, hasFilters }: { onClear: () => void; hasFilters: 
       </p>
       {hasFilters && (
         <button onClick={onClear}
-          className="text-xs font-semibold text-emerald-700 border border-emerald-200 px-4 py-2 rounded-full hover:bg-emerald-50 transition">
+          className="text-xs font-semibold text-gray-800 border border-gray-200 px-4 py-2 rounded-full hover:bg-gray-100 transition">
           Clear all filters
         </button>
       )}

@@ -49,7 +49,7 @@ export default function EmployerDashboard() {
           <p className="text-sm text-gray-500 mt-0.5">One&Only Cape Town</p>
         </div>
         <a href="/post-job"
-          className="hidden sm:flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition">
+          className="hidden sm:flex items-center gap-1.5 bg-gray-900 hover:bg-gray-800 text-white text-sm font-semibold px-4 py-2 rounded-lg transition">
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4"/>
           </svg>
@@ -59,16 +59,16 @@ export default function EmployerDashboard() {
 
       {/* Offer banner */}
       {!dismissedBanner && (
-        <div className="bg-emerald-50 border border-emerald-200 rounded-xl px-4 py-3 flex items-center justify-between gap-3">
+        <div className="bg-gray-100 border border-gray-200 rounded-xl px-4 py-3 flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <span className="text-emerald-600">
+            <span className="text-gray-900">
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
               </svg>
             </span>
-            <p className="text-sm text-emerald-800 font-medium">Lerato Molefe has received your offer — waiting on response.</p>
+            <p className="text-sm text-gray-900 font-medium">Lerato Molefe has received your offer — waiting on response.</p>
           </div>
-          <button onClick={() => setDismissedBanner(true)} className="text-emerald-500 hover:text-emerald-700">
+          <button onClick={() => setDismissedBanner(true)} className="text-gray-700 hover:text-gray-800">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
             </svg>
@@ -78,7 +78,7 @@ export default function EmployerDashboard() {
 
       {/* Stats row */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        <StatCard label="Live Listings" value={liveJobs.length} sub="of 6 total" icon="📋" color="text-emerald-600" />
+        <StatCard label="Live Listings" value={liveJobs.length} sub="of 6 total" icon="📋" color="text-gray-900" />
         <StatCard label="Total Applicants" value={totalApplicants} sub="across all listings" icon="👥" color="text-blue-600" />
         <StatCard label="Total Views" value={totalViews} sub="last 30 days" icon="👁️" color="text-purple-600" />
         <StatCard label="Interviews Booked" value={upcomingInterviews.length} sub="coming up" icon="📅" color="text-amber-600" />
@@ -90,7 +90,7 @@ export default function EmployerDashboard() {
         <div className="lg:col-span-2 bg-white border border-gray-200 rounded-xl p-5">
           <div className="flex items-center justify-between mb-4">
             <h2 className="font-semibold text-gray-900">Pipeline</h2>
-            <a href="/employer/applicants" className="text-xs text-emerald-600 font-medium hover:underline">View all</a>
+            <a href="/employer/applicants" className="text-xs text-gray-900 font-medium hover:underline">View all</a>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
             {stageCounts.filter(s => !['hired','rejected'].includes(s.key)).map(s => (
@@ -133,7 +133,7 @@ export default function EmployerDashboard() {
           <div className="bg-white border border-gray-200 rounded-xl p-5">
             <div className="flex items-center justify-between mb-3">
               <h2 className="font-semibold text-gray-900">Upcoming Interviews</h2>
-              <a href="/employer/interviews" className="text-xs text-emerald-600 font-medium hover:underline">All</a>
+              <a href="/employer/interviews" className="text-xs text-gray-900 font-medium hover:underline">All</a>
             </div>
             {upcomingInterviews.length === 0 ? (
               <p className="text-sm text-gray-400 text-center py-4">No upcoming interviews</p>
@@ -141,7 +141,7 @@ export default function EmployerDashboard() {
               <div className="space-y-3">
                 {upcomingInterviews.map(i => (
                   <div key={i.id} className="flex items-start gap-3">
-                    <div className="bg-emerald-50 text-emerald-700 rounded-xl px-3 py-2 text-center shrink-0 min-w-[48px]">
+                    <div className="bg-gray-100 text-gray-800 rounded-xl px-3 py-2 text-center shrink-0 min-w-[48px]">
                       <p className="text-sm font-bold leading-none">{new Date(i.date).toLocaleDateString('en-ZA', { day: 'numeric' })}</p>
                       <p className="text-[11px] leading-none mt-1">{new Date(i.date).toLocaleDateString('en-ZA', { month: 'short' })}</p>
                     </div>
@@ -159,7 +159,7 @@ export default function EmployerDashboard() {
           <div className="bg-white border border-gray-200 rounded-xl p-5">
             <div className="flex items-center justify-between mb-3">
               <h2 className="font-semibold text-gray-900">Active Listings</h2>
-              <a href="/employer/listings" className="text-xs text-emerald-600 font-medium hover:underline">All</a>
+              <a href="/employer/listings" className="text-xs text-gray-900 font-medium hover:underline">All</a>
             </div>
             <div className="space-y-3">
               {liveJobs.slice(0, 3).map(j => (
@@ -170,7 +170,7 @@ export default function EmployerDashboard() {
                   </div>
                   <div className="shrink-0 w-16 h-6 flex items-end gap-px">
                     {j.daily_views.slice(-7).map((v, i) => (
-                      <div key={i} className="flex-1 bg-emerald-200 rounded-sm"
+                      <div key={i} className="flex-1 bg-gray-200 rounded-sm"
                         style={{ height: `${Math.max(10, (v / Math.max(...j.daily_views)) * 24)}px` }} />
                     ))}
                   </div>

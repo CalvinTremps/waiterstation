@@ -27,7 +27,7 @@ export default function AdminActions({
   if (status === 'approved') {
     return (
       <div className="mt-3 flex items-center gap-3">
-        <span className="text-xs font-medium text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full">Approved</span>
+        <span className="text-xs font-medium text-gray-900 bg-gray-100 px-2.5 py-1 rounded-full">Approved</span>
         <button
           onClick={() => updateStatus('expired')}
           disabled={loading}
@@ -52,7 +52,7 @@ export default function AdminActions({
       <button
         onClick={() => updateStatus('approved')}
         disabled={loading}
-        className="bg-emerald-600 text-white text-xs font-semibold px-4 py-2 rounded-xl hover:bg-emerald-700 transition disabled:opacity-50"
+        className="bg-gray-900 text-white text-xs font-semibold px-4 py-2 rounded-xl hover:bg-gray-800 transition disabled:opacity-50"
       >
         Approve
       </button>

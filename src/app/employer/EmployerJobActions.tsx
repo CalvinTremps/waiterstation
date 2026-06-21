@@ -21,7 +21,7 @@ export default function EmployerJobActions({ jobId, status }: { jobId: string; s
     <div className="mt-3 pt-3 border-t border-gray-100 flex items-center gap-3">
       <a
         href={`/employer/jobs/${jobId}/edit`}
-        className="text-xs font-medium text-emerald-700 hover:underline"
+        className="text-xs font-medium text-gray-800 hover:underline"
       >
         Edit
       </a>

@@ -49,7 +49,7 @@ export default function WorkerProfileForm({ existing }: { existing: WorkerProfil
       <div className="bg-gray-50 border border-gray-200 rounded-lg p-8 text-center">
         <h2 className="font-bold text-gray-900 text-lg">Profile saved</h2>
         <p className="text-gray-500 text-sm mt-2">We'll use this to match you with employers in V2.</p>
-        <a href="/" className="mt-5 inline-block text-sm text-emerald-700 underline">Browse jobs</a>
+        <a href="/" className="mt-5 inline-block text-sm text-gray-800 underline">Browse jobs</a>
       </div>
     )
   }
@@ -65,7 +65,7 @@ export default function WorkerProfileForm({ existing }: { existing: WorkerProfil
           {ROLE_CATEGORIES.map(r => (
             <button key={r} type="button" onClick={() => setRole(r === role ? '' : r)}
               className={`flex items-center gap-2.5 px-3 py-3 rounded-2xl border text-left text-sm font-medium transition
-                ${role === r ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-gray-700 border-gray-200 hover:border-emerald-300'}`}>
+                ${role === r ? 'bg-gray-900 text-white border-gray-900' : 'bg-white text-gray-700 border-gray-200 hover:border-gray-300'}`}>
               <span className="leading-tight">{ROLE_LABELS[r]}</span>
             </button>
           ))}
@@ -96,7 +96,7 @@ export default function WorkerProfileForm({ existing }: { existing: WorkerProfil
       {error && <div className="bg-red-50 border border-red-100 rounded-2xl px-4 py-3 text-red-600 text-sm">{error}</div>}
 
       <button type="submit" disabled={loading}
-        className="w-full bg-emerald-600 text-white font-bold py-4 rounded-2xl text-base hover:bg-emerald-700 transition disabled:opacity-60">
+        className="w-full bg-gray-900 text-white font-bold py-4 rounded-2xl text-base hover:bg-gray-800 transition disabled:opacity-60">
         {loading ? 'Saving…' : existing ? 'Update profile' : 'Save profile'}
       </button>
     </form>
@@ -107,11 +107,11 @@ function Section({ label, hint, required, children }: { label: string; hint?: st
   return (
     <div>
       <label className="block text-sm font-semibold text-gray-800 mb-1">
-        {label}{required && <span className="text-emerald-600 ml-0.5">*</span>}
+        {label}{required && <span className="text-gray-900 ml-0.5">*</span>}
       </label>
       {hint && <p className="text-xs text-gray-400 mb-2">{hint}</p>}
       {children}
     </div>
   )
 }
-const input = 'w-full bg-white border border-gray-200 rounded-2xl px-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400 placeholder:text-gray-400'
+const input = 'w-full bg-white border border-gray-200 rounded-2xl px-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-gray-500 placeholder:text-gray-400'

@@ -22,7 +22,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <div className="max-w-[1440px] mx-auto w-full px-6 h-full flex items-center gap-6">
             {/* Logo */}
             <a href="/" className="flex items-center gap-2 shrink-0">
-              <span className="w-7 h-7 rounded-lg bg-emerald-600 flex items-center justify-center text-white text-xs font-bold">W</span>
+              <span className="w-7 h-7 rounded-lg bg-gray-900 flex items-center justify-center text-white text-xs font-bold">W</span>
               <span className="font-bold text-gray-900 tracking-tight">Waiterstation</span>
             </a>
 
@@ -37,7 +37,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-10">
               <div>
                 <a href="/" className="flex items-center gap-2 mb-3">
-                  <span className="w-6 h-6 rounded-md bg-emerald-600 flex items-center justify-center text-white text-xs font-bold">W</span>
+                  <span className="w-6 h-6 rounded-md bg-gray-900 flex items-center justify-center text-white text-xs font-bold">W</span>
                   <span className="font-bold text-gray-900 text-sm">Waiterstation</span>
                 </a>
                 <p className="text-xs text-gray-400 leading-relaxed">

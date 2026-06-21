@@ -61,7 +61,7 @@ export default function ApplicantDetailPage({ params }: { params: Promise<{ id: 
   }
 
   function bookInterview() {
-    if (!interviewDate) return
+    if (!interviewDate || !applicant) return
     setInterviews(prev => [...prev, {
       id: `int-new-${Date.now()}`,
       applicant_id: applicant.id,

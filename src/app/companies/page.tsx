@@ -311,7 +311,7 @@ function CompaniesPageInner() {
         {!isSearching && !showAll && (
           <section className="py-6 border-t border-gray-100">
             <h2 className="text-xl font-bold text-gray-900 mb-5">Popular companies</h2>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
               {popularCompanies.map(company => {
                 const reviewCount = company.reviews.length
                 return (

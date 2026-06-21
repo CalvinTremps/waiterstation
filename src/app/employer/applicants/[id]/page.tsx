@@ -179,13 +179,13 @@ export default function ApplicantDetailPage({ params }: { params: Promise<{ id: 
               </button>
             ) : (
               <div className="space-y-3">
-                <div className="flex gap-2 flex-wrap">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                   <input type="date" value={interviewDate} onChange={e => setInterviewDate(e.target.value)}
-                    className="text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-400" />
+                    className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-400" />
                   <input type="time" value={interviewTime} onChange={e => setInterviewTime(e.target.value)}
-                    className="text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-400" />
+                    className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-400" />
                   <select value={interviewType} onChange={e => setInterviewType(e.target.value as typeof interviewType)}
-                    className="text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-400">
+                    className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-400">
                     <option value="in-person">In person</option>
                     <option value="phone">Phone call</option>
                     <option value="video">Video call</option>

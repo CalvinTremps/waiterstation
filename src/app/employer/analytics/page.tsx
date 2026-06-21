@@ -78,14 +78,22 @@ export default function AnalyticsPage() {
             <h2 className="font-semibold text-gray-900">Daily Views</h2>
             <span className="text-xs text-gray-400">Last 14 days</span>
           </div>
-          <BarChart data={viewsData} maxVal={maxViews} color="bg-emerald-400" />
+          <div className="overflow-x-auto">
+            <div style={{ minWidth: '280px' }}>
+              <BarChart data={viewsData} maxVal={maxViews} color="bg-emerald-400" />
+            </div>
+          </div>
         </div>
         <div className="bg-white border border-gray-200 rounded-xl p-5">
           <div className="flex items-center justify-between mb-4">
             <h2 className="font-semibold text-gray-900">Daily Applications</h2>
             <span className="text-xs text-gray-400">Last 14 days</span>
           </div>
-          <BarChart data={appliesData} maxVal={maxApplies} color="bg-blue-400" />
+          <div className="overflow-x-auto">
+            <div style={{ minWidth: '280px' }}>
+              <BarChart data={appliesData} maxVal={maxApplies} color="bg-blue-400" />
+            </div>
+          </div>
         </div>
       </div>
 

@@ -158,20 +158,29 @@ export default function WorkerLayout({ children }: { children: React.ReactNode }
 
       {/* Mobile bottom nav */}
       <nav className="lg:hidden fixed bottom-0 inset-x-0 bg-white border-t border-gray-100 flex z-50">
-        {NAV.slice(0, 5).map(item => (
-          <Link key={item.href} href={item.href}
-            className={`flex-1 flex flex-col items-center justify-center py-2 gap-0.5 text-[10px] font-medium transition relative ${
-              isActive(item) ? 'text-emerald-600' : 'text-gray-400'
-            }`}>
-            {item.badge ? (
-              <span className="absolute top-1.5 right-1/2 translate-x-3 -translate-y-0.5 text-[9px] font-bold bg-emerald-600 text-white rounded-full w-3.5 h-3.5 flex items-center justify-center">
-                {item.badge}
-              </span>
-            ) : null}
-            {item.icon}
-            <span>{item.label.split(' ')[0]}</span>
-          </Link>
-        ))}
+        {[
+          { href: '/worker', exact: true, label: 'Home', badge: undefined, icon: NAV[0].icon },
+          { href: '/worker/applications', exact: false, label: 'Applied', badge: 3, icon: NAV[1].icon },
+          { href: '/worker/interviews', exact: false, label: 'Interviews', badge: 1, icon: NAV[2].icon },
+          { href: '/worker/messages', exact: false, label: 'Messages', badge: 2, icon: NAV[3].icon },
+          { href: '/worker/profile', exact: false, label: 'Profile', badge: undefined, icon: NAV[4].icon },
+        ].map(item => {
+          const active = item.exact ? pathname === item.href : pathname.startsWith(item.href)
+          return (
+            <Link key={item.href} href={item.href}
+              className={`flex-1 flex flex-col items-center justify-center py-2 gap-0.5 text-[10px] font-medium transition relative ${
+                active ? 'text-emerald-600' : 'text-gray-400'
+              }`}>
+              {item.badge ? (
+                <span className="absolute top-1.5 right-1/2 translate-x-3 -translate-y-0.5 text-[9px] font-bold bg-emerald-600 text-white rounded-full w-3.5 h-3.5 flex items-center justify-center">
+                  {item.badge}
+                </span>
+              ) : null}
+              {item.icon}
+              <span>{item.label}</span>
+            </Link>
+          )
+        })}
       </nav>
     </div>
   )

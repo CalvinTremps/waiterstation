@@ -79,7 +79,8 @@ export default function ListingsPage() {
       </div>
 
       {/* Filter tabs */}
-      <div className="flex gap-1 bg-gray-100 p-1 rounded-xl w-fit flex-wrap">
+      <div className="flex gap-1 bg-gray-100 p-1 rounded-xl overflow-x-auto scrollbar-none"
+        style={{ WebkitOverflowScrolling: 'touch' }}>
         {(['all','live','under_review','paused','expired','draft'] as const).map(s => (
           <button key={s} onClick={() => setFilter(s)}
             className={`text-xs font-semibold px-3 py-1.5 rounded-lg transition ${

@@ -72,25 +72,27 @@ function ApplicantsInner() {
       </div>
 
       {/* Filters row */}
-      <div className="flex gap-2 flex-wrap">
+      <div className="flex flex-col sm:flex-row gap-2">
         <input
           value={search} onChange={e => setSearch(e.target.value)}
           placeholder="Search by name or role..."
-          className="flex-1 min-w-[160px] text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+          className="flex-1 text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-400"
         />
-        <select value={jobId} onChange={e => setJobId(e.target.value)}
-          className="text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-400">
-          <option value="all">All listings</option>
-          {EMPLOYER_JOBS.map(j => (
-            <option key={j.id} value={j.id}>{j.title}</option>
-          ))}
-        </select>
-        <select value={sortBy} onChange={e => setSortBy(e.target.value as typeof sortBy)}
-          className="text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-400">
-          <option value="date">Newest first</option>
-          <option value="name">Name A–Z</option>
-          <option value="rating">Highest rated</option>
-        </select>
+        <div className="flex gap-2">
+          <select value={jobId} onChange={e => setJobId(e.target.value)}
+            className="flex-1 sm:flex-none text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-400">
+            <option value="all">All listings</option>
+            {EMPLOYER_JOBS.map(j => (
+              <option key={j.id} value={j.id}>{j.title}</option>
+            ))}
+          </select>
+          <select value={sortBy} onChange={e => setSortBy(e.target.value as typeof sortBy)}
+            className="flex-1 sm:flex-none text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-400">
+            <option value="date">Newest first</option>
+            <option value="name">Name A–Z</option>
+            <option value="rating">Highest rated</option>
+          </select>
+        </div>
       </div>
 
       {/* Results */}

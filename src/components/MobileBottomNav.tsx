@@ -15,8 +15,9 @@ export default function MobileBottomNav() {
 
   // Job detail has its own sticky CTA — hide nav there
   if (pathname.startsWith('/jobs/') && pathname !== '/jobs') return null
-  // Hide on admin and auth pages
+  // Hide on admin, auth, and section portals (they have their own navbars)
   if (pathname.startsWith('/admin') || pathname.startsWith('/auth')) return null
+  if (pathname.startsWith('/employer') || pathname.startsWith('/worker')) return null
 
   function active(href: string) {
     if (href === '/') return pathname === '/'

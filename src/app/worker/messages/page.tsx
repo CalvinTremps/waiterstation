@@ -60,7 +60,7 @@ export default function MessagesPage() {
         </p>
       </div>
 
-      <div className="bg-white border border-gray-200 rounded-xl overflow-hidden flex" style={{ minHeight: '520px' }}>
+      <div className="bg-white border border-gray-200 rounded-xl overflow-hidden flex" style={{ minHeight: 'min(520px, 70vh)' }}>
         {/* Thread list */}
         <div className={`w-full lg:w-72 shrink-0 border-r border-gray-100 flex flex-col ${selected && 'hidden lg:flex'}`}>
           <div className="px-4 py-3 border-b border-gray-100">

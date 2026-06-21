@@ -32,7 +32,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
         <main className="pb-16 md:pb-0">{children}</main>
 
-        <footer className="hidden md:block mt-20 border-t border-gray-100 bg-white">
+        <footer className="mt-20 border-t border-gray-100 bg-white">
           <div className="max-w-[1440px] mx-auto px-6 py-10">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
               <div>

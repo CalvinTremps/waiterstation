@@ -92,23 +92,23 @@ export default function EmployerDashboard() {
             <h2 className="font-semibold text-gray-900">Pipeline</h2>
             <a href="/employer/applicants" className="text-xs text-emerald-600 font-medium hover:underline">View all</a>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-5">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
             {stageCounts.filter(s => !['hired','rejected'].includes(s.key)).map(s => (
               <a key={s.key} href="/employer/applicants"
-                className="text-center bg-gray-50 hover:bg-gray-100 rounded-lg p-3 transition cursor-pointer">
-                <p className="text-xl font-bold text-gray-900">{s.count}</p>
-                <p className="text-[11px] text-gray-500 mt-0.5">{s.label}</p>
+                className="text-center bg-gray-50 hover:bg-gray-100 rounded-xl p-4 transition cursor-pointer">
+                <p className="text-2xl font-bold text-gray-900">{s.count}</p>
+                <p className="text-xs text-gray-500 mt-1">{s.label}</p>
               </a>
             ))}
           </div>
 
           {/* Recent applicants */}
-          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Recent applicants</p>
-          <div className="space-y-2">
+          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">Recent applicants</p>
+          <div className="space-y-1">
             {recentApplicants.map(a => (
               <a key={a.id} href={`/employer/applicants/${a.id}`}
-                className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-50 transition">
-                <div className={`w-8 h-8 rounded-full ${a.avatar_color} flex items-center justify-center text-white text-xs font-bold shrink-0`}>
+                className="flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-gray-50 transition">
+                <div className={`w-9 h-9 rounded-full ${a.avatar_color} flex items-center justify-center text-white text-xs font-bold shrink-0`}>
                   {a.avatar_initials}
                 </div>
                 <div className="flex-1 min-w-0">
@@ -116,10 +116,10 @@ export default function EmployerDashboard() {
                   <p className="text-xs text-gray-500 truncate">{a.job_title}</p>
                 </div>
                 <div className="text-right shrink-0">
-                  <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${PIPELINE_STAGES.find(s => s.key === a.stage)?.color}`}>
+                  <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${PIPELINE_STAGES.find(s => s.key === a.stage)?.color}`}>
                     {PIPELINE_STAGES.find(s => s.key === a.stage)?.label}
                   </span>
-                  <p className="text-[10px] text-gray-400 mt-0.5">{timeAgo(a.applied_at)}</p>
+                  <p className="text-[10px] text-gray-400 mt-1">{timeAgo(a.applied_at)}</p>
                 </div>
               </a>
             ))}
@@ -141,9 +141,9 @@ export default function EmployerDashboard() {
               <div className="space-y-3">
                 {upcomingInterviews.map(i => (
                   <div key={i.id} className="flex items-start gap-3">
-                    <div className="bg-emerald-50 text-emerald-700 rounded-lg px-2 py-1.5 text-center shrink-0 min-w-[44px]">
-                      <p className="text-xs font-bold leading-none">{new Date(i.date).toLocaleDateString('en-ZA', { day: 'numeric' })}</p>
-                      <p className="text-[10px] leading-none mt-0.5">{new Date(i.date).toLocaleDateString('en-ZA', { month: 'short' })}</p>
+                    <div className="bg-emerald-50 text-emerald-700 rounded-xl px-3 py-2 text-center shrink-0 min-w-[48px]">
+                      <p className="text-sm font-bold leading-none">{new Date(i.date).toLocaleDateString('en-ZA', { day: 'numeric' })}</p>
+                      <p className="text-[11px] leading-none mt-1">{new Date(i.date).toLocaleDateString('en-ZA', { month: 'short' })}</p>
                     </div>
                     <div className="min-w-0">
                       <p className="text-sm font-semibold text-gray-900 truncate">{i.applicant_name}</p>

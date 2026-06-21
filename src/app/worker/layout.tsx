@@ -102,10 +102,10 @@ export default function WorkerLayout({ children }: { children: React.ReactNode }
           <p className="text-[11px] text-gray-400 mt-0.5 font-medium">Candidate Portal</p>
         </div>
 
-        <nav className="flex-1 px-2 py-3 space-y-0.5 overflow-y-auto">
+        <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
           {NAV.map(item => (
             <Link key={item.href} href={item.href}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition group ${
+              className={`flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition group ${
                 isActive(item)
                   ? 'bg-emerald-50 text-emerald-700'
                   : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'

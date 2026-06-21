@@ -313,7 +313,7 @@ function PostCard({ post, onOpen }: { post: CommunityPost; onOpen: () => void })
           </div>
         </div>
         {bowl && (
-          <span className="text-[11px] font-medium px-2.5 py-0.5 rounded bg-gray-100 text-gray-600 whitespace-nowrap shrink-0">
+          <span className="text-xs font-medium px-3 py-1 rounded-full bg-gray-100 text-gray-600 whitespace-nowrap shrink-0">
             {post.bowl}
           </span>
         )}

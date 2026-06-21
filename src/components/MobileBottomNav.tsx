@@ -3,7 +3,7 @@ import { usePathname } from 'next/navigation'
 
 function NavItem({ href, label, active, children }: { href: string; label: string; active: boolean; children: React.ReactNode }) {
   return (
-    <a href={href} className={`flex-1 flex flex-col items-center justify-center gap-0.5 py-2 transition ${active ? 'text-emerald-600' : 'text-gray-400 hover:text-gray-600'}`}>
+    <a href={href} className={`flex-1 flex flex-col items-center justify-center gap-1 py-2.5 transition ${active ? 'text-emerald-600' : 'text-gray-400 hover:text-gray-600'}`}>
       {children}
       <span className="text-[10px] font-medium leading-none">{label}</span>
     </a>
@@ -26,7 +26,7 @@ export default function MobileBottomNav() {
 
   return (
     <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-gray-200" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
-      <div className="flex items-stretch h-14">
+      <div className="flex items-stretch h-16">
         <NavItem href="/" label="Jobs" active={active('/')}>
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={active('/') ? 2.5 : 1.75}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>

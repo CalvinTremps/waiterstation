@@ -167,7 +167,7 @@ export default function WorkerDashboard() {
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
                   <span className="text-[10px] font-semibold uppercase">{fmt(app.updated_at)}</span>
-                  <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${STATUS_STYLES[app.status]}`}>
+                  <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${STATUS_STYLES[app.status]}`}>
                     {STATUS_LABELS[app.status]}
                   </span>
                 </div>
@@ -225,7 +225,7 @@ export default function WorkerDashboard() {
           <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
             <h2 className="font-semibold text-gray-900">
               New messages
-              <span className="ml-2 text-[11px] font-bold bg-blue-600 text-white px-1.5 py-0.5 rounded-full">{unread.length}</span>
+              <span className="ml-2 text-xs font-bold bg-blue-600 text-white px-2 py-0.5 rounded-full">{unread.length}</span>
             </h2>
             <Link href="/worker/messages" className="text-xs font-semibold text-emerald-600 hover:underline">
               View all

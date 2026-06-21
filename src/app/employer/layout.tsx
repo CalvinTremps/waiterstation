@@ -93,11 +93,11 @@ export default function EmployerLayout({ children }: { children: React.ReactNode
         </aside>
 
         {/* Mobile bottom nav */}
-        <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-40 px-1 py-1">
+        <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-40 px-2 py-2">
           <div className="flex items-center justify-around">
             {NAV.slice(0, 4).map(item => (
               <a key={item.href} href={item.href}
-                className={`flex flex-col items-center gap-0.5 px-2 py-1.5 rounded-lg transition relative ${
+                className={`flex flex-col items-center gap-1 px-3 py-2 rounded-xl transition relative ${
                   isActive(item.href) ? 'text-emerald-600' : 'text-gray-400'
                 }`}>
                 {item.badge && (
@@ -106,21 +106,21 @@ export default function EmployerLayout({ children }: { children: React.ReactNode
                   </span>
                 )}
                 {item.icon}
-                <span className="text-[9px] font-medium leading-none">
+                <span className="text-[10px] font-medium leading-none">
                   {item.label === 'My Listings' ? 'Listings' : item.label.split(' ')[0]}
                 </span>
               </a>
             ))}
             {/* More — links to Analytics, Saved, Profile */}
             <a href="/employer/analytics"
-              className={`flex flex-col items-center gap-0.5 px-2 py-1.5 rounded-lg transition ${
+              className={`flex flex-col items-center gap-1 px-3 py-2 rounded-xl transition ${
                 ['/employer/analytics','/employer/saved','/employer/profile'].some(h => pathname.startsWith(h))
                   ? 'text-emerald-600' : 'text-gray-400'
               }`}>
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"/>
               </svg>
-              <span className="text-[9px] font-medium leading-none">More</span>
+              <span className="text-[10px] font-medium leading-none">More</span>
             </a>
           </div>
         </div>

@@ -147,7 +147,7 @@ export default function JobBrowser({
       <div className="hidden md:flex flex-col bg-gray-50" style={{ height: 'calc(100vh - var(--header-height))' }}>
 
         {/* Search + filters */}
-        <div className="bg-white border-b border-gray-200 shrink-0 px-6 pt-4 pb-0">
+        <div className="bg-white border-b border-gray-200 shrink-0 px-6 pt-5 pb-0">
           <div className="max-w-[1440px] mx-auto">
             <DesktopSearchBar
               currentRole={currentRole}
@@ -236,7 +236,7 @@ export default function JobBrowser({
           {/* LEFT: job list */}
           <div className="w-[400px] shrink-0 overflow-y-auto border-r border-gray-200 bg-gray-50 scrollbar-thin">
             {jobs.length === 0 && <EmptyState onClear={clearFilters} hasFilters={!!hasFilters} />}
-            <div className="p-2 space-y-1.5">
+            <div className="p-3 space-y-2">
               {jobs.slice(0, visibleCount).map(job => (
                 <DesktopJobCard
                   key={job.id}

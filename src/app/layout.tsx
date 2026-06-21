@@ -32,9 +32,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
         <main className="pb-16 md:pb-0">{children}</main>
 
-        <footer className="mt-20 border-t border-gray-100 bg-white">
-          <div className="max-w-[1440px] mx-auto px-6 py-10">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+        <footer className="mt-24 border-t border-gray-100 bg-white">
+          <div className="max-w-[1440px] mx-auto px-6 py-12">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-10">
               <div>
                 <a href="/" className="flex items-center gap-2 mb-3">
                   <span className="w-6 h-6 rounded-md bg-emerald-600 flex items-center justify-center text-white text-xs font-bold">W</span>
@@ -46,7 +46,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               </div>
               <div>
                 <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">For Workers</p>
-                <div className="space-y-2">
+                <div className="space-y-2.5">
                   {[
                     { href: '/', label: 'Browse jobs' },
                     { href: '/saved', label: 'Saved jobs' },
@@ -59,7 +59,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               </div>
               <div>
                 <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">For Employers</p>
-                <div className="space-y-2">
+                <div className="space-y-2.5">
                   {[
                     { href: '/post-job', label: 'Post a job' },
                     { href: '/employers', label: 'Why Waiterstation' },
@@ -72,7 +72,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               </div>
               <div>
                 <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">Company</p>
-                <div className="space-y-2">
+                <div className="space-y-2.5">
                   {[
                     { href: '/about', label: 'About' },
                     { href: '/community', label: 'Community' },

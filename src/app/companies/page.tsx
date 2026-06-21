@@ -319,7 +319,7 @@ function CompaniesPageInner() {
                 return (
                   <div
                     key={company.id}
-                    className="flex flex-col p-4 rounded-xl border border-gray-200 bg-white hover:shadow-md hover:border-gray-300 transition-all group"
+                    className="flex flex-col p-5 rounded-xl border border-gray-200 bg-white hover:shadow-md hover:border-gray-300 transition-all group"
                   >
                     <a href={`/companies/${company.id}`} className="block">
                       <CompanyBadge name={company.name} size="md" logoUrl={company.logo_url} />

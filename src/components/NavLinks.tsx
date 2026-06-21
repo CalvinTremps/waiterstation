@@ -13,7 +13,7 @@ export default function NavLinks({ isLoggedIn }: { isLoggedIn: boolean }) {
     return pathname.startsWith(href)
   }
 
-  const linkBase = 'text-sm font-medium px-3 h-full flex items-center transition whitespace-nowrap'
+  const linkBase = 'text-sm font-medium px-4 h-full flex items-center transition whitespace-nowrap'
   const activeClass = 'font-semibold text-emerald-700 border-b-2 border-emerald-600'
   const inactiveClass = 'text-gray-500 hover:text-gray-800'
 
@@ -28,21 +28,21 @@ export default function NavLinks({ isLoggedIn }: { isLoggedIn: boolean }) {
       </nav>
 
       <div className="hidden md:flex items-center gap-2 shrink-0 ml-auto">
-        <a href="/saved" className={`text-sm font-medium transition px-2 py-1.5 flex items-center gap-1 ${active('/saved') ? 'text-emerald-700' : 'text-gray-500 hover:text-gray-800'}`} aria-label="Saved jobs">
+        <a href="/saved" className={`text-sm font-medium transition px-3 py-2 flex items-center gap-1.5 ${active('/saved') ? 'text-emerald-700' : 'text-gray-500 hover:text-gray-800'}`} aria-label="Saved jobs">
           <svg className="w-4 h-4" fill={active('/saved') ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
             <path strokeLinecap="round" strokeLinejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
           </svg>
           Saved
         </a>
         {isLoggedIn ? (
-          <a href="/employer" className="text-sm font-medium text-gray-600 hover:text-gray-900 transition px-3 py-1.5">My listings</a>
+          <a href="/employer" className="text-sm font-medium text-gray-600 hover:text-gray-900 transition px-4 py-2">My listings</a>
         ) : (
-          <a href="/auth/login" className="text-sm font-medium text-gray-500 hover:text-gray-800 transition px-3 py-1.5">Sign in</a>
+          <a href="/auth/login" className="text-sm font-medium text-gray-500 hover:text-gray-800 transition px-4 py-2">Sign in</a>
         )}
-        <a href="/employers" className={`text-sm font-medium transition px-3 py-1.5 border border-gray-200 rounded-md ${active('/employers') ? 'text-emerald-700 border-emerald-200 bg-emerald-50' : 'text-gray-600 hover:text-gray-900 hover:border-gray-300'}`}>
+        <a href="/employers" className={`text-sm font-medium transition px-4 py-2 border border-gray-200 rounded-lg ${active('/employers') ? 'text-emerald-700 border-emerald-200 bg-emerald-50' : 'text-gray-600 hover:text-gray-900 hover:border-gray-300'}`}>
           For Employers
         </a>
-        <a href="/post-job" className="bg-emerald-600 text-white text-sm font-semibold px-4 py-2 rounded-md hover:bg-emerald-700 transition whitespace-nowrap">
+        <a href="/post-job" className="bg-emerald-600 text-white text-sm font-semibold px-5 py-2.5 rounded-lg hover:bg-emerald-700 transition whitespace-nowrap">
           Post a Job
         </a>
       </div>
@@ -75,7 +75,7 @@ export default function NavLinks({ isLoggedIn }: { isLoggedIn: boolean }) {
       {/* Mobile drawer */}
       {mobileOpen && (
         <div className="absolute top-[var(--header-height)] left-0 right-0 bg-white border-b border-gray-200 shadow-lg z-40 md:hidden">
-          <nav className="flex flex-col px-4 py-3 gap-1">
+          <nav className="flex flex-col px-4 py-4 gap-1.5">
             {[
               { href: '/', label: 'Browse jobs' },
               { href: '/companies', label: 'Companies' },
@@ -93,18 +93,18 @@ export default function NavLinks({ isLoggedIn }: { isLoggedIn: boolean }) {
                 key={href}
                 href={href}
                 onClick={() => setMobileOpen(false)}
-                className={`px-3 py-2.5 rounded-xl text-sm font-medium transition ${
+                className={`px-4 py-3 rounded-xl text-sm font-medium transition ${
                   active(href) ? 'bg-gray-100 text-gray-900 font-semibold' : 'text-gray-700 hover:bg-gray-50'
                 }`}
               >
                 {label}
               </a>
             ))}
-            <div className="pt-2 pb-1">
+            <div className="pt-3 pb-2">
               <a
                 href="/post-job"
                 onClick={() => setMobileOpen(false)}
-                className="flex items-center justify-center bg-emerald-600 text-white text-sm font-bold px-4 py-3 rounded-md hover:bg-emerald-700 transition"
+                className="flex items-center justify-center bg-emerald-600 text-white text-sm font-bold px-4 py-3.5 rounded-xl hover:bg-emerald-700 transition"
               >
                 Post a Job
               </a>

@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --header-height: 57px;
+  --header-height: 64px;
   --bg: #F3F4F6;
   --card: #ffffff;
   --green: #059669;

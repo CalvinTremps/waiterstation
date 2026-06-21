@@ -248,22 +248,24 @@ function CompaniesPageInner() {
             Get access to honest reviews from hospitality workers across South Africa
           </p>
 
-          <div className="flex shadow-sm rounded-lg overflow-hidden border border-gray-300 focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200 transition">
-            <div className="flex items-center pl-4 text-gray-400 bg-white">
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
-              </svg>
+          <div className="flex flex-col sm:flex-row gap-2">
+            <div className="flex flex-1 shadow-sm rounded-lg overflow-hidden border border-gray-300 focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200 transition bg-white">
+              <div className="flex items-center pl-4 text-gray-400">
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
+                </svg>
+              </div>
+              <input
+                type="search"
+                placeholder="Company name or job title"
+                value={searchQuery}
+                onChange={e => { setSearchQuery(e.target.value); setShowAll(true) }}
+                className="flex-1 px-4 py-3.5 text-sm outline-none bg-white text-gray-900 placeholder-gray-400"
+              />
             </div>
-            <input
-              type="search"
-              placeholder="Company name or job title"
-              value={searchQuery}
-              onChange={e => { setSearchQuery(e.target.value); setShowAll(true) }}
-              className="flex-1 px-4 py-3.5 text-sm outline-none bg-white text-gray-900 placeholder-gray-400"
-            />
             <button
               onClick={() => setShowAll(true)}
-              className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-6 py-3.5 transition whitespace-nowrap"
+              className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-6 py-3.5 rounded-lg transition whitespace-nowrap"
             >
               Find Companies
             </button>

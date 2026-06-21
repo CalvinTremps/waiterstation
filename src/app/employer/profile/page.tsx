@@ -19,7 +19,7 @@ export default function ProfilePage() {
   const [saved, setSaved] = useState(false)
   const [activeTab, setActiveTab] = useState<'edit' | 'preview'>('edit')
 
-  function set(key: string, value: string | string[]) {
+  function set(key: string, value: string | string[] | Record<string, string>) {
     setProfile(prev => ({ ...prev, [key]: value }))
     setSaved(false)
   }

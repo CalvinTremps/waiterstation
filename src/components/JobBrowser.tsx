@@ -147,7 +147,7 @@ export default function JobBrowser({
       <div className="hidden md:flex flex-col bg-gray-50" style={{ height: 'calc(100vh - var(--header-height))' }}>
 
         {/* Search + filters */}
-        <div className="bg-white border-b border-gray-200 shrink-0 px-6 pt-5 pb-0">
+        <div className="bg-white border-b border-gray-200 shrink-0 px-6 pt-6 pb-0">
           <div className="max-w-[1440px] mx-auto">
             <DesktopSearchBar
               currentRole={currentRole}
@@ -163,41 +163,32 @@ export default function JobBrowser({
                 router.push(`/?${next.toString()}`)
               }}
             />
-            {totalLive > 0 && (
-              <p className="text-xs text-gray-400 mt-1.5 mb-2">
-                {totalLive.toLocaleString()} live hospitality jobs across South Africa
-              </p>
-            )}
+            {/* Row 1: Employment type tabs */}
+            <div className="flex items-center border-t border-gray-100">
+              {([['', 'All jobs'], ...EMPLOYMENT_TYPES.map(t => [t, t === 'event' ? 'Event' : EMPLOYMENT_TYPE_LABELS[t]])] as Array<[string, string]>).map(([val, label]) => (
+                <button key={val || 'all'} onClick={() => updateFilter('type', val)}
+                  className={`text-sm py-3.5 px-5 border-b-2 transition whitespace-nowrap font-medium ${
+                    currentType === val
+                      ? 'border-emerald-600 text-emerald-700'
+                      : 'border-transparent text-gray-500 hover:text-gray-800'
+                  }`}>
+                  {label}
+                </button>
+              ))}
+            </div>
 
-            {/* Role pills + type tabs row */}
-            <div className="flex items-center gap-4 border-t border-gray-100 pt-2">
-              {/* Employment type tabs */}
-              <div className="flex items-center gap-0 shrink-0">
-                {([['', 'All jobs'], ...EMPLOYMENT_TYPES.map(t => [t, t === 'event' ? 'Event' : EMPLOYMENT_TYPE_LABELS[t]])] as Array<[string, string]>).map(([val, label]) => (
-                  <button key={val || 'all'} onClick={() => updateFilter('type', val)}
-                    className={`text-sm py-2.5 px-4 border-b-2 transition whitespace-nowrap font-medium ${
-                      currentType === val
-                        ? 'border-emerald-600 text-emerald-700'
-                        : 'border-transparent text-gray-500 hover:text-gray-800'
-                    }`}>
-                    {label}
-                  </button>
-                ))}
-              </div>
-
-              <div className="w-px h-5 bg-gray-200 shrink-0" />
-
-              {/* Role pills */}
-              <div className="flex gap-1.5 overflow-x-auto flex-1 pb-2 no-scrollbar">
+            {/* Row 2: Role pills + pay toggle */}
+            <div className="flex items-center gap-3 border-t border-gray-100 py-4">
+              <div className="flex gap-1.5 overflow-x-auto flex-1 no-scrollbar">
                 <button onClick={() => updateFilter('role', '')}
-                  className={`shrink-0 text-xs font-medium px-3 py-1.5 rounded-full border transition whitespace-nowrap ${
+                  className={`shrink-0 text-xs font-medium px-3.5 py-1.5 rounded-full border transition whitespace-nowrap ${
                     !currentRole ? 'bg-gray-900 text-white border-gray-900' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400'
                   }`}>
                   All roles
                 </button>
                 {ROLE_CATEGORIES.map(r => (
                   <button key={r} onClick={() => updateFilter('role', currentRole === r ? '' : r)}
-                    className={`shrink-0 text-xs font-medium px-3 py-1.5 rounded-full border transition whitespace-nowrap ${
+                    className={`shrink-0 text-xs font-medium px-3.5 py-1.5 rounded-full border transition whitespace-nowrap ${
                       currentRole === r ? 'bg-gray-900 text-white border-gray-900' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400'
                     }`}>
                     {ROLE_LABELS[r]}
@@ -205,7 +196,7 @@ export default function JobBrowser({
                 ))}
               </div>
 
-              <div className="flex items-center gap-3 shrink-0 pb-2">
+              <div className="flex items-center gap-3 shrink-0">
                 <label className="flex items-center gap-1.5 cursor-pointer select-none">
                   <input type="checkbox" checked={payOnly}
                     onChange={e => {

@@ -12,6 +12,7 @@ export default function ApplyModal({ job, onClose }: Props) {
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
   const [message, setMessage] = useState('')
+  const [consent, setConsent] = useState(false)
   const [loading, setLoading] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState('')
@@ -154,6 +155,20 @@ export default function ApplyModal({ job, onClose }: Props) {
               />
             </div>
 
+            {/* POPIA consent */}
+            <label className="flex items-start gap-2.5 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={consent}
+                onChange={e => setConsent(e.target.checked)}
+                className="mt-0.5 w-4 h-4 accent-emerald-600 cursor-pointer shrink-0"
+              />
+              <span className="text-xs text-gray-500 leading-relaxed">
+                I consent to Waiterstation sharing my name and phone number with {job.employer_name} for the purpose of this job application, in accordance with the{' '}
+                <a href="/privacy" target="_blank" className="text-emerald-600 underline underline-offset-2">Privacy Policy</a> (POPIA).
+              </span>
+            </label>
+
             {error && (
               <div className="bg-red-50 border border-red-100 rounded-xl px-3.5 py-2.5 text-sm text-red-600">
                 {error}
@@ -162,7 +177,7 @@ export default function ApplyModal({ job, onClose }: Props) {
 
             <button
               type="submit"
-              disabled={loading || !name.trim() || !phone.trim()}
+              disabled={loading || !name.trim() || !phone.trim() || !consent}
               className="w-full bg-emerald-600 text-white font-semibold py-3 rounded-full hover:bg-emerald-700 transition disabled:opacity-50 disabled:cursor-not-allowed text-sm"
             >
               {loading ? 'Sending…' : 'Submit application'}

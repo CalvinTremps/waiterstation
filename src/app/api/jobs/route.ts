@@ -45,6 +45,7 @@ export async function POST(req: NextRequest) {
     contact_method: contact_method.trim(),
     status: 'pending',
     employer_id: session?.user.id ?? null,
+    employer_email: session?.user.email ?? null,
     parent_company_id: parent_company_id ?? null,
     franchise_name: franchise_name?.trim() ?? null,
     franchise_email: franchise_email?.trim() ?? null,

@@ -532,59 +532,68 @@ function DesktopJobDetail({ job, isLoggedIn }: { job: Job; isLoggedIn: boolean }
           </section>
         )}
 
-        {/* ── Company overview ── (only if matched to mock company) */}
-        {co && (
-          <>
-            <section className="px-7 pb-8">
-              <h2 className="text-base font-bold text-gray-900 mb-3">Company overview</h2>
-
-              {/* Stats row */}
-              <div className="flex flex-wrap gap-x-6 gap-y-3 mb-4">
-                {[
-                  { icon: '🏢', label: 'Size', value: co.size },
-                  { icon: '📍', label: 'Location', value: co.location },
-                  { icon: '🏷️', label: 'Industry', value: co.industry },
-                ].map(s => (
-                  <div key={s.label} className="flex items-center gap-2">
-                    <span className="text-base">{s.icon}</span>
-                    <div>
-                      <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wide leading-none">{s.label}</p>
-                      <p className="text-sm font-semibold text-gray-800 mt-0.5">{s.value}</p>
-                    </div>
-                  </div>
-                ))}
+        {/* ── Company overview ── */}
+        <section className="px-7 pb-8">
+          <h2 className="text-base font-bold text-gray-900 mb-3">Company overview</h2>
+          <div className="flex flex-wrap gap-x-6 gap-y-3 mb-4">
+            {[
+              { icon: '🏢', label: 'Size', value: co?.size ?? 'Not listed' },
+              { icon: '📍', label: 'Location', value: job.location },
+              { icon: '🏷️', label: 'Industry', value: co?.industry ?? job.category_label ?? 'Hospitality' },
+            ].map(s => (
+              <div key={s.label} className="flex items-center gap-2">
+                <span className="text-base">{s.icon}</span>
+                <div>
+                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wide leading-none">{s.label}</p>
+                  <p className="text-sm font-semibold text-gray-800 mt-0.5">{s.value}</p>
+                </div>
               </div>
-
+            ))}
+          </div>
+          {co ? (
+            <>
               <p className="text-sm text-gray-600 leading-relaxed">{co.description}</p>
-
               <a href={`/companies/${co.id}`}
                 className="inline-flex items-center gap-1.5 mt-4 text-sm font-semibold text-gray-900 hover:underline">
                 View full company profile →
               </a>
-            </section>
+            </>
+          ) : (
+            <p className="text-sm text-gray-400 italic">No company profile yet on Waiterstation.</p>
+          )}
+        </section>
 
-            {/* ── Ratings ── */}
-            <section className="px-7 pb-8">
-              <h2 className="text-base font-bold text-gray-900 mb-4">{co.name} ratings</h2>
-              <div className="flex items-start gap-6">
-                <div className="text-center shrink-0">
-                  <p className="text-5xl font-extrabold text-gray-900 leading-none">{co.overall_rating.toFixed(1)}</p>
-                  <Stars rating={co.overall_rating} size="md" />
-                  <p className="text-xs text-gray-400 mt-1">{co.reviews.length} reviews</p>
-                </div>
-                <div className="flex-1 space-y-2.5">
-                  <RatingBar label="Work-life balance" value={co.ratings.work_life_balance} />
-                  <RatingBar label="Culture & values" value={co.ratings.culture} />
-                  <RatingBar label="Management" value={co.ratings.management} />
-                  <RatingBar label="Career growth" value={co.ratings.career_growth} />
-                  <RatingBar label="Compensation" value={co.ratings.compensation} />
-                </div>
+        {/* ── Ratings ── */}
+        <section className="px-7 pb-8">
+          <h2 className="text-base font-bold text-gray-900 mb-4">{job.employer_name} ratings</h2>
+          {co ? (
+            <div className="flex items-start gap-6">
+              <div className="text-center shrink-0">
+                <p className="text-5xl font-extrabold text-gray-900 leading-none">{co.overall_rating.toFixed(1)}</p>
+                <Stars rating={co.overall_rating} size="md" />
+                <p className="text-xs text-gray-400 mt-1">{co.reviews.length} reviews</p>
               </div>
-            </section>
+              <div className="flex-1 space-y-2.5">
+                <RatingBar label="Work-life balance" value={co.ratings.work_life_balance} />
+                <RatingBar label="Culture & values" value={co.ratings.culture} />
+                <RatingBar label="Management" value={co.ratings.management} />
+                <RatingBar label="Career growth" value={co.ratings.career_growth} />
+                <RatingBar label="Compensation" value={co.ratings.compensation} />
+              </div>
+            </div>
+          ) : (
+            <div className="bg-gray-50 rounded-2xl px-5 py-6 text-center">
+              <p className="text-sm font-semibold text-gray-700 mb-1">No ratings yet</p>
+              <p className="text-xs text-gray-400">Be the first to rate {job.employer_name} on Waiterstation.</p>
+            </div>
+          )}
+        </section>
 
-            {/* ── Benefits ── */}
-            <section className="px-7 pb-8">
-              <h2 className="text-base font-bold text-gray-900 mb-1">{co.name} benefits</h2>
+        {/* ── Benefits ── */}
+        <section className="px-7 pb-8">
+          <h2 className="text-base font-bold text-gray-900 mb-3">{job.employer_name} benefits</h2>
+          {co ? (
+            <>
               <div className="flex items-center gap-2 mb-4">
                 <Stars rating={co.overall_rating} size="sm" />
                 <span className="text-xs font-bold text-gray-700">{co.overall_rating.toFixed(1)}</span>
@@ -600,11 +609,20 @@ function DesktopJobDetail({ job, isLoggedIn }: { job: Job; isLoggedIn: boolean }
                   </span>
                 ))}
               </div>
-            </section>
+            </>
+          ) : (
+            <div className="bg-gray-50 rounded-2xl px-5 py-6 text-center">
+              <p className="text-sm font-semibold text-gray-700 mb-1">Benefits not listed</p>
+              <p className="text-xs text-gray-400">This employer hasn&apos;t added benefits information yet.</p>
+            </div>
+          )}
+        </section>
 
-            {/* ── Reviews ── */}
-            <section className="px-7 pb-10">
-              <h2 className="text-base font-bold text-gray-900 mb-4">Employee reviews</h2>
+        {/* ── Reviews ── */}
+        <section className="px-7 pb-10">
+          <h2 className="text-base font-bold text-gray-900 mb-4">Employee reviews</h2>
+          {co ? (
+            <>
               <div className="space-y-3">
                 {co.reviews.map(r => (
                   <div key={r.id} className="bg-gray-50 rounded-2xl p-4">
@@ -630,9 +648,18 @@ function DesktopJobDetail({ job, isLoggedIn }: { job: Job; isLoggedIn: boolean }
                 className="inline-flex items-center gap-1 mt-4 text-sm font-semibold text-gray-900 hover:underline">
                 See all reviews for {co.name} →
               </a>
-            </section>
-          </>
-        )}
+            </>
+          ) : (
+            <div className="bg-gray-50 rounded-2xl px-5 py-6 text-center">
+              <p className="text-sm font-semibold text-gray-700 mb-1">No reviews yet</p>
+              <p className="text-xs text-gray-400 mb-4">Know what it&apos;s like to work at {job.employer_name}? Share your experience.</p>
+              <a href="/community"
+                className="inline-block text-xs font-semibold text-gray-900 bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg transition">
+                Write a review
+              </a>
+            </div>
+          )}
+        </section>
 
         {/* ── Bottom apply CTA ── */}
         <div className="px-7 pb-10">

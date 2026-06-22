@@ -1,8 +1,10 @@
 import { Job, EMPLOYMENT_TYPE_LABELS } from '@/lib/types'
+import { MOCK_COMPANIES } from '@/lib/mock-companies'
 import SaveButton from './SaveButton'
 import CompanyBadge from './CompanyBadge'
 
 export default function JobCard({ job }: { job: Job }) {
+  const co = MOCK_COMPANIES.find(c => c.name === job.employer_name)
   const daysAgo = Math.floor((Date.now() - new Date(job.created_at).getTime()) / 86400000)
   const timeLabel = daysAgo === 0 ? 'Today' : daysAgo === 1 ? 'Yesterday' : `${daysAgo}d ago`
   const isNew = daysAgo === 0
@@ -12,7 +14,7 @@ export default function JobCard({ job }: { job: Job }) {
       href={`/jobs/${job.id}`}
       className="flex gap-3.5 bg-white rounded-xl p-4 border border-gray-200 hover:border-gray-300 hover:shadow-md hover:-translate-y-px transition-all duration-150 relative group"
     >
-      <CompanyBadge name={job.employer_name} size="md" />
+      <CompanyBadge name={job.employer_name} size="md" logoUrl={co?.logo_url} />
 
       <div className="flex-1 min-w-0">
         <div className="flex items-start justify-between gap-2">

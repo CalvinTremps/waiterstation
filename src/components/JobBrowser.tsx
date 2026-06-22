@@ -339,7 +339,7 @@ function DesktopJobCard({ job, selected, saved, onSelect, onToggleSave }: {
           : 'border-gray-200 bg-white hover:border-gray-300 hover:shadow-sm'
       }`}>
       <div className="flex items-start gap-3">
-        <CompanyBadge name={job.employer_name} size="sm" />
+        <CompanyBadge name={job.employer_name} size="sm" logoUrl={co?.logo_url} />
         <div className="flex-1 min-w-0">
           {/* Top row: company + time + save */}
           <div className="flex items-center justify-between gap-2 mb-0.5">
@@ -454,7 +454,7 @@ function DesktopJobDetail({ job, isLoggedIn }: { job: Job; isLoggedIn: boolean }
       <div className="sticky top-0 bg-white z-10 px-7 pt-6 pb-5">
         <div className="flex items-start justify-between gap-4">
           <div className="flex items-start gap-3 min-w-0">
-            <CompanyBadge name={job.employer_name} size="lg" />
+            <CompanyBadge name={job.employer_name} size="lg" logoUrl={co?.logo_url} />
             <div className="min-w-0">
               <p className="text-xs font-semibold text-gray-400 mb-0.5">{job.employer_name}</p>
               <h1 className="text-xl font-extrabold text-gray-900 leading-tight">{job.title}</h1>
@@ -684,7 +684,7 @@ function MobileJobCard({ job, saved, onToggleSave }: {
     <a href={`/jobs/${job.id}`} className="block bg-white border border-gray-200 rounded-xl p-4 hover:border-gray-300 hover:shadow-sm transition">
       <div className="flex items-start justify-between gap-2 mb-2">
         <div className="flex items-center gap-2 min-w-0">
-          <CompanyBadge name={job.employer_name} size="sm" />
+          <CompanyBadge name={job.employer_name} size="sm" logoUrl={co?.logo_url} />
           <p className="text-xs text-gray-500 truncate">{job.employer_name}</p>
           {job.franchise_name && job.brand_link_status === 'approved' && (
             <span className="text-[10px] font-semibold bg-purple-100 text-purple-700 px-1.5 py-0.5 rounded-full shrink-0">Franchise</span>

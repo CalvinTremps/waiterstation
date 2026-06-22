@@ -1,6 +1,7 @@
 import { createServerClient } from '@/lib/supabase-server'
 import { ROLE_LABELS, EMPLOYMENT_TYPE_LABELS } from '@/lib/types'
 import { MOCK_JOBS } from '@/lib/mock-jobs'
+import { MOCK_COMPANIES } from '@/lib/mock-companies'
 import { fetchAdzunaJobs } from '@/lib/adzuna'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
@@ -44,6 +45,7 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
 
   if (!job) notFound()
 
+  const co = MOCK_COMPANIES.find(c => c.name === job.employer_name)
   const postedDate = new Date(job.created_at).toLocaleDateString('en-ZA', {
     day: 'numeric', month: 'long', year: 'numeric',
   })
@@ -62,7 +64,7 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
         {/* Header card */}
         <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
           <div className="flex gap-4 items-start">
-            <CompanyBadge name={job.employer_name} size="lg" />
+            <CompanyBadge name={job.employer_name} size="lg" logoUrl={co?.logo_url} />
             <div className="min-w-0">
               <h1 className="text-xl font-bold text-gray-900 leading-tight">{job.title}</h1>
               <p className="text-gray-500 text-sm mt-0.5">{job.employer_name}</p>

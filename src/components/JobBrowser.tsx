@@ -403,13 +403,10 @@ function DesktopJobCard({ job, selected, saved, onSelect, onToggleSave }: {
 
 // ─── Desktop job detail (right panel) ─────────────────────────────────────────
 
-const DETAIL_TABS = ['Overview', 'Company', 'Benefits', 'Reviews'] as const
-type DetailTab = typeof DETAIL_TABS[number]
-
 function RatingBar({ label, value }: { label: string; value: number }) {
   return (
     <div className="flex items-center gap-3">
-      <span className="text-xs text-gray-500 w-32 shrink-0">{label}</span>
+      <span className="text-xs text-gray-500 w-36 shrink-0">{label}</span>
       <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
         <div className="h-full bg-gray-800 rounded-full" style={{ width: `${(value / 5) * 100}%` }} />
       </div>
@@ -418,9 +415,22 @@ function RatingBar({ label, value }: { label: string; value: number }) {
   )
 }
 
+function Stars({ rating, size = 'sm' }: { rating: number; size?: 'sm' | 'md' | 'lg' }) {
+  const sz = size === 'lg' ? 'w-5 h-5' : size === 'md' ? 'w-4 h-4' : 'w-3 h-3'
+  return (
+    <div className="flex gap-0.5">
+      {[1,2,3,4,5].map(i => (
+        <svg key={i} className={`${sz} ${i <= Math.round(rating) ? 'text-amber-400' : 'text-gray-200'}`} fill="currentColor" viewBox="0 0 20 20">
+          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+        </svg>
+      ))}
+    </div>
+  )
+}
+
 function DesktopJobDetail({ job, isLoggedIn }: { job: Job; isLoggedIn: boolean }) {
   const [showApply, setShowApply] = useState(false)
-  const [tab, setTab] = useState<DetailTab>('Overview')
+  const [descExpanded, setDescExpanded] = useState(false)
   const router = useRouter()
   const co = MOCK_COMPANIES.find(c => c.name === job.employer_name)
 
@@ -433,39 +443,36 @@ function DesktopJobDetail({ job, isLoggedIn }: { job: Job; isLoggedIn: boolean }
     setShowApply(true)
   }
 
-  const visibleTabs = co
-    ? DETAIL_TABS
-    : (['Overview'] as DetailTab[])
+  const descLines = job.description?.split('\n') ?? []
+  const longDesc = job.description && job.description.length > 400
 
   return (
     <div className="flex flex-col h-full">
       {showApply && <ApplyModal job={job} onClose={() => setShowApply(false)} />}
 
-      {/* ── Header ── */}
-      <div className="sticky top-0 bg-white z-10 px-7 pt-6 pb-0">
-        {/* Top row: logo + apply */}
-        <div className="flex items-start justify-between gap-4 mb-4">
-          <div className="flex items-start gap-4 min-w-0">
+      {/* ── Sticky header ── */}
+      <div className="sticky top-0 bg-white z-10 px-7 pt-6 pb-5">
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex items-start gap-3 min-w-0">
             <CompanyBadge name={job.employer_name} size="lg" />
             <div className="min-w-0">
-              <p className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-0.5">{job.employer_name}</p>
+              <p className="text-xs font-semibold text-gray-400 mb-0.5">{job.employer_name}</p>
               <h1 className="text-xl font-extrabold text-gray-900 leading-tight">{job.title}</h1>
               <div className="flex flex-wrap items-center gap-2 mt-1.5">
-                <span className="flex items-center gap-1 text-xs text-gray-500">
-                  <svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                  </svg>
-                  {job.location}
-                </span>
+                <span className="text-xs text-gray-500">{job.location}</span>
+                <span className="text-gray-300 text-xs">·</span>
                 <span className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full ${EMP_COLORS[job.employment_type] ?? 'bg-gray-100 text-gray-600'}`}>
                   {job.employment_type === 'event' ? 'Event / Once-off' : EMPLOYMENT_TYPE_LABELS[job.employment_type]}
                 </span>
                 {co && (
-                  <span className="flex items-center gap-1 text-xs text-gray-500">
-                    {'★'.repeat(Math.round(co.overall_rating))}{'☆'.repeat(5 - Math.round(co.overall_rating))}
-                    <span className="font-semibold text-gray-700 ml-0.5">{co.overall_rating.toFixed(1)}</span>
-                  </span>
+                  <>
+                    <span className="text-gray-300 text-xs">·</span>
+                    <div className="flex items-center gap-1">
+                      <Stars rating={co.overall_rating} size="sm" />
+                      <span className="text-xs font-bold text-gray-700">{co.overall_rating.toFixed(1)}</span>
+                      <span className="text-xs text-gray-400">({co.reviews.length})</span>
+                    </div>
+                  </>
                 )}
               </div>
             </div>
@@ -477,249 +484,163 @@ function DesktopJobDetail({ job, isLoggedIn }: { job: Job; isLoggedIn: boolean }
             </button>
             {job.source_url && (
               <a href={job.source_url} target="_blank" rel="noopener noreferrer"
-                className="text-[11px] text-gray-400 hover:text-gray-600 hover:underline transition">
+                className="text-[11px] text-gray-400 hover:text-gray-600 hover:underline">
                 View original ↗
               </a>
             )}
           </div>
         </div>
-
-        {/* Pay highlight */}
-        {job.pay && (
-          <div className="mb-4 bg-gray-900 text-white rounded-xl px-4 py-3 flex items-center justify-between">
-            <div>
-              <p className="text-[10px] font-semibold uppercase tracking-widest text-gray-400">Salary</p>
-              <p className="text-lg font-extrabold leading-tight">{job.pay}</p>
-            </div>
-            <svg className="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            </svg>
-          </div>
-        )}
-
-        {/* Tabs */}
-        {visibleTabs.length > 1 && (
-          <div className="flex gap-0">
-            {visibleTabs.map(t => (
-              <button key={t} onClick={() => setTab(t)}
-                className={`text-sm font-semibold px-4 py-2.5 border-b-2 transition whitespace-nowrap ${
-                  tab === t
-                    ? 'border-gray-900 text-gray-900'
-                    : 'border-transparent text-gray-400 hover:text-gray-700'
-                }`}>
-                {t}
-              </button>
-            ))}
-          </div>
-        )}
       </div>
 
-      {/* ── Scrollable body ── */}
-      <div className="flex-1 overflow-y-auto px-7 py-6 space-y-6">
+      {/* ── Single scrolling body ── */}
+      <div className="flex-1 overflow-y-auto">
 
-        {/* ── OVERVIEW TAB ── */}
-        {tab === 'Overview' && (
-          <>
-            {!isLoggedIn && (
-              <div className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-500">
-                <a href="/auth/login?next=/" className="font-semibold text-gray-900 hover:underline">Sign in</a> or{' '}
-                <a href="/auth/login?next=/" className="font-semibold text-gray-900 hover:underline">create a free account</a> to apply — takes 30 seconds.
-              </div>
-            )}
-
-            {/* About the role */}
-            <div>
-              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">About this role</p>
-              <div className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">{job.description}</div>
+        {/* ── Job description ── */}
+        <section className="px-7 pb-8">
+          {!isLoggedIn && (
+            <div className="mb-5 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-500">
+              <a href="/auth/login?next=/" className="font-semibold text-gray-900 hover:underline">Sign in</a> or{' '}
+              <a href="/auth/login?next=/" className="font-semibold text-gray-900 hover:underline">create a free account</a> to apply — takes 30 seconds.
             </div>
+          )}
 
-            {/* Job details grid */}
-            <div>
-              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">Job details</p>
-              <div className="grid grid-cols-2 gap-x-6 gap-y-4">
-                {[
-                  { label: 'Employment type', value: job.employment_type === 'event' ? 'Event / Once-off' : EMPLOYMENT_TYPE_LABELS[job.employment_type] },
-                  { label: 'Location', value: job.location },
-                  { label: 'Role', value: ROLE_LABELS[job.role_category] },
-                  ...(job.pay ? [{ label: 'Pay', value: job.pay }] : []),
-                  ...(co ? [{ label: 'Industry', value: co.industry }] : job.category_label ? [{ label: 'Industry', value: job.category_label }] : []),
-                  ...(co ? [{ label: 'Company size', value: co.size }] : []),
-                  { label: 'Date posted', value: postedDate },
-                ].map(d => (
-                  <div key={d.label} className="bg-gray-50 rounded-xl px-4 py-3">
-                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wide mb-0.5">{d.label}</p>
-                    <p className="text-sm font-semibold text-gray-900">{d.value}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
+          <h2 className="text-base font-bold text-gray-900 mb-3">Job description</h2>
+          <div className={`text-sm text-gray-700 leading-relaxed whitespace-pre-wrap ${!descExpanded && longDesc ? 'line-clamp-6' : ''}`}>
+            {job.description}
+          </div>
+          {longDesc && (
+            <button onClick={() => setDescExpanded(v => !v)}
+              className="mt-2 text-sm font-semibold text-gray-900 hover:underline">
+              {descExpanded ? 'Show less' : 'Show more ↓'}
+            </button>
+          )}
+        </section>
 
-            {/* Apply CTA */}
-            <div className="pb-6">
-              <button onClick={handleApply}
-                className="w-full bg-gray-900 hover:bg-gray-800 text-white font-bold py-3.5 rounded-xl text-sm transition">
-                Apply for this position
-              </button>
-            </div>
-          </>
-        )}
-
-        {/* ── COMPANY TAB ── */}
-        {tab === 'Company' && co && (
-          <>
-            <div className="flex items-start gap-4">
-              <CompanyBadge name={co.name} size="lg" />
+        {/* ── Pay details ── */}
+        {job.pay && (
+          <section className="px-7 pb-8">
+            <h2 className="text-base font-bold text-gray-900 mb-3">Pay details</h2>
+            <div className="bg-gray-50 rounded-2xl px-5 py-4 flex items-center gap-4">
+              <svg className="w-8 h-8 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
               <div>
-                <h2 className="text-lg font-extrabold text-gray-900">{co.name}</h2>
-                <p className="text-xs text-gray-500 mt-0.5">{co.industry} · {co.size}</p>
-                <div className="flex items-center gap-1 mt-1">
-                  {[1,2,3,4,5].map(i => (
-                    <svg key={i} className={`w-3.5 h-3.5 ${i <= Math.round(co.overall_rating) ? 'text-gray-800' : 'text-gray-200'}`} fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                    </svg>
-                  ))}
-                  <span className="text-xs font-bold text-gray-700 ml-1">{co.overall_rating.toFixed(1)}</span>
-                  <span className="text-xs text-gray-400 ml-0.5">({co.reviews.length} reviews)</span>
-                </div>
+                <p className="text-xl font-extrabold text-gray-900">{job.pay}</p>
+                <p className="text-xs text-gray-500 mt-0.5">As listed by employer</p>
               </div>
             </div>
-
-            <div>
-              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Company overview</p>
-              <p className="text-sm text-gray-700 leading-relaxed">{co.description}</p>
-            </div>
-
-            <div>
-              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">Ratings breakdown</p>
-              <div className="space-y-2.5">
-                <RatingBar label="Work-life balance" value={co.ratings.work_life_balance} />
-                <RatingBar label="Culture" value={co.ratings.culture} />
-                <RatingBar label="Management" value={co.ratings.management} />
-                <RatingBar label="Career growth" value={co.ratings.career_growth} />
-                <RatingBar label="Compensation" value={co.ratings.compensation} />
-              </div>
-            </div>
-
-            <div className="pb-6">
-              <a href={`/companies/${co.id}`}
-                className="w-full flex items-center justify-center gap-2 border border-gray-200 text-gray-700 font-semibold py-3 rounded-xl text-sm hover:bg-gray-50 transition">
-                See full company profile & all reviews →
-              </a>
-            </div>
-          </>
+          </section>
         )}
 
-        {/* ── BENEFITS TAB ── */}
-        {tab === 'Benefits' && co && (
+        {/* ── Company overview ── (only if matched to mock company) */}
+        {co && (
           <>
-            <div>
-              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">Why work at {co.name}</p>
-              <div className="grid grid-cols-1 gap-2">
-                {co.benefits.map(b => (
-                  <div key={b} className="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3">
-                    <div className="w-7 h-7 rounded-lg bg-gray-900 flex items-center justify-center shrink-0">
-                      <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/>
-                      </svg>
-                    </div>
-                    <span className="text-sm font-medium text-gray-800">{b}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <section className="px-7 pb-8">
+              <h2 className="text-base font-bold text-gray-900 mb-3">Company overview</h2>
 
-            <div>
-              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">Quick stats</p>
-              <div className="grid grid-cols-2 gap-3">
+              {/* Stats row */}
+              <div className="flex flex-wrap gap-x-6 gap-y-3 mb-4">
                 {[
-                  { label: 'Overall rating', value: `${co.overall_rating.toFixed(1)} / 5` },
-                  { label: 'Culture score', value: `${co.ratings.culture.toFixed(1)} / 5` },
-                  { label: 'Career growth', value: `${co.ratings.career_growth.toFixed(1)} / 5` },
-                  { label: 'Company size', value: co.size },
+                  { icon: '🏢', label: 'Size', value: co.size },
+                  { icon: '📍', label: 'Location', value: co.location },
+                  { icon: '🏷️', label: 'Industry', value: co.industry },
                 ].map(s => (
-                  <div key={s.label} className="bg-gray-50 rounded-xl px-4 py-3">
-                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wide mb-0.5">{s.label}</p>
-                    <p className="text-sm font-extrabold text-gray-900">{s.value}</p>
+                  <div key={s.label} className="flex items-center gap-2">
+                    <span className="text-base">{s.icon}</span>
+                    <div>
+                      <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wide leading-none">{s.label}</p>
+                      <p className="text-sm font-semibold text-gray-800 mt-0.5">{s.value}</p>
+                    </div>
                   </div>
                 ))}
               </div>
-            </div>
 
-            <div className="pb-6">
-              <button onClick={handleApply}
-                className="w-full bg-gray-900 hover:bg-gray-800 text-white font-bold py-3.5 rounded-xl text-sm transition">
-                Apply for this position
-              </button>
-            </div>
-          </>
-        )}
+              <p className="text-sm text-gray-600 leading-relaxed">{co.description}</p>
 
-        {/* ── REVIEWS TAB ── */}
-        {tab === 'Reviews' && co && (
-          <>
-            <div className="flex items-center gap-4">
-              <div className="text-center">
-                <p className="text-4xl font-extrabold text-gray-900">{co.overall_rating.toFixed(1)}</p>
-                <div className="flex justify-center gap-0.5 mt-1">
-                  {[1,2,3,4,5].map(i => (
-                    <svg key={i} className={`w-4 h-4 ${i <= Math.round(co.overall_rating) ? 'text-gray-800' : 'text-gray-200'}`} fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+              <a href={`/companies/${co.id}`}
+                className="inline-flex items-center gap-1.5 mt-4 text-sm font-semibold text-gray-900 hover:underline">
+                View full company profile →
+              </a>
+            </section>
+
+            {/* ── Ratings ── */}
+            <section className="px-7 pb-8">
+              <h2 className="text-base font-bold text-gray-900 mb-4">{co.name} ratings</h2>
+              <div className="flex items-start gap-6">
+                <div className="text-center shrink-0">
+                  <p className="text-5xl font-extrabold text-gray-900 leading-none">{co.overall_rating.toFixed(1)}</p>
+                  <Stars rating={co.overall_rating} size="md" />
+                  <p className="text-xs text-gray-400 mt-1">{co.reviews.length} reviews</p>
+                </div>
+                <div className="flex-1 space-y-2.5">
+                  <RatingBar label="Work-life balance" value={co.ratings.work_life_balance} />
+                  <RatingBar label="Culture & values" value={co.ratings.culture} />
+                  <RatingBar label="Management" value={co.ratings.management} />
+                  <RatingBar label="Career growth" value={co.ratings.career_growth} />
+                  <RatingBar label="Compensation" value={co.ratings.compensation} />
+                </div>
+              </div>
+            </section>
+
+            {/* ── Benefits ── */}
+            <section className="px-7 pb-8">
+              <h2 className="text-base font-bold text-gray-900 mb-1">{co.name} benefits</h2>
+              <div className="flex items-center gap-2 mb-4">
+                <Stars rating={co.overall_rating} size="sm" />
+                <span className="text-xs font-bold text-gray-700">{co.overall_rating.toFixed(1)}</span>
+                <span className="text-xs text-gray-400">{co.reviews.length} ratings</span>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {co.benefits.map(b => (
+                  <span key={b} className="inline-flex items-center gap-1.5 text-xs font-medium text-gray-700 bg-gray-100 px-3 py-1.5 rounded-full">
+                    <svg className="w-3 h-3 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/>
                     </svg>
-                  ))}
-                </div>
-                <p className="text-xs text-gray-400 mt-1">{co.reviews.length} reviews</p>
+                    {b}
+                  </span>
+                ))}
               </div>
-              <div className="flex-1 space-y-1.5">
-                <RatingBar label="Work-life balance" value={co.ratings.work_life_balance} />
-                <RatingBar label="Culture" value={co.ratings.culture} />
-                <RatingBar label="Management" value={co.ratings.management} />
-                <RatingBar label="Career growth" value={co.ratings.career_growth} />
-                <RatingBar label="Compensation" value={co.ratings.compensation} />
-              </div>
-            </div>
+            </section>
 
-            <div className="space-y-3">
-              {co.reviews.map(r => (
-                <div key={r.id} className="bg-gray-50 rounded-xl p-4">
-                  <div className="flex items-start justify-between gap-2 mb-2">
-                    <div>
-                      <p className="text-sm font-bold text-gray-900">{r.anonymous ? 'Anonymous' : r.author_name}</p>
-                      <p className="text-xs text-gray-500">{r.role} · {r.employment_status}</p>
-                    </div>
-                    <div className="text-right shrink-0">
-                      <div className="flex gap-0.5">
-                        {[1,2,3,4,5].map(i => (
-                          <svg key={i} className={`w-3 h-3 ${i <= r.rating ? 'text-gray-800' : 'text-gray-200'}`} fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                          </svg>
-                        ))}
+            {/* ── Reviews ── */}
+            <section className="px-7 pb-10">
+              <h2 className="text-base font-bold text-gray-900 mb-4">Employee reviews</h2>
+              <div className="space-y-3">
+                {co.reviews.map(r => (
+                  <div key={r.id} className="bg-gray-50 rounded-2xl p-4">
+                    <div className="flex items-start justify-between gap-2 mb-2">
+                      <div>
+                        <p className="text-sm font-bold text-gray-900">{r.anonymous ? 'Anonymous' : r.author_name}</p>
+                        <p className="text-xs text-gray-500">{r.role} · {r.employment_status} · {r.date}</p>
                       </div>
-                      {r.salary && <p className="text-[10px] text-gray-400 mt-0.5">{r.salary}</p>}
+                      <div className="flex items-center gap-1 shrink-0">
+                        <Stars rating={r.rating} size="sm" />
+                        {r.salary && <span className="text-[10px] text-gray-400 ml-1">{r.salary}</span>}
+                      </div>
                     </div>
+                    <div className="space-y-1.5 text-sm text-gray-700">
+                      <p><span className="font-semibold text-gray-900">Pros: </span>{r.pros}</p>
+                      <p><span className="font-semibold text-gray-900">Cons: </span>{r.cons}</p>
+                    </div>
+                    <p className="text-[10px] text-gray-400 mt-2">{r.helpful_count} people found this helpful</p>
                   </div>
-                  <div className="space-y-1.5">
-                    <div>
-                      <span className="text-[10px] font-bold text-gray-900 uppercase tracking-wide">Pros </span>
-                      <span className="text-xs text-gray-600">{r.pros}</span>
-                    </div>
-                    <div>
-                      <span className="text-[10px] font-bold text-gray-900 uppercase tracking-wide">Cons </span>
-                      <span className="text-xs text-gray-600">{r.cons}</span>
-                    </div>
-                  </div>
-                  <p className="text-[10px] text-gray-400 mt-2">{r.helpful_count} people found this helpful · {r.date}</p>
-                </div>
-              ))}
-            </div>
-
-            <div className="pb-6">
-              <button onClick={handleApply}
-                className="w-full bg-gray-900 hover:bg-gray-800 text-white font-bold py-3.5 rounded-xl text-sm transition">
-                Apply for this position
-              </button>
-            </div>
+                ))}
+              </div>
+              <a href={`/companies/${co.id}`}
+                className="inline-flex items-center gap-1 mt-4 text-sm font-semibold text-gray-900 hover:underline">
+                See all reviews for {co.name} →
+              </a>
+            </section>
           </>
         )}
+
+        {/* ── Bottom apply CTA ── */}
+        <div className="px-7 pb-10">
+          <button onClick={handleApply}
+            className="w-full bg-gray-900 hover:bg-gray-800 text-white font-bold py-3.5 rounded-xl text-sm transition">
+            Apply for this position
+          </button>
+        </div>
       </div>
     </div>
   )

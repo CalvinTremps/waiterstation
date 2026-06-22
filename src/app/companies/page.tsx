@@ -214,13 +214,14 @@ function CompaniesPageInner() {
   )
 
   const filtered = useMemo(() => {
-    const q = searchQuery.toLowerCase()
+    const normalize = (s: string) => s.toLowerCase().replace(/[''`]/g, '')
+    const q = normalize(searchQuery)
     return sorted.filter(company => {
       const matchesSearch =
         !q ||
-        company.name.toLowerCase().includes(q) ||
-        company.location.toLowerCase().includes(q) ||
-        company.industry.toLowerCase().includes(q)
+        normalize(company.name).includes(q) ||
+        normalize(company.location).includes(q) ||
+        normalize(company.industry).includes(q)
       const matchesIndustry =
         !selectedIndustry ||
         company.industry.toLowerCase().includes(selectedIndustry.toLowerCase())

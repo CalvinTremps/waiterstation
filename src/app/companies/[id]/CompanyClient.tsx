@@ -635,8 +635,7 @@ function JobsTab({ company, relatedCompanies, allJobs }: {
   const [page, setPage] = useState(1)
   const PER_PAGE = 10
 
-  // If company has no direct job matches, fall back to all hospitality jobs
-  const baseJobs = allJobs.length > 0 ? allJobs : MOCK_JOBS.slice(0, 30)
+  const baseJobs = allJobs
 
   const filtered = useMemo(() => {
     const tq = titleQ.toLowerCase()
@@ -721,7 +720,14 @@ function JobsTab({ company, relatedCompanies, allJobs }: {
         <div className="w-72 shrink-0 space-y-1.5">
           {paginated.length === 0 ? (
             <div className="bg-white border border-gray-200 rounded-xl p-8 text-center">
-              <p className="text-sm text-gray-400">No jobs match your search.</p>
+              <p className="text-sm font-semibold text-gray-700 mb-1">
+                {baseJobs.length === 0 ? 'No open positions right now' : 'No jobs match your search'}
+              </p>
+              <p className="text-xs text-gray-400">
+                {baseJobs.length === 0
+                  ? `${company.name} hasn't posted any jobs on Waiterstation yet.`
+                  : 'Try different keywords or clear your filters.'}
+              </p>
             </div>
           ) : paginated.map(job => (
             <div key={job.id} role="button" tabIndex={0} onClick={() => setSelectedJob(job)}
@@ -1412,10 +1418,11 @@ export default function CompanyClient({ company, franchiseJobs = [] }: { company
   ]
 
   const mockMatchedJobs = useMemo(() =>
-    MOCK_JOBS.filter(j =>
-      j.employer_name.toLowerCase().includes(company.name.split(' ')[0].toLowerCase()) ||
-      company.name.toLowerCase().includes(j.employer_name.split(' ')[0].toLowerCase())
-    ),
+    MOCK_JOBS.filter(j => {
+      const jn = j.employer_name.toLowerCase()
+      const cn = company.name.toLowerCase()
+      return jn === cn || jn.includes(cn) || cn.includes(jn)
+    }),
     [company.name]
   )
 
@@ -1429,9 +1436,7 @@ export default function CompanyClient({ company, franchiseJobs = [] }: { company
     return merged
   }, [franchiseJobs, mockMatchedJobs])
 
-  const jobCount = franchiseJobs.length > 0
-    ? allCompanyJobs.length
-    : (allCompanyJobs.length || MOCK_JOBS.slice(0, 12).length)
+  const jobCount = allCompanyJobs.length
 
   const tabs: { id: Tab; label: string }[] = [
     { id: 'overview', label: 'Overview' },

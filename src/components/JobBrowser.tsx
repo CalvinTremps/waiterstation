@@ -250,7 +250,7 @@ export default function JobBrowser({
           </div>
 
           {/* RIGHT: detail panel */}
-          <div className="flex-1 overflow-y-auto bg-gray-50 p-4 scrollbar-thin">
+          <div className="flex-1 overflow-y-auto bg-white p-4 scrollbar-thin">
             {selected
               ? (
                 <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden h-full">

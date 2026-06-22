@@ -1,217 +1,160 @@
 import { createServerClient } from '@/lib/supabase-server'
-import { Job, ROLE_LABELS, EMPLOYMENT_TYPE_LABELS } from '@/lib/types'
-import { MOCK_COMPANIES } from '@/lib/mock-companies'
-import { cookies } from 'next/headers'
-import { redirect } from 'next/navigation'
-import AdminActions from './AdminActions'
-import BrandLinkActions from './BrandLinkActions'
-import AdminSignOut from './AdminSignOut'
+import { Job } from '@/lib/types'
 
-async function checkAdminSession() {
-  const cookieStore = await cookies()
-  const session = cookieStore.get('admin_session')?.value
-  return session === process.env.ADMIN_PASSWORD
-}
-
-export default async function AdminPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ tab?: string }>
-}) {
-  if (!await checkAdminSession()) {
-    redirect('/admin/login')
-  }
-
-  const { tab = 'pending' } = await searchParams
-
+export default async function AdminOverviewPage() {
   const supabase = await createServerClient()
 
   const [
-    { count: pendingCount },
-    { count: approvedCount },
-    { count: expiredCount },
-    { count: workerCount },
-    { count: brandLinkCount },
+    { count: pendingJobs },
+    { count: liveJobs },
+    { count: expiredJobs },
+    { count: workers },
+    { count: employers },
+    { count: applications },
+    { count: pendingBrandLinks },
+    { data: recentJobs },
+    { data: recentApplications },
   ] = await Promise.all([
     supabase.from('jobs').select('*', { count: 'exact', head: true }).eq('status', 'pending'),
     supabase.from('jobs').select('*', { count: 'exact', head: true }).eq('status', 'approved'),
     supabase.from('jobs').select('*', { count: 'exact', head: true }).eq('status', 'expired'),
     supabase.from('worker_profiles').select('*', { count: 'exact', head: true }),
+    supabase.from('employer_profiles').select('*', { count: 'exact', head: true }),
+    supabase.from('applications').select('*', { count: 'exact', head: true }),
     supabase.from('jobs').select('*', { count: 'exact', head: true }).eq('brand_link_status', 'pending'),
+    supabase.from('jobs').select('id,title,employer_name,status,created_at,location').order('created_at', { ascending: false }).limit(6),
+    supabase.from('applications').select('id,applicant_name,employer_name,job_id,created_at,status').order('created_at', { ascending: false }).limit(6),
   ])
 
-  const isBrandTab = tab === 'brand-links'
-
-  let jobs: Job[] = []
-  if (!isBrandTab) {
-    const status = tab === 'approved' ? 'approved' : tab === 'expired' ? 'expired' : 'pending'
-    const { data } = await supabase
-      .from('jobs')
-      .select('*')
-      .eq('status', status)
-      .order('created_at', { ascending: false })
-    jobs = data ?? []
-  }
-
-  let brandLinkJobs: Job[] = []
-  if (isBrandTab) {
-    const { data } = await supabase
-      .from('jobs')
-      .select('*')
-      .eq('brand_link_status', 'pending')
-      .order('created_at', { ascending: false })
-    brandLinkJobs = data ?? []
-  }
-
-  const tabs = [
-    { key: 'pending', label: 'Pending', count: pendingCount ?? 0 },
-    { key: 'approved', label: 'Live', count: approvedCount ?? 0 },
-    { key: 'expired', label: 'Expired', count: expiredCount ?? 0 },
-    { key: 'brand-links', label: 'Brand Links', count: brandLinkCount ?? 0, highlight: true },
+  const stats = [
+    { label: 'Pending jobs', value: pendingJobs ?? 0, color: 'text-amber-600', bg: 'bg-amber-50', href: '/admin/jobs?status=pending' },
+    { label: 'Live jobs', value: liveJobs ?? 0, color: 'text-green-600', bg: 'bg-green-50', href: '/admin/jobs?status=approved' },
+    { label: 'Workers', value: workers ?? 0, color: 'text-blue-600', bg: 'bg-blue-50', href: '/admin/users?tab=workers' },
+    { label: 'Employers', value: employers ?? 0, color: 'text-purple-600', bg: 'bg-purple-50', href: '/admin/users?tab=employers' },
+    { label: 'Applications', value: applications ?? 0, color: 'text-gray-900', bg: 'bg-gray-100', href: '/admin/applications' },
+    { label: 'Brand link requests', value: pendingBrandLinks ?? 0, color: 'text-orange-600', bg: 'bg-orange-50', href: '/admin/brand-links' },
   ]
 
+  function timeAgo(iso: string) {
+    const diff = Date.now() - new Date(iso).getTime()
+    const mins = Math.floor(diff / 60000)
+    if (mins < 60) return `${mins}m ago`
+    const hrs = Math.floor(mins / 60)
+    if (hrs < 24) return `${hrs}h ago`
+    return `${Math.floor(hrs / 24)}d ago`
+  }
+
   return (
-    <div className="max-w-3xl mx-auto px-4 py-6">
-      <div className="flex items-start justify-between mb-6">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">Admin Dashboard</h1>
-          <p className="text-sm text-gray-400 mt-0.5">Waiterstation</p>
-        </div>
-        <AdminSignOut />
+    <div className="p-8">
+      <div className="mb-8">
+        <h1 className="text-2xl font-bold text-gray-900">Overview</h1>
+        <p className="text-sm text-gray-500 mt-1">Welcome back. Here's what's happening on Waiterstation.</p>
       </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
-        <StatCard label="Pending" value={pendingCount ?? 0} color="text-amber-600" />
-        <StatCard label="Live jobs" value={approvedCount ?? 0} color="text-gray-900" />
-        <StatCard label="Expired" value={expiredCount ?? 0} color="text-gray-400" />
-        <StatCard label="Workers" value={workerCount ?? 0} color="text-blue-600" />
-      </div>
-
-      {/* Tabs */}
-      <div className="flex gap-2 mb-5 overflow-x-auto scrollbar-none">
-        {tabs.map(t => (
-          <a
-            key={t.key}
-            href={`/admin?tab=${t.key}`}
-            className={`shrink-0 flex items-center gap-1.5 px-4 py-2 rounded-md text-sm font-medium transition
-              ${tab === t.key
-                ? t.highlight ? 'bg-purple-600 text-white' : 'bg-gray-900 text-white'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
-          >
-            {t.label}
-            <span className={`text-xs font-bold px-1.5 py-0.5 rounded-md
-              ${tab === t.key
-                ? t.highlight ? 'bg-purple-500 text-white' : 'bg-gray-700 text-white'
-                : 'bg-gray-200 text-gray-500'}`}>
-              {t.count}
-            </span>
+      {/* Stats grid */}
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+        {stats.map(s => (
+          <a key={s.label} href={s.href}
+            className="bg-white rounded-2xl border border-gray-200 p-5 hover:shadow-md transition group">
+            <div className={`w-10 h-10 ${s.bg} rounded-xl flex items-center justify-center mb-3`}>
+              <span className={`text-lg font-extrabold ${s.color}`}>{s.value}</span>
+            </div>
+            <p className="text-sm font-semibold text-gray-700 group-hover:text-gray-900">{s.label}</p>
           </a>
         ))}
       </div>
 
-      {/* Brand links tab */}
-      {isBrandTab && (
-        <>
-          {brandLinkJobs.length === 0 && (
-            <p className="text-gray-400 text-center py-12">No pending brand link requests.</p>
-          )}
-          <div className="space-y-4">
-            {brandLinkJobs.map((job: Job) => {
-              const brand = MOCK_COMPANIES.find(c => c.id === job.parent_company_id)
-              return (
-                <div key={job.id} className="bg-white border border-purple-200 rounded-lg p-4">
-                  <div className="flex items-start gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center text-purple-700 font-bold text-sm shrink-0">
-                      {brand?.name?.[0] ?? '?'}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-start justify-between gap-2">
-                        <div>
-                          <h2 className="font-semibold text-gray-900">{job.franchise_name}</h2>
-                          <p className="text-sm text-gray-500">
-                            Claiming to be a franchise of <strong>{brand?.name ?? job.parent_company_id}</strong>
-                          </p>
-                        </div>
-                        <span className="text-xs bg-purple-100 text-purple-700 font-semibold px-2 py-1 rounded-full shrink-0">
-                          Brand Link
-                        </span>
-                      </div>
-                      <div className="mt-2 space-y-1 text-xs text-gray-500">
-                        <p><span className="font-medium text-gray-700">Job posted:</span> {job.title} · {job.location}</p>
-                        <p><span className="font-medium text-gray-700">Corporate email:</span> {job.franchise_email}</p>
-                        <p><span className="font-medium text-gray-700">Brand website:</span> {brand?.website}</p>
-                        <p className="text-[11px] text-gray-400">
-                          Domain match: {job.franchise_email?.split('@')[1] === brand?.website
-                            ? <span className="text-gray-900 font-semibold">✓ Matches</span>
-                            : <span className="text-red-500 font-semibold">✗ Mismatch — review carefully</span>}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <BrandLinkActions jobId={job.id} />
-                </div>
-              )
-            })}
-          </div>
-        </>
-      )}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-      {/* Jobs tabs */}
-      {!isBrandTab && (
-        <>
-          {jobs.length === 0 && (
-            <p className="text-gray-400 text-center py-12">No {tab} listings.</p>
-          )}
-          <div className="space-y-4">
-            {jobs.map((job: Job) => (
-              <div key={job.id} className="bg-white border border-gray-200 rounded-lg p-4">
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded border border-gray-200 bg-white flex items-center justify-center text-sm font-semibold text-gray-500 shrink-0">
-                    {job.employer_name.trim().charAt(0).toUpperCase()}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between gap-2">
-                      <div>
-                        <h2 className="font-semibold text-gray-900 leading-tight">{job.title}</h2>
-                        <p className="text-sm text-gray-500">
-                          {job.employer_name} · {job.location}
-                          {job.franchise_name && (
-                            <span className="ml-1.5 inline-flex items-center text-[10px] font-semibold bg-purple-100 text-purple-700 px-1.5 py-0.5 rounded-full">
-                              Franchise · {job.brand_link_status}
-                            </span>
-                          )}
-                        </p>
-                      </div>
-                      <span className="text-xs text-gray-400 shrink-0">
-                        {new Date(job.created_at).toLocaleDateString('en-ZA', { day: 'numeric', month: 'short' })}
-                      </span>
+        {/* Recent job submissions */}
+        <div className="bg-white rounded-2xl border border-gray-200 p-5">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-sm font-bold text-gray-900">Recent job submissions</h2>
+            <a href="/admin/jobs" className="text-xs text-blue-600 hover:underline font-medium">View all →</a>
+          </div>
+          {(recentJobs ?? []).length === 0
+            ? <p className="text-sm text-gray-400 text-center py-6">No jobs yet.</p>
+            : (
+              <div className="space-y-2">
+                {(recentJobs as Job[]).map(j => (
+                  <div key={j.id} className="flex items-center justify-between gap-3 py-2">
+                    <div className="min-w-0">
+                      <p className="text-sm font-semibold text-gray-900 truncate">{j.title}</p>
+                      <p className="text-xs text-gray-500 truncate">{j.employer_name} · {j.location}</p>
                     </div>
-                    <div className="flex gap-2 mt-1.5 flex-wrap text-xs text-gray-400">
-                      <span>{ROLE_LABELS[job.role_category]}</span>
-                      <span>·</span>
-                      <span>{EMPLOYMENT_TYPE_LABELS[job.employment_type]}</span>
-                      {job.pay && <><span>·</span><span className="text-gray-800 font-medium">{job.pay}</span></>}
+                    <div className="flex items-center gap-2 shrink-0">
+                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                        j.status === 'approved' ? 'bg-green-100 text-green-700'
+                        : j.status === 'pending' ? 'bg-amber-100 text-amber-700'
+                        : 'bg-gray-100 text-gray-500'
+                      }`}>{j.status}</span>
+                      <span className="text-[10px] text-gray-400">{timeAgo(j.created_at)}</span>
                     </div>
                   </div>
-                </div>
-                <p className="text-sm text-gray-600 mt-3 whitespace-pre-wrap leading-relaxed line-clamp-4">{job.description}</p>
-                <p className="text-xs text-gray-400 mt-2">Contact: {job.contact_method}</p>
-                <AdminActions jobId={job.id} currentStatus={job.status} />
+                ))}
               </div>
-            ))}
-          </div>
-        </>
-      )}
-    </div>
-  )
-}
+            )}
+        </div>
 
-function StatCard({ label, value, color }: { label: string; value: number; color: string }) {
-  return (
-    <div className="bg-white border border-gray-200 rounded-lg p-3 text-center">
-      <p className={`text-xl font-bold ${color}`}>{value}</p>
-      <p className="text-xs text-gray-400 mt-0.5 leading-tight">{label}</p>
+        {/* Recent applications */}
+        <div className="bg-white rounded-2xl border border-gray-200 p-5">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-sm font-bold text-gray-900">Recent applications</h2>
+            <a href="/admin/applications" className="text-xs text-blue-600 hover:underline font-medium">View all →</a>
+          </div>
+          {(recentApplications ?? []).length === 0
+            ? <p className="text-sm text-gray-400 text-center py-6">No applications yet.</p>
+            : (
+              <div className="space-y-2">
+                {(recentApplications as { id: string; applicant_name: string; employer_name: string; created_at: string; status: string }[]).map(a => (
+                  <div key={a.id} className="flex items-center justify-between gap-3 py-2">
+                    <div className="min-w-0">
+                      <p className="text-sm font-semibold text-gray-900 truncate">{a.applicant_name}</p>
+                      <p className="text-xs text-gray-500 truncate">→ {a.employer_name}</p>
+                    </div>
+                    <div className="flex items-center gap-2 shrink-0">
+                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                        a.status === 'new' ? 'bg-blue-100 text-blue-700'
+                        : a.status === 'reviewed' ? 'bg-purple-100 text-purple-700'
+                        : 'bg-gray-100 text-gray-500'
+                      }`}>{a.status}</span>
+                      <span className="text-[10px] text-gray-400">{timeAgo(a.created_at)}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+        </div>
+
+      </div>
+
+      {/* Quick actions */}
+      <div className="mt-6 bg-white rounded-2xl border border-gray-200 p-5">
+        <h2 className="text-sm font-bold text-gray-900 mb-4">Quick actions</h2>
+        <div className="flex flex-wrap gap-3">
+          <a href="/admin/jobs?status=pending"
+            className="flex items-center gap-2 bg-amber-50 text-amber-700 font-semibold text-sm px-4 py-2.5 rounded-xl hover:bg-amber-100 transition">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Review pending jobs
+          </a>
+          <a href="/admin/brand-links"
+            className="flex items-center gap-2 bg-purple-50 text-purple-700 font-semibold text-sm px-4 py-2.5 rounded-xl hover:bg-purple-100 transition">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+            </svg>
+            Brand link requests
+          </a>
+          <a href="/admin/users"
+            className="flex items-center gap-2 bg-blue-50 text-blue-700 font-semibold text-sm px-4 py-2.5 rounded-xl hover:bg-blue-100 transition">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+            Manage users
+          </a>
+        </div>
+      </div>
     </div>
   )
 }

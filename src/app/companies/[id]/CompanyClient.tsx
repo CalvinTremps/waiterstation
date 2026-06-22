@@ -686,7 +686,7 @@ function JobsTab({ company, relatedCompanies, allJobs }: {
       {/* Heading + search */}
       <div className="bg-white border border-gray-200 rounded-xl p-5">
         <h2 className="text-lg font-bold text-gray-900 mb-1">{company.name} Jobs and Careers</h2>
-        <div className="flex gap-2 mt-3">
+        <div className="flex flex-col sm:flex-row gap-2 mt-3">
           <div className="relative flex-1">
             <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z" />
@@ -704,7 +704,7 @@ function JobsTab({ company, relatedCompanies, allJobs }: {
               placeholder="City, province"
               className="w-full border border-gray-200 rounded-lg pl-9 pr-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400" />
           </div>
-          <button className="bg-blue-600 text-white text-sm font-semibold px-5 py-2.5 rounded-lg hover:bg-blue-700 transition">
+          <button className="bg-blue-600 text-white text-sm font-semibold px-4 py-2.5 rounded-lg hover:bg-blue-700 transition whitespace-nowrap">
             Find Jobs
           </button>
         </div>

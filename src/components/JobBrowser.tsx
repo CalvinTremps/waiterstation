@@ -502,19 +502,13 @@ function DesktopJobDetail({ job, isLoggedIn }: { job: Job; isLoggedIn: boolean }
 
         {/* Description */}
         <div>
-          <h2 className="text-sm font-bold text-gray-900 mb-3 flex items-center gap-2">
-            <span>About this role</span>
-            <div className="flex-1 h-px bg-gray-100" />
-          </h2>
+          <h2 className="text-sm font-bold text-gray-900 mb-3">About this role</h2>
           <div className="text-sm text-gray-600 leading-relaxed whitespace-pre-wrap">{job.description}</div>
         </div>
 
         {/* Job details */}
         <div>
-          <h2 className="text-sm font-bold text-gray-900 mb-3 flex items-center gap-2">
-            <span>Job details</span>
-            <div className="flex-1 h-px bg-gray-100" />
-          </h2>
+          <h2 className="text-sm font-bold text-gray-900 mb-3">Job details</h2>
           <div className="grid grid-cols-2 gap-4">
             {[
               { label: 'Employment type', value: job.employment_type === 'event' ? 'Event / Once-off' : EMPLOYMENT_TYPE_LABELS[job.employment_type] },
@@ -534,10 +528,7 @@ function DesktopJobDetail({ job, isLoggedIn }: { job: Job; isLoggedIn: boolean }
 
         {/* Company */}
         <div>
-          <h2 className="text-sm font-bold text-gray-900 mb-3 flex items-center gap-2">
-            <span>About the employer</span>
-            <div className="flex-1 h-px bg-gray-100" />
-          </h2>
+          <h2 className="text-sm font-bold text-gray-900 mb-3">About the employer</h2>
           <div className="bg-white border border-gray-100 rounded-xl p-4">
             <div className="flex items-start gap-3">
               <CompanyBadge name={job.employer_name} size="sm" />

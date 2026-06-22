@@ -23,7 +23,7 @@ export default async function RelatedJobs({ roleCategory, excludeId }: { roleCat
   if (jobs.length === 0) return null
 
   return (
-    <div className="mt-8 border-t border-gray-100 pt-6">
+    <div className="mt-8">
       <p className="text-sm font-semibold text-gray-800 mb-4">
         More {ROLE_LABELS[roleCategory as keyof typeof ROLE_LABELS] ?? 'hospitality'} jobs
       </p>

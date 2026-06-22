@@ -147,7 +147,7 @@ export default function JobBrowser({
       <div className="hidden md:flex flex-col bg-white" style={{ height: 'calc(100vh - var(--header-height))' }}>
 
         {/* Search + filters */}
-        <div className="bg-white border-b border-gray-200 shrink-0 px-6 pt-6 pb-0">
+        <div className="bg-white shadow-sm shrink-0 px-6 pt-6 pb-0">
           <div className="max-w-[1440px] mx-auto">
             <DesktopSearchBar
               currentRole={currentRole}

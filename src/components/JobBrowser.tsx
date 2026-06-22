@@ -177,21 +177,15 @@ export default function JobBrowser({
               ))}
             </div>
 
-            {/* Row 2: Role pills + pay toggle */}
+            {/* Row 2: City quick-picks + pay toggle + count */}
             <div className="flex items-center gap-3 py-4">
               <div className="flex gap-1.5 overflow-x-auto flex-1 no-scrollbar">
-                <button onClick={() => updateFilter('role', '')}
-                  className={`shrink-0 text-xs font-medium px-3.5 py-1.5 rounded-full border transition whitespace-nowrap ${
-                    !currentRole ? 'bg-gray-900 text-white border-gray-900' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400'
-                  }`}>
-                  All roles
-                </button>
-                {ROLE_CATEGORIES.map(r => (
-                  <button key={r} onClick={() => updateFilter('role', currentRole === r ? '' : r)}
+                {['Cape Town', 'Johannesburg', 'Durban', 'Pretoria', 'Stellenbosch', 'Sandton', 'Umhlanga'].map(city => (
+                  <button key={city} onClick={() => updateFilter('location', currentLocation === city ? '' : city)}
                     className={`shrink-0 text-xs font-medium px-3.5 py-1.5 rounded-full border transition whitespace-nowrap ${
-                      currentRole === r ? 'bg-gray-900 text-white border-gray-900' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400'
+                      currentLocation === city ? 'bg-gray-900 text-white border-gray-900' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400'
                     }`}>
-                    {ROLE_LABELS[r]}
+                    {city}
                   </button>
                 ))}
               </div>

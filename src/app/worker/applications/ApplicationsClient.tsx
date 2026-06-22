@@ -83,7 +83,7 @@ function ApplicationCard({ app, onWithdraw }: { app: RealWorkerApplication; onWi
       )}
 
       {app.message && (
-        <p className="text-xs text-gray-500 bg-gray-50 rounded-lg px-3 py-2 italic">{app.message}</p>
+        <p className="text-xs text-gray-500 bg-white rounded-lg px-3 py-2 italic">{app.message}</p>
       )}
 
       <div className="flex items-center justify-between pt-1">

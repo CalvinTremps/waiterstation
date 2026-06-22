@@ -36,7 +36,7 @@ export default async function RelatedJobs({ roleCategory, excludeId }: { roleCat
               href={`/jobs/${job.id}`}
               className="flex items-center gap-3 p-3 rounded-lg border border-gray-200 bg-white hover:border-gray-300 hover:shadow-sm transition group"
             >
-              <div className="w-9 h-9 rounded border border-gray-200 bg-gray-50 flex items-center justify-center text-sm font-semibold text-gray-500 shrink-0">
+              <div className="w-9 h-9 rounded border border-gray-200 bg-white flex items-center justify-center text-sm font-semibold text-gray-500 shrink-0">
                 {job.employer_name.trim().charAt(0).toUpperCase()}
               </div>
               <div className="flex-1 min-w-0">

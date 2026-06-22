@@ -301,7 +301,7 @@ export const MOCK_APPLICANTS: Applicant[] = [
     saved: false,
     rating: 2,
     avatar_initials: 'ZS',
-    avatar_color: 'bg-gray-500',
+    avatar_color: 'bg-white0',
   },
   {
     id: 'ap-8',

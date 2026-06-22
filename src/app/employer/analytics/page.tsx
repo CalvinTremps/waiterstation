@@ -80,7 +80,7 @@ export default function AnalyticsPage() {
           </div>
           <div className="overflow-x-auto">
             <div style={{ minWidth: '280px' }}>
-              <BarChart data={viewsData} maxVal={maxViews} color="bg-gray-500" />
+              <BarChart data={viewsData} maxVal={maxViews} color="bg-white0" />
             </div>
           </div>
         </div>
@@ -166,7 +166,7 @@ export default function AnalyticsPage() {
           ].map((f, i, arr) => (
             <div key={f.label} className="flex items-center gap-3">
               <span className="text-xs text-gray-500 w-24 text-right shrink-0">{f.label}</span>
-              <div className="flex-1 bg-gray-50 rounded-full h-6 overflow-hidden">
+              <div className="flex-1 bg-white rounded-full h-6 overflow-hidden">
                 <div className={`h-full ${f.color} rounded-full flex items-center justify-end pr-2 transition-all`}
                   style={{ width: `${Math.max(2, (f.value / totalViews) * 100)}%` }}>
                   <span className="text-xs font-bold text-white">{f.value}</span>

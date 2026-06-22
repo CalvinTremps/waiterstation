@@ -49,7 +49,7 @@ export default function EmployerLayout({ children }: { children: React.ReactNode
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       <div className="max-w-[1280px] mx-auto flex">
 
         {/* Sidebar – desktop */}

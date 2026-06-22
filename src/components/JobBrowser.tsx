@@ -144,7 +144,7 @@ export default function JobBrowser({
       </div>
 
       {/* ── DESKTOP ── */}
-      <div className="hidden md:flex flex-col bg-gray-50" style={{ height: 'calc(100vh - var(--header-height))' }}>
+      <div className="hidden md:flex flex-col bg-white" style={{ height: 'calc(100vh - var(--header-height))' }}>
 
         {/* Search + filters */}
         <div className="bg-white border-b border-gray-200 shrink-0 px-6 pt-6 pb-0">
@@ -225,7 +225,7 @@ export default function JobBrowser({
         <div className="flex flex-1 min-h-0 max-w-[1440px] mx-auto w-full">
 
           {/* LEFT: job list */}
-          <div className="w-[400px] shrink-0 overflow-y-auto border-r border-gray-200 bg-gray-50 scrollbar-thin">
+          <div className="w-[400px] shrink-0 overflow-y-auto border-r border-gray-200 bg-white scrollbar-thin">
             {jobs.length === 0 && <EmptyState onClear={clearFilters} hasFilters={!!hasFilters} />}
             <div className="p-3 space-y-2">
               {jobs.slice(0, visibleCount).map(job => (
@@ -486,7 +486,7 @@ function DesktopJobDetail({ job, isLoggedIn }: { job: Job; isLoggedIn: boolean }
             { icon: '📅', label: postedDate },
             ...(job.pay ? [{ icon: '💰', label: job.pay }] : []),
           ].map(d => (
-            <div key={d.label} className="flex items-center gap-1.5 text-xs text-gray-600 bg-gray-50 border border-gray-100 rounded-full px-3 py-1.5">
+            <div key={d.label} className="flex items-center gap-1.5 text-xs text-gray-600 bg-white border border-gray-100 rounded-full px-3 py-1.5">
               <span>{d.icon}</span>
               <span>{d.label}</span>
             </div>
@@ -494,7 +494,7 @@ function DesktopJobDetail({ job, isLoggedIn }: { job: Job; isLoggedIn: boolean }
         </div>
 
         {!isLoggedIn && (
-          <p className="text-xs text-gray-400 bg-gray-50 border border-gray-100 rounded-lg px-4 py-2.5">
+          <p className="text-xs text-gray-400 bg-white border border-gray-100 rounded-lg px-4 py-2.5">
             <a href="/auth/login?next=/" className="text-gray-900 font-semibold hover:underline">Sign in</a> or{' '}
             <a href="/auth/login?next=/" className="text-gray-900 font-semibold hover:underline">create a free account</a> to apply — takes 30 seconds.
           </p>
@@ -538,7 +538,7 @@ function DesktopJobDetail({ job, isLoggedIn }: { job: Job; isLoggedIn: boolean }
             <span>About the employer</span>
             <div className="flex-1 h-px bg-gray-100" />
           </h2>
-          <div className="bg-gray-50 border border-gray-100 rounded-xl p-4">
+          <div className="bg-white border border-gray-100 rounded-xl p-4">
             <div className="flex items-start gap-3">
               <CompanyBadge name={job.employer_name} size="sm" />
               <div className="flex-1">

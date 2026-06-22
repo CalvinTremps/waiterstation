@@ -46,7 +46,7 @@ export default function WorkerProfileForm({ existing }: { existing: WorkerProfil
 
   if (saved) {
     return (
-      <div className="bg-gray-50 border border-gray-200 rounded-lg p-8 text-center">
+      <div className="bg-white border border-gray-200 rounded-lg p-8 text-center">
         <h2 className="font-bold text-gray-900 text-lg">Profile saved</h2>
         <p className="text-gray-500 text-sm mt-2">We'll use this to match you with employers in V2.</p>
         <a href="/" className="mt-5 inline-block text-sm text-gray-800 underline">Browse jobs</a>

@@ -108,7 +108,7 @@ export default function HowItWorksPage() {
 
       <div className="border-t border-gray-100 mb-10" />
 
-      <section className="bg-gray-50 rounded-lg p-6 border border-gray-200">
+      <section className="bg-white rounded-lg p-6 border border-gray-200">
         <h3 className="font-bold text-gray-900 mb-1">Still have questions?</h3>
         <p className="text-sm text-gray-500 mb-4 leading-relaxed">
           Check our FAQ or browse the community for tips from fellow hospitality workers.

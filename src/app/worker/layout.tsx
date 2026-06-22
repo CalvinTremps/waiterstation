@@ -91,7 +91,7 @@ export default function WorkerLayout({ children }: { children: React.ReactNode }
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="min-h-screen bg-white flex">
       {/* Desktop sidebar */}
       <aside className="hidden lg:flex flex-col w-56 shrink-0 bg-white border-r border-gray-100 sticky top-0 h-screen">
         <div className="px-4 py-5 border-b border-gray-100">

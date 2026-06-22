@@ -158,7 +158,7 @@ export default function AlertsPage() {
             }`}>
               <div className="flex items-start gap-3">
                 <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${
-                  alert.active ? 'bg-gray-100' : 'bg-gray-50'
+                  alert.active ? 'bg-gray-100' : 'bg-white'
                 }`}>
                   <svg className={`w-4 h-4 ${alert.active ? 'text-gray-900' : 'text-gray-400'}`}
                     fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

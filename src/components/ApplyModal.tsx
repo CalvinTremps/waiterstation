@@ -100,7 +100,7 @@ export default function ApplyModal({ job, onClose }: Props) {
         ) : (
           <form onSubmit={handleSubmit} className="px-6 py-5 space-y-4">
             {/* Job summary pill */}
-            <div className="flex items-center gap-2 bg-gray-50 rounded-xl px-3 py-2.5 border border-gray-100">
+            <div className="flex items-center gap-2 bg-white rounded-xl px-3 py-2.5 border border-gray-100">
               <span className="text-xs font-medium text-gray-500">{ROLE_LABELS[job.role_category]}</span>
               <span className="text-gray-300">·</span>
               <span className="text-xs text-gray-500">{job.location}</span>

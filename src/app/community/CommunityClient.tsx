@@ -260,7 +260,7 @@ function PostThread({ post, onClose }: { post: CommunityPost; onClose: () => voi
                 }}
                 placeholder="Add a comment..."
                 rows={1}
-                className="w-full text-sm text-gray-800 placeholder:text-gray-400 bg-gray-50 border border-gray-200 rounded-2xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-gray-500 resize-none overflow-hidden leading-relaxed"
+                className="w-full text-sm text-gray-800 placeholder:text-gray-400 bg-white border border-gray-200 rounded-2xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-gray-500 resize-none overflow-hidden leading-relaxed"
                 style={{ minHeight: 40 }}
               />
             </div>

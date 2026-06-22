@@ -138,7 +138,7 @@ function ReviewCard({ review }: { review: CompanyReview }) {
           </div>
         </div>
         {review.salary && (
-          <span className="text-xs text-gray-500 bg-gray-50 border border-gray-200 px-2.5 py-1 rounded-full shrink-0">
+          <span className="text-xs text-gray-500 bg-white border border-gray-200 px-2.5 py-1 rounded-full shrink-0">
             {review.salary}
           </span>
         )}
@@ -801,7 +801,7 @@ function JobsTab({ company, relatedCompanies, allJobs }: {
                       {selectedJob.employment_type.replace('-', ' ')}
                     </span>
                     {selectedJob.pay && (
-                      <span className="text-xs font-semibold text-gray-700 bg-gray-50 border border-gray-200 px-2.5 py-1 rounded-full">
+                      <span className="text-xs font-semibold text-gray-700 bg-white border border-gray-200 px-2.5 py-1 rounded-full">
                         {selectedJob.pay}
                       </span>
                     )}
@@ -1501,7 +1501,7 @@ export default function CompanyClient({ company, franchiseJobs = [] }: { company
                 <h2 className="text-base font-bold text-gray-900 mb-4">Benefits</h2>
                 <div className="flex flex-wrap gap-2">
                   {company.benefits.map(b => (
-                    <span key={b} className="flex items-center gap-1.5 text-sm text-gray-700 bg-gray-50 border border-gray-200 px-3 py-1.5 rounded-full">
+                    <span key={b} className="flex items-center gap-1.5 text-sm text-gray-700 bg-white border border-gray-200 px-3 py-1.5 rounded-full">
                       <svg className="w-3.5 h-3.5 text-green-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                       </svg>
@@ -1619,7 +1619,7 @@ export default function CompanyClient({ company, franchiseJobs = [] }: { company
               <p className="text-xs text-gray-400 mb-5">As reported by employees</p>
               <div className="flex flex-wrap gap-2">
                 {company.benefits.map(b => (
-                  <span key={b} className="flex items-center gap-2 text-sm font-medium text-gray-700 bg-gray-50 border border-gray-200 px-4 py-2 rounded-full">
+                  <span key={b} className="flex items-center gap-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 px-4 py-2 rounded-full">
                     <svg className="w-4 h-4 text-green-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                     </svg>

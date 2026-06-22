@@ -109,7 +109,7 @@ export default function FAQPage() {
         </div>
       </section>
 
-      <div className="bg-gray-50 rounded-lg border border-gray-200 p-6 text-center">
+      <div className="bg-white rounded-lg border border-gray-200 p-6 text-center">
         <p className="font-semibold text-gray-900 mb-1">Still stuck?</p>
         <p className="text-sm text-gray-500 mb-4">Ask a question in the community. Fellow workers and employers can help.</p>
         <a href="/community" className="text-sm font-semibold text-white bg-gray-900 px-5 py-2.5 rounded-md hover:bg-gray-800 transition inline-block">

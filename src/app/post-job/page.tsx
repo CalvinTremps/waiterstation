@@ -14,7 +14,7 @@ export default async function PostJobPage() {
     redirect('/auth/login?next=/post-job&role=employer')
   }
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       {/* Hero header */}
       <div className="bg-white border-b border-gray-100">
         <div className="max-w-5xl mx-auto px-4 md:px-8 py-10">

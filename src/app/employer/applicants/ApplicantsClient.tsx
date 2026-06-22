@@ -187,7 +187,7 @@ export default function ApplicantsClient({
                   </div>
 
                   {a.message && (
-                    <p className="text-xs text-gray-500 bg-gray-50 rounded-lg px-3 py-2 mt-2 italic line-clamp-2">
+                    <p className="text-xs text-gray-500 bg-white rounded-lg px-3 py-2 mt-2 italic line-clamp-2">
                       "{a.message}"
                     </p>
                   )}

@@ -25,7 +25,7 @@ export default function LoginForm() {
 
   if (sent) {
     return (
-      <div className="bg-gray-50 border border-gray-200 rounded-lg p-8 text-center">
+      <div className="bg-white border border-gray-200 rounded-lg p-8 text-center">
         <h2 className="font-bold text-gray-900 text-lg">Check your email</h2>
         <p className="text-gray-500 text-sm mt-2">
           We sent a magic link to <strong>{email}</strong>. Tap it to sign in.

@@ -279,7 +279,7 @@ function FeatureTabs() {
 
         <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-6 border border-gray-200">
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-            <div className="flex items-center gap-1.5 px-3 py-2.5 border-b border-gray-100 bg-gray-50">
+            <div className="flex items-center gap-1.5 px-3 py-2.5 border-b border-gray-100 bg-white">
               <div className="w-2.5 h-2.5 rounded-full bg-red-400" />
               <div className="w-2.5 h-2.5 rounded-full bg-yellow-400" />
               <div className="w-2.5 h-2.5 rounded-full bg-green-400" />
@@ -352,7 +352,7 @@ function FeatureTabs() {
                       { label: 'Shortlisted', val: '4' },
                       { label: 'Hired', val: '1' },
                     ].map(s => (
-                      <div key={s.label} className="text-center bg-gray-50 rounded-lg p-2">
+                      <div key={s.label} className="text-center bg-white rounded-lg p-2">
                         <div className="text-base font-bold text-gray-900">{s.val}</div>
                         <div className="text-[10px] text-gray-400">{s.label}</div>
                       </div>
@@ -408,9 +408,9 @@ export default function EmployersPage() {
               <p className="text-xs font-semibold text-gray-500 mb-3">Post your first job in 2 minutes</p>
               <div className="space-y-2 mb-3">
                 <input name="prefill_title" placeholder="What role are you hiring?"
-                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-xs text-gray-800 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 placeholder:text-gray-400" />
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-xs text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-gray-500 placeholder:text-gray-400" />
                 <input name="prefill_location" placeholder="Cape Town, Johannesburg, Durban…"
-                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-xs text-gray-800 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 placeholder:text-gray-400" />
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-xs text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-gray-500 placeholder:text-gray-400" />
               </div>
               <button type="submit" className="w-full bg-gray-900 hover:bg-gray-800 text-white text-xs font-bold py-2 rounded-lg transition">Get started</button>
               <div className="mt-3 space-y-1.5">
@@ -457,7 +457,7 @@ export default function EmployersPage() {
       </div>
 
       {/* Flexible ways */}
-      <div id="how-it-works" className="bg-gray-50 border-y border-gray-100 px-4 py-20">
+      <div id="how-it-works" className="bg-white border-y border-gray-100 px-4 py-20">
         <div className="max-w-5xl mx-auto">
           <p className="text-center text-xs font-bold uppercase tracking-widest text-gray-900 mb-2">Flexible options</p>
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900 text-center mb-3">
@@ -506,7 +506,7 @@ export default function EmployersPage() {
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             {STATS.map(s => (
-              <div key={s.label} className="bg-gray-50 rounded-2xl p-6">
+              <div key={s.label} className="bg-white rounded-2xl p-6">
                 <div className="text-3xl font-extrabold text-gray-900">{s.value}</div>
                 <div className="text-sm text-gray-500 mt-1">{s.label}</div>
               </div>
@@ -552,7 +552,7 @@ export default function EmployersPage() {
           <h2 className="text-xl md:text-2xl font-bold text-gray-900 text-center mb-10">Real results from real employers</h2>
           <div className="grid md:grid-cols-3 gap-5">
             {TESTIMONIALS.map((t, i) => (
-              <div key={i} className="bg-gray-50 border border-gray-100 rounded-2xl p-5 flex flex-col">
+              <div key={i} className="bg-white border border-gray-100 rounded-2xl p-5 flex flex-col">
                 <svg className="w-6 h-6 text-gray-500 mb-3 shrink-0" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
                 </svg>
@@ -573,7 +573,7 @@ export default function EmployersPage() {
       </div>
 
       {/* Resources */}
-      <div className="bg-gray-50 border-t border-gray-100 px-4 py-16">
+      <div className="bg-white border-t border-gray-100 px-4 py-16">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-xl md:text-2xl font-bold text-gray-900 text-center mb-10">
             Resources for every step of the journey

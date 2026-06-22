@@ -394,4 +394,4 @@ function Field({ label, hint, required, children }: {
   )
 }
 
-const input = 'w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-gray-500 focus:bg-white focus:border-gray-500 placeholder:text-gray-400 transition'
+const input = 'w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-gray-500 focus:bg-white focus:border-gray-500 placeholder:text-gray-400 transition'

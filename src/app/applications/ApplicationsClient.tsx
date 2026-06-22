@@ -61,7 +61,7 @@ export default function ApplicationsClient() {
             href={`/jobs/${app.jobId}`}
             className="flex items-center gap-3 bg-white border border-gray-200 rounded-lg p-4 hover:border-gray-300 transition group"
           >
-            <div className="w-10 h-10 rounded border border-gray-200 bg-gray-50 flex items-center justify-center text-sm font-semibold text-gray-500 shrink-0">
+            <div className="w-10 h-10 rounded border border-gray-200 bg-white flex items-center justify-center text-sm font-semibold text-gray-500 shrink-0">
               {app.employerName.trim().charAt(0).toUpperCase()}
             </div>
             <div className="flex-1 min-w-0">

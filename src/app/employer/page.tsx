@@ -95,7 +95,7 @@ export default function EmployerDashboard() {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
             {stageCounts.filter(s => !['hired','rejected'].includes(s.key)).map(s => (
               <a key={s.key} href="/employer/applicants"
-                className="text-center bg-gray-50 hover:bg-gray-100 rounded-xl p-4 transition cursor-pointer">
+                className="text-center bg-white hover:bg-gray-100 rounded-xl p-4 transition cursor-pointer">
                 <p className="text-2xl font-bold text-gray-900">{s.count}</p>
                 <p className="text-xs text-gray-500 mt-1">{s.label}</p>
               </a>

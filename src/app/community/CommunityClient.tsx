@@ -240,7 +240,7 @@ function PostThread({ post, onClose }: { post: CommunityPost; onClose: () => voi
         </div>
 
         {/* Sticky comment composer */}
-        <div className="shrink-0 border-t border-gray-100 px-4 py-3 bg-white" style={{ paddingBottom: 'max(12px, env(safe-area-inset-bottom))' }}>
+        <div className="shrink-0 px-4 py-3 bg-white" style={{ paddingBottom: 'max(12px, env(safe-area-inset-bottom))' }}>
           <div className="flex items-end gap-3">
             <AvatarCircle letter="Y" size="sm" />
             <div className="flex-1 relative">

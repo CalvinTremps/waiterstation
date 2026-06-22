@@ -62,14 +62,14 @@ export default function MessagesPage() {
 
       <div className="bg-white border border-gray-200 rounded-xl overflow-hidden flex" style={{ minHeight: 'min(520px, 70vh)' }}>
         {/* Thread list */}
-        <div className={`w-full lg:w-72 shrink-0 border-r border-gray-100 flex flex-col ${selected && 'hidden lg:flex'}`}>
-          <div className="px-4 py-3 border-b border-gray-100">
+        <div className={`w-full lg:w-72 shrink-0 flex flex-col ${selected && 'hidden lg:flex'}`}>
+          <div className="px-4 py-3">
             <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Conversations</p>
           </div>
-          <div className="flex-1 overflow-y-auto divide-y divide-gray-50">
+          <div className="flex-1 overflow-y-auto space-y-1 px-2">
             {messages.map(m => (
               <button key={m.id} onClick={() => selectThread(m.id)}
-                className={`w-full flex items-start gap-3 px-4 py-3.5 text-left transition ${
+                className={`w-full flex items-start gap-3 px-3 py-3.5 text-left transition rounded-lg ${
                   selectedId === m.id ? 'bg-gray-100' : 'hover:bg-gray-50'
                 }`}>
                 <div className={`w-10 h-10 rounded-full ${m.avatar_color} flex items-center justify-center text-white text-xs font-bold shrink-0`}>
@@ -97,7 +97,7 @@ export default function MessagesPage() {
         {selected ? (
           <div className="flex-1 flex flex-col min-w-0">
             {/* Thread header */}
-            <div className="px-5 py-3.5 border-b border-gray-100 flex items-center gap-3">
+            <div className="px-5 py-3.5 flex items-center gap-3">
               <button onClick={() => setSelectedId(null)}
                 className="lg:hidden text-gray-400 hover:text-gray-600 mr-1">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -132,7 +132,7 @@ export default function MessagesPage() {
             </div>
 
             {/* Reply box */}
-            <div className="border-t border-gray-100 px-4 py-3 flex items-end gap-3">
+            <div className="px-4 py-3 flex items-end gap-3">
               <textarea
                 value={reply}
                 onChange={e => setReply(e.target.value)}

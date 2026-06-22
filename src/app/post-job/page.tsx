@@ -16,7 +16,7 @@ export default async function PostJobPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero header */}
-      <div className="bg-white border-b border-gray-100">
+      <div className="bg-white">
         <div className="max-w-5xl mx-auto px-4 md:px-8 py-10">
           <div className="flex items-center gap-3 mb-4">
             <span className="inline-flex items-center gap-1.5 text-xs font-bold text-gray-800 bg-gray-100 border border-gray-100 px-3 py-1 rounded-full uppercase tracking-wide">

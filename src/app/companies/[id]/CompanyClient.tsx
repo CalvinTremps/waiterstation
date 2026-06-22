@@ -1078,7 +1078,7 @@ function SalariesTab({ company, reviews, relatedCompanies, onWriteReview }: {
                 ))}
               </div>
             </div>
-            <div className="shrink-0 text-center border-l border-gray-100 pl-6">
+            <div className="shrink-0 text-center pl-6">
               <p className="text-xs font-semibold text-gray-500 mb-2">Salary satisfaction</p>
               <DonutChart pct={satisfactionPct} />
               <p className="text-[11px] text-gray-400 mt-2 max-w-[120px] leading-snug">
@@ -1455,7 +1455,7 @@ export default function CompanyClient({ company, franchiseJobs = [] }: { company
                       </a>
                     )}
                   </div>
-                  <div className="md:border-l border-gray-100 pt-4 md:pt-0 md:pl-6">
+                  <div className="pt-4 md:pt-0 md:pl-6">
                     <div className="space-y-3">
                       {[
                         { label: 'Industry', value: company.industry },

@@ -82,25 +82,24 @@ export default function ListingsClient({ initialJobs }: { initialJobs: Job[] }) 
         ))}
       </div>
 
-      <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-        {filtered.length === 0 && (
-          <div className="text-center py-16 text-gray-400">
-            {jobs.length === 0 ? (
-              <div className="space-y-3">
-                <p className="font-medium">No listings yet</p>
-                <a href="/post-job" className="inline-block text-sm font-semibold text-gray-800 hover:underline">
-                  Post your first job →
-                </a>
-              </div>
-            ) : (
-              <p className="font-medium">No {filter} listings</p>
-            )}
-          </div>
-        )}
+      {filtered.length === 0 && (
+        <div className="text-center py-16 text-gray-400">
+          {jobs.length === 0 ? (
+            <div className="space-y-3">
+              <p className="font-medium">No listings yet</p>
+              <a href="/post-job" className="inline-block text-sm font-semibold text-gray-800 hover:underline">
+                Post your first job →
+              </a>
+            </div>
+          ) : (
+            <p className="font-medium">No {filter} listings</p>
+          )}
+        </div>
+      )}
 
-        <div className="divide-y divide-gray-100">
+      <div className="space-y-3">
           {filtered.map(job => (
-            <div key={job.id} className="px-5 py-4">
+            <div key={job.id} className="bg-white border border-gray-200 rounded-xl px-5 py-4">
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
                   <p className="font-semibold text-gray-900 text-sm">{job.title}</p>
@@ -165,7 +164,6 @@ export default function ListingsClient({ initialJobs }: { initialJobs: Job[] }) 
             </div>
           ))}
         </div>
-      </div>
     </div>
   )
 }

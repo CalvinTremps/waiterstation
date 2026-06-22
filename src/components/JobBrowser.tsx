@@ -164,7 +164,7 @@ export default function JobBrowser({
               }}
             />
             {/* Row 1: Employment type tabs */}
-            <div className="flex items-center border-t border-gray-100">
+            <div className="flex items-center mt-4">
               {([['', 'All jobs'], ...EMPLOYMENT_TYPES.map(t => [t, t === 'event' ? 'Event' : EMPLOYMENT_TYPE_LABELS[t]])] as Array<[string, string]>).map(([val, label]) => (
                 <button key={val || 'all'} onClick={() => updateFilter('type', val)}
                   className={`text-sm py-3.5 px-5 border-b-2 transition whitespace-nowrap font-medium ${
@@ -178,7 +178,7 @@ export default function JobBrowser({
             </div>
 
             {/* Row 2: Role pills + pay toggle */}
-            <div className="flex items-center gap-3 border-t border-gray-100 py-4">
+            <div className="flex items-center gap-3 py-4">
               <div className="flex gap-1.5 overflow-x-auto flex-1 no-scrollbar">
                 <button onClick={() => updateFilter('role', '')}
                   className={`shrink-0 text-xs font-medium px-3.5 py-1.5 rounded-full border transition whitespace-nowrap ${
@@ -432,7 +432,7 @@ function DesktopJobDetail({ job, isLoggedIn }: { job: Job; isLoggedIn: boolean }
       {showApply && <ApplyModal job={job} onClose={() => setShowApply(false)} />}
 
       {/* Sticky header */}
-      <div className="sticky top-0 bg-white border-b border-gray-100 z-10 px-8 py-4">
+      <div className="sticky top-0 bg-white shadow-sm z-10 px-8 py-4">
         <div className="flex items-start justify-between gap-4">
           <div className="flex items-start gap-3 min-w-0">
             <CompanyBadge name={job.employer_name} size="md" />

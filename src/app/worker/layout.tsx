@@ -94,7 +94,7 @@ export default function WorkerLayout({ children }: { children: React.ReactNode }
     <div className="min-h-screen bg-white flex">
       {/* Desktop sidebar */}
       <aside className="hidden lg:flex flex-col w-56 shrink-0 bg-white border-r border-gray-100 sticky top-0 h-screen">
-        <div className="px-4 py-5 border-b border-gray-100">
+        <div className="px-4 py-5">
           <Link href="/" className="flex items-center gap-2">
             <span className="text-gray-900 font-bold text-xl tracking-tight">waiter</span>
             <span className="text-gray-800 font-bold text-xl tracking-tight">station</span>
@@ -123,7 +123,7 @@ export default function WorkerLayout({ children }: { children: React.ReactNode }
           ))}
         </nav>
 
-        <div className="p-3 border-t border-gray-100 space-y-2">
+        <div className="p-3 space-y-2">
           <Link href="/jobs"
             className="flex items-center justify-center gap-2 w-full bg-gray-900 hover:bg-gray-800 text-white text-sm font-semibold py-2.5 rounded-lg transition">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

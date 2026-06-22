@@ -81,7 +81,7 @@ export default function EmployerLayout({ children }: { children: React.ReactNode
             ))}
           </nav>
 
-          <div className="mt-auto pt-6 pb-6 px-3 border-t border-gray-200 mt-8">
+          <div className="mt-auto pt-6 pb-6 px-3 mt-8">
             <a href="/post-job"
               className="flex items-center justify-center gap-1.5 w-full bg-gray-900 hover:bg-gray-800 text-white text-xs font-bold py-2.5 rounded-lg transition">
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>

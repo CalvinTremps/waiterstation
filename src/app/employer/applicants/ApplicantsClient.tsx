@@ -155,9 +155,9 @@ export default function ApplicantsClient({
           )}
         </div>
       ) : (
-        <div className="bg-white border border-gray-200 rounded-xl divide-y divide-gray-100 overflow-hidden">
+        <div className="space-y-3">
           {filtered.map(a => (
-            <div key={a.id} className="px-5 py-4">
+            <div key={a.id} className="bg-white border border-gray-200 rounded-xl px-5 py-4">
               <div className="flex items-start gap-4">
                 <div className={`w-10 h-10 rounded-full ${avatarColor(a.applicant_name)} flex items-center justify-center text-white text-sm font-bold shrink-0`}>
                   {initials(a.applicant_name)}

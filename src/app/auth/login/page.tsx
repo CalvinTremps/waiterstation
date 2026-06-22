@@ -5,37 +5,60 @@ export const metadata: Metadata = {
   title: 'Sign In | Waiterstation',
 }
 
-export default async function LoginPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ next?: string; role?: string }>
-}) {
-  const { role } = await searchParams
-  const isEmployer = role === 'employer'
-
+export default function LoginPage() {
   return (
-    <div className="max-w-sm mx-auto px-4 py-16">
-      <div className="text-center mb-8">
-        <div className="w-12 h-12 rounded-2xl bg-gray-900 flex items-center justify-center text-white text-xl font-bold mx-auto mb-4">W</div>
-        {isEmployer ? (
-          <>
-            <h1 className="text-2xl font-bold text-gray-900">Employer sign in</h1>
-            <p className="text-gray-500 text-sm mt-1">You need an employer account to post jobs</p>
-            <div className="mt-4 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 text-left">
-              <p className="text-xs font-semibold text-amber-800 mb-1">First time posting?</p>
-              <p className="text-xs text-amber-700 leading-relaxed">
-                Enter your work email below. Once signed in, complete your company profile before posting your first job.
-              </p>
-            </div>
-          </>
-        ) : (
-          <>
-            <h1 className="text-2xl font-bold text-gray-900">Sign in</h1>
-            <p className="text-gray-500 text-sm mt-1">We'll send a magic link to your email</p>
-          </>
-        )}
+    <div className="min-h-screen bg-gray-50 flex">
+
+      {/* Left — branding panel (desktop only) */}
+      <div className="hidden lg:flex lg:w-1/2 bg-gray-900 flex-col justify-between p-12">
+        <a href="/" className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl bg-white flex items-center justify-center">
+            <span className="text-gray-900 font-black text-lg">W</span>
+          </div>
+          <span className="text-white font-bold text-lg tracking-tight">Waiterstation</span>
+        </a>
+
+        <div>
+          <h2 className="text-4xl font-extrabold text-white leading-tight mb-6">
+            South Africa's home for hospitality jobs
+          </h2>
+          <div className="space-y-5">
+            {[
+              { icon: '🍽️', title: 'Built for hospitality', body: 'From waiters to hotel managers — every role, every province.' },
+              { icon: '⚡', title: 'Apply in seconds', body: 'No CV required. Apply with your phone number and a short message.' },
+              { icon: '🏆', title: 'Trusted employers', body: 'Spur, Nando\'s, Sun International and hundreds more post here.' },
+            ].map(f => (
+              <div key={f.title} className="flex gap-4">
+                <span className="text-2xl mt-0.5">{f.icon}</span>
+                <div>
+                  <p className="text-white font-semibold text-sm">{f.title}</p>
+                  <p className="text-gray-400 text-sm mt-0.5 leading-relaxed">{f.body}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <p className="text-gray-600 text-xs">© 2025 Waiterstation. All rights reserved.</p>
       </div>
-      <LoginForm />
+
+      {/* Right — form panel */}
+      <div className="flex-1 flex flex-col justify-center px-6 py-12 lg:px-16">
+        {/* Mobile logo */}
+        <div className="lg:hidden flex items-center gap-3 mb-10">
+          <div className="w-9 h-9 rounded-xl bg-gray-900 flex items-center justify-center">
+            <span className="text-white font-black text-lg">W</span>
+          </div>
+          <span className="text-gray-900 font-bold text-lg tracking-tight">Waiterstation</span>
+        </div>
+
+        <div className="w-full max-w-sm mx-auto">
+          <h1 className="text-2xl font-extrabold text-gray-900 mb-1">Get started</h1>
+          <p className="text-gray-500 text-sm mb-8">Sign in or create a free account in seconds.</p>
+          <LoginForm />
+        </div>
+      </div>
+
     </div>
   )
 }

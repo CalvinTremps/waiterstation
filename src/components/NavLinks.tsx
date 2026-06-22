@@ -1,11 +1,9 @@
 'use client'
 
-import { useState } from 'react'
 import { usePathname } from 'next/navigation'
 
 export default function NavLinks({ isLoggedIn }: { isLoggedIn: boolean }) {
   const pathname = usePathname()
-  const [mobileOpen, setMobileOpen] = useState(false)
 
   function active(href: string) {
     if (href === '/') return pathname === '/'
@@ -47,71 +45,6 @@ export default function NavLinks({ isLoggedIn }: { isLoggedIn: boolean }) {
         </a>
       </div>
 
-      {/* Mobile right side */}
-      <div className="flex md:hidden items-center gap-2 ml-auto">
-        <a href="/saved" aria-label="Saved jobs" className="p-2 text-gray-500 hover:text-gray-800 transition">
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
-          </svg>
-        </a>
-        <button
-          onClick={() => setMobileOpen(o => !o)}
-          aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
-          aria-expanded={mobileOpen}
-          className="p-2 text-gray-500 hover:text-gray-800 transition"
-        >
-          {mobileOpen ? (
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
-            </svg>
-          ) : (
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
-            </svg>
-          )}
-        </button>
-      </div>
-
-      {/* Mobile drawer */}
-      {mobileOpen && (
-        <div className="absolute top-[var(--header-height)] left-0 right-0 bg-white border-b border-gray-200 shadow-lg z-40 md:hidden">
-          <nav className="flex flex-col px-4 py-4 gap-1.5">
-            {[
-              { href: '/', label: 'Browse jobs' },
-              { href: '/companies', label: 'Companies' },
-              { href: '/community', label: 'Community' },
-              { href: '/how-it-works', label: 'How it works' },
-              { href: '/faq', label: 'FAQ' },
-              { href: '/saved', label: 'Saved jobs' },
-              isLoggedIn
-                ? { href: '/employer', label: 'My listings' }
-                : { href: '/auth/login', label: 'Sign in' },
-              { href: '/worker/profile', label: 'Worker profile' },
-              { href: '/employers', label: 'For Employers' },
-            ].map(({ href, label }) => (
-              <a
-                key={href}
-                href={href}
-                onClick={() => setMobileOpen(false)}
-                className={`px-4 py-3 rounded-xl text-sm font-medium transition ${
-                  active(href) ? 'bg-gray-100 text-gray-900 font-semibold' : 'text-gray-700 hover:bg-gray-50'
-                }`}
-              >
-                {label}
-              </a>
-            ))}
-            <div className="pt-3 pb-2">
-              <a
-                href="/post-job"
-                onClick={() => setMobileOpen(false)}
-                className="flex items-center justify-center bg-gray-900 text-white text-sm font-bold px-4 py-3.5 rounded-xl hover:bg-gray-800 transition"
-              >
-                Post a Job
-              </a>
-            </div>
-          </nav>
-        </div>
-      )}
     </>
   )
 }

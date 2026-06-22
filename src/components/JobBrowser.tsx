@@ -281,13 +281,18 @@ function DesktopSearchBar({ currentRole, currentLocation, currentQuery, onSearch
   currentRole: string; currentLocation: string; currentQuery: string
   onSearch: (role: string, query: string, location: string) => void
 }) {
-  const roleRef = useRef<HTMLSelectElement>(null)
-  const queryRef = useRef<HTMLInputElement>(null)
-  const locationRef = useRef<HTMLInputElement>(null)
+  const [role, setRole] = useState(currentRole)
+  const [query, setQuery] = useState(currentQuery)
+  const [location, setLocation] = useState(currentLocation)
+
+  // Keep inputs in sync when URL-driven props change
+  useEffect(() => { setRole(currentRole) }, [currentRole])
+  useEffect(() => { setQuery(currentQuery) }, [currentQuery])
+  useEffect(() => { setLocation(currentLocation) }, [currentLocation])
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    onSearch(roleRef.current?.value ?? '', queryRef.current?.value ?? '', locationRef.current?.value ?? '')
+    onSearch(role, query, location)
   }
 
   return (
@@ -298,7 +303,7 @@ function DesktopSearchBar({ currentRole, currentLocation, currentQuery, onSearch
         <svg className="w-4 h-4 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
         </svg>
-        <select ref={roleRef} defaultValue={currentRole}
+        <select value={role} onChange={e => setRole(e.target.value)}
           className="flex-1 text-sm text-gray-700 bg-transparent focus:outline-none appearance-none cursor-pointer">
           <option value="">All roles</option>
           {ROLE_CATEGORIES.map(r => <option key={r} value={r}>{ROLE_LABELS[r]}</option>)}
@@ -310,7 +315,7 @@ function DesktopSearchBar({ currentRole, currentLocation, currentQuery, onSearch
         <svg className="w-4 h-4 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
           <circle cx="11" cy="11" r="8"/><path strokeLinecap="round" d="M21 21l-4.35-4.35"/>
         </svg>
-        <input ref={queryRef} type="text" defaultValue={currentQuery}
+        <input type="text" value={query} onChange={e => setQuery(e.target.value)}
           placeholder="Job title or keyword…"
           className="flex-1 text-sm text-gray-700 placeholder:text-gray-400 bg-transparent focus:outline-none min-w-0" />
       </div>
@@ -321,7 +326,7 @@ function DesktopSearchBar({ currentRole, currentLocation, currentQuery, onSearch
           <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
           <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
         </svg>
-        <input ref={locationRef} type="text" defaultValue={currentLocation}
+        <input type="text" value={location} onChange={e => setLocation(e.target.value)}
           placeholder="City or province…"
           className="flex-1 text-sm text-gray-700 placeholder:text-gray-400 bg-transparent focus:outline-none min-w-0" />
       </div>

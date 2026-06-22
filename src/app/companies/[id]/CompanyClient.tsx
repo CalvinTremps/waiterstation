@@ -782,70 +782,181 @@ function JobsTab({ company, relatedCompanies, allJobs }: {
 
         {/* Right — job detail */}
         <div className="flex-1 min-w-0">
-          {selectedJob ? (
-            <div className="bg-white border border-gray-200 rounded-xl p-5 sticky top-[140px]">
-              {/* Job header */}
-              <div className="flex items-start gap-3 mb-4">
-                <div className="w-10 h-10 rounded border border-gray-100 bg-white flex items-center justify-center overflow-hidden shrink-0">
-                  <span className="text-base font-bold text-gray-400">{selectedJob.employer_name.charAt(0)}</span>
-                </div>
-                <div className="min-w-0 flex-1">
-                  <h3 className="text-base font-bold text-gray-900 leading-tight">{selectedJob.title}</h3>
-                  <div className="flex items-center gap-2 flex-wrap mt-0.5">
-                    <p className="text-sm text-gray-600">{selectedJob.employer_name} · {selectedJob.location}</p>
-                    {selectedJob.franchise_name && selectedJob.brand_link_status === 'approved' && (
-                      <span className="text-[11px] font-semibold bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full">Franchise location</span>
-                    )}
+          {selectedJob ? (() => {
+            const jobCo = MOCK_COMPANIES.find(c => c.name === selectedJob.employer_name)
+            return (
+            <div className="bg-white border border-gray-200 rounded-xl overflow-hidden sticky top-[140px] max-h-[calc(100vh-180px)] flex flex-col">
+
+              {/* Sticky header */}
+              <div className="px-5 pt-5 pb-4 shrink-0">
+                <div className="flex items-start gap-3 mb-3">
+                  <div className="w-11 h-11 rounded-xl border border-gray-100 bg-white flex items-center justify-center overflow-hidden shrink-0">
+                    {jobCo?.logo_url
+                      ? <img src={jobCo.logo_url} alt={selectedJob.employer_name} className="w-full h-full object-contain p-0.5" onError={e => { (e.target as HTMLImageElement).style.display = 'none' }} />
+                      : <span className="text-base font-bold text-gray-400">{selectedJob.employer_name.charAt(0)}</span>
+                    }
                   </div>
-                  <div className="flex items-center gap-2 mt-1.5 flex-wrap">
-                    <span className={`text-xs px-2.5 py-1 rounded-full font-medium capitalize ${empTypeColors[selectedJob.employment_type] ?? 'bg-gray-100 text-gray-600'}`}>
-                      {selectedJob.employment_type.replace('-', ' ')}
-                    </span>
-                    {selectedJob.pay && (
-                      <span className="text-xs font-semibold text-gray-700 bg-white border border-gray-200 px-2.5 py-1 rounded-full">
-                        {selectedJob.pay}
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2 flex-wrap mb-0.5">
+                      <p className="text-xs font-semibold text-gray-400">{selectedJob.employer_name}</p>
+                      <ClaimedBadge claimed={jobCo?.claimed} />
+                    </div>
+                    <h3 className="text-base font-bold text-gray-900 leading-tight">{selectedJob.title}</h3>
+                    <div className="flex flex-wrap items-center gap-2 mt-1.5">
+                      <span className="text-xs text-gray-500">{selectedJob.location}</span>
+                      <span className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full ${empTypeColors[selectedJob.employment_type] ?? 'bg-gray-100 text-gray-600'}`}>
+                        {selectedJob.employment_type.replace('-', ' ')}
                       </span>
-                    )}
+                      {jobCo && (
+                        <div className="flex items-center gap-1">
+                          <StarRating rating={jobCo.overall_rating} />
+                          <span className="text-xs font-bold text-gray-700">{jobCo.overall_rating.toFixed(1)}</span>
+                        </div>
+                      )}
+                    </div>
                   </div>
+                  <button onClick={() => toggleSave(selectedJob.id)}
+                    className={`shrink-0 p-2 rounded-full border transition ${
+                      savedJobs.has(selectedJob.id) ? 'border-blue-300 text-blue-600 bg-blue-50' : 'border-gray-200 text-gray-400 hover:border-blue-300 hover:text-blue-500'
+                    }`}>
+                    <svg className="w-4 h-4" fill={savedJobs.has(selectedJob.id) ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                    </svg>
+                  </button>
                 </div>
-                <button onClick={() => toggleSave(selectedJob.id)}
-                  className={`shrink-0 p-2 rounded-full border transition ${
-                    savedJobs.has(selectedJob.id) ? 'border-blue-300 text-blue-600 bg-blue-50' : 'border-gray-200 text-gray-400 hover:border-blue-300 hover:text-blue-500'
-                  }`}>
-                  <svg className="w-4 h-4" fill={savedJobs.has(selectedJob.id) ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
-                  </svg>
-                </button>
-              </div>
 
-              {/* CTA buttons */}
-              <div className="flex gap-2 mb-5">
-                <a href={`/jobs/${selectedJob.id}`}
-                  className="flex-1 text-center text-sm font-bold text-white bg-blue-600 py-2.5 rounded-lg hover:bg-blue-700 transition">
-                  Apply on company site
-                </a>
-                <a href={`/jobs/${selectedJob.id}`}
-                  className="text-sm font-semibold text-blue-600 border border-blue-200 px-4 py-2.5 rounded-lg hover:bg-blue-50 transition">
-                  View full job
-                </a>
-              </div>
+                {selectedJob.pay && (
+                  <div className="bg-gray-50 rounded-xl px-4 py-2.5 flex items-center gap-3 mb-3">
+                    <svg className="w-4 h-4 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <div>
+                      <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none">Pay</p>
+                      <p className="text-sm font-extrabold text-gray-900 mt-0.5">{selectedJob.pay}</p>
+                    </div>
+                  </div>
+                )}
 
-              {/* Description */}
-              <div className="pt-4">
-                <div className="text-sm text-gray-700 leading-relaxed whitespace-pre-line line-clamp-[20]">
-                  {selectedJob.description}
+                <div className="flex gap-2">
+                  <a href={`/jobs/${selectedJob.id}`}
+                    className="flex-1 text-center text-sm font-bold text-white bg-blue-600 py-2.5 rounded-lg hover:bg-blue-700 transition">
+                    Apply now
+                  </a>
+                  <a href={`/jobs/${selectedJob.id}`}
+                    className="text-sm font-semibold text-blue-600 border border-blue-200 px-4 py-2.5 rounded-lg hover:bg-blue-50 transition">
+                    View full job
+                  </a>
                 </div>
-                <a href={`/jobs/${selectedJob.id}`} className="block mt-3 text-xs text-blue-600 hover:underline font-medium">
-                  See full job description →
-                </a>
               </div>
 
-              {/* Posted */}
-              <p className="text-xs text-gray-400 mt-4">
-                Posted {timeAgo(selectedJob.created_at)} · Contact: {selectedJob.contact_method}
-              </p>
+              {/* Scrollable body */}
+              <div className="flex-1 overflow-y-auto px-5 pb-5 space-y-5">
+
+                {/* Job description */}
+                <div>
+                  <h4 className="text-sm font-bold text-gray-900 mb-2">Job description</h4>
+                  <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-line line-clamp-[12]">{selectedJob.description}</p>
+                  <a href={`/jobs/${selectedJob.id}`} className="block mt-2 text-xs text-blue-600 hover:underline font-medium">
+                    See full description →
+                  </a>
+                  <p className="text-xs text-gray-400 mt-2">Posted {timeAgo(selectedJob.created_at)}</p>
+                </div>
+
+                {/* Company overview */}
+                <div>
+                  <h4 className="text-sm font-bold text-gray-900 mb-3">Company overview</h4>
+                  <div className="flex flex-wrap gap-x-4 gap-y-3 mb-3">
+                    {[
+                      { label: 'Size', value: jobCo?.size ?? 'Not listed' },
+                      { label: 'Location', value: selectedJob.location },
+                      { label: 'Industry', value: jobCo?.industry ?? 'Hospitality' },
+                    ].map(s => (
+                      <div key={s.label}>
+                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wide leading-none">{s.label}</p>
+                        <p className="text-xs font-semibold text-gray-800 mt-0.5">{s.value}</p>
+                      </div>
+                    ))}
+                  </div>
+                  {jobCo
+                    ? <p className="text-xs text-gray-600 leading-relaxed">{jobCo.description}</p>
+                    : <p className="text-xs text-gray-400 italic">No company profile yet on Waiterstation.</p>
+                  }
+                </div>
+
+                {/* Ratings */}
+                <div>
+                  <h4 className="text-sm font-bold text-gray-900 mb-3">{selectedJob.employer_name} ratings</h4>
+                  {jobCo ? (
+                    <div className="flex items-start gap-4">
+                      <div className="text-center shrink-0">
+                        <p className="text-3xl font-extrabold text-gray-900 leading-none">{jobCo.overall_rating.toFixed(1)}</p>
+                        <StarRating rating={jobCo.overall_rating} />
+                        <p className="text-[10px] text-gray-400 mt-1">{jobCo.reviews.length} reviews</p>
+                      </div>
+                      <div className="flex-1 space-y-2">
+                        <RatingBar label="Work-life balance" value={jobCo.ratings.work_life_balance} />
+                        <RatingBar label="Culture & values" value={jobCo.ratings.culture} />
+                        <RatingBar label="Management" value={jobCo.ratings.management} />
+                        <RatingBar label="Career growth" value={jobCo.ratings.career_growth} />
+                        <RatingBar label="Compensation" value={jobCo.ratings.compensation} />
+                      </div>
+                    </div>
+                  ) : (
+                    <p className="text-xs text-gray-400 italic">No ratings yet for {selectedJob.employer_name}.</p>
+                  )}
+                </div>
+
+                {/* Benefits */}
+                <div>
+                  <h4 className="text-sm font-bold text-gray-900 mb-2">{selectedJob.employer_name} benefits</h4>
+                  {jobCo ? (
+                    <div className="flex flex-wrap gap-1.5">
+                      {jobCo.benefits.map(b => (
+                        <span key={b} className="inline-flex items-center gap-1 text-xs font-medium text-gray-700 bg-gray-100 px-2.5 py-1 rounded-full">
+                          <svg className="w-2.5 h-2.5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/>
+                          </svg>
+                          {b}
+                        </span>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-xs text-gray-400 italic">Benefits not listed by this employer.</p>
+                  )}
+                </div>
+
+                {/* Employee reviews */}
+                <div>
+                  <h4 className="text-sm font-bold text-gray-900 mb-3">Employee reviews</h4>
+                  {jobCo ? (
+                    <div className="space-y-2.5">
+                      {jobCo.reviews.slice(0, 2).map(r => (
+                        <div key={r.id} className="bg-gray-50 rounded-xl p-3">
+                          <div className="flex items-start justify-between gap-2 mb-1.5">
+                            <div>
+                              <p className="text-xs font-bold text-gray-900">{r.anonymous ? 'Anonymous' : r.author_name}</p>
+                              <p className="text-[10px] text-gray-500">{r.role} · {r.date}</p>
+                            </div>
+                            <StarRating rating={r.rating} />
+                          </div>
+                          <p className="text-xs text-gray-700"><span className="font-semibold">Pros: </span>{r.pros}</p>
+                          <p className="text-xs text-gray-700 mt-0.5"><span className="font-semibold">Cons: </span>{r.cons}</p>
+                        </div>
+                      ))}
+                      <a href={`/companies/${jobCo.id}?tab=reviews`}
+                        className="inline-block text-xs font-semibold text-gray-900 hover:underline mt-1">
+                        See all reviews →
+                      </a>
+                    </div>
+                  ) : (
+                    <p className="text-xs text-gray-400 italic">No reviews yet for {selectedJob.employer_name}.</p>
+                  )}
+                </div>
+
+              </div>
             </div>
-          ) : (
+            )
+          })() : (
             <div className="bg-white border border-gray-200 rounded-xl p-10 text-center text-sm text-gray-400">
               Select a job to see details
             </div>

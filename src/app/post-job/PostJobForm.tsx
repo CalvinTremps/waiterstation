@@ -3,6 +3,7 @@
 import { useState, useMemo } from 'react'
 import { ROLE_CATEGORIES, ROLE_LABELS, EMPLOYMENT_TYPE_LABELS, EmploymentType, RoleCategory } from '@/lib/types'
 import { MOCK_COMPANIES } from '@/lib/mock-companies'
+import { JOB_TEMPLATES } from '@/lib/mock-recruitment'
 
 const EMPLOYMENT_TYPES: EmploymentType[] = ['permanent', 'seasonal', 'event']
 
@@ -31,6 +32,9 @@ export default function PostJobForm() {
   const [error, setError] = useState('')
   const [role, setRole] = useState<RoleCategory | ''>('')
   const [empType, setEmpType] = useState<EmploymentType | ''>('')
+  const [templatePickerOpen, setTemplatePickerOpen] = useState(false)
+  const [appliedTemplate, setAppliedTemplate] = useState<string | null>(null)
+  const [prefill, setPrefill] = useState<Record<string, string>>({})
 
   // Franchise state
   const [isFranchise, setIsFranchise] = useState(false)
@@ -131,6 +135,46 @@ export default function PostJobForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
 
+      {/* Template picker */}
+      <div className="flex items-center justify-between gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3">
+        <div>
+          <p className="text-sm font-semibold text-gray-800">
+            {appliedTemplate ? `Template applied: ${appliedTemplate}` : 'Start from a template?'}
+          </p>
+          <p className="text-xs text-gray-500 mt-0.5">
+            {appliedTemplate ? 'Fields pre-filled — edit as needed.' : 'Pre-fill common roles in one click and save time.'}
+          </p>
+        </div>
+        <button type="button" onClick={() => setTemplatePickerOpen(!templatePickerOpen)}
+          className="shrink-0 text-xs font-semibold text-gray-700 border border-gray-200 bg-white px-3 py-1.5 rounded-lg hover:bg-gray-100 transition">
+          {appliedTemplate ? 'Change' : 'Use template'}
+        </button>
+      </div>
+
+      {templatePickerOpen && (
+        <div className="bg-white border border-gray-200 rounded-xl p-4 space-y-2 shadow-sm">
+          <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">Choose a template</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            {JOB_TEMPLATES.map(tpl => (
+              <button key={tpl.id} type="button"
+                onClick={() => {
+                  setRole(tpl.role_category as RoleCategory)
+                  setEmpType(tpl.employment_type as EmploymentType)
+                  setPrefill({ title: tpl.title, pay: tpl.pay, description: tpl.description })
+                  setAppliedTemplate(tpl.label)
+                  setTemplatePickerOpen(false)
+                }}
+                className="text-left p-3 border border-gray-200 rounded-xl hover:border-gray-900 hover:bg-gray-50 transition">
+                <p className="text-sm font-semibold text-gray-900">{tpl.label}</p>
+                <p className="text-xs text-gray-400 mt-0.5">{tpl.pay}</p>
+              </button>
+            ))}
+          </div>
+          <button type="button" onClick={() => setTemplatePickerOpen(false)}
+            className="text-xs text-gray-400 hover:text-gray-600 mt-1">Cancel</button>
+        </div>
+      )}
+
       {/* Role category */}
       <Card step="1" title="What role are you hiring for?" required>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -182,7 +226,7 @@ export default function PostJobForm() {
       <Card step="3" title="Job details">
         <div className="space-y-4">
           <Field label="Job title" required>
-            <input name="title" required placeholder="e.g. Experienced Waiter, Head Chef" className={input} />
+            <input name="title" required placeholder="e.g. Experienced Waiter, Head Chef" className={input} key={prefill.title} defaultValue={prefill.title ?? ''} />
           </Field>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Field label="Establishment name" required>
@@ -193,7 +237,7 @@ export default function PostJobForm() {
             </Field>
           </div>
           <Field label="Pay" hint="Optional — helps attract more applicants">
-            <input name="pay" placeholder="e.g. R6 000/month + tips" className={input} />
+            <input name="pay" placeholder="e.g. R6 000/month + tips" className={input} key={prefill.pay} defaultValue={prefill.pay ?? ''} />
           </Field>
         </div>
       </Card>
@@ -202,7 +246,7 @@ export default function PostJobForm() {
       <Card step="4" title="Job description" required>
         <textarea name="description" required rows={6}
           placeholder="Describe the role, hours, what kind of candidate you're looking for, and anything else that helps someone decide to apply..."
-          className={input + ' resize-none'} />
+          className={input + ' resize-none'} key={prefill.description} defaultValue={prefill.description ?? ''} />
         <p className="text-xs text-gray-400 mt-1.5">Tip: listings with a clear description get significantly more quality applications.</p>
       </Card>
 

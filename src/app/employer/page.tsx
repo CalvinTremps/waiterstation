@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { EMPLOYER_JOBS, MOCK_APPLICANTS, MOCK_INTERVIEWS, PIPELINE_STAGES } from '@/lib/mock-recruitment'
+import { EMPLOYER_JOBS, MOCK_APPLICANTS, MOCK_INTERVIEWS, PIPELINE_STAGES, SMART_ALERTS } from '@/lib/mock-recruitment'
 
 const stageCounts = PIPELINE_STAGES.map(s => ({
   ...s,
@@ -74,6 +74,24 @@ export default function EmployerDashboard() {
             </svg>
           </button>
         </div>
+      )}
+
+      {/* Smart alerts strip */}
+      {SMART_ALERTS.filter(a => !a.read).length > 0 && (
+        <a href="/employer/smart-alerts"
+          className="flex items-center gap-3 bg-blue-50 border border-blue-100 rounded-xl px-4 py-3 hover:bg-blue-100 transition">
+          <span className="text-blue-500">
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+            </svg>
+          </span>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-semibold text-blue-900">
+              {SMART_ALERTS.filter(a => !a.read).length} new alert{SMART_ALERTS.filter(a => !a.read).length !== 1 ? 's' : ''} — new candidate matches &amp; reminders
+            </p>
+          </div>
+          <span className="text-xs font-semibold text-blue-700 shrink-0">View →</span>
+        </a>
       )}
 
       {/* Stats row */}

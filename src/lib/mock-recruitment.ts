@@ -522,3 +522,198 @@ export const ANALYTICS_SERIES: AnalyticsSeries[] = Array.from({ length: 14 }, (_
   views: SEEDED_VIEWS[i],
   applies: SEEDED_APPLIES[i],
 }))
+
+export interface TalentPool {
+  id: string
+  name: string
+  description: string
+  created_at: string
+  candidate_ids: string[]
+  color: string
+}
+
+export interface SmartAlert {
+  id: string
+  type: 'new_match' | 'trial_reminder' | 'offer_expiring' | 'pool_suggestion'
+  title: string
+  body: string
+  job_title?: string
+  candidate_name?: string
+  match_score?: number
+  created_at: string
+  read: boolean
+}
+
+export interface TrialShift {
+  id: string
+  applicant_id: string
+  applicant_name: string
+  job_title: string
+  date: string
+  time: string
+  location: string
+  notes: string
+  status: 'scheduled' | 'completed' | 'cancelled' | 'no_show'
+}
+
+export const TALENT_POOLS: TalentPool[] = [
+  {
+    id: 'pool-1',
+    name: 'Cape Town Waiters',
+    description: 'Top-rated waiters available in Cape Town',
+    created_at: new Date(now - 20 * 86400000).toISOString(),
+    candidate_ids: ['ap-1', 'ap-2', 'ap-6', 'mock-1', 'mock-6'],
+    color: 'bg-blue-100 text-blue-800',
+  },
+  {
+    id: 'pool-2',
+    name: 'Event Staff Reserve',
+    description: 'Reliable event waiters and bar staff for functions',
+    created_at: new Date(now - 10 * 86400000).toISOString(),
+    candidate_ids: ['ap-5', 'ap-10', 'mock-9'],
+    color: 'bg-amber-100 text-amber-800',
+  },
+  {
+    id: 'pool-3',
+    name: 'Senior Candidates',
+    description: 'Experienced candidates (5+ years) for senior roles',
+    created_at: new Date(now - 5 * 86400000).toISOString(),
+    candidate_ids: ['ap-3', 'ap-6', 'ap-11', 'mock-3', 'mock-4'],
+    color: 'bg-purple-100 text-purple-800',
+  },
+]
+
+export const SMART_ALERTS: SmartAlert[] = [
+  {
+    id: 'sa-1',
+    type: 'new_match',
+    title: 'New candidate matches Senior Waiter listing',
+    body: 'Zanele Mokoena (score 9/10) just joined — Cape Town, WSET Level 1, available immediately.',
+    job_title: 'Senior Waiter / Floor Captain',
+    candidate_name: 'Zanele Mokoena',
+    match_score: 9,
+    created_at: new Date(now - 2 * 3600000).toISOString(),
+    read: false,
+  },
+  {
+    id: 'sa-2',
+    type: 'new_match',
+    title: '2 new candidates match Bartender listing',
+    body: 'Jessica Louw (10/10) and Aisha Petersen (8/10) match your Bartender – Cocktail Bar listing.',
+    job_title: 'Bartender – Cocktail Bar',
+    match_score: 10,
+    created_at: new Date(now - 5 * 3600000).toISOString(),
+    read: false,
+  },
+  {
+    id: 'sa-3',
+    type: 'offer_expiring',
+    title: 'Offer to Lerato Molefe expires Friday',
+    body: 'Your offer for Senior Waiter / Floor Captain has not been accepted yet. Follow up before it lapses.',
+    candidate_name: 'Lerato Molefe',
+    job_title: 'Senior Waiter / Floor Captain',
+    created_at: new Date(now - 1 * 86400000).toISOString(),
+    read: false,
+  },
+  {
+    id: 'sa-4',
+    type: 'trial_reminder',
+    title: 'Trial shift tomorrow — Dylan Meyer',
+    body: "Dylan Meyer's trial shift at De Waterkant bar is at 16:00 tomorrow. Confirmation pending.",
+    candidate_name: 'Dylan Meyer',
+    job_title: 'Bartender – Cocktail Bar',
+    created_at: new Date(now - 12 * 3600000).toISOString(),
+    read: true,
+  },
+  {
+    id: 'sa-5',
+    type: 'pool_suggestion',
+    title: 'Add Riaan Botha to Senior Candidates pool',
+    body: "Riaan Botha's profile (6 years fine dining, WSET) is a strong fit for your Senior Candidates talent pool.",
+    candidate_name: 'Riaan Botha',
+    created_at: new Date(now - 2 * 86400000).toISOString(),
+    read: true,
+  },
+]
+
+export const MOCK_TRIAL_SHIFTS: TrialShift[] = [
+  {
+    id: 'ts-1',
+    applicant_id: 'ap-2',
+    applicant_name: 'Amahle Khumalo',
+    job_title: 'Senior Waiter / Floor Captain',
+    date: new Date(now + 4 * 86400000).toISOString().split('T')[0],
+    time: '18:00',
+    location: 'V&A Waterfront – main restaurant floor',
+    notes: 'Dinner service. Observe wine service and table pacing.',
+    status: 'scheduled',
+  },
+  {
+    id: 'ts-2',
+    applicant_id: 'ap-8',
+    applicant_name: 'Dylan Meyer',
+    job_title: 'Bartender – Cocktail Bar',
+    date: new Date(now + 1 * 86400000).toISOString().split('T')[0],
+    time: '16:00',
+    location: 'De Waterkant bar – ask for Mia',
+    notes: 'Cocktail assessment. 3-hour evening shift.',
+    status: 'scheduled',
+  },
+]
+
+export const JOB_TEMPLATES = [
+  {
+    id: 'tpl-waiter-fine',
+    label: 'Waiter – Fine Dining',
+    role_category: 'waiter',
+    employment_type: 'permanent',
+    pay: 'R7 500 – R10 000/month + tips',
+    title: 'Fine Dining Waiter',
+    description: `We are looking for a polished, experienced waiter to join our front-of-house team.\n\nAbout the role:\n- Full table service in a fine dining environment\n- Wine service and recommendation\n- Team collaboration and support of floor captain\n\nRequirements:\n- Minimum 2 years fine dining experience\n- Knowledge of table service etiquette\n- WSET or wine knowledge preferred\n- Neat, professional appearance\n- Fluent in English`,
+  },
+  {
+    id: 'tpl-waiter-event',
+    label: 'Event Waiter',
+    role_category: 'waiter',
+    employment_type: 'event',
+    pay: 'R750 – R1 000/day',
+    title: 'Event Waiter',
+    description: `We need reliable event waiters for upcoming functions.\n\nAbout the role:\n- Service at banquets, weddings, and corporate events\n- Set-up and breakdown of tables and service areas\n- Following event-specific briefings and service standards\n\nRequirements:\n- At least 1 year of hospitality or event service experience\n- Professional appearance (all black attire)\n- Reliable and punctual\n- Able to work evenings and weekends`,
+  },
+  {
+    id: 'tpl-bartender',
+    label: 'Bartender',
+    role_category: 'bartender',
+    employment_type: 'permanent',
+    pay: 'R7 000 – R9 500/month + tips',
+    title: 'Bartender',
+    description: `We are looking for a skilled bartender with a passion for craft cocktails and exceptional guest service.\n\nAbout the role:\n- Crafting cocktails and managing the bar during service\n- Maintaining stock levels and bar hygiene standards\n- Engaging guests and creating a memorable bar experience\n\nRequirements:\n- Minimum 2 years bartending experience\n- Cocktail knowledge and flair presentation a bonus\n- RSA (Responsible Service of Alcohol) certificate preferred\n- Strong communication and upselling ability`,
+  },
+  {
+    id: 'tpl-chef',
+    label: 'Head Chef',
+    role_category: 'chef',
+    employment_type: 'permanent',
+    pay: 'R18 000 – R28 000/month',
+    title: 'Head Chef',
+    description: `We are seeking an experienced Head Chef to lead our kitchen team.\n\nAbout the role:\n- Menu development and seasonal menu updates\n- Full kitchen management including ordering, stock control, and scheduling\n- Training and mentoring of junior kitchen staff\n- Maintaining food hygiene and HACCP compliance\n\nRequirements:\n- Minimum 5 years professional kitchen experience, 2+ years as head chef\n- Formal culinary training preferred\n- Proven ability to manage a brigade under pressure\n- Passion for quality and innovation`,
+  },
+  {
+    id: 'tpl-barista',
+    label: 'Barista',
+    role_category: 'barista',
+    employment_type: 'permanent',
+    pay: 'R6 500 – R8 000/month',
+    title: 'Barista',
+    description: `We are looking for a passionate barista to join our coffee team.\n\nAbout the role:\n- Preparing specialty coffee drinks to our house standard\n- Maintaining coffee equipment and daily cleaning checklists\n- Engaging warmly with guests and taking orders\n\nRequirements:\n- Minimum 1 year barista experience\n- Specialty coffee knowledge preferred (pour-over, espresso extraction)\n- Neat and presentable\n- Positive energy and a love for coffee`,
+  },
+  {
+    id: 'tpl-manager',
+    label: 'Restaurant Manager',
+    role_category: 'manager',
+    employment_type: 'permanent',
+    pay: 'R15 000 – R22 000/month',
+    title: 'Restaurant Manager',
+    description: `We are seeking an experienced Restaurant Manager to oversee daily front-of-house operations.\n\nAbout the role:\n- Managing floor staff and daily service briefings\n- Handling guest complaints and escalations\n- Stock and cash management\n- Coordinating with kitchen leadership on service flow\n\nRequirements:\n- Minimum 3 years restaurant management experience\n- Strong leadership and communication skills\n- Ability to stay calm under pressure\n- Knowledge of POS and reservation systems`,
+  },
+]

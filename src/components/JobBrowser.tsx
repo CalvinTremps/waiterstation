@@ -225,7 +225,7 @@ export default function JobBrowser({
         <div className="flex flex-1 min-h-0 max-w-[1440px] mx-auto w-full">
 
           {/* LEFT: job list */}
-          <div className="w-[400px] shrink-0 overflow-y-auto border-r border-gray-200 bg-white scrollbar-thin">
+          <div className="w-[400px] shrink-0 overflow-y-auto bg-gray-50 scrollbar-thin">
             {jobs.length === 0 && <EmptyState onClear={clearFilters} hasFilters={!!hasFilters} />}
             <div className="p-3 space-y-2">
               {jobs.slice(0, visibleCount).map(job => (
@@ -432,7 +432,7 @@ function DesktopJobDetail({ job, isLoggedIn }: { job: Job; isLoggedIn: boolean }
       {showApply && <ApplyModal job={job} onClose={() => setShowApply(false)} />}
 
       {/* Sticky header */}
-      <div className="sticky top-0 bg-white shadow-sm z-10 px-8 py-4">
+      <div className="sticky top-0 bg-white z-10 px-8 py-4">
         <div className="flex items-start justify-between gap-4">
           <div className="flex items-start gap-3 min-w-0">
             <CompanyBadge name={job.employer_name} size="md" />

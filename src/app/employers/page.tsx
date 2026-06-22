@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import EmployerAuthForm from './EmployerAuthForm'
 
 // ─── Data ──────────────────────────────────────────────────────────────────────
 
@@ -391,9 +392,9 @@ export default function EmployersPage() {
               Reach thousands of active South African hospitality workers in minutes. No agencies, no CVs, no delays.
             </p>
             <div className="flex items-center gap-3 flex-wrap">
-              <a href="/post-job"
-                className="inline-block bg-gray-700 hover:bg-gray-500 text-white font-bold px-7 py-3.5 rounded-lg text-sm transition">
-                Post a job
+              <a href="#get-started"
+                className="inline-block bg-white text-gray-900 font-bold px-7 py-3.5 rounded-lg text-sm hover:bg-gray-100 transition">
+                Get started free
               </a>
               <a href="#how-it-works"
                 className="inline-block border border-gray-600 hover:border-gray-400 text-gray-300 hover:text-white font-semibold px-7 py-3.5 rounded-lg text-sm transition">
@@ -441,6 +442,55 @@ export default function EmployersPage() {
                 Get started
               </a>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Employer sign in / sign up */}
+      <div id="get-started" className="bg-gray-50 px-4 py-16">
+        <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-10 items-center">
+          <div>
+            <span className="inline-block text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">Employer account</span>
+            <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 mb-4">
+              Sign in or create your free employer account
+            </h2>
+            <p className="text-gray-500 text-sm leading-relaxed mb-6">
+              Post jobs, manage applications, track your listings, and access your employer dashboard — all in one place.
+            </p>
+            <ul className="space-y-3">
+              {[
+                'Post a job in under 2 minutes',
+                'Receive applicant contact details directly',
+                'Manage and renew listings from your dashboard',
+                'Free during beta — no credit card required',
+              ].map(point => (
+                <li key={point} className="flex items-center gap-2.5 text-sm text-gray-700">
+                  <svg className="w-4 h-4 text-gray-900 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                  {point}
+                </li>
+              ))}
+            </ul>
+            <p className="text-xs text-gray-400 mt-6">
+              Already have an account?{' '}
+              <a href="/employer" className="text-gray-700 font-semibold hover:underline">
+                Go to your dashboard →
+              </a>
+            </p>
+          </div>
+
+          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-7">
+            <div className="flex items-center gap-2.5 mb-6">
+              <div className="w-8 h-8 rounded-lg bg-gray-900 flex items-center justify-center">
+                <span className="text-white font-black text-sm">W</span>
+              </div>
+              <div>
+                <p className="text-sm font-bold text-gray-900 leading-tight">Waiterstation</p>
+                <p className="text-xs text-gray-400">Employer portal</p>
+              </div>
+            </div>
+            <EmployerAuthForm />
           </div>
         </div>
       </div>

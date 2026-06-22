@@ -5,10 +5,10 @@ import { createClient } from '@/lib/supabase-client'
 
 type Step = 'start' | 'email' | 'sent'
 
-export default function LoginForm() {
+export default function EmployerAuthForm() {
   const [step, setStep] = useState<Step>('start')
-  const [email, setEmail] = useState('')
   const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
   const [googleLoading, setGoogleLoading] = useState(false)
   const [error, setError] = useState('')
@@ -20,7 +20,7 @@ export default function LoginForm() {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}/auth/callback?role=worker`,
+        redirectTo: `${window.location.origin}/auth/callback?role=employer`,
         queryParams: { access_type: 'offline', prompt: 'consent' },
       },
     })
@@ -35,7 +35,7 @@ export default function LoginForm() {
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {
-        emailRedirectTo: `${window.location.origin}/auth/callback?role=worker&name=${encodeURIComponent(name)}`,
+        emailRedirectTo: `${window.location.origin}/auth/callback?role=employer&name=${encodeURIComponent(name)}`,
       },
     })
     setLoading(false)
@@ -45,18 +45,19 @@ export default function LoginForm() {
 
   if (step === 'sent') {
     return (
-      <div className="text-center py-4">
-        <div className="w-14 h-14 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-4">
-          <svg className="w-7 h-7 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+      <div className="text-center py-2">
+        <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg className="w-6 h-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
           </svg>
         </div>
-        <h2 className="text-lg font-bold text-gray-900 mb-1">Check your inbox</h2>
-        <p className="text-sm text-gray-500 leading-relaxed max-w-xs mx-auto">
-          We sent a sign-in link to <span className="font-semibold text-gray-800">{email}</span>. Tap it to continue — expires in 1 hour.
+        <h3 className="font-bold text-gray-900 mb-1">Check your inbox</h3>
+        <p className="text-sm text-gray-500">
+          Sign-in link sent to <span className="font-semibold text-gray-800">{email}</span>.<br />
+          Tap the link to access your employer dashboard.
         </p>
         <button onClick={() => { setStep('start'); setError('') }}
-          className="mt-5 text-sm text-gray-400 hover:text-gray-600 underline underline-offset-2">
+          className="mt-4 text-xs text-gray-400 hover:text-gray-600 underline underline-offset-2">
           Use a different method
         </button>
       </div>
@@ -66,13 +67,12 @@ export default function LoginForm() {
   if (step === 'start') {
     return (
       <div className="space-y-3">
-        {/* Google */}
         <button onClick={handleGoogleSignIn} disabled={googleLoading}
           className="w-full flex items-center justify-center gap-3 bg-white border border-gray-200 text-gray-700 font-semibold text-sm py-3 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition disabled:opacity-60 shadow-sm">
           {googleLoading ? (
             <svg className="w-4 h-4 animate-spin text-gray-400" fill="none" viewBox="0 0 24 24">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/>
             </svg>
           ) : (
             <svg className="w-5 h-5" viewBox="0 0 24 24">
@@ -86,9 +86,9 @@ export default function LoginForm() {
         </button>
 
         <div className="flex items-center gap-3">
-          <div className="flex-1 h-px bg-gray-100" />
+          <div className="flex-1 h-px bg-gray-200" />
           <span className="text-xs text-gray-400 font-medium">or</span>
-          <div className="flex-1 h-px bg-gray-100" />
+          <div className="flex-1 h-px bg-gray-200" />
         </div>
 
         <button onClick={() => setStep('email')}
@@ -99,8 +99,10 @@ export default function LoginForm() {
           Continue with email
         </button>
 
-        <p className="text-xs text-gray-400 text-center leading-relaxed pt-1">
-          By continuing you agree to our Terms &amp; Privacy Policy.
+        {error && <p className="text-sm text-red-600 text-center">{error}</p>}
+
+        <p className="text-xs text-gray-400 text-center pt-1">
+          Free during beta · No credit card required
         </p>
       </div>
     )
@@ -108,40 +110,33 @@ export default function LoginForm() {
 
   // step === 'email'
   return (
-    <form onSubmit={handleEmailSubmit} className="space-y-4">
+    <form onSubmit={handleEmailSubmit} className="space-y-3">
       <button type="button" onClick={() => { setStep('start'); setError('') }}
-        className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-gray-600 mb-2">
+        className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-gray-600 mb-1">
         <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
         </svg>
         Back
       </button>
-
       <div>
-        <label className="block text-sm font-semibold text-gray-800 mb-1.5">Your name</label>
+        <label className="block text-sm font-semibold text-gray-700 mb-1.5">Your name</label>
         <input type="text" required value={name} onChange={e => setName(e.target.value)}
-          placeholder="Full name"
-          className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition"
+          placeholder="Jane Smith"
+          className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white"
           autoComplete="name" />
       </div>
-
       <div>
-        <label className="block text-sm font-semibold text-gray-800 mb-1.5">Email address</label>
+        <label className="block text-sm font-semibold text-gray-700 mb-1.5">Work email</label>
         <input type="email" required value={email} onChange={e => setEmail(e.target.value)}
-          placeholder="you@example.com"
-          className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition"
+          placeholder="you@restaurant.com"
+          className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white"
           inputMode="email" autoComplete="email" />
       </div>
-
-      {error && (
-        <div className="bg-red-50 border border-red-100 rounded-xl px-4 py-3 text-red-600 text-sm">{error}</div>
-      )}
-
+      {error && <p className="text-sm text-red-600">{error}</p>}
       <button type="submit" disabled={loading}
-        className="w-full bg-gray-900 text-white font-bold py-3.5 rounded-xl text-sm hover:bg-gray-800 transition disabled:opacity-60">
+        className="w-full bg-gray-900 text-white font-bold py-3 rounded-xl text-sm hover:bg-gray-800 transition disabled:opacity-60">
         {loading ? 'Sending link…' : 'Send magic link'}
       </button>
-
       <p className="text-xs text-gray-400 text-center">No password needed — we'll email you a sign-in link.</p>
     </form>
   )

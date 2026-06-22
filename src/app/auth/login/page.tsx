@@ -20,13 +20,13 @@ export default function LoginPage() {
 
         <div>
           <h2 className="text-4xl font-extrabold text-white leading-tight mb-6">
-            South Africa's home for hospitality jobs
+            Your next hospitality job starts here
           </h2>
           <div className="space-y-5">
             {[
-              { icon: '🍽️', title: 'Built for hospitality', body: 'From waiters to hotel managers — every role, every province.' },
               { icon: '⚡', title: 'Apply in seconds', body: 'No CV required. Apply with your phone number and a short message.' },
-              { icon: '🏆', title: 'Trusted employers', body: 'Spur, Nando\'s, Sun International and hundreds more post here.' },
+              { icon: '🍽️', title: 'Built for hospitality', body: 'Waiters, bartenders, chefs, baristas, hotel staff — every role across South Africa.' },
+              { icon: '🔔', title: 'Get notified', body: 'Set job alerts and be the first to know when the right role comes up.' },
             ].map(f => (
               <div key={f.title} className="flex gap-4">
                 <span className="text-2xl mt-0.5">{f.icon}</span>
@@ -36,6 +36,14 @@ export default function LoginPage() {
                 </div>
               </div>
             ))}
+          </div>
+          <div className="mt-8 pt-6 border-t border-gray-800">
+            <p className="text-gray-500 text-xs">
+              Are you an employer?{' '}
+              <a href="/employers" className="text-gray-300 hover:text-white font-semibold underline underline-offset-2 transition">
+                Go to the employer page →
+              </a>
+            </p>
           </div>
         </div>
 
@@ -53,9 +61,15 @@ export default function LoginPage() {
         </div>
 
         <div className="w-full max-w-sm mx-auto">
-          <h1 className="text-2xl font-extrabold text-gray-900 mb-1">Get started</h1>
-          <p className="text-gray-500 text-sm mb-8">Sign in or create a free account in seconds.</p>
+          <h1 className="text-2xl font-extrabold text-gray-900 mb-1">Welcome back</h1>
+          <p className="text-gray-500 text-sm mb-8">Sign in or create a free job seeker account.</p>
           <LoginForm />
+
+          {/* Mobile employer link */}
+          <p className="lg:hidden text-xs text-gray-400 text-center mt-6">
+            Are you an employer?{' '}
+            <a href="/employers" className="text-gray-700 font-semibold hover:underline">Go here →</a>
+          </p>
         </div>
       </div>
 

@@ -23,8 +23,10 @@ export async function GET(req: NextRequest) {
     return NextResponse.redirect(`${origin}/auth/login?error=auth_failed`)
   }
 
+  // Derive display name: passed param > Google display name > email prefix
+  const displayName = name || user.user_metadata?.full_name || user.user_metadata?.name || (user.email?.split('@')[0] ?? '')
+
   if (role === 'employer') {
-    // Check if employer profile exists; create if not
     const { data: existing } = await supabase
       .from('employer_profiles')
       .select('id')
@@ -34,12 +36,11 @@ export async function GET(req: NextRequest) {
     if (!existing) {
       await supabase.from('employer_profiles').insert({
         id: user.id,
-        contact_name: name || (user.email?.split('@')[0] ?? ''),
+        contact_name: displayName,
       })
     }
     return NextResponse.redirect(`${origin}/employer`)
   } else {
-    // Check if worker profile exists; create if not
     const { data: existing } = await supabase
       .from('worker_profiles')
       .select('id')
@@ -49,7 +50,7 @@ export async function GET(req: NextRequest) {
     if (!existing) {
       await supabase.from('worker_profiles').insert({
         id: user.id,
-        name: name || (user.email?.split('@')[0] ?? ''),
+        name: displayName,
       })
     }
     return NextResponse.redirect(`${origin}/worker`)

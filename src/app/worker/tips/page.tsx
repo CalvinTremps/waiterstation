@@ -53,7 +53,7 @@ export default function TipsPage() {
   }
 
   return (
-    <div className="space-y-6 max-w-2xl">
+    <div className="space-y-6 max-w-2xl mx-auto">
       <div>
         <h1 className="text-2xl font-bold text-gray-900">Career Tips</h1>
         <p className="text-sm text-gray-500 mt-0.5">Advice for hospitality workers in South Africa</p>

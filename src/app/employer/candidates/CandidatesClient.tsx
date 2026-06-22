@@ -121,7 +121,7 @@ export default function CandidatesClient() {
   const input = 'w-full bg-white border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-gray-400 placeholder:text-gray-400'
 
   return (
-    <div className="space-y-6 max-w-2xl">
+    <div className="space-y-6 max-w-2xl mx-auto">
       <div>
         <h1 className="text-2xl font-bold text-gray-900">Find Candidates</h1>
         <p className="text-sm text-gray-500 mt-0.5">Search workers by role and location. Each candidate is scored 1–10 on how well they match.</p>

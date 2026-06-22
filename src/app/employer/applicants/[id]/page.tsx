@@ -82,7 +82,7 @@ export default function ApplicantDetailPage({ params }: { params: Promise<{ id: 
   const currentIdx = STAGE_ORDER.indexOf(applicant.stage)
 
   return (
-    <div className="space-y-5 max-w-3xl">
+    <div className="space-y-5 max-w-3xl mx-auto">
 
       {/* Back */}
       <a href="/employer/applicants" className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-800 transition">

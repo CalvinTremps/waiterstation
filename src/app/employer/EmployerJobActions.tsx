@@ -18,7 +18,7 @@ export default function EmployerJobActions({ jobId, status }: { jobId: string; s
   if (deleted) return <p className="text-xs text-gray-400 mt-3">Listing removed.</p>
 
   return (
-    <div className="mt-3 pt-3 border-t border-gray-100 flex items-center gap-3">
+    <div className="mt-3 flex items-center gap-3">
       <a
         href={`/employer/jobs/${jobId}/edit`}
         className="text-xs font-medium text-gray-800 hover:underline"

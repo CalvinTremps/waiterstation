@@ -114,11 +114,11 @@ export default function TipsPage() {
               </div>
 
               {isOpen && (
-                <div className="px-5 pb-6 border-t border-gray-100 pt-4">
+                <div className="px-5 pb-6 pt-4">
                   <div className="prose-sm">
                     {renderContent(tip.content)}
                   </div>
-                  <div className="flex items-center gap-3 mt-5 pt-4 border-t border-gray-100">
+                  <div className="flex items-center gap-3 mt-5">
                     <span className="text-xs text-gray-400">Was this helpful?</span>
                     {['Yes', 'No'].map(v => (
                       <button key={v}

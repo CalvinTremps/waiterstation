@@ -126,7 +126,7 @@ export default function ApplicantDetailPage({ params }: { params: Promise<{ id: 
         </div>
 
         {/* Contact */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-5 pt-5 border-t border-gray-100">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-5">
           <ContactItem icon="📧" label="Email" value={applicant.email} href={`mailto:${applicant.email}`} />
           <ContactItem icon="📞" label="Phone" value={applicant.phone} href={`tel:${applicant.phone}`} />
           <ContactItem icon="📍" label="Location" value={applicant.location} />
@@ -168,7 +168,7 @@ export default function ApplicantDetailPage({ params }: { params: Promise<{ id: 
 
         {/* Book interview shortcut */}
         {applicant.stage !== 'hired' && applicant.stage !== 'rejected' && (
-          <div className="mt-3 pt-3 border-t border-gray-100">
+          <div className="mt-3">
             {!showBookInterview ? (
               <button onClick={() => setShowBookInterview(true)}
                 className="text-sm text-gray-900 font-medium hover:underline flex items-center gap-1.5">
@@ -208,7 +208,7 @@ export default function ApplicantDetailPage({ params }: { params: Promise<{ id: 
 
         {/* Past interviews */}
         {interviews.length > 0 && (
-          <div className="mt-3 pt-3 border-t border-gray-100 space-y-2">
+          <div className="mt-3 space-y-2">
             {interviews.map(i => (
               <div key={i.id} className="flex items-center gap-3 text-sm">
                 <span className="text-gray-400">

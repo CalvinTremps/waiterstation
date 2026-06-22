@@ -109,7 +109,7 @@ function ReviewCard({ review }: { review: CompanyReview }) {
   const consLong = review.cons.length > 160
 
   return (
-    <div className="border-b border-gray-100 py-5 last:border-0">
+    <div className="py-5">
       {/* Header */}
       <div className="flex items-start gap-3 mb-3">
         <div className="w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
@@ -245,7 +245,7 @@ function WriteReviewModal({ companyName, onClose, onSubmit }: {
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" onClick={onClose} />
       <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
-        <div className="sticky top-0 bg-white border-b border-gray-100 flex items-center justify-between px-6 py-4 rounded-t-2xl">
+        <div className="sticky top-0 bg-white flex items-center justify-between px-6 py-4 rounded-t-2xl">
           <div>
             <h3 className="font-bold text-gray-900">Write a review</h3>
             <p className="text-xs text-gray-400 mt-0.5">{companyName}</p>
@@ -420,7 +420,7 @@ function ReviewsTab({ company, reviews, overallRating, relatedCompanies, onWrite
             })}
           </div>
 
-          <div className="mt-4 pt-4 border-t border-gray-100 space-y-2">
+          <div className="mt-4 space-y-2">
             <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Detailed ratings</p>
             {ratingDimensions.map(d => (
               <div key={d.key} className="flex items-center justify-between">
@@ -830,7 +830,7 @@ function JobsTab({ company, relatedCompanies, allJobs }: {
               </div>
 
               {/* Description */}
-              <div className="border-t border-gray-100 pt-4">
+              <div className="pt-4">
                 <div className="text-sm text-gray-700 leading-relaxed whitespace-pre-line line-clamp-[20]">
                   {selectedJob.description}
                 </div>
@@ -840,7 +840,7 @@ function JobsTab({ company, relatedCompanies, allJobs }: {
               </div>
 
               {/* Posted */}
-              <p className="text-xs text-gray-400 mt-4 pt-4 border-t border-gray-100">
+              <p className="text-xs text-gray-400 mt-4">
                 Posted {timeAgo(selectedJob.created_at)} · Contact: {selectedJob.contact_method}
               </p>
             </div>
@@ -1063,7 +1063,7 @@ function SalariesTab({ company, reviews, relatedCompanies, onWriteReview }: {
               <h3 className="text-sm font-bold text-gray-900 mb-3">Reported at {company.name}</h3>
               <div className="space-y-2">
                 {reportedSalaries.map(r => (
-                  <div key={r.id} className="flex items-center justify-between py-2.5 border-b border-gray-50 last:border-0">
+                  <div key={r.id} className="flex items-center justify-between py-2.5">
                     <div>
                       <span className="text-sm text-blue-600 font-medium">{r.role}</span>
                       <span className={`ml-2 text-xs px-2 py-0.5 rounded-full ${r.employment_status === 'Current' ? 'bg-green-50 text-green-700' : 'bg-gray-100 text-gray-500'}`}>
@@ -1121,7 +1121,7 @@ function SalariesTab({ company, reviews, relatedCompanies, onWriteReview }: {
       {filteredCategories.map(cat => (
         <div key={cat.label} className="bg-white border border-gray-200 rounded-xl p-5">
           <h3 className="text-sm font-bold text-gray-900 mb-4">{cat.label}</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-0 divide-y divide-gray-50">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-0">
             {cat.roles.map(role => (
               <div key={role.role} className="flex items-center justify-between py-2.5">
                 <div>
@@ -1147,9 +1147,9 @@ function SalariesTab({ company, reviews, relatedCompanies, onWriteReview }: {
       {/* FAQ */}
       <div className="bg-white border border-gray-200 rounded-xl p-5">
         <h3 className="text-sm font-bold text-gray-900 mb-4">Common questions about salaries at {company.name}</h3>
-        <div className="divide-y divide-gray-100">
+        <div className="space-y-1">
           {SALARY_FAQS.map((faq, i) => (
-            <div key={i}>
+            <div key={i} className="border border-gray-200 rounded-xl overflow-hidden">
               <button onClick={() => setOpenFaq(openFaq === i ? null : i)}
                 className="flex items-center justify-between w-full py-3 text-left">
                 <span className="text-sm text-gray-700 font-medium pr-4">{faq.q}</span>
@@ -1231,7 +1231,7 @@ function SalariesTab({ company, reviews, relatedCompanies, onWriteReview }: {
                     {c.reviews.length} review{c.reviews.length !== 1 ? 's' : ''}
                   </div>
                 </div>
-                <div className="mt-3 pt-3 border-t border-gray-100 text-xs font-semibold text-blue-600 group-hover:underline">
+                <div className="mt-3 text-xs font-semibold text-blue-600 group-hover:underline">
                   View salaries →
                 </div>
               </a>
@@ -1455,7 +1455,7 @@ export default function CompanyClient({ company, franchiseJobs = [] }: { company
                       </a>
                     )}
                   </div>
-                  <div className="border-t md:border-t-0 md:border-l border-gray-100 pt-4 md:pt-0 md:pl-6">
+                  <div className="md:border-l border-gray-100 pt-4 md:pt-0 md:pl-6">
                     <div className="space-y-3">
                       {[
                         { label: 'Industry', value: company.industry },

@@ -311,7 +311,7 @@ function CompaniesPageInner() {
 
         {/* ── Popular companies — 3×2 card grid ── */}
         {!isSearching && !showAll && (
-          <section className="py-6 border-t border-gray-100">
+          <section className="py-6">
             <h2 className="text-xl font-bold text-gray-900 mb-5">Popular companies</h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
               {popularCompanies.map(company => {
@@ -334,7 +334,7 @@ function CompaniesPageInner() {
                         {reviewCount.toLocaleString()} review{reviewCount !== 1 ? 's' : ''}
                       </p>
                     </a>
-                    <div className="flex gap-3 mt-3 pt-3 border-t border-gray-100">
+                    <div className="flex gap-3 mt-3">
                       <a href={`/companies/${company.id}?tab=salaries`} className="text-xs text-blue-600 hover:underline font-medium">Salaries</a>
                       <a href={`/companies/${company.id}?tab=reviews`} className="text-xs text-blue-600 hover:underline font-medium">Reviews</a>
                       <a href={`/?q=${encodeURIComponent(company.name)}`} className="text-xs text-blue-600 hover:underline font-medium">Open jobs</a>
@@ -394,7 +394,7 @@ function CompaniesPageInner() {
               <p className="text-sm text-gray-400 text-center py-10">No companies match your search.</p>
             )}
 
-            <div className="divide-y divide-gray-100">
+            <div className="space-y-2">
               {displayList.map(company => {
                 const reviewCount = company.reviews.length
                 return (

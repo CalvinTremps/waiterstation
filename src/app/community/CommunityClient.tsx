@@ -129,7 +129,7 @@ function PostThread({ post, onClose }: { post: CommunityPost; onClose: () => voi
           h-[92dvh] md:h-[85vh]`}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 shrink-0">
+        <div className="flex items-center justify-between px-4 py-3 shrink-0">
           <div className="flex items-center gap-2.5">
             <button
               onClick={handleClose}
@@ -155,7 +155,7 @@ function PostThread({ post, onClose }: { post: CommunityPost; onClose: () => voi
         <div ref={scrollRef} className="flex-1 overflow-y-auto scrollbar-thin">
 
           {/* Original post */}
-          <div className="px-4 pt-4 pb-3 border-b border-gray-100">
+          <div className="px-4 pt-4 pb-3">
             <div className="flex items-start gap-3 mb-3">
               <AvatarCircle letter={post.author_avatar_letter} size="md" />
               <div>
@@ -191,7 +191,7 @@ function PostThread({ post, onClose }: { post: CommunityPost; onClose: () => voi
           </div>
 
           {/* Replies */}
-          <div className="divide-y divide-gray-50">
+          <div>
             {replies.map((reply, i) => (
               <div key={reply.id} className="px-4 py-3 flex items-start gap-3 group">
                 {/* Thread line visual — indent nested replies */}
@@ -328,7 +328,7 @@ function PostCard({ post, onOpen }: { post: CommunityPost; onOpen: () => void })
         </div>
       )}
 
-      <div className="flex items-center gap-5 mt-4 pt-3 border-t border-gray-100">
+      <div className="flex items-center gap-5 mt-4 pt-3">
         <button
           onClick={stopAndLike}
           aria-label={liked ? 'Unlike' : 'Like'}

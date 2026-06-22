@@ -210,9 +210,9 @@ const FAQS = [
 function FaqAccordion() {
   const [open, setOpen] = useState<number | null>(null)
   return (
-    <div className="divide-y divide-gray-100">
+    <div className="space-y-1">
       {FAQS.map((faq, i) => (
-        <div key={i}>
+        <div key={i} className="border border-gray-200 rounded-xl overflow-hidden">
           <button onClick={() => setOpen(open === i ? null : i)}
             className="flex items-start justify-between w-full py-4 text-left gap-4">
             <span className="text-sm font-semibold text-gray-800 leading-snug">{faq.q}</span>
@@ -279,7 +279,7 @@ function FeatureTabs() {
 
         <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-6 border border-gray-200">
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-            <div className="flex items-center gap-1.5 px-3 py-2.5 border-b border-gray-100 bg-white">
+            <div className="flex items-center gap-1.5 px-3 py-2.5 bg-white">
               <div className="w-2.5 h-2.5 rounded-full bg-red-400" />
               <div className="w-2.5 h-2.5 rounded-full bg-yellow-400" />
               <div className="w-2.5 h-2.5 rounded-full bg-green-400" />
@@ -573,7 +573,7 @@ export default function EmployersPage() {
       </div>
 
       {/* Resources */}
-      <div className="bg-white border-t border-gray-100 px-4 py-16">
+      <div className="bg-white px-4 py-16">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-xl md:text-2xl font-bold text-gray-900 text-center mb-10">
             Resources for every step of the journey

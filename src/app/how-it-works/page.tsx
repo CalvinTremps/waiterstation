@@ -60,8 +60,6 @@ export default function HowItWorksPage() {
         </div>
       </section>
 
-      <div className="border-t border-gray-100 mb-14" />
-
       {/* For employers */}
       <section className="mb-14">
         <h2 className="text-xl font-bold text-gray-900 mb-6">For employers</h2>
@@ -106,7 +104,7 @@ export default function HowItWorksPage() {
         </div>
       </section>
 
-      <div className="border-t border-gray-100 mb-10" />
+      <div className="mb-10" />
 
       <section className="bg-white rounded-lg p-6 border border-gray-200">
         <h3 className="font-bold text-gray-900 mb-1">Still have questions?</h3>

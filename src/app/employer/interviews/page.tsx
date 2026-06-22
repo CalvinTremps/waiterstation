@@ -147,7 +147,7 @@ export default function InterviewsPage() {
 
                 {/* Outcome actions */}
                 {i.outcome === 'pending' && (
-                  <div className="mt-4 pt-4 border-t border-gray-100">
+                  <div className="mt-4">
                     {updatingId === i.id ? (
                       <div className="flex gap-2 flex-wrap">
                         <span className="text-xs font-semibold text-gray-500 self-center mr-2">Mark outcome:</span>

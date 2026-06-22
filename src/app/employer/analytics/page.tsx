@@ -99,10 +99,10 @@ export default function AnalyticsPage() {
 
       {/* Per-listing breakdown */}
       <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-        <div className="px-5 py-4 border-b border-gray-100">
+        <div className="px-5 py-4">
           <h2 className="font-semibold text-gray-900">Per-listing Performance</h2>
         </div>
-        <div className="divide-y divide-gray-100">
+        <div>
           <div className="hidden md:grid grid-cols-[2fr_80px_80px_100px_120px] gap-4 px-5 py-2.5 text-xs font-semibold text-gray-400 uppercase tracking-wide">
             <span>Listing</span>
             <span>Views</span>

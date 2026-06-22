@@ -33,7 +33,7 @@ export default function AboutPage() {
           Post a job in under 2 minutes. It'll go live after a quick review. Applications come in
           through Waiterstation — you get the candidate's details and take it from there.
         </p>
-        <div className="mt-8 pt-6 border-t border-gray-100">
+        <div className="mt-8">
           <a href="/post-job" className="bg-gray-900 text-white font-semibold px-6 py-3 rounded-xl hover:bg-gray-800 transition text-sm inline-block">
             Post a Job
           </a>

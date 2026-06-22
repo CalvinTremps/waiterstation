@@ -64,7 +64,7 @@ export default function ApplyModal({ job, onClose }: Props) {
 
       <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-y-auto max-h-[90vh]">
         {/* Header */}
-        <div className="flex items-start justify-between px-6 py-5 border-b border-gray-100">
+        <div className="flex items-start justify-between px-6 py-5">
           <div>
             <h2 className="font-bold text-gray-900 text-base">Apply for this role</h2>
             <p className="text-sm text-gray-500 mt-0.5">{job.title} · {job.employer_name}</p>

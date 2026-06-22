@@ -77,7 +77,7 @@ const EMPLOYER_FAQS = [
 
 function FAQItem({ q, a }: { q: string; a: string }) {
   return (
-    <div className="border-b border-gray-100 py-5 last:border-0">
+    <div className="py-5">
       <p className="font-semibold text-gray-900 mb-2 leading-snug">{q}</p>
       <p className="text-sm text-gray-500 leading-relaxed">{a}</p>
     </div>

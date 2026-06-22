@@ -106,7 +106,7 @@ function InterviewCard({ iv: initial }: { iv: WorkerInterview }) {
       </button>
 
       {open && (
-        <div className="px-5 pb-5 space-y-4 border-t border-gray-100 pt-4">
+        <div className="px-5 pb-5 space-y-4 pt-4">
           {iv.location && (
             <div className="flex items-start gap-2 text-sm">
               <svg className="w-4 h-4 text-gray-400 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -148,7 +148,7 @@ function InterviewCard({ iv: initial }: { iv: WorkerInterview }) {
           </div>
 
           {!isUpcoming && (
-            <div className="border-t border-gray-100 pt-4">
+            <div className="pt-2">
               <p className="text-xs font-semibold text-gray-700 mb-2">How did it go?</p>
               <div className="flex flex-wrap gap-2">
                 {(['went_well', 'waiting', 'rejected', 'offered', 'no_show'] as const).map(o => (

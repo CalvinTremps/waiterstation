@@ -152,13 +152,13 @@ export default function WorkerDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Recent applications */}
         <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-          <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
+          <div className="px-5 py-4 flex items-center justify-between">
             <h2 className="font-semibold text-gray-900">Recent applications</h2>
             <Link href="/worker/applications" className="text-xs font-semibold text-gray-900 hover:underline">
               View all
             </Link>
           </div>
-          <div className="divide-y divide-gray-50">
+          <div>
             {MOCK_APPLICATIONS.slice(0, 4).map(app => (
               <div key={app.id} className="px-5 py-3.5 flex items-center gap-3">
                 <div className="flex-1 min-w-0">
@@ -178,7 +178,7 @@ export default function WorkerDashboard() {
 
         {/* Upcoming interviews */}
         <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-          <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
+          <div className="px-5 py-4 flex items-center justify-between">
             <h2 className="font-semibold text-gray-900">Upcoming interviews</h2>
             <Link href="/worker/interviews" className="text-xs font-semibold text-gray-900 hover:underline">
               View all
@@ -190,7 +190,7 @@ export default function WorkerDashboard() {
               <Link href="/jobs" className="text-xs text-gray-900 hover:underline mt-1 block">Browse open roles</Link>
             </div>
           ) : (
-            <div className="divide-y divide-gray-50">
+            <div>
               {upcoming.map(iv => {
                 const d = new Date(iv.date + 'T00:00:00')
                 return (
@@ -222,7 +222,7 @@ export default function WorkerDashboard() {
       {/* Messages preview */}
       {unread.length > 0 && (
         <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-          <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
+          <div className="px-5 py-4 flex items-center justify-between">
             <h2 className="font-semibold text-gray-900">
               New messages
               <span className="ml-2 text-xs font-bold bg-blue-600 text-white px-2 py-0.5 rounded-full">{unread.length}</span>
@@ -231,7 +231,7 @@ export default function WorkerDashboard() {
               View all
             </Link>
           </div>
-          <div className="divide-y divide-gray-50">
+          <div>
             {unread.map(msg => (
               <Link key={msg.id} href="/worker/messages"
                 className="flex items-center gap-3 px-5 py-3.5 hover:bg-gray-50 transition">

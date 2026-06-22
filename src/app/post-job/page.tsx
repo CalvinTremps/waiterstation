@@ -24,7 +24,7 @@ export default async function PostJobPage() {
               Free during beta
             </span>
           </div>
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
+          <h1 className="text-2xl md:text-4xl font-bold text-gray-900 leading-tight">
             Post a job on Waiterstation
           </h1>
           <p className="text-gray-500 mt-2 text-base max-w-lg">
@@ -43,7 +43,7 @@ export default async function PostJobPage() {
           </div>
 
           {/* Sidebar */}
-          <div className="space-y-4 lg:sticky lg:top-6">
+          <div className="space-y-4 lg:sticky lg:top-[calc(var(--header-height)+16px)]">
             <div className="bg-white border border-gray-200 rounded-2xl p-5">
               <h3 className="font-bold text-gray-900 mb-4">How it works</h3>
               <ol className="space-y-4">

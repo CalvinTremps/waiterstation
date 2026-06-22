@@ -243,9 +243,9 @@ function CompaniesPageInner() {
     <div className="min-h-screen bg-white">
 
       {/* ── Hero ── */}
-      <div className="bg-white py-12 px-4">
+      <div className="bg-white py-8 md:py-12 px-4">
         <div className="max-w-2xl mx-auto text-center">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Find great places to work</h1>
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Find great places to work</h1>
           <p className="text-gray-500 mb-8 text-sm">
             Get access to honest reviews from hospitality workers across South Africa
           </p>
@@ -315,13 +315,13 @@ function CompaniesPageInner() {
         {!isSearching && !showAll && (
           <section className="py-6">
             <h2 className="text-xl font-bold text-gray-900 mb-5">Popular companies</h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {popularCompanies.map(company => {
                 const reviewCount = company.reviews.length
                 return (
                   <div
                     key={company.id}
-                    className="flex flex-col p-5 rounded-xl border border-gray-200 bg-white hover:shadow-md hover:border-gray-300 transition-all group"
+                    className="flex flex-col p-3 md:p-5 rounded-xl border border-gray-200 bg-white hover:shadow-md hover:border-gray-300 transition-all group"
                   >
                     <a href={`/companies/${company.id}`} className="block">
                       <CompanyBadge name={company.name} size="md" logoUrl={company.logo_url} />

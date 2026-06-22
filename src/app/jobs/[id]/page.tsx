@@ -59,7 +59,7 @@ function Stars({ rating }: { rating: number }) {
 function RatingBar({ label, value }: { label: string; value: number }) {
   return (
     <div className="flex items-center gap-3">
-      <span className="text-xs text-gray-500 w-32 shrink-0">{label}</span>
+      <span className="text-xs text-gray-500 w-24 sm:w-32 shrink-0">{label}</span>
       <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
         <div className="h-full bg-gray-800 rounded-full" style={{ width: `${(value / 5) * 100}%` }} />
       </div>
@@ -81,7 +81,7 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
 
   return (
     <>
-      <div className="max-w-xl mx-auto px-4 pt-5 pb-36">
+      <div className="max-w-xl mx-auto px-4 pt-5 pb-32">
 
         {/* Top bar */}
         <div className="flex items-center justify-between mb-5">
@@ -179,9 +179,9 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
         <section className="mt-4 bg-white rounded-2xl border border-gray-200 p-5">
           <h2 className="text-base font-bold text-gray-900 mb-4">{job.employer_name} ratings</h2>
           {co ? (
-            <div className="flex items-start gap-5">
+            <div className="flex items-start gap-4">
               <div className="text-center shrink-0">
-                <p className="text-4xl font-extrabold text-gray-900 leading-none">{co.overall_rating.toFixed(1)}</p>
+                <p className="text-3xl font-extrabold text-gray-900 leading-none">{co.overall_rating.toFixed(1)}</p>
                 <Stars rating={co.overall_rating} />
                 <p className="text-xs text-gray-400 mt-1">{co.reviews.length} reviews</p>
               </div>
@@ -266,7 +266,8 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
       </div>
 
       {/* Sticky apply bar */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-3 pb-safe z-50 shadow-[0_-4px_16px_rgba(0,0,0,0.06)]">
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 pt-3 z-50 shadow-[0_-4px_16px_rgba(0,0,0,0.06)]"
+        style={{ paddingBottom: 'max(12px, env(safe-area-inset-bottom))' }}>
         <div className="max-w-xl mx-auto">
           <ApplyButton job={job} />
         </div>

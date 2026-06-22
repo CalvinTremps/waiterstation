@@ -780,7 +780,7 @@ function MobileFilters({ currentRole, currentType, currentLocation, currentQuery
           className="w-full bg-white border border-gray-200 rounded-xl pl-9 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-gray-500 shadow-sm" />
       </div>
       {/* Role pills */}
-      <div className="flex gap-1.5 overflow-x-auto no-scrollbar pb-1 -mx-4 px-4">
+      <div className="flex gap-1.5 overflow-x-auto scroll-no-bar pb-1 -mx-4 px-4">
         <MobilePill active={!currentRole} onTap={() => onUpdate('role', '')}>All roles</MobilePill>
         {ROLE_CATEGORIES.map(r => (
           <MobilePill key={r} active={currentRole === r} onTap={() => onUpdate('role', currentRole === r ? '' : r)}>

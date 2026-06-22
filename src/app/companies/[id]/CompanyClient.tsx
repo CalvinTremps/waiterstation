@@ -35,8 +35,8 @@ function StarRating({ rating, size = 'sm' }: { rating: number; size?: 'sm' | 'md
 
 function RatingBar({ label, value }: { label: string; value: number }) {
   return (
-    <div className="flex items-center gap-3">
-      <span className="text-sm text-gray-600 w-36 shrink-0">{label}</span>
+    <div className="flex items-center gap-2 md:gap-3">
+      <span className="text-xs md:text-sm text-gray-600 w-28 md:w-36 shrink-0">{label}</span>
       <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
         <div className="h-2 bg-blue-500 rounded-full" style={{ width: `${(value / 5) * 100}%` }} />
       </div>
@@ -713,8 +713,52 @@ function JobsTab({ company, relatedCompanies, allJobs }: {
         </p>
       </div>
 
-      {/* Split panel */}
-      <div className="flex gap-4 items-start">
+      {/* ── Mobile job list (stacked, full width) ── */}
+      <div className="md:hidden space-y-2 mt-4">
+        {paginated.length === 0 ? (
+          <div className="bg-white border border-gray-200 rounded-xl p-8 text-center">
+            <p className="text-sm font-semibold text-gray-700 mb-1">
+              {baseJobs.length === 0 ? 'No open positions right now' : 'No jobs match your search'}
+            </p>
+            <p className="text-xs text-gray-400">
+              {baseJobs.length === 0
+                ? `${company.name} hasn't posted any jobs on Waiterstation yet.`
+                : 'Try different keywords or clear your filters.'}
+            </p>
+          </div>
+        ) : paginated.map(job => (
+          <a key={job.id} href={`/jobs/${job.id}`}
+            className="flex items-start gap-3 bg-white border border-gray-200 rounded-xl p-4 active:bg-gray-50 transition">
+            <div className="min-w-0 flex-1">
+              <p className="text-sm font-semibold text-blue-600 leading-tight">{job.title}</p>
+              <p className="text-xs text-gray-500 mt-0.5">{job.employer_name} · {job.location}</p>
+              <div className="flex items-center gap-2 mt-1.5 flex-wrap">
+                <span className={`text-[11px] px-2 py-0.5 rounded-full font-medium capitalize ${empTypeColors[job.employment_type] ?? 'bg-gray-100 text-gray-600'}`}>
+                  {job.employment_type.replace('-', ' ')}
+                </span>
+                {job.pay && <span className="text-[11px] text-gray-500">{job.pay}</span>}
+                <span className="text-[11px] text-gray-400">{timeAgo(job.created_at)}</span>
+              </div>
+            </div>
+            <svg className="w-4 h-4 text-gray-300 shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/>
+            </svg>
+          </a>
+        ))}
+        {totalPages > 1 && (
+          <div className="flex items-center justify-center gap-1 pt-2">
+            {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => i + 1).map(p => (
+              <button key={p} onClick={() => { setPage(p); setSelectedJob(null) }}
+                className={`w-8 h-8 text-xs rounded-lg border transition ${
+                  page === p ? 'bg-blue-600 text-white border-blue-600' : 'border-gray-200 text-gray-600 hover:bg-gray-50'
+                }`}>{p}</button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Split panel (desktop only) */}
+      <div className="hidden md:flex gap-4 items-start">
 
         {/* Left — job list */}
         <div className="w-72 shrink-0 space-y-1.5">
@@ -1459,7 +1503,7 @@ export default function CompanyClient({ company, franchiseJobs = [] }: { company
       <div className="bg-white min-h-screen">
 
         {/* ── Header ── */}
-        <div className="bg-white border-b border-gray-200 sticky top-0 z-30">
+        <div className="bg-white border-b border-gray-200 sticky top-[52px] md:top-0 z-30">
           <div className="max-w-5xl mx-auto px-4">
             {/* Company identity row */}
             <div className="flex items-center justify-between py-4 gap-4">
@@ -1544,11 +1588,11 @@ export default function CompanyClient({ company, franchiseJobs = [] }: { company
                   <h2 className="text-base font-bold text-gray-900">Work wellbeing</h2>
                   <button onClick={() => switchTab('reviews')} className="text-xs text-blue-600 font-medium ml-1 hover:underline">Based on reviews ↗</button>
                 </div>
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-3 gap-2 md:gap-4">
                   {wellbeing.map(w => (
-                    <div key={w.label} className={`${w.bg} rounded-xl p-4 text-center`}>
-                      <div className={`text-2xl font-bold ${w.color}`}>{Math.round(w.value * 20)}%</div>
-                      <div className="text-sm font-semibold text-gray-700 mt-1">{w.label}</div>
+                    <div key={w.label} className={`${w.bg} rounded-xl p-3 md:p-4 text-center`}>
+                      <div className={`text-xl md:text-2xl font-bold ${w.color}`}>{Math.round(w.value * 20)}%</div>
+                      <div className="text-xs md:text-sm font-semibold text-gray-700 mt-1 leading-tight">{w.label}</div>
                       {w.badge && (
                         <span className="inline-block mt-2 text-xs font-semibold text-green-700 bg-green-100 px-2.5 py-0.5 rounded-full">
                           {w.badge}
@@ -1596,15 +1640,15 @@ export default function CompanyClient({ company, franchiseJobs = [] }: { company
               {/* Rating overview */}
               <section className="bg-white border border-gray-200 rounded-xl p-5">
                 <h2 className="text-base font-bold text-gray-900 mb-5">Rating overview</h2>
-                <div className="flex flex-col sm:flex-row gap-8 items-center">
+                <div className="flex flex-col sm:flex-row gap-6 md:gap-8 items-start sm:items-center">
                   {/* Big number */}
                   <div className="text-center shrink-0">
-                    <div className="text-5xl font-bold text-gray-900">{overallRating.toFixed(1)}</div>
+                    <div className="text-4xl md:text-5xl font-bold text-gray-900">{overallRating.toFixed(1)}</div>
                     <StarRating rating={overallRating} size="md" />
                     <div className="text-xs text-gray-400 mt-1">{reviews.length} review{reviews.length !== 1 ? 's' : ''}</div>
                   </div>
-                  {/* Radar chart */}
-                  <div className="shrink-0">
+                  {/* Radar chart — hidden on small phones */}
+                  <div className="hidden sm:block shrink-0">
                     <RadarChart ratings={company.ratings} />
                   </div>
                   {/* Bar breakdown */}

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { Job, ROLE_LABELS, EMPLOYMENT_TYPE_LABELS, ROLE_CATEGORIES, EmploymentType } from '@/lib/types'
 import { MOCK_COMPANIES } from '@/lib/mock-companies'
 import CompanyBadge from './CompanyBadge'
+import ClaimedBadge from './ClaimedBadge'
 import ApplyModal from './ApplyModal'
 
 const EMPLOYMENT_TYPES: EmploymentType[] = ['permanent', 'seasonal', 'event']
@@ -456,7 +457,10 @@ function DesktopJobDetail({ job, isLoggedIn }: { job: Job; isLoggedIn: boolean }
           <div className="flex items-start gap-3 min-w-0">
             <CompanyBadge name={job.employer_name} size="lg" logoUrl={co?.logo_url} />
             <div className="min-w-0">
-              <p className="text-xs font-semibold text-gray-400 mb-0.5">{job.employer_name}</p>
+              <div className="flex items-center gap-2 mb-0.5">
+                <p className="text-xs font-semibold text-gray-400">{job.employer_name}</p>
+                <ClaimedBadge claimed={co?.claimed} />
+              </div>
               <h1 className="text-xl font-extrabold text-gray-900 leading-tight">{job.title}</h1>
               <div className="flex flex-wrap items-center gap-2 mt-1.5">
                 <span className="text-xs text-gray-500">{job.location}</span>

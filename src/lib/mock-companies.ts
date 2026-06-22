@@ -31,6 +31,7 @@ export interface Company {
   reviews: CompanyReview[]
   website?: string
   logo_url?: string
+  claimed?: boolean
 }
 
 export const MOCK_COMPANIES: Company[] = [
@@ -49,6 +50,7 @@ export const MOCK_COMPANIES: Company[] = [
     benefits: ['Staff meals on shift', 'Tips kept by waiter', 'Provident fund', 'Structured training programme', 'Internal promotion pathway', 'Annual performance bonus'],
     website: 'spur.co.za',
     logo_url: 'https://logo.clearbit.com/spur.co.za',
+    claimed: true,
     reviews: [
       { id: 'spur-r1', role: 'Waiter', employment_status: 'Current', rating: 4, date: '2025-11', pros: 'Consistent income because of the volume — Spur is always busy. Tips are decent on family weekends. Training is thorough and they genuinely care about service standards. Provident fund is a plus.', cons: 'Weekend and school holiday rushes are relentless. Some franchise owners run their restaurants very differently from the group standards. Pay increases are slow.', anonymous: true, helpful_count: 22, salary: 'R5 800/month + tips' },
       { id: 'spur-r2', role: 'Kitchen Supervisor', employment_status: 'Current', rating: 4, date: '2025-10', pros: 'Great brand to have on your CV. The group\'s supply chain means you always have consistent product. Internal promotion from junior cook to supervisor is real — I\'ve seen it happen multiple times.', cons: 'The food is simple but the volume is high. It can feel repetitive after a few years. Head office initiatives sometimes feel disconnected from floor reality.', anonymous: false, author_name: 'Lungelo M.', helpful_count: 15, salary: 'R11 500/month' },
@@ -68,6 +70,7 @@ export const MOCK_COMPANIES: Company[] = [
     benefits: ['Free meal per shift', 'Tips kept by staff', 'Nando\'s card (discounted meals)', 'Medical aid contribution', 'Bursary programme', 'Rapid promotion pathway', 'Annual Awards Night'],
     website: 'nandos.co.za',
     logo_url: 'https://logo.clearbit.com/nandos.co.za',
+    claimed: true,
     reviews: [
       { id: 'nan-r1', role: 'Cashier / FOH', employment_status: 'Current', rating: 4, date: '2025-12', pros: 'The culture is genuinely the best part — there\'s real energy and they hire people with personality. Free chicken every shift is not nothing. The Nando\'s card for discounted meals at any branch is a great perk. Management at most franchises respects the team.', cons: 'Lunchtime and Friday evening rushes are extremely fast-paced. Some franchise owners don\'t always uphold Nando\'s group standards. The music is sometimes just too loud.', anonymous: true, helpful_count: 34, salary: 'R5 500/month + tips' },
       { id: 'nan-r2', role: 'Restaurant Manager', employment_status: 'Current', rating: 4, date: '2025-09', pros: 'Nando\'s gives managers real autonomy. The group supports you with systems and training but you run your own floor. International exposure exists if you perform — managers have moved to the UK, Australia, Canada.', cons: 'The responsibility is high. Franchise model means your experience depends heavily on your franchisee. Month-end reporting can be time-consuming.', anonymous: false, author_name: 'Priya N.', helpful_count: 27, salary: 'R22 000/month' },
@@ -106,6 +109,7 @@ export const MOCK_COMPANIES: Company[] = [
     benefits: ['Uniform provided', 'Staff meals on shift', 'Tips kept by waiter', 'International transfer opportunities', 'F&B skills training', 'High-profile brand exposure'],
     website: 'tashas.co.za',
     logo_url: 'https://logo.clearbit.com/tashas.co.za',
+    claimed: true,
     reviews: [
       { id: 'tashas-r1', role: 'Waiter', employment_status: 'Current', rating: 4, date: '2025-12', pros: 'The clientele is top-end and the tips reflect that — a good Saturday can net you R800+ in tips alone. The brand is beautiful to work in. Standards are high which actually makes you a better server.', cons: 'Management is very strict about presentation and standards. The pace during brunch on weekends is relentless. Working in Sandton can be exhausting with traffic.', anonymous: true, helpful_count: 31, salary: 'R6 500/month + tips (R3 000–R7 000/month)' },
       { id: 'tashas-r2', role: 'Barista', employment_status: 'Current', rating: 4, date: '2025-10', pros: 'Quality coffee, quality beans. The brand is serious about coffee and invests in training. Working at a Tashas branch looks excellent on your CV.', cons: 'The morning rush (7:30–10am) is absolutely intense. Very little room for error with the clientele.', anonymous: false, author_name: 'Aisha K.', helpful_count: 18, salary: 'R6 200/month' },
@@ -201,6 +205,7 @@ export const MOCK_COMPANIES: Company[] = [
     benefits: ['Staff meals', 'Tips kept by staff', 'Spur Corporation group benefits', 'Energetic team culture', 'Training programme'],
     website: 'rocomamas.com',
     logo_url: 'https://logo.clearbit.com/rocomamas.com',
+    claimed: true,
     reviews: [
       { id: 'roco-r1', role: 'Waiter', employment_status: 'Current', rating: 4, date: '2025-10', pros: 'Fun place to work — the vibe is genuinely energetic and the team is young. Tips from the after-work crowd and sports events are good. The uniform is cool and customers are chill.', cons: 'Evenings and weekends are loud and chaotic. Table management during big sports events is very stressful. Some franchises are better managed than others.', anonymous: true, helpful_count: 16, salary: 'R5 500/month + tips' },
       { id: 'roco-r2', role: 'Burger Artist (Kitchen)', employment_status: 'Former', rating: 3, date: '2025-08', pros: 'Fun product to cook. The smash technique is satisfying once you nail it. Team is lively and management at my branch was decent.', cons: 'Very repetitive. The burger rush on Friday evening is relentless. No air conditioning in the kitchen.', anonymous: true, helpful_count: 8, salary: 'R5 800/month' },
@@ -260,6 +265,7 @@ export const MOCK_COMPANIES: Company[] = [
     benefits: ['Medical aid', 'Provident fund', 'Staff accommodation at resorts', 'Meals on shift', 'Sun International hotel discounts', 'Structured career development', 'Annual incentive bonus'],
     website: 'suninternational.com',
     logo_url: 'https://logo.clearbit.com/suninternational.com',
+    claimed: true,
     reviews: [
       { id: 'sun-r1', role: 'Front Desk Manager', employment_status: 'Current', rating: 4, date: '2025-12', pros: 'Working at Sun City is genuinely incredible — the scale of the resort is unlike anything else in Africa. The training programmes are excellent and the group takes development seriously. Medical aid and provident fund are properly administered.', cons: 'Sun City is remote — you need to commit to the lifestyle. Shift work is constant including public holidays. Corporate bureaucracy can slow decision-making.', anonymous: true, helpful_count: 27, salary: 'R18 500/month' },
       { id: 'sun-r2', role: 'Sous Chef', employment_status: 'Current', rating: 4, date: '2025-10', pros: 'Cooking for 500+ guests at a resort teaches you scale and operational discipline. The group\'s purchasing power means good ingredients. Real promotion pathways exist within the group — I\'ve moved up twice.', cons: 'Resort kitchens operate on a different pace to restaurant kitchens — volume over creativity. The remoteness of some properties can be isolating.', anonymous: false, author_name: 'Tumi M.', helpful_count: 19, salary: 'R19 000/month' },
@@ -279,6 +285,7 @@ export const MOCK_COMPANIES: Company[] = [
     benefits: ['Medical aid', 'Provident fund', 'Staff meals', 'Hotel rate discounts across portfolio', 'Tsogo hospitality academy', 'Annual performance reviews', 'Long-service awards'],
     website: 'tsogosunhotels.com',
     logo_url: 'https://logo.clearbit.com/tsogosunhotels.com',
+    claimed: true,
     reviews: [
       { id: 'ts-r1', role: 'Receptionist', employment_status: 'Current', rating: 4, date: '2025-11', pros: 'Tsogo Sun is the most professionally run hotel group in South Africa from an HR perspective. Benefits are well-administered. The variety of properties means you can transfer within the group. Opera PMS training is excellent and portable.', cons: 'Shift work including night audit is part of the job at any hotel. Some properties are better managed than others. Pay increases at the receptionist level are slow.', anonymous: true, helpful_count: 24, salary: 'R8 500/month' },
       { id: 'ts-r2', role: 'F&B Manager', employment_status: 'Current', rating: 4, date: '2025-09', pros: 'Managing across multiple outlets at a Tsogo Sun property gives you broad experience. The company supports managers with proper systems and resources. I\'ve moved between three properties and each transfer improved my career significantly.', cons: 'Corporate reporting is heavy. Month-end close requires a lot of admin. The pace during peak season is relentless across all outlets simultaneously.', anonymous: false, author_name: 'Nomvula Z.', helpful_count: 18, salary: 'R26 000/month' },
@@ -298,6 +305,7 @@ export const MOCK_COMPANIES: Company[] = [
     benefits: ['Medical aid contribution', 'Provident fund', 'Staff accommodation discounts', 'Annual leave', 'Structured training', 'Internal mobility across portfolio'],
     website: 'citylodge.co.za',
     logo_url: 'https://logo.clearbit.com/citylodge.co.za',
+    claimed: true,
     reviews: [
       { id: 'cl-r1', role: 'Night Auditor', employment_status: 'Current', rating: 4, date: '2025-10', pros: 'City Lodge runs the best night audit training in South Africa. The systems are solid. The company is stable — no risk of the property closing suddenly. Quiet nights give you time to study.', cons: 'Night shift is hard on your health and social life long-term. Dealing with unhappy guests at 3am with no manager available is stressful.', anonymous: true, helpful_count: 16, salary: 'R9 000/month' },
       { id: 'cl-r2', role: 'Restaurant Manager', employment_status: 'Current', rating: 4, date: '2025-09', pros: 'Structured environment — you know exactly what is expected. The group has good SOPs and the kitchen is properly resourced. Real management support exists.', cons: 'Business travel hotels can feel monotonous — the F&B offering is limited by the property type. Less creativity than an independent restaurant.', anonymous: false, author_name: 'Warren G.', helpful_count: 13, salary: 'R20 000/month' },
@@ -317,6 +325,7 @@ export const MOCK_COMPANIES: Company[] = [
     benefits: ['Medical aid', 'Provident fund', 'Staff meals (fine dining quality)', 'Hotel discounts at One&Only global portfolio', 'Leadership development programme', 'Recognition awards', 'Uniform provided and laundered'],
     website: 'oneandonlyresorts.com',
     logo_url: 'https://logo.clearbit.com/oneandonlyresorts.com',
+    claimed: true,
     reviews: [
       { id: 'oao-r1', role: 'Butler', employment_status: 'Current', rating: 5, date: '2025-12', pros: 'Working at One&Only has transformed my career. The training is the best I have experienced anywhere — they bring in international trainers. The guest calibre is extraordinary and you learn how the very top tier of hospitality operates. Staff meals are actually restaurant quality. Global transfer opportunities are real.', cons: 'The standard of perfection expected is relentless. Mistakes have immediate consequences at this level. The Waterfront location means you need reliable transport — the area is expensive.', anonymous: true, helpful_count: 41, salary: 'R14 000/month' },
       { id: 'oao-r2', role: 'Sous Chef (Nobu)', employment_status: 'Current', rating: 4, date: '2025-10', pros: 'Cooking Nobu cuisine in South Africa is a privilege. The kitchen is impeccably equipped. Chef Nobu\'s standards are embedded in every dish. This is a career-defining role for any serious chef.', cons: 'The hours at a Nobu kitchen are long. Japanese cuisine mastery takes years and the learning curve is steep. Pressure from the brand is constant.', anonymous: false, author_name: 'Sipho K.', helpful_count: 29, salary: 'R22 000/month' },
@@ -374,6 +383,7 @@ export const MOCK_COMPANIES: Company[] = [
     benefits: ['Medical aid', 'Provident fund', 'Belmond global hotel discounts', 'Heritage hotel experience', 'LVMH group learning programmes', 'Staff meals', 'Afternoon tea experience for staff'],
     website: 'belmond.com',
     logo_url: 'https://logo.clearbit.com/belmond.com',
+    claimed: true,
     reviews: [
       { id: 'mnh-r1', role: 'Waiter', employment_status: 'Current', rating: 4, date: '2025-12', pros: 'The heritage of The Nellie is extraordinary — you serve afternoon tea in the same gardens that Churchill once walked. Tips from the international luxury clientele are excellent. Belmond\'s global training programme is world-class.', cons: 'The expectation of perfection is absolute — as it should be at this price point. The traditional hotel atmosphere requires a particular type of service sensibility that takes time to develop.', anonymous: true, helpful_count: 29, salary: 'R8 000/month + tips' },
       { id: 'mnh-r2', role: 'Pastry Chef', employment_status: 'Current', rating: 5, date: '2025-10', pros: 'Producing pastry for a property of this heritage is a privilege. The kitchen is exceptional. Access to Belmond\'s global chef network and training is genuinely transformative. The afternoon tea programme is one of the best in Africa.', cons: 'Early starts are non-negotiable in pastry. The LVMH standard of presentation is uncompromising.', anonymous: false, author_name: 'Isabella V.', helpful_count: 24, salary: 'R16 000/month' },
@@ -393,6 +403,7 @@ export const MOCK_COMPANIES: Company[] = [
     benefits: ['Medical aid', 'Provident fund', 'Fine dining staff meals', 'International training exchanges', 'Prestigious CV entry', 'Accommodation option for some roles', 'Uniform provided'],
     website: 'saxon.co.za',
     logo_url: 'https://logo.clearbit.com/saxon.co.za',
+    claimed: true,
     reviews: [
       { id: 'sax-r1', role: 'Butler', employment_status: 'Current', rating: 5, date: '2025-12', pros: 'Working at the Saxon is the pinnacle of South African luxury hospitality. The guest profile is extraordinary. You develop a level of discretion, emotional intelligence, and service instinct that transforms your career. Tips are life-changing. The property itself is stunning.', cons: 'The standard of absolute discretion is non-negotiable — this is not a role for someone who wants to share their work life on social media. The pressure to anticipate every guest need before it arises is constant.', anonymous: true, helpful_count: 43, salary: 'R15 000/month + tips' },
       { id: 'sax-r2', role: 'Head Chef', employment_status: 'Current', rating: 5, date: '2025-10', pros: 'Complete creative control within the Saxon\'s vision. The best produce in Joburg comes through this kitchen. The guest profile includes food critics, celebrities, and heads of state — it sharpens your focus.', cons: 'Responsibility is enormous. A bad service at this level is career-defining. Small kitchen team carries a lot.', anonymous: false, author_name: 'André B.', helpful_count: 35, salary: 'R45 000/month' },

@@ -4,6 +4,7 @@ import { useState, useMemo, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { MOCK_COMPANIES } from '@/lib/mock-companies'
 import CompanyBadge from '@/components/CompanyBadge'
+import ClaimedBadge from '@/components/ClaimedBadge'
 
 function StarRating({ rating }: { rating: number }) {
   return (
@@ -326,7 +327,10 @@ function CompaniesPageInner() {
                       <p className="font-semibold text-gray-900 group-hover:text-blue-600 transition text-sm mt-3 leading-tight line-clamp-2">
                         {company.name}
                       </p>
-                      <div className="flex items-center gap-1 mt-1.5">
+                      <div className="mt-1.5 mb-1">
+                        <ClaimedBadge claimed={company.claimed} />
+                      </div>
+                      <div className="flex items-center gap-1 mt-1">
                         <StarRating rating={company.overall_rating} />
                         <span className="text-xs font-semibold text-gray-700 ml-0.5">{company.overall_rating.toFixed(1)}</span>
                       </div>
@@ -406,9 +410,12 @@ function CompaniesPageInner() {
                       <CompanyBadge name={company.name} size="md" logoUrl={company.logo_url} />
                     </a>
                     <a href={`/companies/${company.id}`} className="flex-1 min-w-0">
-                      <p className="font-semibold text-gray-900 group-hover:text-blue-600 transition text-sm leading-tight">
-                        {company.name}
-                      </p>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <p className="font-semibold text-gray-900 group-hover:text-blue-600 transition text-sm leading-tight">
+                          {company.name}
+                        </p>
+                        <ClaimedBadge claimed={company.claimed} />
+                      </div>
                       <p className="text-xs text-gray-400 mt-0.5 truncate">{company.industry} · {company.location}</p>
                       <div className="flex items-center gap-1.5 mt-1">
                         <StarRating rating={company.overall_rating} />

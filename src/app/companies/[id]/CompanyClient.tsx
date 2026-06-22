@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { Company, CompanyReview, MOCK_COMPANIES } from '@/lib/mock-companies'
 import { MOCK_JOBS } from '@/lib/mock-jobs'
+import ClaimedBadge from '@/components/ClaimedBadge'
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -1361,7 +1362,10 @@ export default function CompanyClient({ company, franchiseJobs = [] }: { company
                   )}
                 </div>
                 <div className="min-w-0">
-                  <h1 className="font-bold text-gray-900 text-base truncate">{company.name}</h1>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <h1 className="font-bold text-gray-900 text-base truncate">{company.name}</h1>
+                    <ClaimedBadge claimed={company.claimed} />
+                  </div>
                   <div className="flex items-center gap-1.5 mt-0.5">
                     <StarRating rating={overallRating} />
                     <span className="text-sm font-semibold text-gray-800">{overallRating.toFixed(1)}</span>

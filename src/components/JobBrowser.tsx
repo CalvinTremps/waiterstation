@@ -417,8 +417,24 @@ function DesktopJobCard({ job, selected, saved, onSelect, onToggleSave }: {
 
 // ─── Desktop job detail (right panel) ─────────────────────────────────────────
 
+const DETAIL_TABS = ['Overview', 'Company', 'Benefits', 'Reviews'] as const
+type DetailTab = typeof DETAIL_TABS[number]
+
+function RatingBar({ label, value }: { label: string; value: number }) {
+  return (
+    <div className="flex items-center gap-3">
+      <span className="text-xs text-gray-500 w-32 shrink-0">{label}</span>
+      <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+        <div className="h-full bg-gray-800 rounded-full" style={{ width: `${(value / 5) * 100}%` }} />
+      </div>
+      <span className="text-xs font-semibold text-gray-700 w-6 text-right">{value.toFixed(1)}</span>
+    </div>
+  )
+}
+
 function DesktopJobDetail({ job, isLoggedIn }: { job: Job; isLoggedIn: boolean }) {
   const [showApply, setShowApply] = useState(false)
+  const [tab, setTab] = useState<DetailTab>('Overview')
   const router = useRouter()
   const co = MOCK_COMPANIES.find(c => c.name === job.employer_name)
 
@@ -431,148 +447,293 @@ function DesktopJobDetail({ job, isLoggedIn }: { job: Job; isLoggedIn: boolean }
     setShowApply(true)
   }
 
+  const visibleTabs = co
+    ? DETAIL_TABS
+    : (['Overview'] as DetailTab[])
+
   return (
     <div className="flex flex-col h-full">
       {showApply && <ApplyModal job={job} onClose={() => setShowApply(false)} />}
 
-      {/* Sticky header */}
-      <div className="sticky top-0 bg-white z-10 px-8 py-4">
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex items-start gap-3 min-w-0">
-            <CompanyBadge name={job.employer_name} size="md" />
+      {/* ── Header ── */}
+      <div className="sticky top-0 bg-white z-10 px-7 pt-6 pb-0">
+        {/* Top row: logo + apply */}
+        <div className="flex items-start justify-between gap-4 mb-4">
+          <div className="flex items-start gap-4 min-w-0">
+            <CompanyBadge name={job.employer_name} size="lg" />
             <div className="min-w-0">
-              <p className="text-xs text-gray-500 truncate">{job.employer_name}</p>
-              <h1 className="text-lg font-bold text-gray-900 leading-tight line-clamp-2">{job.title}</h1>
-              <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 mt-1">
-                <span className="text-xs text-gray-500 flex items-center gap-1">
-                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <p className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-0.5">{job.employer_name}</p>
+              <h1 className="text-xl font-extrabold text-gray-900 leading-tight">{job.title}</h1>
+              <div className="flex flex-wrap items-center gap-2 mt-1.5">
+                <span className="flex items-center gap-1 text-xs text-gray-500">
+                  <svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
                   </svg>
                   {job.location}
                 </span>
-                {job.pay && (
-                  <>
-                    <span className="text-gray-300">·</span>
-                    <span className="text-xs font-semibold text-gray-800">{job.pay}</span>
-                  </>
-                )}
-                <span className="text-gray-300">·</span>
-                <span className={`text-[11px] font-medium px-2 py-0.5 rounded-full ${EMP_COLORS[job.employment_type] ?? 'bg-gray-100 text-gray-600'}`}>
+                <span className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full ${EMP_COLORS[job.employment_type] ?? 'bg-gray-100 text-gray-600'}`}>
                   {job.employment_type === 'event' ? 'Event / Once-off' : EMPLOYMENT_TYPE_LABELS[job.employment_type]}
                 </span>
-              </div>
-            </div>
-          </div>
-          <div className="flex items-center gap-2 shrink-0">
-            {job.source_url && (
-              <a href={job.source_url} target="_blank" rel="noopener noreferrer"
-                className="text-xs border border-gray-200 text-gray-500 hover:text-gray-800 hover:border-gray-400 font-medium px-3 py-2 rounded-lg transition">
-                Original ↗
-              </a>
-            )}
-            <button onClick={handleApply}
-              className="bg-gray-900 hover:bg-gray-800 text-white font-bold px-5 py-2 rounded-lg text-sm transition">
-              Apply now
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Scrollable body */}
-      <div className="flex-1 overflow-y-auto px-8 py-6 space-y-6">
-
-        {/* Quick details pills */}
-        <div className="flex flex-wrap gap-2">
-          {[
-            { icon: '🏢', label: ROLE_LABELS[job.role_category] },
-            { icon: '📍', label: job.location },
-            { icon: '📅', label: postedDate },
-            ...(job.pay ? [{ icon: '💰', label: job.pay }] : []),
-          ].map(d => (
-            <div key={d.label} className="flex items-center gap-1.5 text-xs text-gray-600 bg-white border border-gray-100 rounded-full px-3 py-1.5">
-              <span>{d.icon}</span>
-              <span>{d.label}</span>
-            </div>
-          ))}
-        </div>
-
-        {!isLoggedIn && (
-          <p className="text-xs text-gray-400 bg-white border border-gray-100 rounded-lg px-4 py-2.5">
-            <a href="/auth/login?next=/" className="text-gray-900 font-semibold hover:underline">Sign in</a> or{' '}
-            <a href="/auth/login?next=/" className="text-gray-900 font-semibold hover:underline">create a free account</a> to apply — takes 30 seconds.
-          </p>
-        )}
-
-        {/* Description */}
-        <div>
-          <h2 className="text-sm font-bold text-gray-900 mb-3">About this role</h2>
-          <div className="text-sm text-gray-600 leading-relaxed whitespace-pre-wrap">{job.description}</div>
-        </div>
-
-        {/* Job details */}
-        <div>
-          <h2 className="text-sm font-bold text-gray-900 mb-3">Job details</h2>
-          <div className="grid grid-cols-2 gap-4">
-            {[
-              { label: 'Employment type', value: job.employment_type === 'event' ? 'Event / Once-off' : EMPLOYMENT_TYPE_LABELS[job.employment_type] },
-              { label: 'Location', value: job.location },
-              { label: 'Role category', value: ROLE_LABELS[job.role_category] },
-              ...(job.pay ? [{ label: 'Pay', value: job.pay }] : []),
-              ...(job.category_label ? [{ label: 'Industry', value: job.category_label }] : []),
-              { label: 'Date posted', value: postedDate },
-            ].map(d => (
-              <div key={d.label}>
-                <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-0.5">{d.label}</p>
-                <p className={`text-sm font-medium ${d.label === 'Pay' ? 'text-gray-800' : 'text-gray-800'}`}>{d.value}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Company */}
-        <div>
-          <h2 className="text-sm font-bold text-gray-900 mb-3">About the employer</h2>
-          <div className="bg-white border border-gray-100 rounded-xl p-4">
-            <div className="flex items-start gap-3">
-              <CompanyBadge name={job.employer_name} size="sm" />
-              <div className="flex-1">
-                <p className="text-sm font-semibold text-gray-900">{job.employer_name}</p>
-                {co ? (
-                  <>
-                    <div className="mt-1.5">
-                      <StarRating rating={co.overall_rating} count={co.reviews.length} />
-                    </div>
-                    <p className="text-xs text-gray-500 mt-2 leading-relaxed line-clamp-2">{co.description}</p>
-                    <div className="flex flex-wrap gap-1.5 mt-2">
-                      {co.benefits.slice(0, 4).map(b => (
-                        <span key={b} className="text-[11px] text-gray-600 bg-white border border-gray-200 px-2 py-0.5 rounded-full">{b}</span>
-                      ))}
-                    </div>
-                    <a href={`/companies/${co.id}`} className="inline-block mt-3 text-xs font-semibold text-gray-800 hover:underline">
-                      See company profile & reviews →
-                    </a>
-                  </>
-                ) : (
-                  <p className="text-xs text-gray-400 mt-1">Responds via Waiterstation</p>
+                {co && (
+                  <span className="flex items-center gap-1 text-xs text-gray-500">
+                    {'★'.repeat(Math.round(co.overall_rating))}{'☆'.repeat(5 - Math.round(co.overall_rating))}
+                    <span className="font-semibold text-gray-700 ml-0.5">{co.overall_rating.toFixed(1)}</span>
+                  </span>
                 )}
               </div>
             </div>
           </div>
+          <div className="flex flex-col items-end gap-2 shrink-0">
+            <button onClick={handleApply}
+              className="bg-gray-900 hover:bg-gray-800 text-white font-bold px-6 py-2.5 rounded-xl text-sm transition">
+              Apply now
+            </button>
+            {job.source_url && (
+              <a href={job.source_url} target="_blank" rel="noopener noreferrer"
+                className="text-[11px] text-gray-400 hover:text-gray-600 hover:underline transition">
+                View original ↗
+              </a>
+            )}
+          </div>
         </div>
 
-        {/* Bottom apply */}
-        <div className="pt-2 pb-6">
-          <button onClick={handleApply}
-            className="w-full bg-gray-900 hover:bg-gray-800 text-white font-bold py-3 rounded-xl text-sm transition">
-            Apply for this position
-          </button>
-          {!isLoggedIn && (
-            <p className="text-xs text-center text-gray-400 mt-2">
-              <a href="/auth/login?next=/" className="text-gray-900 font-medium hover:underline">Sign in</a> required to apply
-            </p>
-          )}
-        </div>
+        {/* Pay highlight */}
+        {job.pay && (
+          <div className="mb-4 bg-gray-900 text-white rounded-xl px-4 py-3 flex items-center justify-between">
+            <div>
+              <p className="text-[10px] font-semibold uppercase tracking-widest text-gray-400">Salary</p>
+              <p className="text-lg font-extrabold leading-tight">{job.pay}</p>
+            </div>
+            <svg className="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+        )}
+
+        {/* Tabs */}
+        {visibleTabs.length > 1 && (
+          <div className="flex gap-0">
+            {visibleTabs.map(t => (
+              <button key={t} onClick={() => setTab(t)}
+                className={`text-sm font-semibold px-4 py-2.5 border-b-2 transition whitespace-nowrap ${
+                  tab === t
+                    ? 'border-gray-900 text-gray-900'
+                    : 'border-transparent text-gray-400 hover:text-gray-700'
+                }`}>
+                {t}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* ── Scrollable body ── */}
+      <div className="flex-1 overflow-y-auto px-7 py-6 space-y-6">
+
+        {/* ── OVERVIEW TAB ── */}
+        {tab === 'Overview' && (
+          <>
+            {!isLoggedIn && (
+              <div className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-500">
+                <a href="/auth/login?next=/" className="font-semibold text-gray-900 hover:underline">Sign in</a> or{' '}
+                <a href="/auth/login?next=/" className="font-semibold text-gray-900 hover:underline">create a free account</a> to apply — takes 30 seconds.
+              </div>
+            )}
+
+            {/* About the role */}
+            <div>
+              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">About this role</p>
+              <div className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">{job.description}</div>
+            </div>
+
+            {/* Job details grid */}
+            <div>
+              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">Job details</p>
+              <div className="grid grid-cols-2 gap-x-6 gap-y-4">
+                {[
+                  { label: 'Employment type', value: job.employment_type === 'event' ? 'Event / Once-off' : EMPLOYMENT_TYPE_LABELS[job.employment_type] },
+                  { label: 'Location', value: job.location },
+                  { label: 'Role', value: ROLE_LABELS[job.role_category] },
+                  ...(job.pay ? [{ label: 'Pay', value: job.pay }] : []),
+                  ...(co ? [{ label: 'Industry', value: co.industry }] : job.category_label ? [{ label: 'Industry', value: job.category_label }] : []),
+                  ...(co ? [{ label: 'Company size', value: co.size }] : []),
+                  { label: 'Date posted', value: postedDate },
+                ].map(d => (
+                  <div key={d.label} className="bg-gray-50 rounded-xl px-4 py-3">
+                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wide mb-0.5">{d.label}</p>
+                    <p className="text-sm font-semibold text-gray-900">{d.value}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Apply CTA */}
+            <div className="pb-6">
+              <button onClick={handleApply}
+                className="w-full bg-gray-900 hover:bg-gray-800 text-white font-bold py-3.5 rounded-xl text-sm transition">
+                Apply for this position
+              </button>
+            </div>
+          </>
+        )}
+
+        {/* ── COMPANY TAB ── */}
+        {tab === 'Company' && co && (
+          <>
+            <div className="flex items-start gap-4">
+              <CompanyBadge name={co.name} size="lg" />
+              <div>
+                <h2 className="text-lg font-extrabold text-gray-900">{co.name}</h2>
+                <p className="text-xs text-gray-500 mt-0.5">{co.industry} · {co.size}</p>
+                <div className="flex items-center gap-1 mt-1">
+                  {[1,2,3,4,5].map(i => (
+                    <svg key={i} className={`w-3.5 h-3.5 ${i <= Math.round(co.overall_rating) ? 'text-gray-800' : 'text-gray-200'}`} fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    </svg>
+                  ))}
+                  <span className="text-xs font-bold text-gray-700 ml-1">{co.overall_rating.toFixed(1)}</span>
+                  <span className="text-xs text-gray-400 ml-0.5">({co.reviews.length} reviews)</span>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Company overview</p>
+              <p className="text-sm text-gray-700 leading-relaxed">{co.description}</p>
+            </div>
+
+            <div>
+              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">Ratings breakdown</p>
+              <div className="space-y-2.5">
+                <RatingBar label="Work-life balance" value={co.ratings.work_life_balance} />
+                <RatingBar label="Culture" value={co.ratings.culture} />
+                <RatingBar label="Management" value={co.ratings.management} />
+                <RatingBar label="Career growth" value={co.ratings.career_growth} />
+                <RatingBar label="Compensation" value={co.ratings.compensation} />
+              </div>
+            </div>
+
+            <div className="pb-6">
+              <a href={`/companies/${co.id}`}
+                className="w-full flex items-center justify-center gap-2 border border-gray-200 text-gray-700 font-semibold py-3 rounded-xl text-sm hover:bg-gray-50 transition">
+                See full company profile & all reviews →
+              </a>
+            </div>
+          </>
+        )}
+
+        {/* ── BENEFITS TAB ── */}
+        {tab === 'Benefits' && co && (
+          <>
+            <div>
+              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">Why work at {co.name}</p>
+              <div className="grid grid-cols-1 gap-2">
+                {co.benefits.map(b => (
+                  <div key={b} className="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3">
+                    <div className="w-7 h-7 rounded-lg bg-gray-900 flex items-center justify-center shrink-0">
+                      <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/>
+                      </svg>
+                    </div>
+                    <span className="text-sm font-medium text-gray-800">{b}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">Quick stats</p>
+              <div className="grid grid-cols-2 gap-3">
+                {[
+                  { label: 'Overall rating', value: `${co.overall_rating.toFixed(1)} / 5` },
+                  { label: 'Culture score', value: `${co.ratings.culture.toFixed(1)} / 5` },
+                  { label: 'Career growth', value: `${co.ratings.career_growth.toFixed(1)} / 5` },
+                  { label: 'Company size', value: co.size },
+                ].map(s => (
+                  <div key={s.label} className="bg-gray-50 rounded-xl px-4 py-3">
+                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wide mb-0.5">{s.label}</p>
+                    <p className="text-sm font-extrabold text-gray-900">{s.value}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="pb-6">
+              <button onClick={handleApply}
+                className="w-full bg-gray-900 hover:bg-gray-800 text-white font-bold py-3.5 rounded-xl text-sm transition">
+                Apply for this position
+              </button>
+            </div>
+          </>
+        )}
+
+        {/* ── REVIEWS TAB ── */}
+        {tab === 'Reviews' && co && (
+          <>
+            <div className="flex items-center gap-4">
+              <div className="text-center">
+                <p className="text-4xl font-extrabold text-gray-900">{co.overall_rating.toFixed(1)}</p>
+                <div className="flex justify-center gap-0.5 mt-1">
+                  {[1,2,3,4,5].map(i => (
+                    <svg key={i} className={`w-4 h-4 ${i <= Math.round(co.overall_rating) ? 'text-gray-800' : 'text-gray-200'}`} fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    </svg>
+                  ))}
+                </div>
+                <p className="text-xs text-gray-400 mt-1">{co.reviews.length} reviews</p>
+              </div>
+              <div className="flex-1 space-y-1.5">
+                <RatingBar label="Work-life balance" value={co.ratings.work_life_balance} />
+                <RatingBar label="Culture" value={co.ratings.culture} />
+                <RatingBar label="Management" value={co.ratings.management} />
+                <RatingBar label="Career growth" value={co.ratings.career_growth} />
+                <RatingBar label="Compensation" value={co.ratings.compensation} />
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              {co.reviews.map(r => (
+                <div key={r.id} className="bg-gray-50 rounded-xl p-4">
+                  <div className="flex items-start justify-between gap-2 mb-2">
+                    <div>
+                      <p className="text-sm font-bold text-gray-900">{r.anonymous ? 'Anonymous' : r.author_name}</p>
+                      <p className="text-xs text-gray-500">{r.role} · {r.employment_status}</p>
+                    </div>
+                    <div className="text-right shrink-0">
+                      <div className="flex gap-0.5">
+                        {[1,2,3,4,5].map(i => (
+                          <svg key={i} className={`w-3 h-3 ${i <= r.rating ? 'text-gray-800' : 'text-gray-200'}`} fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                          </svg>
+                        ))}
+                      </div>
+                      {r.salary && <p className="text-[10px] text-gray-400 mt-0.5">{r.salary}</p>}
+                    </div>
+                  </div>
+                  <div className="space-y-1.5">
+                    <div>
+                      <span className="text-[10px] font-bold text-gray-900 uppercase tracking-wide">Pros </span>
+                      <span className="text-xs text-gray-600">{r.pros}</span>
+                    </div>
+                    <div>
+                      <span className="text-[10px] font-bold text-gray-900 uppercase tracking-wide">Cons </span>
+                      <span className="text-xs text-gray-600">{r.cons}</span>
+                    </div>
+                  </div>
+                  <p className="text-[10px] text-gray-400 mt-2">{r.helpful_count} people found this helpful · {r.date}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="pb-6">
+              <button onClick={handleApply}
+                className="w-full bg-gray-900 hover:bg-gray-800 text-white font-bold py-3.5 rounded-xl text-sm transition">
+                Apply for this position
+              </button>
+            </div>
+          </>
+        )}
       </div>
     </div>
   )

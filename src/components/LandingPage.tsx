@@ -55,16 +55,16 @@ export default function LandingPage({
     const p = new URLSearchParams()
     if (query.trim()) p.set('q', query.trim())
     if (location.trim()) p.set('location', location.trim())
-    if (!query.trim() && !location.trim()) p.set('q', 'hospitality')
-    router.push(`/?${p.toString()}`)
+    if (!query.trim() && !location.trim()) p.set('location', detectedCity)
+    router.push(`/jobs?${p.toString()}`)
   }
 
   function viewAllNearby() {
-    router.push(`/?location=${encodeURIComponent(detectedCity)}`)
+    router.push(`/jobs?location=${encodeURIComponent(detectedCity)}`)
   }
 
   function goToRole(role: RoleCategory) {
-    router.push(`/?role=${role}`)
+    router.push(`/jobs?role=${role}`)
   }
 
   return (

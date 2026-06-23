@@ -83,6 +83,7 @@ export default function JobBrowser({
   totalLive,
   isMockData = false,
   isLoggedIn = false,
+  basePath = '/jobs',
 }: {
   jobs: Job[]
   currentRole: string
@@ -93,6 +94,7 @@ export default function JobBrowser({
   totalLive: number
   isMockData?: boolean
   isLoggedIn?: boolean
+  basePath?: string
 }) {
   const [selectedId, setSelectedId] = useState<string | null>(jobs[0]?.id ?? null)
   const [visibleCount, setVisibleCount] = useState(20)
@@ -115,10 +117,10 @@ export default function JobBrowser({
     if (currentQuery && key !== 'q') next.set('q', currentQuery)
     if (payOnly && key !== 'payOnly') next.set('payOnly', '1')
     if (value) next.set(key, value)
-    router.push(`/?${next.toString()}`)
+    router.push(`${basePath}?${next.toString()}`)
   }
 
-  function clearFilters() { router.push('/') }
+  function clearFilters() { router.push(basePath) }
 
   function toggleSave(id: string) {
     setSavedIds(prev => {
@@ -188,7 +190,7 @@ export default function JobBrowser({
                 if (role) next.set('role', role)
                 if (query) next.set('q', query)
                 if (location) next.set('location', location)
-                router.push(`/?${next.toString()}`)
+                router.push(`${basePath}?${next.toString()}`)
               }}
             />
 
@@ -235,7 +237,7 @@ export default function JobBrowser({
                       if (currentLocation) next.set('location', currentLocation)
                       if (currentQuery) next.set('q', currentQuery)
                       if (e.target.checked) next.set('payOnly', '1')
-                      router.push(`/?${next.toString()}`)
+                      router.push(`${basePath}?${next.toString()}`)
                     }}
                     className="w-3.5 h-3.5 accent-gray-900 cursor-pointer"
                   />
@@ -466,7 +468,7 @@ function DesktopJobDetail({ job, isLoggedIn }: { job: Job; isLoggedIn: boolean }
   })
 
   function handleApply() {
-    if (!isLoggedIn) { router.push('/auth/login?next=/'); return }
+    if (!isLoggedIn) { router.push(`/auth/login?next=${basePath}`); return }
     setShowApply(true)
   }
 

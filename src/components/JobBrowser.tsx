@@ -172,32 +172,9 @@ export default function JobBrowser({
       {/* ── DESKTOP ── */}
       <div className="hidden md:flex flex-col bg-gray-50" style={{ height: 'calc(100vh - var(--header-height))' }}>
 
-        {/* ── Hero strip ── */}
+        {/* ── Search + filters toolbar ── */}
         <div className="bg-white border-b border-gray-100 shrink-0">
-          <div className="max-w-[1440px] mx-auto px-6 pt-5 pb-4">
-            <div className="flex items-end justify-between gap-4 mb-4">
-              <div>
-                <h1 className="text-2xl font-extrabold text-gray-900 tracking-tight leading-tight">
-                  Hospitality jobs in South Africa
-                </h1>
-                <p className="text-sm text-gray-500 mt-1">
-                  {totalLive > 0
-                    ? <><span className="font-semibold text-gray-800">{totalLive.toLocaleString()} open positions</span> · Apply in seconds, no CV required</>
-                    : 'Find your next role in hospitality'
-                  }
-                </p>
-              </div>
-              <div className="hidden lg:flex items-center gap-3 shrink-0 pb-0.5">
-                <a href="/auth/signup"
-                  className="text-xs font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg transition">
-                  Create free account
-                </a>
-                <a href="/post-job"
-                  className="text-xs font-semibold text-white bg-gray-900 hover:bg-gray-800 px-4 py-2 rounded-lg transition">
-                  Post a job
-                </a>
-              </div>
-            </div>
+          <div className="max-w-[1440px] mx-auto px-6 pt-4 pb-3">
 
             {/* Search bar */}
             <DesktopSearchBar

@@ -1,8 +1,10 @@
 import { createServerClient, getSession } from '@/lib/supabase-server'
+import { headers } from 'next/headers'
 import { Job, RoleCategory, EmploymentType } from '@/lib/types'
 import { MOCK_JOBS } from '@/lib/mock-jobs'
 import { fetchAdzunaJobs } from '@/lib/adzuna'
 import JobBrowser from '@/components/JobBrowser'
+import LandingPage from '@/components/LandingPage'
 
 interface SearchParams {
   role?: string
@@ -19,13 +21,44 @@ function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T | null> {
   ])
 }
 
+async function detectCity(ip: string): Promise<string> {
+  if (!ip || ip === '127.0.0.1' || ip === '::1') return 'Cape Town'
+  try {
+    const res = await withTimeout(
+      fetch(`https://ipapi.co/${ip}/json/`, { next: { revalidate: 3600 } }),
+      2000
+    )
+    if (!res) return 'Cape Town'
+    const data = await res.json()
+    if (data.city && data.country_code === 'ZA') return data.city
+    return 'Cape Town'
+  } catch {
+    return 'Cape Town'
+  }
+}
+
 export default async function HomePage({ searchParams }: { searchParams: Promise<SearchParams> }) {
   const params = await searchParams
-  const supabase = await createServerClient()
+  const hasSearch = !!(params.role || params.type || params.location || params.q || params.payOnly)
 
+  const supabase = await createServerClient()
   let session = null
   try { session = await withTimeout(getSession(), 3000) } catch {}
 
+  // Detect user's city for the landing page
+  let detectedCity = 'Cape Town'
+  if (!hasSearch) {
+    try {
+      const headersList = await headers()
+      const forwarded = headersList.get('x-forwarded-for')
+      const ip = forwarded ? forwarded.split(',')[0].trim() : (headersList.get('x-real-ip') ?? '127.0.0.1')
+      detectedCity = await detectCity(ip)
+    } catch {
+      detectedCity = 'Cape Town'
+    }
+  }
+
+  // Fetch all jobs (used for both landing and browser)
   let query = supabase
     .from('jobs')
     .select('*')
@@ -39,14 +72,13 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
   if (params.payOnly === '1') query = query.not('pay', 'is', null).neq('pay', '')
 
   let dbJobs: Job[] | null = null
-  let error: unknown = null
+  let dbError: unknown = null
   try {
     const res = await withTimeout(query.limit(100), 4000)
     dbJobs = res?.data ?? null
-    error = res?.error ?? null
-  } catch { error = true }
+    dbError = res?.error ?? null
+  } catch { dbError = true }
 
-  // Get total count of live jobs for the counter
   let totalLive = 0
   try {
     const res = await withTimeout(
@@ -56,10 +88,11 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
     totalLive = res?.count ?? 0
   } catch {}
 
+  // Resolve jobs list with Adzuna / mock fallback
   let jobs: Job[]
   let isMockData = false
-  if (error || !dbJobs || dbJobs.length === 0) {
-    // Try Adzuna API for real listings
+
+  if (dbError || !dbJobs || dbJobs.length === 0) {
     const adzunaJobs = await fetchAdzunaJobs({
       q: params.q,
       location: params.location,
@@ -74,7 +107,6 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
       jobs = filtered
       if (!totalLive) totalLive = adzunaJobs.length
     } else {
-      // Final fallback: curated mock data
       let mock = MOCK_JOBS
       if (params.role) mock = mock.filter(j => j.role_category === params.role)
       if (params.type) mock = mock.filter(j => j.employment_type === params.type)
@@ -93,6 +125,31 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
     if (!totalLive) totalLive = dbJobs.length
   }
 
+  // ── Landing page (no active search) ──────────────────────────────────────
+  if (!hasSearch) {
+    // Jobs near the detected city
+    const nearbyJobs = jobs.filter(j =>
+      j.location.toLowerCase().includes(detectedCity.toLowerCase())
+    )
+
+    // Role counts across all jobs
+    const roleCounts: Record<string, number> = {}
+    for (const job of jobs) {
+      roleCounts[job.role_category] = (roleCounts[job.role_category] ?? 0) + 1
+    }
+
+    return (
+      <LandingPage
+        nearbyJobs={nearbyJobs}
+        allJobs={jobs}
+        detectedCity={detectedCity}
+        totalLive={totalLive || jobs.length}
+        roleCounts={roleCounts}
+      />
+    )
+  }
+
+  // ── Full job browser (active search / filters) ───────────────────────────
   return (
     <>
       {/* Mobile-only hero */}

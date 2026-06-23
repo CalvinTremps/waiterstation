@@ -161,12 +161,15 @@ export default function LandingPage({
       {/* ── Hero ── */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-3xl mx-auto px-5 py-14 text-center">
-          <h1 className="text-4xl font-bold text-gray-900 mb-7 leading-tight tracking-tight">
-            One Search, Thousands of Jobs
+          <h1 className="text-4xl font-bold text-gray-900 mb-3 leading-tight tracking-tight">
+            Thousands of Hospitality Jobs in South Africa
           </h1>
+          <p className="text-base text-gray-500 mb-7 leading-relaxed max-w-xl mx-auto">
+            Waiter, chef, bartender, barista, kitchen and hotel roles — find your next job and apply in seconds.
+          </p>
 
           <form onSubmit={handleSearch}
-            className="flex flex-col sm:flex-row items-stretch gap-2 max-w-2xl mx-auto">
+            className="flex flex-col sm:flex-row items-stretch gap-4 sm:gap-2 max-w-2xl mx-auto">
             <div className="flex-1 relative">
               <label className="absolute -top-[9px] left-3 bg-white px-1 text-[10px] font-semibold text-gray-500 uppercase tracking-wide z-10">
                 Job Title, Skills or Keyword

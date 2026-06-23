@@ -717,3 +717,179 @@ export const JOB_TEMPLATES = [
     description: `We are seeking an experienced Restaurant Manager to oversee daily front-of-house operations.\n\nAbout the role:\n- Managing floor staff and daily service briefings\n- Handling guest complaints and escalations\n- Stock and cash management\n- Coordinating with kitchen leadership on service flow\n\nRequirements:\n- Minimum 3 years restaurant management experience\n- Strong leadership and communication skills\n- Ability to stay calm under pressure\n- Knowledge of POS and reservation systems`,
   },
 ]
+
+// ─── Workforce Management ────────────────────────────────────────────────────
+
+export interface Employee {
+  id: string
+  name: string
+  email: string
+  phone: string
+  role: string
+  role_category: string
+  start_date: string
+  status: 'active' | 'on_leave' | 'terminated'
+  pay_type: 'per_hour' | 'per_shift' | 'monthly'
+  pay_rate: number
+  avatar_color: string
+  avatar_initials: string
+  source: 'waiterstation' | 'external'
+  invite_status?: 'pending' | 'accepted'
+}
+
+export interface Shift {
+  id: string
+  employee_id: string
+  date: string
+  start_time: string
+  end_time: string
+  hours: number
+  role: string
+  location: string
+  status: 'scheduled' | 'completed' | 'absent' | 'cancelled'
+  notes?: string
+}
+
+export interface PayrollSettings {
+  month_end_day: number
+  currency: string
+}
+
+const now2 = Date.now()
+
+export const MOCK_EMPLOYEES: Employee[] = [
+  {
+    id: 'emp-1',
+    name: 'Amahle Khumalo',
+    email: 'amahle.khumalo@email.com',
+    phone: '071 234 5678',
+    role: 'Senior Waitress',
+    role_category: 'waiter',
+    start_date: '2023-03-15',
+    status: 'active',
+    pay_type: 'per_shift',
+    pay_rate: 320,
+    avatar_color: 'bg-purple-500',
+    avatar_initials: 'AK',
+    source: 'waiterstation',
+    invite_status: 'accepted',
+  },
+  {
+    id: 'emp-2',
+    name: 'Dylan Meyer',
+    email: 'dylan.meyer@email.com',
+    phone: '082 345 6789',
+    role: 'Bartender',
+    role_category: 'bartender',
+    start_date: '2023-07-01',
+    status: 'active',
+    pay_type: 'per_hour',
+    pay_rate: 95,
+    avatar_color: 'bg-blue-500',
+    avatar_initials: 'DM',
+    source: 'waiterstation',
+    invite_status: 'accepted',
+  },
+  {
+    id: 'emp-3',
+    name: 'Lerato Molefe',
+    email: 'lerato.molefe@email.com',
+    phone: '073 456 7890',
+    role: 'Floor Manager',
+    role_category: 'manager',
+    start_date: '2022-11-10',
+    status: 'active',
+    pay_type: 'monthly',
+    pay_rate: 18500,
+    avatar_color: 'bg-amber-500',
+    avatar_initials: 'LM',
+    source: 'waiterstation',
+    invite_status: 'accepted',
+  },
+  {
+    id: 'emp-4',
+    name: 'Sipho Dlamini',
+    email: 'sipho.dlamini@email.com',
+    phone: '064 567 8901',
+    role: 'Waiter',
+    role_category: 'waiter',
+    start_date: '2024-01-08',
+    status: 'active',
+    pay_type: 'per_shift',
+    pay_rate: 280,
+    avatar_color: 'bg-green-500',
+    avatar_initials: 'SD',
+    source: 'external',
+    invite_status: 'accepted',
+  },
+  {
+    id: 'emp-5',
+    name: 'Priya Naidoo',
+    email: 'priya.naidoo@email.com',
+    phone: '083 678 9012',
+    role: 'Hostess',
+    role_category: 'hostess',
+    start_date: '2024-03-20',
+    status: 'on_leave',
+    pay_type: 'per_shift',
+    pay_rate: 260,
+    avatar_color: 'bg-rose-500',
+    avatar_initials: 'PN',
+    source: 'external',
+    invite_status: 'pending',
+  },
+  {
+    id: 'emp-6',
+    name: 'Riaan Botha',
+    email: 'riaan.botha@email.com',
+    phone: '072 789 0123',
+    role: 'Head Waiter',
+    role_category: 'waiter',
+    start_date: '2023-09-05',
+    status: 'active',
+    pay_type: 'per_shift',
+    pay_rate: 350,
+    avatar_color: 'bg-teal-500',
+    avatar_initials: 'RB',
+    source: 'waiterstation',
+    invite_status: 'accepted',
+  },
+]
+
+function shiftDate(daysFromNow: number, time: string) {
+  const d = new Date(now2 + daysFromNow * 86400000)
+  return d.toISOString().split('T')[0]
+}
+
+export const MOCK_SHIFTS: Shift[] = [
+  // This week - emp-1
+  { id: 'sh-1', employee_id: 'emp-1', date: shiftDate(-6, ''), start_time: '09:00', end_time: '17:00', hours: 8, role: 'Senior Waitress', location: 'Main Floor', status: 'completed' },
+  { id: 'sh-2', employee_id: 'emp-1', date: shiftDate(-4, ''), start_time: '11:00', end_time: '21:00', hours: 10, role: 'Senior Waitress', location: 'Main Floor', status: 'completed' },
+  { id: 'sh-3', employee_id: 'emp-1', date: shiftDate(1, ''),  start_time: '09:00', end_time: '17:00', hours: 8,  role: 'Senior Waitress', location: 'Main Floor', status: 'scheduled' },
+  { id: 'sh-4', employee_id: 'emp-1', date: shiftDate(3, ''),  start_time: '11:00', end_time: '21:00', hours: 10, role: 'Senior Waitress', location: 'Pool Deck',  status: 'scheduled' },
+  // emp-2
+  { id: 'sh-5', employee_id: 'emp-2', date: shiftDate(-5, ''), start_time: '16:00', end_time: '00:00', hours: 8, role: 'Bartender', location: 'Bar', status: 'completed' },
+  { id: 'sh-6', employee_id: 'emp-2', date: shiftDate(-3, ''), start_time: '16:00', end_time: '00:00', hours: 8, role: 'Bartender', location: 'Bar', status: 'completed' },
+  { id: 'sh-7', employee_id: 'emp-2', date: shiftDate(-1, ''), start_time: '18:00', end_time: '02:00', hours: 8, role: 'Bartender', location: 'Bar', status: 'absent' },
+  { id: 'sh-8', employee_id: 'emp-2', date: shiftDate(2, ''),  start_time: '16:00', end_time: '00:00', hours: 8, role: 'Bartender', location: 'Bar', status: 'scheduled' },
+  // emp-3
+  { id: 'sh-9',  employee_id: 'emp-3', date: shiftDate(-6, ''), start_time: '08:00', end_time: '18:00', hours: 10, role: 'Floor Manager', location: 'Main Floor', status: 'completed' },
+  { id: 'sh-10', employee_id: 'emp-3', date: shiftDate(-5, ''), start_time: '08:00', end_time: '18:00', hours: 10, role: 'Floor Manager', location: 'Main Floor', status: 'completed' },
+  { id: 'sh-11', employee_id: 'emp-3', date: shiftDate(0, ''),  start_time: '08:00', end_time: '18:00', hours: 10, role: 'Floor Manager', location: 'Main Floor', status: 'scheduled' },
+  { id: 'sh-12', employee_id: 'emp-3', date: shiftDate(1, ''),  start_time: '08:00', end_time: '18:00', hours: 10, role: 'Floor Manager', location: 'Main Floor', status: 'scheduled' },
+  // emp-4
+  { id: 'sh-13', employee_id: 'emp-4', date: shiftDate(-4, ''), start_time: '11:00', end_time: '19:00', hours: 8, role: 'Waiter', location: 'Main Floor', status: 'completed' },
+  { id: 'sh-14', employee_id: 'emp-4', date: shiftDate(-2, ''), start_time: '11:00', end_time: '19:00', hours: 8, role: 'Waiter', location: 'Main Floor', status: 'completed' },
+  { id: 'sh-15', employee_id: 'emp-4', date: shiftDate(2, ''),  start_time: '11:00', end_time: '19:00', hours: 8, role: 'Waiter', location: 'Pool Deck',  status: 'scheduled' },
+  { id: 'sh-16', employee_id: 'emp-4', date: shiftDate(4, ''),  start_time: '17:00', end_time: '23:00', hours: 6, role: 'Waiter', location: 'Events',     status: 'scheduled' },
+  // emp-6
+  { id: 'sh-17', employee_id: 'emp-6', date: shiftDate(-6, ''), start_time: '10:00', end_time: '18:00', hours: 8, role: 'Head Waiter', location: 'Main Floor', status: 'completed' },
+  { id: 'sh-18', employee_id: 'emp-6', date: shiftDate(-3, ''), start_time: '10:00', end_time: '18:00', hours: 8, role: 'Head Waiter', location: 'Main Floor', status: 'completed' },
+  { id: 'sh-19', employee_id: 'emp-6', date: shiftDate(1, ''),  start_time: '10:00', end_time: '20:00', hours: 10, role: 'Head Waiter', location: 'Main Floor', status: 'scheduled' },
+  { id: 'sh-20', employee_id: 'emp-6', date: shiftDate(3, ''),  start_time: '10:00', end_time: '20:00', hours: 10, role: 'Head Waiter', location: 'Events',     status: 'scheduled' },
+]
+
+export const DEFAULT_PAYROLL_SETTINGS: PayrollSettings = {
+  month_end_day: 25,
+  currency: 'R',
+}

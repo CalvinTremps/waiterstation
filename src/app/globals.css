@@ -145,3 +145,213 @@ body {
     border-top: 0.5px solid var(--ios-separator);
   }
 }
+
+/* ── Employer app shell ─────────────────────────────────────────── */
+
+/* Hide public header/footer when in employer app mode */
+[data-employer-app] body > header,
+[data-employer-app] body > footer,
+[data-employer-app] body > .mobile-header { display: none !important; }
+
+/* Remove the root <main> padding that shifts content down */
+[data-employer-app] body > main {
+  padding: 0 !important;
+  display: block !important;
+}
+
+[data-employer-app] body {
+  overflow: hidden;
+  height: 100dvh;
+}
+
+.employer-shell {
+  display: flex;
+  height: 100dvh;
+  overflow: hidden;
+  background: #f8f8f8;
+}
+
+/* Sidebar */
+.employer-sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-right: 1px solid #e5e7eb;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  position: relative;
+  z-index: 30;
+}
+.employer-sidebar::-webkit-scrollbar { display: none; }
+
+.employer-sidebar__brand {
+  padding: 20px 16px 12px;
+  border-bottom: 1px solid #f3f4f6;
+  display: flex;
+  flex-direction: column;
+}
+
+.employer-sidebar__nav {
+  flex: 1;
+  padding: 8px 8px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.employer-nav-section {
+  margin-bottom: 4px;
+}
+
+.employer-nav-section__label {
+  font-size: 10px;
+  font-weight: 600;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  padding: 10px 8px 4px;
+}
+
+.employer-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 8px;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #6b7280;
+  transition: background 0.12s, color 0.12s;
+  cursor: pointer;
+  text-decoration: none;
+}
+.employer-nav-item:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+.employer-nav-item--active {
+  background: #f3f4f6;
+  color: #111827;
+  font-weight: 600;
+}
+.employer-nav-item--active svg {
+  color: #111827;
+}
+
+.employer-nav-badge {
+  background: #111827;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 999px;
+  line-height: 1.4;
+  flex-shrink: 0;
+}
+
+.employer-sidebar__footer {
+  padding: 12px 8px 16px;
+  border-top: 1px solid #f3f4f6;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.employer-post-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: #111827;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 9px 12px;
+  border-radius: 8px;
+  transition: background 0.15s;
+  text-decoration: none;
+}
+.employer-post-btn:hover { background: #1f2937; }
+
+.employer-user-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 6px 4px 2px;
+}
+
+/* Main area */
+.employer-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+/* Top bar */
+.employer-topbar {
+  height: 52px;
+  flex-shrink: 0;
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  gap: 12px;
+}
+
+.employer-topbar__menu {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #6b7280;
+  padding: 4px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.employer-topbar__menu:hover { background: #f3f4f6; color: #111827; }
+
+.employer-topbar__title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.employer-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px 24px 40px;
+}
+
+/* Mobile sidebar drawer */
+@media (max-width: 1023px) {
+  .employer-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: translateX(-100%);
+    transition: transform 0.22s cubic-bezier(0.4,0,0.2,1);
+    box-shadow: none;
+  }
+  .employer-sidebar--open {
+    transform: translateX(0);
+    box-shadow: 4px 0 24px rgba(0,0,0,0.10);
+  }
+  .employer-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.3);
+    z-index: 29;
+  }
+  .employer-content {
+    padding: 16px 16px 32px;
+  }
+}

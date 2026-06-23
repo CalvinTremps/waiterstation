@@ -10,7 +10,7 @@ const STATUS_STYLES = {
 }
 
 const STATUS_LABELS = {
-  verified: '✓ Verified',
+  verified: 'Verified',
   pending: '⏳ Pending',
   unverified: 'Unverified',
 }

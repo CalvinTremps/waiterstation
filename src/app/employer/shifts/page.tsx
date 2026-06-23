@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
+import { Icon } from '@/components/Icon'
 import { MOCK_EMPLOYEES, MOCK_SHIFTS, SHIFT_TEMPLATES, type Employee, type Shift } from '@/lib/mock-recruitment'
 
 const STATUS_STYLES: Record<Shift['status'], string> = {
@@ -293,12 +294,12 @@ export default function ShiftsPage() {
                     {shift.status === 'scheduled' && (
                       <div className="flex gap-1">
                         <button onClick={() => markStatus(shift.id, 'completed')}
-                          className="text-[10px] font-semibold border border-green-200 text-green-700 px-2 py-0.5 rounded-lg hover:bg-green-50 transition">
-                          ✓ Done
+                          className="text-[10px] font-semibold border border-green-200 text-green-700 px-2 py-0.5 rounded-lg hover:bg-green-50 transition inline-flex items-center gap-1">
+                          <Icon name="check" className="w-3 h-3" /> Done
                         </button>
                         <button onClick={() => markStatus(shift.id, 'absent')}
-                          className="text-[10px] font-semibold border border-red-200 text-red-600 px-2 py-0.5 rounded-lg hover:bg-red-50 transition">
-                          ✗ Absent
+                          className="text-[10px] font-semibold border border-red-200 text-red-600 px-2 py-0.5 rounded-lg hover:bg-red-50 transition inline-flex items-center gap-1">
+                          <Icon name="x" className="w-3 h-3" /> Absent
                         </button>
                       </div>
                     )}

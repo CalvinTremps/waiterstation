@@ -2,6 +2,7 @@
 
 import { useState, use } from 'react'
 import { MOCK_APPLICANTS, MOCK_INTERVIEWS, PIPELINE_STAGES, PipelineStage } from '@/lib/mock-recruitment'
+import { Icon } from '@/components/Icon'
 
 const STAGE_ORDER: PipelineStage[] = ['new','reviewed','shortlisted','interview','offered','hired','rejected']
 
@@ -127,12 +128,12 @@ export default function ApplicantDetailPage({ params }: { params: Promise<{ id: 
 
         {/* Contact */}
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-5">
-          <ContactItem icon="📧" label="Email" value={applicant.email} href={`mailto:${applicant.email}`} />
-          <ContactItem icon="📞" label="Phone" value={applicant.phone} href={`tel:${applicant.phone}`} />
-          <ContactItem icon="📍" label="Location" value={applicant.location} />
-          <ContactItem icon="⏱️" label="Experience" value={`${applicant.experience_years} years`} />
-          <ContactItem icon="🗓️" label="Availability" value={applicant.availability} />
-          <ContactItem icon="🌐" label="Languages" value={applicant.languages.join(', ')} />
+          <ContactItem icon="mail" label="Email" value={applicant.email} href={`mailto:${applicant.email}`} />
+          <ContactItem icon="phone" label="Phone" value={applicant.phone} href={`tel:${applicant.phone}`} />
+          <ContactItem icon="location" label="Location" value={applicant.location} />
+          <ContactItem icon="clock" label="Experience" value={`${applicant.experience_years} years`} />
+          <ContactItem icon="calendar" label="Availability" value={applicant.availability} />
+          <ContactItem icon="globe" label="Languages" value={applicant.languages.join(', ')} />
         </div>
       </div>
 
@@ -298,12 +299,12 @@ function ContactItem({ icon, label, value, href }: { icon: string; label: string
   )
   return href ? (
     <a href={href} className="flex items-start gap-2 hover:opacity-80 transition">
-      <span className="text-base leading-none mt-0.5">{icon}</span>
+      <Icon name={icon} className="w-4 h-4 text-gray-400 mt-0.5 shrink-0" />
       {content}
     </a>
   ) : (
     <div className="flex items-start gap-2">
-      <span className="text-base leading-none mt-0.5">{icon}</span>
+      <Icon name={icon} className="w-4 h-4 text-gray-400 mt-0.5 shrink-0" />
       {content}
     </div>
   )

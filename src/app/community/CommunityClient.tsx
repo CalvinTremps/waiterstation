@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useMemo } from 'react'
 import { MOCK_COMMUNITY_POSTS, COMMUNITY_BOWLS, CommunityPost } from '@/lib/mock-community'
 import SalaryExplorer from '@/components/SalaryExplorer'
+import { Icon } from '@/components/Icon'
 
 /* ─── Avatar ─────────────────────────────────────────────── */
 function AvatarCircle({ letter, size = 'md' }: { letter: string; size?: 'sm' | 'md' | 'lg' }) {
@@ -693,7 +694,7 @@ export default function CommunityClient() {
               <div className="space-y-1">
                 {COMMUNITY_BOWLS.map(b => (
                   <div key={b.label} className="flex items-center justify-between py-1">
-                    <span className="text-sm text-gray-700">{b.emoji} {b.label}</span>
+                    <span className="flex items-center gap-2 text-sm text-gray-700"><Icon name={b.icon} className="w-4 h-4 text-gray-400" />{b.label}</span>
                     <button onClick={() => setActiveBowl(b.label)} className="text-xs font-semibold text-gray-900 hover:underline">Browse</button>
                   </div>
                 ))}

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
+import { Icon } from '@/components/Icon'
 import { MOCK_TIMESHEETS, MOCK_EMPLOYEES, type TimesheetEntry } from '@/lib/mock-recruitment'
 
 const STATUS_STYLES: Record<TimesheetEntry['status'], string> = {
@@ -192,7 +193,7 @@ export default function TimesheetsPage() {
                     )}
                   </div>
                   {isLate && (
-                    <p className="text-[11px] text-amber-600 mt-1.5">⚠ Late arrival</p>
+                    <p className="text-[11px] text-amber-600 mt-1.5 flex items-center gap-1"><Icon name="warning" className="w-3 h-3" /> Late arrival</p>
                   )}
                   {entry.notes && (
                     <p className="text-[11px] text-gray-500 mt-1 italic">{entry.notes}</p>

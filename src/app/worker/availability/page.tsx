@@ -141,7 +141,7 @@ export default function AvailabilityPage() {
       {/* Save */}
       <button onClick={save}
         className={`w-full py-3 rounded-xl font-semibold text-sm transition ${saved ? 'bg-green-600 text-white' : 'bg-gray-900 hover:bg-gray-800 text-white'}`}>
-        {saved ? '✓ Availability saved' : 'Save availability'}
+        {saved ? 'Availability saved' : 'Save availability'}
       </button>
     </div>
   )

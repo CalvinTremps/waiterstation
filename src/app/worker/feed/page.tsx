@@ -167,7 +167,7 @@ export default function JobFeedPage() {
                 <div className="mt-3 flex items-center gap-2">
                   {job.applied ? (
                     <span className={`flex-1 text-center text-sm font-semibold py-2 rounded-lg transition ${justApplied === job.id ? 'bg-green-50 text-green-700' : 'bg-gray-100 text-gray-500'}`}>
-                      {justApplied === job.id ? '✓ Applied!' : 'Applied'}
+                      {justApplied === job.id ? 'Applied!' : 'Applied'}
                     </span>
                   ) : (
                     <button onClick={() => applyNow(job.id)}

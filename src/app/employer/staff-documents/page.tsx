@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { STAFF_DOCUMENTS, MOCK_EMPLOYEES, type StaffDocument } from '@/lib/mock-recruitment'
+import { Icon } from '@/components/Icon'
 
 const TYPE_LABELS: Record<StaffDocument['type'], string> = {
   contract:      'Employment Contract',
@@ -12,7 +13,7 @@ const TYPE_LABELS: Record<StaffDocument['type'], string> = {
   other:         'Other',
 }
 const TYPE_ICONS: Record<StaffDocument['type'], string> = {
-  contract: '📄', id_copy: '🪪', health_cert: '🏥', liquor_licence: '🍺', tax_form: '💰', other: '📎',
+  contract: 'document', id_copy: 'id-card', health_cert: 'health', liquor_licence: 'document', tax_form: 'money', other: 'paperclip',
 }
 const STATUS_STYLES: Record<StaffDocument['status'], string> = {
   valid:          'bg-green-50 text-green-700 border-green-100',
@@ -108,7 +109,7 @@ export default function StaffDocumentsPage() {
         <div className="space-y-2">
           {expired > 0 && (
             <div className="flex items-start gap-3 bg-red-50 border border-red-100 rounded-xl px-4 py-3">
-              <span className="text-red-500 mt-0.5">⚠</span>
+              <Icon name="warning" className="w-4 h-4 text-red-500 mt-0.5 shrink-0" />
               <div>
                 <p className="text-sm font-semibold text-red-800">{expired} document{expired !== 1 ? 's' : ''} expired</p>
                 <p className="text-xs text-red-600">
@@ -200,7 +201,7 @@ export default function StaffDocumentsPage() {
           const daysLeft = doc.expiry_date ? daysUntil(doc.expiry_date) : null
           return (
             <div key={doc.id} className="flex items-center gap-4 bg-white border border-gray-200 rounded-xl px-4 py-3.5 hover:border-gray-300 transition">
-              <span className="text-2xl shrink-0">{TYPE_ICONS[doc.type]}</span>
+              <Icon name={TYPE_ICONS[doc.type]} className="w-6 h-6 shrink-0 text-gray-500" />
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-semibold text-gray-900 truncate">{doc.name}</p>
                 <div className="flex items-center gap-2 mt-0.5 flex-wrap">

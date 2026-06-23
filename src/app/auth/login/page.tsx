@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import LoginForm from './LoginForm'
+import { Icon } from '@/components/Icon'
 
 export const metadata: Metadata = {
   title: 'Sign In | Waiterstation',
@@ -24,12 +25,12 @@ export default function LoginPage() {
           </h2>
           <div className="space-y-5">
             {[
-              { icon: '⚡', title: 'Apply in seconds', body: 'No CV required. Apply with your phone number and a short message.' },
-              { icon: '🍽️', title: 'Built for hospitality', body: 'Waiters, bartenders, chefs, baristas, hotel staff — every role across South Africa.' },
-              { icon: '🔔', title: 'Get notified', body: 'Set job alerts and be the first to know when the right role comes up.' },
+              { icon: 'bolt', title: 'Apply in seconds', body: 'No CV required. Apply with your phone number and a short message.' },
+              { icon: 'waiter', title: 'Built for hospitality', body: 'Waiters, bartenders, chefs, baristas, hotel staff — every role across South Africa.' },
+              { icon: 'bell', title: 'Get notified', body: 'Set job alerts and be the first to know when the right role comes up.' },
             ].map(f => (
               <div key={f.title} className="flex gap-4">
-                <span className="text-2xl mt-0.5">{f.icon}</span>
+                <Icon name={f.icon} className="w-6 h-6 mt-0.5 text-white" />
                 <div>
                   <p className="text-white font-semibold text-sm">{f.title}</p>
                   <p className="text-gray-400 text-sm mt-0.5 leading-relaxed">{f.body}</p>

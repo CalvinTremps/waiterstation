@@ -7,6 +7,7 @@ import { MOCK_COMPANIES } from '@/lib/mock-companies'
 import CompanyBadge from './CompanyBadge'
 import ClaimedBadge from './ClaimedBadge'
 import ApplyModal from './ApplyModal'
+import { Icon } from './Icon'
 import { timeAgo } from '@/lib/time'
 
 const EMPLOYMENT_TYPES: EmploymentType[] = ['permanent', 'seasonal', 'event']
@@ -15,18 +16,6 @@ const EMP_COLORS: Record<string, string> = {
   permanent: 'bg-gray-100 text-gray-700',
   seasonal:  'bg-blue-50 text-blue-700',
   event:     'bg-purple-50 text-purple-700',
-}
-
-const ROLE_ICONS: Record<string, string> = {
-  waiter: '🍽️',
-  bartender: '🍸',
-  chef: '👨‍🍳',
-  kitchen: '🔪',
-  hotel: '🏨',
-  barista: '☕',
-  host: '🤝',
-  manager: '📋',
-  other: '⭐',
 }
 
 function isNew(dateStr: string) {
@@ -199,7 +188,7 @@ export default function JobBrowser({
                   className={`shrink-0 flex items-center gap-1.5 text-xs font-semibold px-3.5 py-1.5 rounded-full border transition whitespace-nowrap ${
                     currentRole === r ? 'bg-gray-900 text-white border-gray-900' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400 hover:text-gray-800'
                   }`}>
-                  <span>{ROLE_ICONS[r] ?? '⭐'}</span>
+                  <Icon name={r} className="w-3.5 h-3.5" />
                   {ROLE_LABELS[r]}
                 </button>
               ))}
@@ -574,12 +563,12 @@ function DesktopJobDetail({ job, isLoggedIn, basePath }: { job: Job; isLoggedIn:
           <h2 className="text-base font-bold text-gray-900 mb-3">About {job.employer_name}</h2>
           <div className="flex flex-wrap gap-x-6 gap-y-3 mb-4">
             {[
-              { icon: '🏢', label: 'Size', value: co?.size ?? 'Not listed' },
-              { icon: '📍', label: 'Location', value: job.location },
-              { icon: '🏷️', label: 'Industry', value: co?.industry ?? job.category_label ?? 'Hospitality' },
+              { icon: 'building', label: 'Size', value: co?.size ?? 'Not listed' },
+              { icon: 'location', label: 'Location', value: job.location },
+              { icon: 'tag', label: 'Industry', value: co?.industry ?? job.category_label ?? 'Hospitality' },
             ].map(s => (
               <div key={s.label} className="flex items-center gap-2">
-                <span className="text-base">{s.icon}</span>
+                <Icon name={s.icon} className="w-4 h-4 text-gray-400" />
                 <div>
                   <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wide leading-none">{s.label}</p>
                   <p className="text-sm font-semibold text-gray-800 mt-0.5">{s.value}</p>
@@ -808,7 +797,7 @@ function MobileFilters({ currentRole, currentType, currentLocation, currentQuery
         <MobilePill active={!currentRole} onTap={() => onUpdate('role', '')}>All roles</MobilePill>
         {ROLE_CATEGORIES.map(r => (
           <MobilePill key={r} active={currentRole === r} onTap={() => onUpdate('role', currentRole === r ? '' : r)}>
-            {ROLE_ICONS[r] ? `${ROLE_ICONS[r]} ` : ''}{ROLE_LABELS[r]}
+            <span className="inline-flex items-center gap-1.5"><Icon name={r} className="w-3.5 h-3.5" />{ROLE_LABELS[r]}</span>
           </MobilePill>
         ))}
       </div>

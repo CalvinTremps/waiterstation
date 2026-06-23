@@ -4,10 +4,10 @@ import { useState, useRef } from 'react'
 import { MOCK_APPLICANTS, PIPELINE_STAGES, MOCK_TRIAL_SHIFTS, type Applicant, type PipelineStage, type TrialShift } from '@/lib/mock-recruitment'
 
 const TAGS = [
-  { key: 'top', label: '⭐ Top pick', bg: 'bg-yellow-50 border-yellow-300 text-yellow-800' },
-  { key: 'consider', label: '🔄 Consider later', bg: 'bg-blue-50 border-blue-200 text-blue-700' },
-  { key: 'trial', label: '🎯 Trial scheduled', bg: 'bg-green-50 border-green-200 text-green-700' },
-  { key: 'no', label: '❌ Not a fit', bg: 'bg-red-50 border-red-200 text-red-600' },
+  { key: 'top', label: 'Top pick', bg: 'bg-yellow-50 border-yellow-300 text-yellow-800' },
+  { key: 'consider', label: 'Consider later', bg: 'bg-blue-50 border-blue-200 text-blue-700' },
+  { key: 'trial', label: 'Trial scheduled', bg: 'bg-green-50 border-green-200 text-green-700' },
+  { key: 'no', label: 'Not a fit', bg: 'bg-red-50 border-red-200 text-red-600' },
 ]
 
 const STAGE_COLS: PipelineStage[] = ['new', 'reviewed', 'shortlisted', 'interview', 'offered', 'hired']

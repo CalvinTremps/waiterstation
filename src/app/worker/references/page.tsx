@@ -139,7 +139,7 @@ export default function ReferencesPage() {
           <div className="flex gap-2">
             <button onClick={sendRequest}
               className={`flex-1 py-2.5 rounded-lg text-sm font-semibold transition ${sent ? 'bg-green-600 text-white' : 'bg-gray-900 hover:bg-gray-800 text-white'}`}>
-              {sent ? '✓ Request sent!' : 'Send request'}
+              {sent ? 'Request sent!' : 'Send request'}
             </button>
             <button onClick={() => setShowRequest(false)}
               className="px-4 py-2.5 rounded-lg text-sm font-semibold text-gray-600 bg-gray-100 hover:bg-gray-200 transition">

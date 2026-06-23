@@ -17,12 +17,12 @@ export interface CommunityPost {
 }
 
 export const COMMUNITY_BOWLS = [
-  { label: 'Salary Talk', emoji: '💰' },
-  { label: 'Interview Tips', emoji: '💼' },
-  { label: 'Work Stories', emoji: '📖' },
-  { label: 'Industry News', emoji: '📰' },
-  { label: 'Career Advice', emoji: '🎯' },
-  { label: 'Management Talk', emoji: '👔' },
+  { label: 'Salary Talk', icon: 'money' },
+  { label: 'Interview Tips', icon: 'briefcase' },
+  { label: 'Work Stories', icon: 'book' },
+  { label: 'Industry News', icon: 'newspaper' },
+  { label: 'Career Advice', icon: 'target' },
+  { label: 'Management Talk', icon: 'users' },
 ]
 
 export const MOCK_COMMUNITY_POSTS: CommunityPost[] = [

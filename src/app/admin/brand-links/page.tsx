@@ -56,7 +56,7 @@ export default async function AdminBrandLinksPage() {
               <div className={`rounded-lg px-3 py-2 ${domainMatch ? 'bg-green-50' : 'bg-red-50'}`}>
                 <p className={`font-medium mb-0.5 ${domainMatch ? 'text-green-600' : 'text-red-500'}`}>Domain match</p>
                 <p className={`font-bold ${domainMatch ? 'text-green-700' : 'text-red-600'}`}>
-                  {domainMatch ? '✓ Domains match' : '✗ Mismatch — review carefully'}
+                  {domainMatch ? 'Domains match' : 'Mismatch — review carefully'}
                 </p>
               </div>
             </div>

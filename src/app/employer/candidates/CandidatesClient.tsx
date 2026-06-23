@@ -16,9 +16,9 @@ interface Candidate {
 }
 
 const TAGS = [
-  { key: 'top', label: '⭐ Top pick', bg: 'bg-yellow-50 border-yellow-300 text-yellow-800' },
-  { key: 'consider', label: '🔄 Consider later', bg: 'bg-blue-50 border-blue-200 text-blue-700' },
-  { key: 'no', label: '❌ Not a fit', bg: 'bg-red-50 border-red-200 text-red-600' },
+  { key: 'top', label: 'Top pick', bg: 'bg-yellow-50 border-yellow-300 text-yellow-800' },
+  { key: 'consider', label: 'Consider later', bg: 'bg-blue-50 border-blue-200 text-blue-700' },
+  { key: 'no', label: 'Not a fit', bg: 'bg-red-50 border-red-200 text-red-600' },
 ]
 
 function ScoreBadge({ score }: { score: number }) {

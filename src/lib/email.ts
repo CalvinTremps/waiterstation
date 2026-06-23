@@ -39,7 +39,7 @@ export async function sendNewApplicationEmail({
         <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:16px 20px;margin:20px 0">
           <p style="margin:0 0 8px;font-size:13px;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;font-weight:600">Applicant Details</p>
           <p style="margin:4px 0;font-size:15px;font-weight:600;color:#111827">${applicantName}</p>
-          <p style="margin:4px 0;font-size:14px;color:#374151">📞 <a href="tel:${applicantPhone}" style="color:#059669;text-decoration:none">${applicantPhone}</a></p>
+          <p style="margin:4px 0;font-size:14px;color:#374151"><span style="color:#6b7280">Tel:</span> <a href="tel:${applicantPhone}" style="color:#059669;text-decoration:none">${applicantPhone}</a></p>
           ${message ? `<p style="margin:12px 0 0;font-size:14px;color:#4b5563;font-style:italic">"${message}"</p>` : ''}
         </div>
 

@@ -2,11 +2,12 @@
 
 import { useState } from 'react'
 import { MOCK_INTERVIEWS, Interview } from '@/lib/mock-recruitment'
+import { Icon } from '@/components/Icon'
 
 const TYPE_ICONS: Record<string, string> = {
-  'in-person': '🤝',
-  phone: '📞',
-  video: '💻',
+  'in-person': 'handshake',
+  phone: 'phone',
+  video: 'video',
 }
 
 const OUTCOME_STYLES: Record<string, string> = {
@@ -124,7 +125,7 @@ export default function InterviewsPage() {
 
                     <div className="flex items-center gap-3 mt-2 flex-wrap">
                       <span className="text-sm text-gray-500 flex items-center gap-1">
-                        <span>{TYPE_ICONS[i.type]}</span>
+                        <Icon name={TYPE_ICONS[i.type] ?? 'calendar'} className="w-4 h-4" />
                         <span className="capitalize">{i.type.replace('-', ' ')}</span>
                       </span>
                       <span className="text-sm text-gray-500">{i.time}</span>

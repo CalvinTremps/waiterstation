@@ -4,21 +4,9 @@ import { useState, useMemo } from 'react'
 import { ROLE_CATEGORIES, ROLE_LABELS, EMPLOYMENT_TYPE_LABELS, EmploymentType, RoleCategory } from '@/lib/types'
 import { MOCK_COMPANIES } from '@/lib/mock-companies'
 import { JOB_TEMPLATES } from '@/lib/mock-recruitment'
+import { Icon } from '@/components/Icon'
 
 const EMPLOYMENT_TYPES: EmploymentType[] = ['permanent', 'seasonal', 'event']
-
-const ROLE_ICONS: Record<string, string> = {
-  waiter: '🍽️',
-  chef: '👨‍🍳',
-  kitchen_staff: '🔪',
-  housekeeping: '🛏️',
-  front_desk: '🏨',
-  bartender: '🍸',
-  barista: '☕',
-  host: '🤝',
-  manager: '📋',
-  other: '✨',
-}
 
 const EMPLOYMENT_DESCRIPTIONS: Record<EmploymentType, string> = {
   permanent: 'Ongoing role',
@@ -179,7 +167,6 @@ export default function PostJobForm() {
       <Card step="1" title="What role are you hiring for?" required>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
           {ROLE_CATEGORIES.map(r => {
-            const icon = ROLE_ICONS[r] ?? '✨'
             const selected = role === r
             return (
               <button key={r} type="button" onClick={() => setRole(r === role ? '' : r)}
@@ -188,7 +175,7 @@ export default function PostJobForm() {
                     ? 'border-gray-700 bg-gray-100'
                     : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'
                 }`}>
-                <span className="text-2xl leading-none">{icon}</span>
+                <Icon name={r} className="w-6 h-6 text-gray-700" />
                 <span className={`text-xs font-semibold leading-tight ${selected ? 'text-gray-800' : 'text-gray-700'}`}>
                   {ROLE_LABELS[r]}
                 </span>
@@ -269,7 +256,7 @@ export default function PostJobForm() {
               isFranchise ? 'border-gray-700 bg-gray-100' : 'border-gray-200 bg-white hover:border-gray-300'
             }`}>
             <div className="flex items-center gap-3">
-              <span className="text-xl">🏪</span>
+              <Icon name="building" className="w-5 h-5 text-gray-500" />
               <div className="text-left">
                 <p className={`text-sm font-semibold ${isFranchise ? 'text-gray-900' : 'text-gray-800'}`}>
                   Yes, I'm posting for a franchise / branch

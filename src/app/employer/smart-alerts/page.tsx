@@ -3,12 +3,13 @@
 import { useState } from 'react'
 import { SMART_ALERTS, type SmartAlert } from '@/lib/mock-recruitment'
 import { timeAgoFine as timeAgo } from '@/lib/time'
+import { Icon } from '@/components/Icon'
 
 const TYPE_STYLES: Record<SmartAlert['type'], { icon: string; bg: string; dot: string }> = {
-  new_match:       { icon: '🎯', bg: 'bg-blue-50 border-blue-100',   dot: 'bg-blue-500' },
-  trial_reminder:  { icon: '📅', bg: 'bg-green-50 border-green-100', dot: 'bg-green-500' },
-  offer_expiring:  { icon: '⏰', bg: 'bg-amber-50 border-amber-100', dot: 'bg-amber-500' },
-  pool_suggestion: { icon: '💡', bg: 'bg-purple-50 border-purple-100', dot: 'bg-purple-500' },
+  new_match:       { icon: 'target',    bg: 'bg-blue-50 border-blue-100',   dot: 'bg-blue-500' },
+  trial_reminder:  { icon: 'calendar',  bg: 'bg-green-50 border-green-100', dot: 'bg-green-500' },
+  offer_expiring:  { icon: 'clock',     bg: 'bg-amber-50 border-amber-100', dot: 'bg-amber-500' },
+  pool_suggestion: { icon: 'lightbulb', bg: 'bg-purple-50 border-purple-100', dot: 'bg-purple-500' },
 }
 
 
@@ -78,7 +79,7 @@ export default function SmartAlertsPage() {
                 onClick={() => markRead(alert.id)}
               >
                 <div className="flex gap-3">
-                  <span className="text-xl shrink-0 mt-0.5">{style.icon}</span>
+                  <Icon name={style.icon} className="w-5 h-5 shrink-0 mt-0.5 text-gray-600" />
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2">
                       <div className="flex items-center gap-2 flex-wrap">

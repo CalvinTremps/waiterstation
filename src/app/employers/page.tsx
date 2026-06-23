@@ -342,7 +342,7 @@ function FeatureTabs() {
                 <>
                   <div className="flex items-center justify-between p-3 bg-gray-100 border border-gray-200 rounded-lg">
                     <div>
-                      <div className="text-xs font-bold text-gray-900">Waiter hired! 🎉</div>
+                      <div className="text-xs font-bold text-gray-900">Waiter hired!</div>
                       <div className="text-[10px] text-gray-900 mt-0.5">Senior Waiter · Cape Town</div>
                     </div>
                     <div className="text-[10px] text-gray-900 font-medium">48h</div>

@@ -12,6 +12,7 @@ import ApplyButton from './ApplyButton'
 import RelatedJobs from '@/components/RelatedJobs'
 import CompanyBadge from '@/components/CompanyBadge'
 import ClaimedBadge from '@/components/ClaimedBadge'
+import { Icon } from '@/components/Icon'
 
 async function getJob(id: string) {
   try {
@@ -149,12 +150,12 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
           <h2 className="text-base font-bold text-gray-900 mb-3">Company overview</h2>
           <div className="flex flex-wrap gap-x-5 gap-y-3 mb-4">
             {[
-              { icon: '🏢', label: 'Size', value: co?.size ?? 'Not listed' },
-              { icon: '📍', label: 'Location', value: job.location },
-              { icon: '🏷️', label: 'Industry', value: co?.industry ?? job.category_label ?? 'Hospitality' },
+              { icon: 'building', label: 'Size', value: co?.size ?? 'Not listed' },
+              { icon: 'location', label: 'Location', value: job.location },
+              { icon: 'tag', label: 'Industry', value: co?.industry ?? job.category_label ?? 'Hospitality' },
             ].map(s => (
               <div key={s.label} className="flex items-center gap-2">
-                <span className="text-base">{s.icon}</span>
+                <Icon name={s.icon} className="w-4 h-4 text-gray-400" />
                 <div>
                   <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wide leading-none">{s.label}</p>
                   <p className="text-sm font-semibold text-gray-800 mt-0.5">{s.value}</p>

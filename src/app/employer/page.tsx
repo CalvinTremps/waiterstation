@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { EMPLOYER_JOBS, MOCK_APPLICANTS, MOCK_INTERVIEWS, PIPELINE_STAGES, SMART_ALERTS } from '@/lib/mock-recruitment'
 import { timeAgoDays as timeAgo } from '@/lib/time'
+import { Icon } from '@/components/Icon'
 
 const stageCounts = PIPELINE_STAGES.map(s => ({
   ...s,
@@ -91,10 +92,10 @@ export default function EmployerDashboard() {
 
       {/* Stats row */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        <StatCard label="Live Listings" value={liveJobs.length} sub="of 6 total" icon="📋" color="text-gray-900" />
-        <StatCard label="Total Applicants" value={totalApplicants} sub="across all listings" icon="👥" color="text-blue-600" />
-        <StatCard label="Total Views" value={totalViews} sub="last 30 days" icon="👁️" color="text-purple-600" />
-        <StatCard label="Interviews Booked" value={upcomingInterviews.length} sub="coming up" icon="📅" color="text-amber-600" />
+        <StatCard label="Live Listings" value={liveJobs.length} sub="of 6 total" icon="clipboard" color="text-gray-900" />
+        <StatCard label="Total Applicants" value={totalApplicants} sub="across all listings" icon="users" color="text-blue-600" />
+        <StatCard label="Total Views" value={totalViews} sub="last 30 days" icon="eye" color="text-purple-600" />
+        <StatCard label="Interviews Booked" value={upcomingInterviews.length} sub="coming up" icon="calendar" color="text-amber-600" />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
@@ -221,7 +222,7 @@ function StatCard({ label, value, sub, icon, color }: {
     <div className="bg-white border border-gray-200 rounded-xl p-4">
       <div className="flex items-center justify-between mb-2">
         <p className="text-xs text-gray-500 font-medium">{label}</p>
-        <span className="text-lg">{icon}</span>
+        <Icon name={icon} className={`w-5 h-5 ${color}`} />
       </div>
       <p className={`text-2xl font-bold ${color}`}>{value}</p>
       <p className="text-xs text-gray-400 mt-0.5">{sub}</p>

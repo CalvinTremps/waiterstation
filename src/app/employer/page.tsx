@@ -110,15 +110,31 @@ export default function EmployerDashboard() {
             <h2 className="font-semibold text-gray-900">Pipeline</h2>
             <a href="/employer/applicants" className="text-xs text-gray-900 font-medium hover:underline">View all</a>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
-            {stageCounts.filter(s => !['hired','rejected'].includes(s.key)).map(s => (
-              <a key={s.key} href="/employer/applicants"
-                className="text-center bg-white hover:bg-gray-100 rounded-xl p-4 transition cursor-pointer">
-                <p className="text-2xl font-bold text-gray-900">{s.count}</p>
-                <p className="text-xs text-gray-500 mt-1">{s.label}</p>
-              </a>
-            ))}
-          </div>
+          {/* Funnel */}
+          {(() => {
+            const stages = stageCounts.filter(s => !['hired','rejected'].includes(s.key))
+            const max = Math.max(...stages.map(s => s.count), 1)
+            return (
+              <div className="flex items-end gap-2 mb-6">
+                {stages.map((s, i) => {
+                  const barH = Math.max(12, Math.round((s.count / max) * 48))
+                  return (
+                    <a key={s.key} href="/employer/applicants"
+                      className="flex-1 flex flex-col items-center gap-1.5 group cursor-pointer">
+                      <span className="text-sm font-bold text-gray-900">{s.count}</span>
+                      <div className="w-full rounded-t-md transition-all"
+                        style={{
+                          height: `${barH}px`,
+                          background: i === 0 ? '#e5e7eb' : i === stages.length - 1 ? '#111827' : `hsl(${220 - i * 20}, 70%, ${75 - i * 8}%)`
+                        }}
+                      />
+                      <span className="text-[11px] text-gray-500 font-medium group-hover:text-gray-800 transition truncate w-full text-center">{s.label}</span>
+                    </a>
+                  )
+                })}
+              </div>
+            )
+          })()}
 
           {/* Recent applicants */}
           <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">Recent applicants</p>

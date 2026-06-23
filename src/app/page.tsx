@@ -12,9 +12,19 @@ interface SearchParams {
   payOnly?: string
 }
 
+function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T | null> {
+  return Promise.race([
+    promise,
+    new Promise<null>(resolve => setTimeout(() => resolve(null), ms)),
+  ])
+}
+
 export default async function HomePage({ searchParams }: { searchParams: Promise<SearchParams> }) {
   const params = await searchParams
-  const [supabase, session] = await Promise.all([createServerClient(), getSession()])
+  const supabase = await createServerClient()
+
+  let session = null
+  try { session = await withTimeout(getSession(), 3000) } catch {}
 
   let query = supabase
     .from('jobs')
@@ -28,13 +38,22 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
   if (params.q) query = query.or(`title.ilike.%${params.q}%,description.ilike.%${params.q}%`)
   if (params.payOnly === '1') query = query.not('pay', 'is', null).neq('pay', '')
 
-  const { data: dbJobs, error } = await query.limit(100)
+  let dbJobs: Job[] | null = null
+  let error: unknown = null
+  try {
+    const res = await withTimeout(query.limit(100), 4000)
+    dbJobs = res?.data ?? null
+    error = res?.error ?? null
+  } catch { error = true }
 
   // Get total count of live jobs for the counter
   let totalLive = 0
   try {
-    const { count } = await supabase.from('jobs').select('*', { count: 'exact', head: true }).eq('status', 'approved')
-    totalLive = count ?? 0
+    const res = await withTimeout(
+      supabase.from('jobs').select('*', { count: 'exact', head: true }).eq('status', 'approved'),
+      3000
+    )
+    totalLive = res?.count ?? 0
   } catch {}
 
   let jobs: Job[]
@@ -78,7 +97,7 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
     <>
       {/* Mobile-only hero */}
       <div className="md:hidden text-white px-5 pt-10 pb-14" style={{ background: 'linear-gradient(135deg, #064e3b 0%, #065f46 40%, #047857 100%)' }}>
-        <p className="text-gray-300 text-xs font-semibold uppercase tracking-widest mb-2">South Africa's hospitality job board</p>
+        <p className="text-gray-300 text-xs font-semibold uppercase tracking-widest mb-2">South Africa&apos;s hospitality job board</p>
         <h1 className="text-[28px] font-bold leading-tight tracking-tight">Find your next hospitality job</h1>
         <p className="text-gray-100/90 mt-2.5 text-sm leading-relaxed">
           {totalLive > 0 && <><span className="font-bold text-white">{totalLive.toLocaleString()} open positions</span>{' '}</>}

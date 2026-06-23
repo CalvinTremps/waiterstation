@@ -11,9 +11,21 @@ import ApplyModal from './ApplyModal'
 const EMPLOYMENT_TYPES: EmploymentType[] = ['permanent', 'seasonal', 'event']
 
 const EMP_COLORS: Record<string, string> = {
-  permanent: 'bg-gray-100 text-gray-800',
+  permanent: 'bg-gray-100 text-gray-700',
   seasonal:  'bg-blue-50 text-blue-700',
   event:     'bg-purple-50 text-purple-700',
+}
+
+const ROLE_ICONS: Record<string, string> = {
+  waiter: '🍽️',
+  bartender: '🍸',
+  chef: '👨‍🍳',
+  kitchen: '🔪',
+  hotel: '🏨',
+  barista: '☕',
+  host: '🤝',
+  manager: '📋',
+  other: '⭐',
 }
 
 function timeAgo(dateStr: string) {
@@ -42,6 +54,19 @@ function StarRating({ rating, count }: { rating: number; count?: number }) {
       </div>
       <span className="text-xs font-semibold text-gray-700">{rating.toFixed(1)}</span>
       {count !== undefined && <span className="text-xs text-gray-400">({count})</span>}
+    </div>
+  )
+}
+
+function Stars({ rating, size = 'sm' }: { rating: number; size?: 'sm' | 'md' | 'lg' }) {
+  const sz = size === 'lg' ? 'w-5 h-5' : size === 'md' ? 'w-4 h-4' : 'w-3 h-3'
+  return (
+    <div className="flex gap-0.5">
+      {[1,2,3,4,5].map(i => (
+        <svg key={i} className={`${sz} ${i <= Math.round(rating) ? 'text-amber-400' : 'text-gray-200'}`} fill="currentColor" viewBox="0 0 20 20">
+          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+        </svg>
+      ))}
     </div>
   )
 }
@@ -145,11 +170,36 @@ export default function JobBrowser({
       </div>
 
       {/* ── DESKTOP ── */}
-      <div className="hidden md:flex flex-col bg-white" style={{ height: 'calc(100vh - var(--header-height))' }}>
+      <div className="hidden md:flex flex-col bg-gray-50" style={{ height: 'calc(100vh - var(--header-height))' }}>
 
-        {/* Search + filters */}
-        <div className="bg-white shrink-0 px-6 pt-6 pb-0">
-          <div className="max-w-[1440px] mx-auto">
+        {/* ── Hero strip ── */}
+        <div className="bg-white border-b border-gray-100 shrink-0">
+          <div className="max-w-[1440px] mx-auto px-6 pt-5 pb-4">
+            <div className="flex items-end justify-between gap-4 mb-4">
+              <div>
+                <h1 className="text-2xl font-extrabold text-gray-900 tracking-tight leading-tight">
+                  Hospitality jobs in South Africa
+                </h1>
+                <p className="text-sm text-gray-500 mt-1">
+                  {totalLive > 0
+                    ? <><span className="font-semibold text-gray-800">{totalLive.toLocaleString()} open positions</span> · Apply in seconds, no CV required</>
+                    : 'Find your next role in hospitality'
+                  }
+                </p>
+              </div>
+              <div className="hidden lg:flex items-center gap-3 shrink-0 pb-0.5">
+                <a href="/auth/signup"
+                  className="text-xs font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg transition">
+                  Create free account
+                </a>
+                <a href="/post-job"
+                  className="text-xs font-semibold text-white bg-gray-900 hover:bg-gray-800 px-4 py-2 rounded-lg transition">
+                  Post a job
+                </a>
+              </div>
+            </div>
+
+            {/* Search bar */}
             <DesktopSearchBar
               currentRole={currentRole}
               currentLocation={currentLocation}
@@ -164,22 +214,41 @@ export default function JobBrowser({
                 router.push(`/?${next.toString()}`)
               }}
             />
-            {/* Row 1: Employment type tabs */}
-            <div className="flex items-center mt-4">
-              {([['', 'All jobs'], ...EMPLOYMENT_TYPES.map(t => [t, t === 'event' ? 'Event' : EMPLOYMENT_TYPE_LABELS[t]])] as Array<[string, string]>).map(([val, label]) => (
-                <button key={val || 'all'} onClick={() => updateFilter('type', val)}
-                  className={`text-sm py-3.5 px-5 border-b-2 transition whitespace-nowrap font-medium ${
-                    currentType === val
-                      ? 'border-gray-900 text-gray-800'
-                      : 'border-transparent text-gray-500 hover:text-gray-800'
+
+            {/* Role category pills */}
+            <div className="flex items-center gap-2 mt-3 overflow-x-auto scroll-no-bar -mx-1 px-1 pb-0.5">
+              <button onClick={() => updateFilter('role', '')}
+                className={`shrink-0 flex items-center gap-1.5 text-xs font-semibold px-3.5 py-1.5 rounded-full border transition whitespace-nowrap ${
+                  !currentRole ? 'bg-gray-900 text-white border-gray-900' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400 hover:text-gray-800'
+                }`}>
+                All roles
+              </button>
+              {ROLE_CATEGORIES.map(r => (
+                <button key={r} onClick={() => updateFilter('role', currentRole === r ? '' : r)}
+                  className={`shrink-0 flex items-center gap-1.5 text-xs font-semibold px-3.5 py-1.5 rounded-full border transition whitespace-nowrap ${
+                    currentRole === r ? 'bg-gray-900 text-white border-gray-900' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400 hover:text-gray-800'
                   }`}>
-                  {label}
+                  <span>{ROLE_ICONS[r] ?? '⭐'}</span>
+                  {ROLE_LABELS[r]}
                 </button>
               ))}
             </div>
 
-            {/* Results count + pay toggle */}
-            <div className="flex items-center justify-end gap-3 py-3">
+            {/* Employment type tabs + pay toggle + count */}
+            <div className="flex items-center justify-between mt-2">
+              <div className="flex items-center gap-0.5">
+                {([['', 'All'] as [string, string], ...EMPLOYMENT_TYPES.map(t => [t, t === 'event' ? 'Events' : EMPLOYMENT_TYPE_LABELS[t]] as [string, string])]).map(([val, label]) => (
+                  <button key={val || 'all'} onClick={() => updateFilter('type', val)}
+                    className={`text-xs py-2.5 px-4 border-b-2 transition whitespace-nowrap font-semibold ${
+                      currentType === val
+                        ? 'border-gray-900 text-gray-900'
+                        : 'border-transparent text-gray-400 hover:text-gray-700'
+                    }`}>
+                    {label}
+                  </button>
+                ))}
+              </div>
+              <div className="flex items-center gap-3">
                 <label className="flex items-center gap-1.5 cursor-pointer select-none">
                   <input type="checkbox" checked={payOnly}
                     onChange={e => {
@@ -199,6 +268,7 @@ export default function JobBrowser({
                 {hasFilters && (
                   <button onClick={clearFilters} className="text-xs text-gray-800 font-semibold hover:underline">Clear</button>
                 )}
+              </div>
             </div>
           </div>
         </div>
@@ -207,23 +277,24 @@ export default function JobBrowser({
         <div className="flex flex-1 min-h-0 max-w-[1440px] mx-auto w-full">
 
           {/* LEFT: job list */}
-          <div className="w-[400px] shrink-0 overflow-y-auto bg-white scrollbar-thin">
+          <div className="w-[480px] shrink-0 overflow-y-auto scrollbar-thin border-r border-gray-200 bg-white">
             {jobs.length === 0 && <EmptyState onClear={clearFilters} hasFilters={!!hasFilters} />}
-            <div className="p-3 space-y-2">
-              {jobs.slice(0, visibleCount).map(job => (
+            <div className="p-3 space-y-1.5">
+              {jobs.slice(0, visibleCount).map((job, idx) => (
                 <DesktopJobCard
                   key={job.id}
                   job={job}
                   selected={selectedId === job.id}
                   saved={savedIds.has(job.id)}
+                  featured={idx === 0 && !hasFilters}
                   onSelect={() => setSelectedId(job.id)}
                   onToggleSave={e => { e.stopPropagation(); toggleSave(job.id) }}
                 />
               ))}
               {visibleCount < jobs.length && (
-                <div className="text-center py-3">
+                <div className="text-center py-4">
                   <button onClick={() => setVisibleCount(c => c + 20)}
-                    className="text-sm font-medium text-gray-800 hover:underline">
+                    className="text-sm font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 px-5 py-2 rounded-full transition">
                     Show {Math.min(jobs.length - visibleCount, 20)} more
                   </button>
                 </div>
@@ -232,10 +303,10 @@ export default function JobBrowser({
           </div>
 
           {/* RIGHT: detail panel */}
-          <div className="flex-1 overflow-y-auto bg-white p-4 scrollbar-thin">
+          <div className="flex-1 overflow-y-auto bg-gray-50 p-5 scrollbar-thin">
             {selected
               ? (
-                <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden h-full">
+                <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden">
                   <DesktopJobDetail job={selected} isLoggedIn={isLoggedIn} />
                 </div>
               )
@@ -263,57 +334,42 @@ function DesktopSearchBar({ currentRole, currentLocation, currentQuery, onSearch
   currentRole: string; currentLocation: string; currentQuery: string
   onSearch: (role: string, query: string, location: string) => void
 }) {
-  const [role, setRole] = useState(currentRole)
   const [query, setQuery] = useState(currentQuery)
   const [location, setLocation] = useState(currentLocation)
 
-  // Keep inputs in sync when URL-driven props change
-  useEffect(() => { setRole(currentRole) }, [currentRole])
   useEffect(() => { setQuery(currentQuery) }, [currentQuery])
   useEffect(() => { setLocation(currentLocation) }, [currentLocation])
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    onSearch(role, query, location)
+    onSearch(currentRole, query, location)
   }
 
   return (
     <form onSubmit={handleSubmit}
-      className="flex items-center w-full max-w-3xl bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
-      {/* Role */}
-      <div className="flex items-center gap-2 px-4 h-11 shrink-0" style={{ width: 190 }}>
-        <svg className="w-4 h-4 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-        </svg>
-        <select value={role} onChange={e => setRole(e.target.value)}
-          className="flex-1 text-sm text-gray-700 bg-transparent focus:outline-none appearance-none cursor-pointer">
-          <option value="">All roles</option>
-          {ROLE_CATEGORIES.map(r => <option key={r} value={r}>{ROLE_LABELS[r]}</option>)}
-        </select>
-      </div>
-      <div className="w-px h-6 bg-gray-200 shrink-0" />
+      className="flex items-center w-full bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden hover:border-gray-300 transition">
       {/* Keyword */}
-      <div className="flex items-center gap-2 px-4 h-11 flex-1 min-w-0">
+      <div className="flex items-center gap-2.5 px-4 h-12 flex-1 min-w-0">
         <svg className="w-4 h-4 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
           <circle cx="11" cy="11" r="8"/><path strokeLinecap="round" d="M21 21l-4.35-4.35"/>
         </svg>
         <input type="text" value={query} onChange={e => setQuery(e.target.value)}
-          placeholder="Job title or keyword…"
-          className="flex-1 text-sm text-gray-700 placeholder:text-gray-400 bg-transparent focus:outline-none min-w-0" />
+          placeholder="Job title, keyword…"
+          className="flex-1 text-sm text-gray-800 placeholder:text-gray-400 bg-transparent focus:outline-none min-w-0 font-medium" />
       </div>
       <div className="w-px h-6 bg-gray-200 shrink-0" />
       {/* Location */}
-      <div className="flex items-center gap-2 px-4 h-11 flex-1 min-w-0">
+      <div className="flex items-center gap-2.5 px-4 h-12 flex-1 min-w-0">
         <svg className="w-4 h-4 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
           <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
         </svg>
         <input type="text" value={location} onChange={e => setLocation(e.target.value)}
           placeholder="City or province…"
-          className="flex-1 text-sm text-gray-700 placeholder:text-gray-400 bg-transparent focus:outline-none min-w-0" />
+          className="flex-1 text-sm text-gray-800 placeholder:text-gray-400 bg-transparent focus:outline-none min-w-0 font-medium" />
       </div>
       <button type="submit"
-        className="bg-gray-900 hover:bg-gray-800 transition text-white text-sm font-semibold px-6 h-11 shrink-0 flex items-center gap-2">
+        className="bg-gray-900 hover:bg-gray-800 transition text-white text-sm font-semibold px-7 h-12 shrink-0 flex items-center gap-2">
         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <circle cx="11" cy="11" r="8"/><path strokeLinecap="round" d="M21 21l-4.35-4.35"/>
         </svg>
@@ -325,41 +381,49 @@ function DesktopSearchBar({ currentRole, currentLocation, currentQuery, onSearch
 
 // ─── Desktop job card (left panel) ────────────────────────────────────────────
 
-function DesktopJobCard({ job, selected, saved, onSelect, onToggleSave }: {
-  job: Job; selected: boolean; saved: boolean
+function DesktopJobCard({ job, selected, saved, featured, onSelect, onToggleSave }: {
+  job: Job; selected: boolean; saved: boolean; featured?: boolean
   onSelect: () => void; onToggleSave: (e: React.MouseEvent) => void
 }) {
   const co = MOCK_COMPANIES.find(c => c.name === job.employer_name)
+  const fresh = isNew(job.created_at)
 
   return (
     <div role="button" tabIndex={0} onClick={onSelect}
       onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') onSelect() }}
-      className={`w-full text-left rounded-xl border p-4 transition-all group cursor-pointer ${
+      className={`w-full text-left rounded-xl border p-4 transition-all cursor-pointer group relative ${
         selected
-          ? 'border-gray-500 bg-white shadow-md'
+          ? 'border-gray-900 bg-gray-50 shadow-sm'
           : 'border-gray-200 bg-white hover:border-gray-300 hover:shadow-sm'
       }`}>
+
+      {/* Selected accent bar */}
+      {selected && (
+        <div className="absolute left-0 top-3 bottom-3 w-0.5 bg-gray-900 rounded-r-full" />
+      )}
+
       <div className="flex items-start gap-3">
-        <CompanyBadge name={job.employer_name} size="sm" logoUrl={co?.logo_url} />
+        {/* Company badge */}
+        <div className="shrink-0 mt-0.5">
+          <CompanyBadge name={job.employer_name} size="md" logoUrl={co?.logo_url} />
+        </div>
+
         <div className="flex-1 min-w-0">
-          {/* Top row: company + time + save */}
-          <div className="flex items-center justify-between gap-2 mb-0.5">
-            <div className="flex items-center gap-1.5 min-w-0">
-              <p className="text-xs text-gray-500 truncate leading-none">{job.employer_name}</p>
-              {job.franchise_name && job.brand_link_status === 'approved' && (
-                <span className="text-[10px] font-semibold bg-purple-100 text-purple-700 px-1.5 py-0.5 rounded-full shrink-0">Franchise</span>
-              )}
-            </div>
+          {/* Top row */}
+          <div className="flex items-start justify-between gap-2 mb-1">
+            <p className="text-[11px] text-gray-400 truncate leading-none">{job.employer_name}</p>
             <div className="flex items-center gap-1.5 shrink-0">
-              {isNew(job.created_at) && (
-                <span className="text-[10px] font-bold text-gray-800 bg-gray-100 px-1.5 py-0.5 rounded">New</span>
+              {fresh && (
+                <span className="text-[10px] font-bold bg-emerald-50 text-emerald-700 px-1.5 py-0.5 rounded-full leading-none">New</span>
+              )}
+              {featured && !fresh && (
+                <span className="text-[10px] font-bold bg-amber-50 text-amber-700 px-1.5 py-0.5 rounded-full leading-none">Featured</span>
               )}
               <span className="text-[11px] text-gray-400">{timeAgo(job.created_at)}</span>
               <button onClick={onToggleSave}
-                className="p-0.5 text-gray-300 hover:text-gray-700 transition opacity-0 group-hover:opacity-100">
+                className={`p-0.5 transition ${saved ? 'text-gray-900' : 'text-gray-200 hover:text-gray-500 opacity-0 group-hover:opacity-100'}`}>
                 <svg className="w-3.5 h-3.5" fill={saved ? 'currentColor' : 'none'}
-                  viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
-                  style={{ color: saved ? '#10b981' : undefined }}>
+                  viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
                 </svg>
               </button>
@@ -367,33 +431,31 @@ function DesktopJobCard({ job, selected, saved, onSelect, onToggleSave }: {
           </div>
 
           {/* Title */}
-          <p className="font-semibold text-sm text-gray-900 leading-snug line-clamp-2 mb-1">{job.title}</p>
+          <p className={`font-semibold text-sm leading-snug line-clamp-2 mb-2 ${selected ? 'text-gray-900' : 'text-gray-800'}`}>
+            {job.title}
+          </p>
 
-          {/* Location */}
-          <div className="flex items-center gap-1 text-xs text-gray-500 mb-2">
-            <svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-            </svg>
-            <span className="truncate">{job.location}</span>
-          </div>
-
-          {/* Tags row */}
-          <div className="flex items-center gap-1.5 flex-wrap">
+          {/* Location + type */}
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="flex items-center gap-1 text-xs text-gray-500">
+              <svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+              </svg>
+              <span className="truncate max-w-[130px]">{job.location}</span>
+            </span>
             <span className={`text-[11px] font-medium px-2 py-0.5 rounded-full ${EMP_COLORS[job.employment_type] ?? 'bg-gray-100 text-gray-600'}`}>
               {job.employment_type === 'event' ? 'Event' : EMPLOYMENT_TYPE_LABELS[job.employment_type]}
             </span>
             {job.pay && (
-              <span className="text-[11px] font-semibold text-gray-800 bg-gray-100 px-2 py-0.5 rounded-full">
-                {job.pay}
-              </span>
+              <span className="text-xs font-bold text-gray-900">{job.pay}</span>
             )}
           </div>
 
-          {/* Rating */}
+          {/* Company rating */}
           {co && (
             <div className="mt-2">
-              <StarRating rating={co.overall_rating} />
+              <StarRating rating={co.overall_rating} count={co.reviews.length} />
             </div>
           )}
         </div>
@@ -416,19 +478,6 @@ function RatingBar({ label, value }: { label: string; value: number }) {
   )
 }
 
-function Stars({ rating, size = 'sm' }: { rating: number; size?: 'sm' | 'md' | 'lg' }) {
-  const sz = size === 'lg' ? 'w-5 h-5' : size === 'md' ? 'w-4 h-4' : 'w-3 h-3'
-  return (
-    <div className="flex gap-0.5">
-      {[1,2,3,4,5].map(i => (
-        <svg key={i} className={`${sz} ${i <= Math.round(rating) ? 'text-amber-400' : 'text-gray-200'}`} fill="currentColor" viewBox="0 0 20 20">
-          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-        </svg>
-      ))}
-    </div>
-  )
-}
-
 function DesktopJobDetail({ job, isLoggedIn }: { job: Job; isLoggedIn: boolean }) {
   const [showApply, setShowApply] = useState(false)
   const [descExpanded, setDescExpanded] = useState(false)
@@ -444,17 +493,16 @@ function DesktopJobDetail({ job, isLoggedIn }: { job: Job; isLoggedIn: boolean }
     setShowApply(true)
   }
 
-  const descLines = job.description?.split('\n') ?? []
   const longDesc = job.description && job.description.length > 400
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col">
       {showApply && <ApplyModal job={job} onClose={() => setShowApply(false)} />}
 
-      {/* ── Sticky header ── */}
-      <div className="sticky top-0 bg-white z-10 px-7 pt-6 pb-5">
+      {/* ── Header ── */}
+      <div className="px-7 pt-6 pb-5 border-b border-gray-100">
         <div className="flex items-start justify-between gap-4">
-          <div className="flex items-start gap-3 min-w-0">
+          <div className="flex items-start gap-4 min-w-0">
             <CompanyBadge name={job.employer_name} size="lg" logoUrl={co?.logo_url} />
             <div className="min-w-0">
               <div className="flex items-center gap-2 mb-0.5">
@@ -463,14 +511,26 @@ function DesktopJobDetail({ job, isLoggedIn }: { job: Job; isLoggedIn: boolean }
               </div>
               <h1 className="text-xl font-extrabold text-gray-900 leading-tight">{job.title}</h1>
               <div className="flex flex-wrap items-center gap-2 mt-1.5">
-                <span className="text-xs text-gray-500">{job.location}</span>
-                <span className="text-gray-300 text-xs">·</span>
+                <span className="flex items-center gap-1 text-xs text-gray-500">
+                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                  </svg>
+                  {job.location}
+                </span>
+                <span className="text-gray-200">·</span>
                 <span className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full ${EMP_COLORS[job.employment_type] ?? 'bg-gray-100 text-gray-600'}`}>
                   {job.employment_type === 'event' ? 'Event / Once-off' : EMPLOYMENT_TYPE_LABELS[job.employment_type]}
                 </span>
+                {job.pay && (
+                  <>
+                    <span className="text-gray-200">·</span>
+                    <span className="text-sm font-bold text-gray-900">{job.pay}</span>
+                  </>
+                )}
                 {co && (
                   <>
-                    <span className="text-gray-300 text-xs">·</span>
+                    <span className="text-gray-200">·</span>
                     <div className="flex items-center gap-1">
                       <Stars rating={co.overall_rating} size="sm" />
                       <span className="text-xs font-bold text-gray-700">{co.overall_rating.toFixed(1)}</span>
@@ -479,48 +539,50 @@ function DesktopJobDetail({ job, isLoggedIn }: { job: Job; isLoggedIn: boolean }
                   </>
                 )}
               </div>
+              <p className="text-xs text-gray-400 mt-2">Posted {postedDate}</p>
             </div>
           </div>
-          <div className="flex flex-col items-end gap-2 shrink-0">
+          <div className="flex items-center gap-2 shrink-0">
+            {job.source_url && (
+              <a href={job.source_url} target="_blank" rel="noopener noreferrer"
+                className="text-xs text-gray-400 hover:text-gray-600 bg-gray-100 hover:bg-gray-200 px-3 py-2 rounded-lg transition">
+                View original ↗
+              </a>
+            )}
             <button onClick={handleApply}
               className="bg-gray-900 hover:bg-gray-800 text-white font-bold px-6 py-2.5 rounded-xl text-sm transition">
               Apply now
             </button>
-            {job.source_url && (
-              <a href={job.source_url} target="_blank" rel="noopener noreferrer"
-                className="text-[11px] text-gray-400 hover:text-gray-600 hover:underline">
-                View original ↗
-              </a>
-            )}
           </div>
         </div>
       </div>
 
-      {/* ── Single scrolling body ── */}
-      <div className="flex-1 overflow-y-auto">
+      {/* ── Body ── */}
+      <div className="overflow-y-auto">
 
-        {/* ── Job description ── */}
-        <section className="px-7 pb-8">
-          {!isLoggedIn && (
-            <div className="mb-5 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-500">
-              <a href="/auth/login?next=/" className="font-semibold text-gray-900 hover:underline">Sign in</a> or{' '}
-              <a href="/auth/login?next=/" className="font-semibold text-gray-900 hover:underline">create a free account</a> to apply — takes 30 seconds.
-            </div>
-          )}
+        {/* Sign in nudge */}
+        {!isLoggedIn && (
+          <div className="mx-7 mt-5 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-500">
+            <a href="/auth/login?next=/" className="font-semibold text-gray-900 hover:underline">Sign in</a> or{' '}
+            <a href="/auth/login?next=/" className="font-semibold text-gray-900 hover:underline">create a free account</a> to apply — takes 30 seconds.
+          </div>
+        )}
 
+        {/* Description */}
+        <section className="px-7 pt-6 pb-8">
           <h2 className="text-base font-bold text-gray-900 mb-3">Job description</h2>
-          <div className={`text-sm text-gray-700 leading-relaxed whitespace-pre-wrap ${!descExpanded && longDesc ? 'line-clamp-6' : ''}`}>
+          <div className={`text-sm text-gray-700 leading-relaxed whitespace-pre-wrap ${!descExpanded && longDesc ? 'line-clamp-8' : ''}`}>
             {job.description}
           </div>
           {longDesc && (
             <button onClick={() => setDescExpanded(v => !v)}
-              className="mt-2 text-sm font-semibold text-gray-900 hover:underline">
-              {descExpanded ? 'Show less' : 'Show more ↓'}
+              className="mt-3 text-sm font-semibold text-gray-900 hover:underline flex items-center gap-1">
+              {descExpanded ? 'Show less ↑' : 'Show full description ↓'}
             </button>
           )}
         </section>
 
-        {/* ── Pay details ── */}
+        {/* Pay */}
         {job.pay && (
           <section className="px-7 pb-8">
             <h2 className="text-base font-bold text-gray-900 mb-3">Pay details</h2>
@@ -529,16 +591,16 @@ function DesktopJobDetail({ job, isLoggedIn }: { job: Job; isLoggedIn: boolean }
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
               </svg>
               <div>
-                <p className="text-xl font-extrabold text-gray-900">{job.pay}</p>
+                <p className="text-2xl font-extrabold text-gray-900">{job.pay}</p>
                 <p className="text-xs text-gray-500 mt-0.5">As listed by employer</p>
               </div>
             </div>
           </section>
         )}
 
-        {/* ── Company overview ── */}
+        {/* Company overview */}
         <section className="px-7 pb-8">
-          <h2 className="text-base font-bold text-gray-900 mb-3">Company overview</h2>
+          <h2 className="text-base font-bold text-gray-900 mb-3">About {job.employer_name}</h2>
           <div className="flex flex-wrap gap-x-6 gap-y-3 mb-4">
             {[
               { icon: '🏢', label: 'Size', value: co?.size ?? 'Not listed' },
@@ -567,7 +629,7 @@ function DesktopJobDetail({ job, isLoggedIn }: { job: Job; isLoggedIn: boolean }
           )}
         </section>
 
-        {/* ── Ratings ── */}
+        {/* Ratings */}
         <section className="px-7 pb-8">
           <h2 className="text-base font-bold text-gray-900 mb-4">{job.employer_name} ratings</h2>
           {co ? (
@@ -593,37 +655,27 @@ function DesktopJobDetail({ job, isLoggedIn }: { job: Job; isLoggedIn: boolean }
           )}
         </section>
 
-        {/* ── Benefits ── */}
+        {/* Benefits */}
         <section className="px-7 pb-8">
-          <h2 className="text-base font-bold text-gray-900 mb-3">{job.employer_name} benefits</h2>
+          <h2 className="text-base font-bold text-gray-900 mb-3">Benefits</h2>
           {co ? (
-            <>
-              <div className="flex items-center gap-2 mb-4">
-                <Stars rating={co.overall_rating} size="sm" />
-                <span className="text-xs font-bold text-gray-700">{co.overall_rating.toFixed(1)}</span>
-                <span className="text-xs text-gray-400">{co.reviews.length} ratings</span>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {co.benefits.map(b => (
-                  <span key={b} className="inline-flex items-center gap-1.5 text-xs font-medium text-gray-700 bg-gray-100 px-3 py-1.5 rounded-full">
-                    <svg className="w-3 h-3 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/>
-                    </svg>
-                    {b}
-                  </span>
-                ))}
-              </div>
-            </>
-          ) : (
-            <div className="bg-gray-50 rounded-2xl px-5 py-6 text-center">
-              <p className="text-sm font-semibold text-gray-700 mb-1">Benefits not listed</p>
-              <p className="text-xs text-gray-400">This employer hasn&apos;t added benefits information yet.</p>
+            <div className="flex flex-wrap gap-2">
+              {co.benefits.map(b => (
+                <span key={b} className="inline-flex items-center gap-1.5 text-xs font-medium text-gray-700 bg-gray-100 px-3 py-1.5 rounded-full">
+                  <svg className="w-3 h-3 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/>
+                  </svg>
+                  {b}
+                </span>
+              ))}
             </div>
+          ) : (
+            <p className="text-sm text-gray-400 italic">Benefits not listed by this employer.</p>
           )}
         </section>
 
-        {/* ── Reviews ── */}
-        <section className="px-7 pb-10">
+        {/* Reviews */}
+        <section className="px-7 pb-6">
           <h2 className="text-base font-bold text-gray-900 mb-4">Employee reviews</h2>
           {co ? (
             <>
@@ -665,11 +717,15 @@ function DesktopJobDetail({ job, isLoggedIn }: { job: Job; isLoggedIn: boolean }
           )}
         </section>
 
-        {/* ── Bottom apply CTA ── */}
-        <div className="px-7 pb-10">
+        {/* ── Sticky Apply CTA ── */}
+        <div className="sticky bottom-0 bg-white border-t border-gray-100 px-7 py-4 flex items-center justify-between gap-4">
+          <div className="min-w-0">
+            <p className="font-semibold text-gray-900 text-sm truncate">{job.title}</p>
+            <p className="text-xs text-gray-400 truncate">{job.employer_name} · {job.location}</p>
+          </div>
           <button onClick={handleApply}
-            className="w-full bg-gray-900 hover:bg-gray-800 text-white font-bold py-3.5 rounded-xl text-sm transition">
-            Apply for this position
+            className="bg-gray-900 hover:bg-gray-800 text-white font-bold px-8 py-3 rounded-xl text-sm transition shrink-0">
+            Apply now
           </button>
         </div>
       </div>
@@ -683,11 +739,12 @@ function MobileJobCard({ job, saved, onToggleSave }: {
   job: Job; saved: boolean; onToggleSave: () => void
 }) {
   const co = MOCK_COMPANIES.find(c => c.name === job.employer_name)
+  const fresh = isNew(job.created_at)
 
   return (
     <a href={`/jobs/${job.id}`} className="block bg-white border border-gray-200 rounded-xl p-4 hover:border-gray-300 hover:shadow-sm transition">
       <div className="flex items-start justify-between gap-2 mb-2">
-        <div className="flex items-center gap-2 min-w-0">
+        <div className="flex items-center gap-2.5 min-w-0">
           <CompanyBadge name={job.employer_name} size="sm" logoUrl={co?.logo_url} />
           <p className="text-xs text-gray-500 truncate">{job.employer_name}</p>
           {job.franchise_name && job.brand_link_status === 'approved' && (
@@ -695,44 +752,40 @@ function MobileJobCard({ job, saved, onToggleSave }: {
           )}
         </div>
         <div className="flex items-center gap-1.5 shrink-0">
-          {isNew(job.created_at) && (
-            <span className="text-[10px] font-bold text-gray-800 bg-gray-100 px-1.5 py-0.5 rounded">New</span>
+          {fresh && (
+            <span className="text-[10px] font-bold bg-emerald-50 text-emerald-700 px-1.5 py-0.5 rounded-full">New</span>
           )}
           <button onClick={e => { e.preventDefault(); onToggleSave() }}
-            className="text-gray-300 hover:text-gray-700 transition">
+            className={`transition ${saved ? 'text-gray-900' : 'text-gray-300'}`}>
             <svg className="w-4 h-4" fill={saved ? 'currentColor' : 'none'}
-              viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
-              style={{ color: saved ? '#10b981' : undefined }}>
+              viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
             </svg>
           </button>
         </div>
       </div>
-      <p className="font-semibold text-sm text-gray-900 mb-1 leading-snug">{job.title}</p>
-      <div className="flex items-center gap-1 text-xs text-gray-500 mb-2">
+
+      <p className="font-semibold text-sm text-gray-900 mb-1.5 leading-snug">{job.title}</p>
+
+      <div className="flex items-center gap-1.5 text-xs text-gray-500 mb-2">
         <svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
           <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
         </svg>
         {job.location}
-        <span className="text-gray-300 mx-1">·</span>
+        <span className="text-gray-300">·</span>
         {timeAgo(job.created_at)}
       </div>
+
       <div className="flex items-center gap-1.5 flex-wrap">
         <span className={`text-[11px] font-medium px-2 py-0.5 rounded-full ${EMP_COLORS[job.employment_type] ?? 'bg-gray-100 text-gray-600'}`}>
           {job.employment_type === 'event' ? 'Event' : EMPLOYMENT_TYPE_LABELS[job.employment_type]}
         </span>
         {job.pay && (
-          <span className="text-[11px] font-semibold text-gray-800 bg-gray-100 px-2 py-0.5 rounded-full">
-            {job.pay}
-          </span>
+          <span className="text-xs font-bold text-gray-900">{job.pay}</span>
         )}
+        {co && <StarRating rating={co.overall_rating} />}
       </div>
-      {co && (
-        <div className="mt-2">
-          <StarRating rating={co.overall_rating} />
-        </div>
-      )}
     </a>
   )
 }
@@ -784,7 +837,7 @@ function MobileFilters({ currentRole, currentType, currentLocation, currentQuery
         <MobilePill active={!currentRole} onTap={() => onUpdate('role', '')}>All roles</MobilePill>
         {ROLE_CATEGORIES.map(r => (
           <MobilePill key={r} active={currentRole === r} onTap={() => onUpdate('role', currentRole === r ? '' : r)}>
-            {ROLE_LABELS[r]}
+            {ROLE_ICONS[r] ? `${ROLE_ICONS[r]} ` : ''}{ROLE_LABELS[r]}
           </MobilePill>
         ))}
       </div>

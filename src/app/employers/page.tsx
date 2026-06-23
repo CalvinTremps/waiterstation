@@ -86,7 +86,7 @@ const HIRING_OPTIONS = [
     ],
     cta: 'Post for free',
     ctaHref: '/post-job',
-    ctaStyle: 'bg-gray-900 hover:bg-gray-800 text-white',
+    ctaStyle: 'bg-violet-600 hover:bg-violet-700 text-white',
     highlight: false,
   },
   {
@@ -413,7 +413,7 @@ export default function EmployersPage() {
                 <input name="prefill_location" placeholder="Cape Town, Johannesburg, Durban…"
                   className="w-full border border-gray-200 rounded-lg px-3 py-2 text-xs text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-gray-500 placeholder:text-gray-400" />
               </div>
-              <button type="submit" className="w-full bg-gray-900 hover:bg-gray-800 text-white text-xs font-bold py-2 rounded-lg transition">Get started</button>
+              <button type="submit" className="w-full bg-violet-600 hover:bg-violet-700 text-white text-xs font-bold py-2 rounded-lg transition">Get started</button>
               <div className="mt-3 space-y-1.5">
                 {[
                   { name: 'Thabo N.', role: 'Senior Waiter · Cape Town', exp: '5 yrs' },
@@ -438,7 +438,7 @@ export default function EmployersPage() {
               <div className="text-3xl font-extrabold text-gray-500">10 000+</div>
               <p className="text-sm text-gray-300 mt-1">SA hospitality job seekers on the platform</p>
               <a href="/post-job"
-                className="mt-4 inline-block bg-gray-900 hover:bg-gray-700 text-white text-xs font-bold px-5 py-2 rounded-lg transition">
+                className="mt-4 inline-block bg-violet-600 hover:bg-violet-700 text-white text-xs font-bold px-5 py-2 rounded-lg transition">
                 Get started
               </a>
             </div>

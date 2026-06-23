@@ -54,7 +54,7 @@ export default function HowItWorksPage() {
           ))}
         </div>
         <div className="mt-8">
-          <a href="/" className="inline-flex items-center gap-2 bg-gray-900 text-white font-semibold px-6 py-3 rounded-md text-sm hover:bg-gray-800 transition">
+          <a href="/" className="inline-flex items-center gap-2 bg-violet-600 text-white font-semibold px-6 py-3 rounded-md text-sm hover:bg-violet-700 transition">
             Browse jobs
           </a>
         </div>
@@ -98,7 +98,7 @@ export default function HowItWorksPage() {
           ))}
         </div>
         <div className="mt-8">
-          <a href="/post-job" className="inline-flex items-center gap-2 bg-gray-900 text-white font-semibold px-6 py-3 rounded-md text-sm hover:bg-gray-800 transition">
+          <a href="/post-job" className="inline-flex items-center gap-2 bg-violet-600 text-white font-semibold px-6 py-3 rounded-md text-sm hover:bg-violet-700 transition">
             Post a job for free
           </a>
         </div>

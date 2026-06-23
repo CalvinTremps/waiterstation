@@ -284,7 +284,7 @@ function PostThread({ post, onClose }: { post: CommunityPost; onClose: () => voi
             <button
               onClick={handleSubmitComment}
               disabled={!comment.trim()}
-              className="shrink-0 w-9 h-9 rounded-full bg-gray-900 text-white flex items-center justify-center hover:bg-gray-800 transition disabled:opacity-30 disabled:cursor-not-allowed"
+              className="shrink-0 w-9 h-9 rounded-full bg-violet-600 text-white flex items-center justify-center hover:bg-violet-700 transition disabled:opacity-30 disabled:cursor-not-allowed"
               aria-label="Post comment"
             >
               <svg className="w-4 h-4 rotate-90" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -462,7 +462,7 @@ function CreatePostModal({ onClose, onPost }: { onClose: () => void; onPost: (po
                 key={b.label}
                 onClick={() => setBowl(b.label)}
                 className={`text-xs font-medium px-3 py-1.5 rounded-full border transition ${
-                  bowl === b.label ? 'bg-gray-900 text-white border-gray-900' : 'text-gray-600 border-gray-200 hover:border-gray-400'
+                  bowl === b.label ? 'bg-violet-600 text-white border-violet-600' : 'text-gray-600 border-gray-200 hover:border-gray-400'
                 }`}
               >
                 {b.label}
@@ -484,7 +484,7 @@ function CreatePostModal({ onClose, onPost }: { onClose: () => void; onPost: (po
           <button
             onClick={handlePost}
             disabled={!content.trim()}
-            className="bg-gray-900 text-white text-sm font-semibold px-5 py-2 rounded-full hover:bg-gray-800 transition disabled:opacity-40 disabled:cursor-not-allowed"
+            className="bg-violet-600 text-white text-sm font-semibold px-5 py-2 rounded-full hover:bg-violet-700 transition disabled:opacity-40 disabled:cursor-not-allowed"
           >
             Post
           </button>
@@ -569,7 +569,7 @@ export default function CommunityClient() {
                 </div>
               </div>
               <a href="/auth/login" className="block text-center text-sm font-medium text-gray-600 border border-gray-200 rounded-md py-1.5 hover:bg-gray-50 transition mb-2">Sign in</a>
-              <button onClick={() => setShowModal(true)} className="w-full bg-gray-900 text-white text-sm font-semibold py-2 rounded-md hover:bg-gray-800 transition">
+              <button onClick={() => setShowModal(true)} className="w-full bg-violet-600 text-white text-sm font-semibold py-2 rounded-md hover:bg-violet-700 transition">
                 + Create post
               </button>
             </div>
@@ -642,7 +642,7 @@ export default function CommunityClient() {
               >
                 <div className="w-8 h-8 rounded-full bg-gradient-to-br from-violet-400 to-pink-500 flex items-center justify-center text-sm font-bold text-white shadow-sm shrink-0">G</div>
                 <span className="text-sm text-gray-400 group-hover:text-gray-600 flex-1">Share a tip, ask a question...</span>
-                <span className="text-xs font-bold text-white bg-gray-900 group-hover:bg-violet-600 transition px-3 py-1.5 rounded-full shrink-0">Post</span>
+                <span className="text-xs font-bold text-white bg-violet-600 group-hover:bg-violet-700 transition px-3 py-1.5 rounded-full shrink-0">Post</span>
               </button>
 
               {/* Search */}
@@ -671,7 +671,7 @@ export default function CommunityClient() {
               <div className="flex gap-2 overflow-x-auto scroll-no-bar pb-1 mb-4 -mx-4 px-4 md:hidden">
                 <button
                   onClick={() => setActiveBowl(null)}
-                  className={`shrink-0 text-xs font-medium px-3.5 py-1.5 rounded-full border transition whitespace-nowrap ${activeBowl === null ? 'bg-gray-900 text-white border-gray-900' : 'bg-white text-gray-600 border-gray-200'}`}
+                  className={`shrink-0 text-xs font-medium px-3.5 py-1.5 rounded-full border transition whitespace-nowrap ${activeBowl === null ? 'bg-violet-600 text-white border-violet-600' : 'bg-white text-gray-600 border-gray-200'}`}
                 >
                   All posts
                 </button>
@@ -679,7 +679,7 @@ export default function CommunityClient() {
                   <button
                     key={b.label}
                     onClick={() => setActiveBowl(activeBowl === b.label ? null : b.label)}
-                    className={`shrink-0 text-xs font-medium px-3.5 py-1.5 rounded-full border transition whitespace-nowrap ${activeBowl === b.label ? 'bg-gray-900 text-white border-gray-900' : 'bg-white text-gray-600 border-gray-200'}`}
+                    className={`shrink-0 text-xs font-medium px-3.5 py-1.5 rounded-full border transition whitespace-nowrap ${activeBowl === b.label ? 'bg-violet-600 text-white border-violet-600' : 'bg-white text-gray-600 border-gray-200'}`}
                   >
                     {b.label}
                   </button>
@@ -771,7 +771,7 @@ export default function CommunityClient() {
             <div className="bg-gray-100 rounded-xl border border-gray-100 p-4">
               <p className="text-sm font-bold text-gray-900 mb-1">Share your experience</p>
               <p className="text-xs text-gray-800 mb-3 leading-relaxed">Help fellow hospitality workers with salary info, interview tips, and workplace insights.</p>
-              <button onClick={() => setShowModal(true)} className="w-full bg-gray-900 text-white text-xs font-semibold py-2 rounded-full hover:bg-gray-800 transition">
+              <button onClick={() => setShowModal(true)} className="w-full bg-violet-600 text-white text-xs font-semibold py-2 rounded-full hover:bg-violet-700 transition">
                 Start a discussion
               </button>
             </div>

@@ -70,7 +70,7 @@ export default function MobileHeader({ isLoggedIn }: { isLoggedIn: boolean }) {
             </a>
           ) : (
             <a href="/auth/login"
-              className="bg-gray-900 text-white text-xs font-bold px-3.5 py-1.5 rounded-full">
+              className="bg-violet-600 text-white text-xs font-bold px-3.5 py-1.5 rounded-full">
               Sign in
             </a>
           )}

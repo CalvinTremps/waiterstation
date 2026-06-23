@@ -374,7 +374,7 @@ function CompaniesPageInner() {
                 onClick={() => setSelectedIndustry('')}
                 className={`shrink-0 text-xs px-3.5 py-1.5 rounded-full border transition whitespace-nowrap ${
                   selectedIndustry === ''
-                    ? 'bg-gray-900 text-white border-gray-900'
+                    ? 'bg-violet-600 text-white border-violet-600'
                     : 'bg-white border-gray-200 text-gray-600 hover:border-gray-400'
                 }`}
               >
@@ -386,7 +386,7 @@ function CompaniesPageInner() {
                   onClick={() => setSelectedIndustry(prev => prev === ind.filter ? '' : ind.filter)}
                   className={`shrink-0 text-xs px-3.5 py-1.5 rounded-full border transition whitespace-nowrap ${
                     selectedIndustry === ind.filter
-                      ? 'bg-gray-900 text-white border-gray-900'
+                      ? 'bg-violet-600 text-white border-violet-600'
                       : 'bg-white border-gray-200 text-gray-600 hover:border-gray-400'
                   }`}
                 >
@@ -454,7 +454,7 @@ function CompaniesPageInner() {
           <div className="mt-10 bg-white border border-gray-200 rounded-xl p-6 text-center">
             <p className="font-semibold text-gray-900 mb-1">Know a workplace not listed here?</p>
             <p className="text-sm text-gray-500 mb-4">Share your experience in the community to help other hospitality workers.</p>
-            <a href="/community" className="text-sm font-semibold text-white bg-gray-900 px-5 py-2.5 rounded-md hover:bg-gray-800 transition inline-block">
+            <a href="/community" className="text-sm font-semibold text-white bg-violet-600 px-5 py-2.5 rounded-md hover:bg-violet-700 transition inline-block">
               Go to Community
             </a>
           </div>

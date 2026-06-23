@@ -92,7 +92,7 @@ export default function EmployerAuthForm() {
         </div>
 
         <button onClick={() => setStep('email')}
-          className="w-full flex items-center justify-center gap-2 bg-gray-900 text-white font-semibold text-sm py-3 rounded-xl hover:bg-gray-800 transition">
+          className="w-full flex items-center justify-center gap-2 bg-violet-600 text-white font-semibold text-sm py-3 rounded-xl hover:bg-violet-700 transition">
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
           </svg>
@@ -134,7 +134,7 @@ export default function EmployerAuthForm() {
       </div>
       {error && <p className="text-sm text-red-600">{error}</p>}
       <button type="submit" disabled={loading}
-        className="w-full bg-gray-900 text-white font-bold py-3 rounded-xl text-sm hover:bg-gray-800 transition disabled:opacity-60">
+        className="w-full bg-violet-600 text-white font-bold py-3 rounded-xl text-sm hover:bg-violet-700 transition disabled:opacity-60">
         {loading ? 'Sending link…' : 'Send magic link'}
       </button>
       <p className="text-xs text-gray-400 text-center">No password needed — we'll email you a sign-in link.</p>

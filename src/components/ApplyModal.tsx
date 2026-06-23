@@ -92,7 +92,7 @@ export default function ApplyModal({ job, onClose }: Props) {
             </p>
             <button
               onClick={onClose}
-              className="mt-6 bg-gray-900 text-white text-sm font-semibold px-6 py-2.5 rounded-full hover:bg-gray-800 transition"
+              className="mt-6 bg-violet-600 text-white text-sm font-semibold px-6 py-2.5 rounded-full hover:bg-violet-700 transition"
             >
               Done
             </button>
@@ -178,7 +178,7 @@ export default function ApplyModal({ job, onClose }: Props) {
             <button
               type="submit"
               disabled={loading || !name.trim() || !phone.trim() || !consent}
-              className="w-full bg-gray-900 text-white font-semibold py-3 rounded-full hover:bg-gray-800 transition disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+              className="w-full bg-violet-600 text-white font-semibold py-3 rounded-full hover:bg-violet-700 transition disabled:opacity-50 disabled:cursor-not-allowed text-sm"
             >
               {loading ? 'Sending…' : 'Submit application'}
             </button>

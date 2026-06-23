@@ -56,7 +56,7 @@ function SubmitSalaryModal({ onClose, onSubmit }: { onClose: () => void; onSubmi
             <div className="flex flex-wrap gap-2">
               {SALARY_ROLES.map(r => (
                 <button key={r} onClick={() => setRole(r)}
-                  className={`text-xs font-medium px-3 py-1.5 rounded-full border transition ${role === r ? 'bg-gray-900 text-white border-gray-900' : 'text-gray-600 border-gray-200 hover:border-gray-400'}`}>
+                  className={`text-xs font-medium px-3 py-1.5 rounded-full border transition ${role === r ? 'bg-violet-600 text-white border-violet-600' : 'text-gray-600 border-gray-200 hover:border-gray-400'}`}>
                   {ROLE_LABELS[r]}
                 </button>
               ))}
@@ -68,7 +68,7 @@ function SubmitSalaryModal({ onClose, onSubmit }: { onClose: () => void; onSubmi
             <div className="flex flex-wrap gap-2">
               {SALARY_CITIES.map(c => (
                 <button key={c} onClick={() => setCity(c)}
-                  className={`text-xs font-medium px-3 py-1.5 rounded-full border transition ${city === c ? 'bg-gray-900 text-white border-gray-900' : 'text-gray-600 border-gray-200 hover:border-gray-400'}`}>
+                  className={`text-xs font-medium px-3 py-1.5 rounded-full border transition ${city === c ? 'bg-violet-600 text-white border-violet-600' : 'text-gray-600 border-gray-200 hover:border-gray-400'}`}>
                   {c}
                 </button>
               ))}
@@ -105,7 +105,7 @@ function SubmitSalaryModal({ onClose, onSubmit }: { onClose: () => void; onSubmi
         <div className="flex items-center justify-end gap-3 mt-6">
           <button onClick={onClose} className="text-sm font-medium text-gray-500 hover:text-gray-800 px-4 py-2 transition">Cancel</button>
           <button onClick={handleSubmit} disabled={!valid}
-            className="bg-gray-900 text-white text-sm font-semibold px-5 py-2 rounded-full hover:bg-gray-800 transition disabled:opacity-40 disabled:cursor-not-allowed">
+            className="bg-violet-600 text-white text-sm font-semibold px-5 py-2 rounded-full hover:bg-violet-700 transition disabled:opacity-40 disabled:cursor-not-allowed">
             Submit anonymously
           </button>
         </div>
@@ -201,7 +201,7 @@ export default function SalaryExplorer() {
           </p>
         </div>
         <button onClick={() => setShowModal(true)}
-          className="shrink-0 bg-gray-900 text-white text-xs font-semibold px-4 py-2.5 rounded-full hover:bg-gray-800 transition whitespace-nowrap">
+          className="shrink-0 bg-violet-600 text-white text-xs font-semibold px-4 py-2.5 rounded-full hover:bg-violet-700 transition whitespace-nowrap">
           + Add yours
         </button>
       </div>
@@ -210,12 +210,12 @@ export default function SalaryExplorer() {
       <div className="space-y-2.5 mb-4">
         <div className="flex gap-2 overflow-x-auto scroll-no-bar pb-0.5">
           <button onClick={() => setRoleFilter(null)}
-            className={`shrink-0 text-xs font-medium px-3.5 py-1.5 rounded-full border transition whitespace-nowrap ${roleFilter === null ? 'bg-gray-900 text-white border-gray-900' : 'bg-white text-gray-600 border-gray-200'}`}>
+            className={`shrink-0 text-xs font-medium px-3.5 py-1.5 rounded-full border transition whitespace-nowrap ${roleFilter === null ? 'bg-violet-600 text-white border-violet-600' : 'bg-white text-gray-600 border-gray-200'}`}>
             All roles
           </button>
           {SALARY_ROLES.map(r => (
             <button key={r} onClick={() => setRoleFilter(roleFilter === r ? null : r)}
-              className={`shrink-0 text-xs font-medium px-3.5 py-1.5 rounded-full border transition whitespace-nowrap ${roleFilter === r ? 'bg-gray-900 text-white border-gray-900' : 'bg-white text-gray-600 border-gray-200'}`}>
+              className={`shrink-0 text-xs font-medium px-3.5 py-1.5 rounded-full border transition whitespace-nowrap ${roleFilter === r ? 'bg-violet-600 text-white border-violet-600' : 'bg-white text-gray-600 border-gray-200'}`}>
               {ROLE_LABELS[r]}
             </button>
           ))}

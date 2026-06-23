@@ -34,7 +34,7 @@ export default function AboutPage() {
           through Waiterstation — you get the candidate's details and take it from there.
         </p>
         <div className="mt-8">
-          <a href="/post-job" className="bg-gray-900 text-white font-semibold px-6 py-3 rounded-xl hover:bg-gray-800 transition text-sm inline-block">
+          <a href="/post-job" className="bg-violet-600 text-white font-semibold px-6 py-3 rounded-xl hover:bg-violet-700 transition text-sm inline-block">
             Post a Job
           </a>
         </div>

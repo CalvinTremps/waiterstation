@@ -40,7 +40,7 @@ export default function NavLinks({ isLoggedIn }: { isLoggedIn: boolean }) {
         <a href="/employers" className={`text-sm font-medium transition px-4 py-2 border border-gray-200 rounded-lg ${active('/employers') ? 'text-gray-800 border-gray-200 bg-gray-100' : 'text-gray-600 hover:text-gray-900 hover:border-gray-300'}`}>
           For Employers
         </a>
-        <a href="/post-job" className="bg-gray-900 text-white text-sm font-semibold px-5 py-2.5 rounded-lg hover:bg-gray-800 transition whitespace-nowrap">
+        <a href="/post-job" className="bg-violet-600 text-white text-sm font-semibold px-5 py-2.5 rounded-lg hover:bg-violet-700 transition whitespace-nowrap">
           Post a Job
         </a>
       </div>

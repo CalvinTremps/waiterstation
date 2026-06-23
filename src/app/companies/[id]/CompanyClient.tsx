@@ -479,7 +479,7 @@ function ReviewsTab({ company, reviews, overallRating, relatedCompanies, onWrite
             {(['all', 'Current', 'Former'] as const).map(f => (
               <button key={f} onClick={() => { setStatusFilter(f); setPage(1) }}
                 className={`text-xs font-medium px-3 py-1.5 rounded-full border transition ${
-                  statusFilter === f ? 'bg-gray-900 text-white border-gray-900' : 'text-gray-600 border-gray-200 hover:border-gray-400'
+                  statusFilter === f ? 'bg-violet-600 text-white border-violet-600' : 'text-gray-600 border-gray-200 hover:border-gray-400'
                 }`}>
                 {f === 'all' ? 'All employees' : `${f} employees`}
               </button>

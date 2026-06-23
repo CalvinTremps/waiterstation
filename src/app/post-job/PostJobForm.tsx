@@ -108,7 +108,7 @@ export default function PostJobForm() {
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8">
           <a href="/employer"
-            className="bg-gray-900 text-white font-semibold px-6 py-3 rounded-xl text-sm hover:bg-gray-800 transition">
+            className="bg-violet-600 text-white font-semibold px-6 py-3 rounded-xl text-sm hover:bg-violet-700 transition">
             View my listings
           </a>
           <a href="/post-job"
@@ -372,7 +372,7 @@ export default function PostJobForm() {
       )}
 
       <button type="submit" disabled={loading}
-        className="w-full bg-gray-900 text-white font-bold py-4 rounded-xl text-base hover:bg-gray-800 active:bg-gray-900 transition disabled:opacity-60 flex items-center justify-center gap-2">
+        className="w-full bg-violet-600 text-white font-bold py-4 rounded-xl text-base hover:bg-violet-700 active:bg-violet-600 transition disabled:opacity-60 flex items-center justify-center gap-2">
         {loading ? (
           <>
             <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">

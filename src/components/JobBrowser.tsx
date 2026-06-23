@@ -309,7 +309,7 @@ function DesktopSearchBar({ currentRole, currentLocation, currentQuery, onSearch
     <form onSubmit={handleSubmit}
       className="flex items-center w-full bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden hover:border-gray-300 transition">
       {/* Keyword */}
-      <div className="flex items-center gap-2.5 px-4 h-12 flex-1 min-w-0">
+      <div className="flex items-center gap-2.5 px-4 h-10 flex-1 min-w-0">
         <svg className="w-4 h-4 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
           <circle cx="11" cy="11" r="8"/><path strokeLinecap="round" d="M21 21l-4.35-4.35"/>
         </svg>
@@ -319,7 +319,7 @@ function DesktopSearchBar({ currentRole, currentLocation, currentQuery, onSearch
       </div>
       <div className="w-px h-6 bg-gray-200 shrink-0" />
       {/* Location */}
-      <div className="flex items-center gap-2.5 px-4 h-12 flex-1 min-w-0">
+      <div className="flex items-center gap-2.5 px-4 h-10 flex-1 min-w-0">
         <svg className="w-4 h-4 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
           <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -329,7 +329,7 @@ function DesktopSearchBar({ currentRole, currentLocation, currentQuery, onSearch
           className="flex-1 text-sm text-gray-800 placeholder:text-gray-400 bg-transparent focus:outline-none min-w-0 font-medium" />
       </div>
       <button type="submit"
-        className="bg-gray-900 hover:bg-gray-800 transition text-white text-sm font-semibold px-7 h-12 shrink-0 flex items-center gap-2">
+        className="bg-gray-900 hover:bg-gray-800 transition text-white text-sm font-semibold px-6 h-10 shrink-0 flex items-center gap-2">
         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <circle cx="11" cy="11" r="8"/><path strokeLinecap="round" d="M21 21l-4.35-4.35"/>
         </svg>

@@ -160,20 +160,22 @@ export default function JobBrowser({
           <div className="max-w-[1440px] mx-auto px-6 pt-4 pb-3">
 
             {/* Search bar */}
-            <DesktopSearchBar
-              currentRole={currentRole}
-              currentLocation={currentLocation}
-              currentQuery={currentQuery}
-              onSearch={(role, query, location) => {
-                const next = new URLSearchParams()
-                if (currentType) next.set('type', currentType)
-                if (payOnly) next.set('payOnly', '1')
-                if (role) next.set('role', role)
-                if (query) next.set('q', query)
-                if (location) next.set('location', location)
-                router.push(`${basePath}?${next.toString()}`)
-              }}
-            />
+            <div className="max-w-2xl">
+              <DesktopSearchBar
+                currentRole={currentRole}
+                currentLocation={currentLocation}
+                currentQuery={currentQuery}
+                onSearch={(role, query, location) => {
+                  const next = new URLSearchParams()
+                  if (currentType) next.set('type', currentType)
+                  if (payOnly) next.set('payOnly', '1')
+                  if (role) next.set('role', role)
+                  if (query) next.set('q', query)
+                  if (location) next.set('location', location)
+                  router.push(`${basePath}?${next.toString()}`)
+                }}
+              />
+            </div>
 
             {/* Role category pills */}
             <div className="flex items-center gap-2 mt-3 overflow-x-auto scroll-no-bar -mx-1 px-1 pb-0.5">

@@ -966,7 +966,7 @@ export interface TimesheetEntry {
   id: string
   employee_id: string
   date: string
-  clock_in: string
+  clock_in?: string
   clock_out?: string
   scheduled_start: string
   scheduled_end: string

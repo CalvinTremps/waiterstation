@@ -5,9 +5,9 @@ import { MOCK_JOBS } from '@/lib/mock-jobs'
 import { fetchAdzunaJobs } from '@/lib/adzuna'
 import LandingPage from '@/components/LandingPage'
 
-function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T | null> {
+function withTimeout<T>(promise: PromiseLike<T>, ms: number): Promise<T | null> {
   return Promise.race([
-    promise,
+    Promise.resolve(promise),
     new Promise<null>(resolve => setTimeout(() => resolve(null), ms)),
   ])
 }

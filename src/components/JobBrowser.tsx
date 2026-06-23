@@ -286,7 +286,7 @@ export default function JobBrowser({
             {selected
               ? (
                 <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden">
-                  <DesktopJobDetail job={selected} isLoggedIn={isLoggedIn} />
+                  <DesktopJobDetail job={selected} isLoggedIn={isLoggedIn} basePath={basePath} />
                 </div>
               )
               : (
@@ -457,7 +457,7 @@ function RatingBar({ label, value }: { label: string; value: number }) {
   )
 }
 
-function DesktopJobDetail({ job, isLoggedIn }: { job: Job; isLoggedIn: boolean }) {
+function DesktopJobDetail({ job, isLoggedIn, basePath }: { job: Job; isLoggedIn: boolean; basePath: string }) {
   const [showApply, setShowApply] = useState(false)
   const [descExpanded, setDescExpanded] = useState(false)
   const router = useRouter()

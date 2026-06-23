@@ -65,6 +65,15 @@ const PAGE_TITLES: Record<string, string> = {
 export default function EmployerLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [bypassMobile, setBypassMobile] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    function check() { setIsMobile(window.innerWidth < 768) }
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
 
   useEffect(() => {
     document.documentElement.setAttribute('data-employer-app', 'true')
@@ -77,6 +86,27 @@ export default function EmployerLayout({ children }: { children: React.ReactNode
   }
 
   const pageTitle = PAGE_TITLES[pathname] ?? 'Employer'
+
+  if (isMobile && !bypassMobile) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center px-8 text-center" style={{ background: '#f8f8f8' }}>
+        <div className="w-14 h-14 rounded-2xl bg-gray-900 flex items-center justify-center text-white text-xl font-bold mb-6">W</div>
+        <h1 className="text-xl font-bold text-gray-900 mb-2">Open on a larger screen</h1>
+        <p className="text-sm text-gray-500 leading-relaxed max-w-xs mb-8">
+          The employer dashboard is designed for desktop and tablet. For the best experience, open Waiterstation on a laptop or tablet.
+        </p>
+        <a href="/" className="w-full max-w-xs flex items-center justify-center h-11 bg-gray-900 text-white text-sm font-semibold rounded-xl mb-3">
+          Go to homepage
+        </a>
+        <button
+          onClick={() => setBypassMobile(true)}
+          className="text-xs text-gray-400 hover:text-gray-600 underline underline-offset-2"
+        >
+          Continue anyway
+        </button>
+      </div>
+    )
+  }
 
   return (
     <div className="employer-shell">

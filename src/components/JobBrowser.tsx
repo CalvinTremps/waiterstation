@@ -256,7 +256,7 @@ export default function JobBrowser({
         <div className="flex flex-1 min-h-0 max-w-[1440px] mx-auto w-full">
 
           {/* LEFT: job list */}
-          <div className="w-[480px] shrink-0 overflow-y-auto scrollbar-thin border-r border-gray-200 bg-white">
+          <div className="w-[320px] lg:w-[480px] shrink-0 overflow-y-auto scrollbar-thin border-r border-gray-200 bg-white">
             {jobs.length === 0 && <EmptyState onClear={clearFilters} hasFilters={!!hasFilters} />}
             <div className="p-3 space-y-1.5">
               {jobs.slice(0, visibleCount).map((job, idx) => (

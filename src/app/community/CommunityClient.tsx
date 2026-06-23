@@ -1,7 +1,8 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import { MOCK_COMMUNITY_POSTS, COMMUNITY_BOWLS, CommunityPost } from '@/lib/mock-community'
+import SalaryExplorer from '@/components/SalaryExplorer'
 
 /* ─── Avatar ─────────────────────────────────────────────── */
 function AvatarCircle({ letter, size = 'md' }: { letter: string; size?: 'sm' | 'md' | 'lg' }) {
@@ -285,7 +286,7 @@ function PostThread({ post, onClose }: { post: CommunityPost; onClose: () => voi
 }
 
 /* ─── Post Card ──────────────────────────────────────────── */
-function PostCard({ post, onOpen }: { post: CommunityPost; onOpen: () => void }) {
+function PostCard({ post, onOpen, onReport }: { post: CommunityPost; onOpen: () => void; onReport: () => void }) {
   const [liked, setLiked] = useState(false)
   const [likeCount, setLikeCount] = useState(post.likes)
   const bowl = COMMUNITY_BOWLS.find(b => b.label === post.bowl)
@@ -357,6 +358,16 @@ function PostCard({ post, onOpen }: { post: CommunityPost; onOpen: () => void })
             <path strokeLinecap="round" strokeLinejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m9.632 4.032a3 3 0 10-2.684 0M9 12a3 3 0 11-2.684-1.658"/>
           </svg>
           Share
+        </button>
+        <button
+          onClick={e => { e.stopPropagation(); onReport() }}
+          aria-label="Report post"
+          className="flex items-center gap-1.5 text-xs font-medium text-gray-400 hover:text-red-600 transition"
+        >
+          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 2H21l-3 6 3 6h-8.5l-1-2H5a2 2 0 00-2 2z"/>
+          </svg>
+          <span className="hidden sm:inline">Report</span>
         </button>
         <span className="ml-auto text-xs text-gray-300 group-hover:text-gray-400 transition">Read more</span>
       </div>
@@ -457,28 +468,58 @@ function CreatePostModal({ onClose, onPost }: { onClose: () => void; onPost: (po
 
 /* ─── Main CommunityClient ───────────────────────────────── */
 export default function CommunityClient() {
+  const [tab, setTab] = useState<'discussions' | 'salaries'>('discussions')
   const [activeBowl, setActiveBowl] = useState<string | null>(null)
   const [showModal, setShowModal] = useState(false)
   const [selectedPost, setSelectedPost] = useState<CommunityPost | null>(null)
   const [posts, setPosts] = useState<CommunityPost[]>(MOCK_COMMUNITY_POSTS)
+  const [query, setQuery] = useState('')
+  const [toast, setToast] = useState<string | null>(null)
 
   function handleNewPost(post: CommunityPost) {
     setPosts(prev => [post, ...prev])
   }
 
-  const filtered = activeBowl ? posts.filter(p => p.bowl === activeBowl) : posts
+  function showToast(msg: string) {
+    setToast(msg)
+    setTimeout(() => setToast(null), 2800)
+  }
 
-  const trendingTopics = [
-    { label: 'December tips season', count: 84 },
-    { label: 'CCMA roster disputes', count: 61 },
-    { label: 'Card tipping rollout', count: 47 },
-    { label: 'UIF claims after dismissal', count: 38 },
-  ]
+  const filtered = useMemo(() => {
+    let list = activeBowl ? posts.filter(p => p.bowl === activeBowl) : posts
+    const q = query.trim().toLowerCase()
+    if (q) {
+      list = list.filter(p =>
+        p.content.toLowerCase().includes(q) ||
+        p.author_role.toLowerCase().includes(q) ||
+        p.bowl.toLowerCase().includes(q)
+      )
+    }
+    return list
+  }, [posts, activeBowl, query])
+
+  // Live "most discussed" — computed from real engagement, not hardcoded
+  const mostDiscussed = useMemo(
+    () => [...posts]
+      .sort((a, b) => (b.likes + b.comments * 2) - (a.likes + a.comments * 2))
+      .slice(0, 4),
+    [posts]
+  )
 
   return (
     <>
       {showModal && <CreatePostModal onClose={() => setShowModal(false)} onPost={handleNewPost} />}
       {selectedPost && <PostThread post={selectedPost} onClose={() => setSelectedPost(null)} />}
+
+      {/* Toast */}
+      {toast && (
+        <div className="fixed bottom-20 md:bottom-6 left-1/2 -translate-x-1/2 z-[60] bg-gray-900 text-white text-sm font-medium px-4 py-2.5 rounded-full shadow-lg flex items-center gap-2 animate-in fade-in">
+          <svg className="w-4 h-4 text-emerald-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+          {toast}
+        </div>
+      )}
 
       <div className="bg-white" style={{ minHeight: 'calc(100vh - 112px)' }}>
         <div className="max-w-[1440px] mx-auto md:flex">
@@ -524,14 +565,57 @@ export default function CommunityClient() {
           {/* Center feed */}
           <main className="flex-1 py-5 px-4 min-w-0 md:border-x border-gray-200 pb-24 md:pb-5">
             <div className="max-w-2xl mx-auto">
+
+              {/* Primary tabs */}
+              <div className="flex items-center gap-1 bg-gray-100 rounded-full p-1 mb-4 w-full max-w-xs mx-auto md:mx-0">
+                <button
+                  onClick={() => setTab('discussions')}
+                  className={`flex-1 text-sm font-semibold py-1.5 rounded-full transition ${tab === 'discussions' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+                >
+                  Discussions
+                </button>
+                <button
+                  onClick={() => setTab('salaries')}
+                  className={`flex-1 text-sm font-semibold py-1.5 rounded-full transition ${tab === 'salaries' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+                >
+                  Salaries & Tips
+                </button>
+              </div>
+
+              {tab === 'salaries' ? (
+                <SalaryExplorer />
+              ) : (
+              <>
               <button
                 onClick={() => setShowModal(true)}
-                className="w-full flex items-center gap-3 bg-white border border-gray-200 rounded-xl px-4 py-3 mb-4 hover:border-gray-300 transition text-left group"
+                className="w-full flex items-center gap-3 bg-white border border-gray-200 rounded-xl px-4 py-3 mb-3 hover:border-gray-300 transition text-left group"
               >
                 <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-sm font-bold text-gray-400 shrink-0">G</div>
                 <span className="text-sm text-gray-400 group-hover:text-gray-500 flex-1">Share a tip, ask a question...</span>
                 <span className="text-xs font-semibold text-gray-900 shrink-0">Post</span>
               </button>
+
+              {/* Search */}
+              <div className="relative mb-4">
+                <svg className="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                <input
+                  type="text"
+                  value={query}
+                  onChange={e => setQuery(e.target.value)}
+                  placeholder="Search discussions..."
+                  className="w-full h-10 bg-white border border-gray-200 rounded-full pl-10 pr-9 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500"
+                />
+                {query && (
+                  <button onClick={() => setQuery('')} aria-label="Clear search"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700">
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                )}
+              </div>
 
               {/* Mobile bowl filter */}
               <div className="flex gap-2 overflow-x-auto scroll-no-bar pb-1 mb-4 -mx-4 px-4 md:hidden">
@@ -565,31 +649,41 @@ export default function CommunityClient() {
                     <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-3">
                       <svg className="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
                     </div>
-                    <p className="font-medium text-gray-600">No posts in this bowl yet</p>
-                    <button onClick={() => setShowModal(true)} className="mt-3 text-sm text-gray-900 hover:underline font-medium">Be the first to post</button>
+                    <p className="font-medium text-gray-600">{query ? `No posts match “${query}”` : 'No posts in this bowl yet'}</p>
+                    {query
+                      ? <button onClick={() => setQuery('')} className="mt-3 text-sm text-gray-900 hover:underline font-medium">Clear search</button>
+                      : <button onClick={() => setShowModal(true)} className="mt-3 text-sm text-gray-900 hover:underline font-medium">Be the first to post</button>}
                   </div>
                 ) : (
                   filtered.map(post => (
-                    <PostCard key={post.id} post={post} onOpen={() => setSelectedPost(post)} />
+                    <PostCard
+                      key={post.id}
+                      post={post}
+                      onOpen={() => setSelectedPost(post)}
+                      onReport={() => showToast('Thanks — this post has been flagged for review.')}
+                    />
                   ))
                 )}
               </div>
+              </>
+              )}
             </div>
           </main>
 
           {/* Right sidebar — desktop only */}
           <aside className="hidden lg:block w-[300px] shrink-0 p-5 space-y-4 sticky top-[var(--header-height)] h-[calc(100vh-112px)] overflow-y-auto">
             <div className="bg-white rounded-xl border border-gray-200 p-4">
-              <p className="text-sm font-bold text-gray-800 mb-3">Trending in SA hospitality</p>
+              <p className="text-sm font-bold text-gray-800 mb-3">Most discussed</p>
               <div className="space-y-3">
-                {trendingTopics.map((t, i) => (
-                  <div key={t.label} className="flex items-start gap-3">
+                {mostDiscussed.map((p, i) => (
+                  <button key={p.id} onClick={() => setSelectedPost(p)}
+                    className="w-full text-left flex items-start gap-3 group">
                     <span className="text-xs font-bold text-gray-300 mt-0.5 w-4 shrink-0">{i + 1}</span>
-                    <div>
-                      <p className="text-sm font-medium text-gray-800 leading-snug">{t.label}</p>
-                      <p className="text-xs text-gray-400 mt-0.5">{t.count} posts</p>
+                    <div className="min-w-0">
+                      <p className="text-sm font-medium text-gray-800 leading-snug line-clamp-2 group-hover:text-gray-950">{p.content}</p>
+                      <p className="text-xs text-gray-400 mt-0.5">{p.bowl} · {p.likes + p.comments * 2} engagements</p>
                     </div>
-                  </div>
+                  </button>
                 ))}
               </div>
             </div>

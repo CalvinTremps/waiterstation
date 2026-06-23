@@ -281,7 +281,7 @@ export default function CandidatesClient() {
           <p className="text-xs font-semibold text-gray-700 mb-3">How matching works</p>
           <div className="space-y-2">
             {[
-              { label: 'Role match', pts: '5 pts', desc: 'Candidate's role matches your search' },
+              { label: 'Role match', pts: '5 pts', desc: "Candidate's role matches your search" },
               { label: 'Location match', pts: '3 pts', desc: 'Candidate is based in or near your location' },
               { label: 'Availability', pts: '1 pt', desc: 'Available immediately or within 1 week' },
               { label: 'Experience on profile', pts: '1 pt', desc: 'Has filled in experience or certifications' },

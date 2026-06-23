@@ -893,3 +893,305 @@ export const DEFAULT_PAYROLL_SETTINGS: PayrollSettings = {
   month_end_day: 25,
   currency: 'R',
 }
+
+// ─── Leave Management ────────────────────────────────────────────────────────
+
+export interface LeaveRequest {
+  id: string
+  employee_id: string
+  type: 'annual' | 'sick' | 'family' | 'unpaid'
+  start_date: string
+  end_date: string
+  days: number
+  reason: string
+  status: 'pending' | 'approved' | 'declined'
+  submitted_at: string
+  responded_at?: string
+}
+
+export interface LeaveBalance {
+  employee_id: string
+  annual_total: number
+  annual_used: number
+  sick_total: number
+  sick_used: number
+}
+
+const leaveNow = Date.now()
+function leaveDays(offset: number) {
+  return new Date(leaveNow + offset * 86400000).toISOString().split('T')[0]
+}
+
+export const LEAVE_BALANCES: LeaveBalance[] = [
+  { employee_id: 'emp-1', annual_total: 15, annual_used: 5,  sick_total: 10, sick_used: 2 },
+  { employee_id: 'emp-2', annual_total: 15, annual_used: 3,  sick_total: 10, sick_used: 4 },
+  { employee_id: 'emp-3', annual_total: 20, annual_used: 8,  sick_total: 10, sick_used: 1 },
+  { employee_id: 'emp-4', annual_total: 15, annual_used: 0,  sick_total: 10, sick_used: 0 },
+  { employee_id: 'emp-5', annual_total: 15, annual_used: 12, sick_total: 10, sick_used: 6 },
+  { employee_id: 'emp-6', annual_total: 15, annual_used: 6,  sick_total: 10, sick_used: 2 },
+]
+
+export const LEAVE_REQUESTS: LeaveRequest[] = [
+  {
+    id: 'lr-1', employee_id: 'emp-1',
+    type: 'annual', start_date: leaveDays(5), end_date: leaveDays(9), days: 5,
+    reason: 'Family holiday', status: 'pending',
+    submitted_at: new Date(leaveNow - 2 * 86400000).toISOString(),
+  },
+  {
+    id: 'lr-2', employee_id: 'emp-2',
+    type: 'sick', start_date: leaveDays(-3), end_date: leaveDays(-2), days: 2,
+    reason: "Flu and doctor's visit", status: 'approved',
+    submitted_at: new Date(leaveNow - 4 * 86400000).toISOString(),
+    responded_at: new Date(leaveNow - 3 * 86400000).toISOString(),
+  },
+  {
+    id: 'lr-3', employee_id: 'emp-4',
+    type: 'annual', start_date: leaveDays(12), end_date: leaveDays(14), days: 3,
+    reason: 'Personal errands', status: 'pending',
+    submitted_at: new Date(leaveNow - 1 * 86400000).toISOString(),
+  },
+  {
+    id: 'lr-4', employee_id: 'emp-6',
+    type: 'family', start_date: leaveDays(-10), end_date: leaveDays(-10), days: 1,
+    reason: 'Child graduation ceremony', status: 'approved',
+    submitted_at: new Date(leaveNow - 12 * 86400000).toISOString(),
+    responded_at: new Date(leaveNow - 11 * 86400000).toISOString(),
+  },
+]
+
+// ─── Timesheets ──────────────────────────────────────────────────────────────
+
+export interface TimesheetEntry {
+  id: string
+  employee_id: string
+  date: string
+  clock_in: string
+  clock_out?: string
+  scheduled_start: string
+  scheduled_end: string
+  scheduled_hours: number
+  actual_hours?: number
+  status: 'clocked_in' | 'completed' | 'missed'
+  notes?: string
+}
+
+function tsDate(offset: number) {
+  return new Date(leaveNow + offset * 86400000).toISOString().split('T')[0]
+}
+
+export const MOCK_TIMESHEETS: TimesheetEntry[] = [
+  { id: 'ts-1',  employee_id: 'emp-1', date: tsDate(-6), clock_in: '09:05', clock_out: '17:10', scheduled_start: '09:00', scheduled_end: '17:00', scheduled_hours: 8, actual_hours: 8.1,  status: 'completed' },
+  { id: 'ts-2',  employee_id: 'emp-1', date: tsDate(-4), clock_in: '11:12', clock_out: '21:05', scheduled_start: '11:00', scheduled_end: '21:00', scheduled_hours: 10, actual_hours: 9.9, status: 'completed' },
+  { id: 'ts-3',  employee_id: 'emp-2', date: tsDate(-5), clock_in: '16:00', clock_out: '00:15', scheduled_start: '16:00', scheduled_end: '00:00', scheduled_hours: 8, actual_hours: 8.3,  status: 'completed' },
+  { id: 'ts-4',  employee_id: 'emp-2', date: tsDate(-3), clock_in: '16:20', clock_out: '00:10', scheduled_start: '16:00', scheduled_end: '00:00', scheduled_hours: 8, actual_hours: 7.8,  status: 'completed', notes: 'Arrived 20 mins late' },
+  { id: 'ts-5',  employee_id: 'emp-2', date: tsDate(-1), scheduled_start: '18:00', scheduled_end: '02:00', scheduled_hours: 8, status: 'missed' },
+  { id: 'ts-6',  employee_id: 'emp-3', date: tsDate(-6), clock_in: '07:55', clock_out: '18:05', scheduled_start: '08:00', scheduled_end: '18:00', scheduled_hours: 10, actual_hours: 10.2, status: 'completed' },
+  { id: 'ts-7',  employee_id: 'emp-3', date: tsDate(-5), clock_in: '08:02', clock_out: '18:00', scheduled_start: '08:00', scheduled_end: '18:00', scheduled_hours: 10, actual_hours: 10.0, status: 'completed' },
+  { id: 'ts-8',  employee_id: 'emp-3', date: tsDate(0),  clock_in: '08:00', scheduled_start: '08:00', scheduled_end: '18:00', scheduled_hours: 10, status: 'clocked_in' },
+  { id: 'ts-9',  employee_id: 'emp-4', date: tsDate(-4), clock_in: '11:00', clock_out: '19:05', scheduled_start: '11:00', scheduled_end: '19:00', scheduled_hours: 8, actual_hours: 8.1,  status: 'completed' },
+  { id: 'ts-10', employee_id: 'emp-4', date: tsDate(-2), clock_in: '10:58', clock_out: '18:55', scheduled_start: '11:00', scheduled_end: '19:00', scheduled_hours: 8, actual_hours: 8.0,  status: 'completed' },
+  { id: 'ts-11', employee_id: 'emp-6', date: tsDate(-6), clock_in: '10:05', clock_out: '18:00', scheduled_start: '10:00', scheduled_end: '18:00', scheduled_hours: 8, actual_hours: 7.9,  status: 'completed' },
+  { id: 'ts-12', employee_id: 'emp-6', date: tsDate(-3), clock_in: '10:00', clock_out: '18:10', scheduled_start: '10:00', scheduled_end: '18:00', scheduled_hours: 8, actual_hours: 8.2,  status: 'completed' },
+]
+
+// ─── Performance ─────────────────────────────────────────────────────────────
+
+export interface PerformanceReview {
+  id: string
+  employee_id: string
+  date: string
+  shift_date: string
+  ratings: {
+    punctuality: number
+    presentation: number
+    attitude: number
+    quality: number
+  }
+  overall: number
+  notes: string
+  reviewer: string
+}
+
+export const MOCK_REVIEWS: PerformanceReview[] = [
+  {
+    id: 'pr-1', employee_id: 'emp-1', date: tsDate(-5), shift_date: tsDate(-6),
+    ratings: { punctuality: 5, presentation: 5, attitude: 5, quality: 4 },
+    overall: 4.75, notes: 'Excellent service on a busy Saturday. Guests complimented her warmth.', reviewer: 'Lerato Molefe',
+  },
+  {
+    id: 'pr-2', employee_id: 'emp-2', date: tsDate(-4), shift_date: tsDate(-5),
+    ratings: { punctuality: 4, presentation: 5, attitude: 4, quality: 5 },
+    overall: 4.5, notes: 'Great cocktail execution. Minor timing issue on one round.', reviewer: 'Lerato Molefe',
+  },
+  {
+    id: 'pr-3', employee_id: 'emp-2', date: tsDate(-2), shift_date: tsDate(-3),
+    ratings: { punctuality: 2, presentation: 4, attitude: 3, quality: 4 },
+    overall: 3.25, notes: 'Arrived 20 mins late. Performance fine once on floor. Needs punctuality improvement.', reviewer: 'Lerato Molefe',
+  },
+  {
+    id: 'pr-4', employee_id: 'emp-4', date: tsDate(-3), shift_date: tsDate(-4),
+    ratings: { punctuality: 5, presentation: 4, attitude: 5, quality: 4 },
+    overall: 4.5, notes: 'Solid performance. Good teamwork and guest engagement.', reviewer: 'Lerato Molefe',
+  },
+  {
+    id: 'pr-5', employee_id: 'emp-6', date: tsDate(-2), shift_date: tsDate(-3),
+    ratings: { punctuality: 5, presentation: 5, attitude: 5, quality: 5 },
+    overall: 5.0, notes: 'Outstanding shift. Led the floor confidently and handled a guest complaint perfectly.', reviewer: 'Lerato Molefe',
+  },
+  {
+    id: 'pr-6', employee_id: 'emp-1', date: tsDate(-10), shift_date: tsDate(-11),
+    ratings: { punctuality: 5, presentation: 4, attitude: 5, quality: 4 },
+    overall: 4.5, notes: 'Good event service. Managed large party table well.', reviewer: 'Lerato Molefe',
+  },
+]
+
+// ─── Notice Board ────────────────────────────────────────────────────────────
+
+export interface Notice {
+  id: string
+  title: string
+  body: string
+  category: 'general' | 'urgent' | 'event' | 'policy'
+  pinned: boolean
+  author: string
+  created_at: string
+  read_by: string[]
+}
+
+export const MOCK_NOTICES: Notice[] = [
+  {
+    id: 'n-1',
+    title: 'Uniform update — new black aprons from Monday',
+    body: "As discussed in the last briefing, we are switching to the new black half-aprons from Monday 23 June. Please ensure your uniform is clean and pressed. Aprons will be distributed at the start of each shift. If you have not yet collected your two aprons from the locker room, please do so before your next shift.",
+    category: 'urgent',
+    pinned: true,
+    author: 'Lerato Molefe',
+    created_at: new Date(leaveNow - 1 * 86400000).toISOString(),
+    read_by: ['emp-2', 'emp-4'],
+  },
+  {
+    id: 'n-2',
+    title: 'Private dining event — Saturday 28 June',
+    body: "We have a private dinner for 40 guests on Saturday evening. Briefing at 17:30 sharp. Full service dress code. Please note the event menu has been emailed separately. Amahle and Riaan are leading the floor. All staff assigned to this event must confirm attendance by Thursday.",
+    category: 'event',
+    pinned: true,
+    author: 'Lerato Molefe',
+    created_at: new Date(leaveNow - 2 * 86400000).toISOString(),
+    read_by: ['emp-1', 'emp-2', 'emp-3', 'emp-6'],
+  },
+  {
+    id: 'n-3',
+    title: 'Updated tip-out policy — effective 1 July',
+    body: "Following feedback from the team, the tip-out policy has been revised. From 1 July, tips will be pooled per shift and split equally across all floor staff on that shift. Kitchen will receive a 15% share. Please review the updated policy document in the Documents section and sign the acknowledgement form.",
+    category: 'policy',
+    pinned: false,
+    author: 'Management',
+    created_at: new Date(leaveNow - 4 * 86400000).toISOString(),
+    read_by: ['emp-1', 'emp-3'],
+  },
+  {
+    id: 'n-4',
+    title: 'Well done to the team — Trip Advisor #1 this week',
+    body: "We hit the #1 spot on Trip Advisor for Cape Town restaurants this week. This is a massive achievement and is entirely down to the quality of service each of you brings every shift. Management is treating the team to a staff lunch on Tuesday. Details to follow. Thank you all.",
+    category: 'general',
+    pinned: false,
+    author: 'Management',
+    created_at: new Date(leaveNow - 6 * 86400000).toISOString(),
+    read_by: ['emp-1', 'emp-2', 'emp-3', 'emp-4', 'emp-6'],
+  },
+]
+
+// ─── Staff Documents ─────────────────────────────────────────────────────────
+
+export interface StaffDocument {
+  id: string
+  employee_id: string
+  type: 'contract' | 'id_copy' | 'health_cert' | 'liquor_licence' | 'tax_form' | 'other'
+  name: string
+  uploaded_at: string
+  expiry_date?: string
+  status: 'valid' | 'expiring_soon' | 'expired' | 'missing'
+  file_size?: string
+}
+
+export const STAFF_DOCUMENTS: StaffDocument[] = [
+  { id: 'doc-1', employee_id: 'emp-1', type: 'contract',       name: 'Employment Contract — Amahle Khumalo',    uploaded_at: '2023-03-15', status: 'valid' },
+  { id: 'doc-2', employee_id: 'emp-1', type: 'id_copy',        name: 'ID Copy — Amahle Khumalo',               uploaded_at: '2023-03-15', status: 'valid', file_size: '420 KB' },
+  { id: 'doc-3', employee_id: 'emp-1', type: 'health_cert',    name: 'Health Certificate — Amahle Khumalo',    uploaded_at: '2023-06-01', expiry_date: leaveDays(18), status: 'expiring_soon', file_size: '1.2 MB' },
+  { id: 'doc-4', employee_id: 'emp-2', type: 'contract',       name: 'Employment Contract — Dylan Meyer',      uploaded_at: '2023-07-01', status: 'valid' },
+  { id: 'doc-5', employee_id: 'emp-2', type: 'liquor_licence', name: 'Liquor Licence — Dylan Meyer',           uploaded_at: '2022-08-10', expiry_date: leaveDays(-5), status: 'expired', file_size: '850 KB' },
+  { id: 'doc-6', employee_id: 'emp-3', type: 'contract',       name: 'Employment Contract — Lerato Molefe',   uploaded_at: '2022-11-10', status: 'valid' },
+  { id: 'doc-7', employee_id: 'emp-3', type: 'id_copy',        name: 'ID Copy — Lerato Molefe',               uploaded_at: '2022-11-10', status: 'valid', file_size: '380 KB' },
+  { id: 'doc-8', employee_id: 'emp-4', type: 'contract',       name: 'Employment Contract — Sipho Dlamini',   uploaded_at: '2024-01-08', status: 'valid' },
+  { id: 'doc-9', employee_id: 'emp-4', type: 'id_copy',        name: 'ID Copy — Sipho Dlamini',              uploaded_at: '2024-01-08', status: 'valid', file_size: '510 KB' },
+  { id: 'doc-10', employee_id: 'emp-5', type: 'contract',      name: 'Employment Contract — Priya Naidoo',    uploaded_at: '2024-03-20', status: 'valid' },
+  { id: 'doc-11', employee_id: 'emp-6', type: 'contract',      name: 'Employment Contract — Riaan Botha',     uploaded_at: '2023-09-05', status: 'valid' },
+  { id: 'doc-12', employee_id: 'emp-6', type: 'health_cert',   name: 'Health Certificate — Riaan Botha',      uploaded_at: '2023-09-05', expiry_date: leaveDays(45), status: 'expiring_soon', file_size: '980 KB' },
+  { id: 'doc-13', employee_id: 'emp-6', type: 'liquor_licence', name: 'Liquor Licence — Riaan Botha',         uploaded_at: '2024-01-15', expiry_date: leaveDays(120), status: 'valid', file_size: '740 KB' },
+]
+
+// ─── Revenue Data (for staff cost dashboard) ─────────────────────────────────
+
+export const MONTHLY_REVENUE: { month: string; revenue: number; labour_cost: number }[] = [
+  { month: 'Jan', revenue: 485000, labour_cost: 98000 },
+  { month: 'Feb', revenue: 520000, labour_cost: 102000 },
+  { month: 'Mar', revenue: 610000, labour_cost: 115000 },
+  { month: 'Apr', revenue: 430000, labour_cost: 94000 },
+  { month: 'May', revenue: 575000, labour_cost: 108000 },
+  { month: 'Jun', revenue: 640000, labour_cost: 122590 },
+]
+
+// ─── Shift Templates ─────────────────────────────────────────────────────────
+
+export interface ShiftTemplate {
+  id: string
+  name: string
+  description: string
+  shifts: {
+    day: number
+    start_time: string
+    end_time: string
+    role: string
+    location: string
+  }[]
+}
+
+export const SHIFT_TEMPLATES: ShiftTemplate[] = [
+  {
+    id: 'tmpl-1',
+    name: 'Standard Weekend',
+    description: 'Typical Sat–Sun floor crew setup',
+    shifts: [
+      { day: 6, start_time: '10:00', end_time: '18:00', role: 'Head Waiter',     location: 'Main Floor' },
+      { day: 6, start_time: '10:00', end_time: '18:00', role: 'Senior Waitress', location: 'Main Floor' },
+      { day: 6, start_time: '16:00', end_time: '00:00', role: 'Bartender',       location: 'Bar' },
+      { day: 0, start_time: '10:00', end_time: '18:00', role: 'Head Waiter',     location: 'Main Floor' },
+      { day: 0, start_time: '11:00', end_time: '19:00', role: 'Waiter',          location: 'Main Floor' },
+    ],
+  },
+  {
+    id: 'tmpl-2',
+    name: 'Event Night',
+    description: 'Full crew for private dinner events',
+    shifts: [
+      { day: 6, start_time: '16:00', end_time: '23:00', role: 'Floor Manager',   location: 'Events' },
+      { day: 6, start_time: '16:00', end_time: '23:00', role: 'Head Waiter',     location: 'Events' },
+      { day: 6, start_time: '16:00', end_time: '23:00', role: 'Senior Waitress', location: 'Events' },
+      { day: 6, start_time: '16:00', end_time: '00:00', role: 'Bartender',       location: 'Bar' },
+      { day: 6, start_time: '16:00', end_time: '23:00', role: 'Hostess',         location: 'Reception' },
+    ],
+  },
+  {
+    id: 'tmpl-3',
+    name: 'Weekday Lunch',
+    description: 'Light Mon–Fri lunch service',
+    shifts: [
+      { day: 1, start_time: '09:00', end_time: '15:00', role: 'Floor Manager',   location: 'Main Floor' },
+      { day: 1, start_time: '09:00', end_time: '15:00', role: 'Waiter',          location: 'Main Floor' },
+      { day: 2, start_time: '09:00', end_time: '15:00', role: 'Floor Manager',   location: 'Main Floor' },
+      { day: 2, start_time: '09:00', end_time: '15:00', role: 'Waiter',          location: 'Main Floor' },
+      { day: 3, start_time: '09:00', end_time: '15:00', role: 'Floor Manager',   location: 'Main Floor' },
+    ],
+  },
+]

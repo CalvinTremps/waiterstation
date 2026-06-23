@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { EMPLOYER_JOBS, ANALYTICS_SERIES } from '@/lib/mock-recruitment'
+import { EMPLOYER_JOBS, ANALYTICS_SERIES, MONTHLY_REVENUE } from '@/lib/mock-recruitment'
 
 const BAR_MAX_H = 80
 
@@ -149,6 +149,56 @@ export default function AnalyticsPage() {
               </div>
             )
           })}
+        </div>
+      </div>
+
+      {/* Staff cost vs revenue */}
+      <div className="bg-white border border-gray-200 rounded-xl p-5">
+        <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
+          <div>
+            <h2 className="font-semibold text-gray-900">Staff Cost vs Revenue</h2>
+            <p className="text-xs text-gray-400 mt-0.5">Labour cost as % of monthly revenue</p>
+          </div>
+          <div className="flex items-center gap-4 text-xs">
+            <div className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-sm bg-gray-200 inline-block"/><span className="text-gray-500">Revenue</span></div>
+            <div className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-sm bg-gray-700 inline-block"/><span className="text-gray-500">Labour cost</span></div>
+          </div>
+        </div>
+        <div className="space-y-3">
+          {MONTHLY_REVENUE.map(m => {
+            const labourPct = ((m.labour_cost / m.revenue) * 100).toFixed(1)
+            const revBar = (m.revenue / Math.max(...MONTHLY_REVENUE.map(r => r.revenue))) * 100
+            const costBar = (m.labour_cost / m.revenue) * 100
+            const isHigh = parseFloat(labourPct) > 22
+            return (
+              <div key={m.month}>
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-xs font-semibold text-gray-700 w-8">{m.month}</span>
+                  <div className="flex-1 mx-3 space-y-1">
+                    <div className="h-3 bg-gray-100 rounded-full overflow-hidden">
+                      <div className="h-full bg-gray-200 rounded-full" style={{ width: `${revBar}%` }}/>
+                    </div>
+                    <div className="h-3 bg-gray-100 rounded-full overflow-hidden">
+                      <div className={`h-full rounded-full ${isHigh ? 'bg-red-400' : 'bg-gray-700'}`} style={{ width: `${Math.min(100, costBar)}%` }}/>
+                    </div>
+                  </div>
+                  <div className="text-right w-28 shrink-0">
+                    <p className="text-xs text-gray-500">R{(m.revenue / 1000).toFixed(0)}k</p>
+                    <p className={`text-xs font-semibold ${isHigh ? 'text-red-500' : 'text-gray-700'}`}>
+                      {labourPct}% labour
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+        <div className="mt-4 bg-gray-50 rounded-xl px-4 py-3 flex items-center justify-between">
+          <p className="text-xs text-gray-600">Current month labour cost</p>
+          <div className="text-right">
+            <p className="text-sm font-bold text-gray-900">R{MONTHLY_REVENUE[MONTHLY_REVENUE.length-1].labour_cost.toLocaleString()}</p>
+            <p className="text-xs text-gray-400">{((MONTHLY_REVENUE[MONTHLY_REVENUE.length-1].labour_cost / MONTHLY_REVENUE[MONTHLY_REVENUE.length-1].revenue) * 100).toFixed(1)}% of revenue</p>
+          </div>
         </div>
       </div>
 

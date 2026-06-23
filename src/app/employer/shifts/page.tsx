@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { MOCK_EMPLOYEES, MOCK_SHIFTS, type Employee, type Shift } from '@/lib/mock-recruitment'
+import { MOCK_EMPLOYEES, MOCK_SHIFTS, SHIFT_TEMPLATES, type Employee, type Shift } from '@/lib/mock-recruitment'
 
 const STATUS_STYLES: Record<Shift['status'], string> = {
   scheduled: 'bg-blue-50 text-blue-700',
@@ -34,6 +34,8 @@ export default function ShiftsPage() {
   const [showBroadcast, setShowBroadcast] = useState(false)
   const [broadcastSent, setBroadcastSent] = useState(false)
   const [broadcastChannel, setBroadcastChannel] = useState<'email' | 'whatsapp'>('email')
+  const [showTemplates, setShowTemplates] = useState(false)
+  const [applyingTemplate, setApplyingTemplate] = useState(false)
 
   // New shift form
   const [newEmpId, setNewEmpId] = useState('')
@@ -112,6 +114,33 @@ export default function ShiftsPage() {
     setTimeout(() => { setShowBroadcast(false); setBroadcastSent(false) }, 2000)
   }
 
+  function applyTemplate(templateId: string) {
+    const tmpl = SHIFT_TEMPLATES.find(t => t.id === templateId)
+    if (!tmpl) return
+    setApplyingTemplate(true)
+    const newShifts: Shift[] = tmpl.shifts.map((ts, i) => {
+      const targetDate = new Date(weekDates[ts.day])
+      const [sh, sm] = ts.start_time.split(':').map(Number)
+      const [eh, em] = ts.end_time.split(':').map(Number)
+      let hrs = (eh * 60 + em - sh * 60 - sm) / 60
+      if (hrs < 0) hrs += 24
+      return {
+        id: `sh-tmpl-${Date.now()}-${i}`,
+        employee_id: activeEmployees.find(e => e.role === ts.role)?.id ?? activeEmployees[i % activeEmployees.length].id,
+        date: toISO(targetDate),
+        start_time: ts.start_time,
+        end_time: ts.end_time,
+        hours: Math.round(hrs * 10) / 10,
+        role: ts.role,
+        location: ts.location,
+        status: 'scheduled' as const,
+      }
+    })
+    setShifts(prev => [...prev, ...newShifts])
+    setShowTemplates(false)
+    setApplyingTemplate(false)
+  }
+
   // Build broadcast preview — upcoming shifts for each employee this week
   const broadcastLines = activeEmployees.map(emp => {
     const empShifts = filteredShifts
@@ -135,6 +164,13 @@ export default function ShiftsPage() {
           <p className="text-sm text-gray-500 mt-0.5">{weekLabel}</p>
         </div>
         <div className="flex items-center gap-2">
+          <button onClick={() => setShowTemplates(true)}
+            className="flex items-center gap-1.5 border border-gray-200 text-gray-700 hover:bg-gray-50 text-sm font-semibold px-3 py-2 rounded-lg transition">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zm0 8a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zm12-1a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+            </svg>
+            Templates
+          </button>
           <button onClick={() => setShowBroadcast(true)}
             className="flex items-center gap-1.5 border border-gray-200 text-gray-700 hover:bg-gray-50 text-sm font-semibold px-3 py-2 rounded-lg transition">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -420,6 +456,51 @@ export default function ShiftsPage() {
                 </button>
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* Shift templates modal */}
+      {showTemplates && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/30" onClick={() => setShowTemplates(false)}/>
+          <div className="relative bg-white rounded-2xl shadow-xl w-full max-w-md">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+              <div>
+                <h2 className="font-semibold text-gray-900">Shift Templates</h2>
+                <p className="text-xs text-gray-500 mt-0.5">Apply a template to fill this week&apos;s schedule</p>
+              </div>
+              <button onClick={() => setShowTemplates(false)} className="text-gray-400 hover:text-gray-600">
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+              </button>
+            </div>
+            <div className="p-4 space-y-3">
+              {SHIFT_TEMPLATES.map(tmpl => (
+                <div key={tmpl.id} className="border border-gray-200 rounded-xl p-4">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-semibold text-gray-900">{tmpl.name}</p>
+                      <p className="text-xs text-gray-500 mt-0.5">{tmpl.description}</p>
+                      <div className="mt-2 space-y-1">
+                        {tmpl.shifts.map((s, i) => (
+                          <p key={i} className="text-[11px] text-gray-500">
+                            {['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][s.day]} · {s.start_time}–{s.end_time} · {s.role} @ {s.location}
+                          </p>
+                        ))}
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => applyTemplate(tmpl.id)}
+                      disabled={applyingTemplate}
+                      className="shrink-0 bg-gray-900 hover:bg-gray-800 text-white text-xs font-semibold px-3 py-2 rounded-lg transition disabled:opacity-60">
+                      Apply
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       )}

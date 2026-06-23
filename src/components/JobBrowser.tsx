@@ -153,7 +153,7 @@ export default function JobBrowser({
       </div>
 
       {/* ── DESKTOP ── */}
-      <div className="hidden md:flex flex-col bg-gray-50" style={{ height: 'calc(100vh - var(--header-height))' }}>
+      <div className="hidden md:flex flex-col bg-white" style={{ height: 'calc(100vh - var(--header-height))' }}>
 
         {/* ── Search + filters toolbar ── */}
         <div className="bg-white border-b border-gray-100 shrink-0">
@@ -265,7 +265,7 @@ export default function JobBrowser({
           </div>
 
           {/* RIGHT: detail panel */}
-          <div className="flex-1 overflow-y-auto bg-gray-50 p-5 scrollbar-thin">
+          <div className="flex-1 overflow-y-auto bg-white p-5 scrollbar-thin">
             {selected
               ? (
                 <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden">

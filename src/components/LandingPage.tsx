@@ -145,7 +145,7 @@ export default function LandingPage({
   }
 
   return (
-    <div className="min-h-screen" style={{ background: '#f4f4f4' }}>
+    <div className="min-h-screen bg-white">
 
       {/* ── Hero ── */}
       <div className="bg-white border-b border-gray-200">
@@ -237,7 +237,7 @@ export default function LandingPage({
 
       {/* ── Recent searches band ── */}
       {recent.length > 0 && (
-        <div className="border-b border-gray-200" style={{ background: '#ececec' }}>
+        <div className="bg-white border-b border-gray-200">
           <div className="max-w-3xl mx-auto px-5 py-5">
             <p className="text-xs font-bold text-gray-900 mb-2.5">Your Recent Searches</p>
             <div className="flex flex-wrap gap-2">

@@ -4,7 +4,7 @@
   --header-height: 64px;
   --mobile-header-height: 52px;
   --tab-bar-height: 56px;
-  --bg: #F2F2F7;
+  --bg: #ffffff;
   --card: #ffffff;
   --green: #059669;
   --green-dark: #047857;
@@ -13,7 +13,7 @@
   --border: #E5E7EB;
   --ios-blue: #007AFF;
   --ios-gray: #8E8E93;
-  --ios-bg: #F2F2F7;
+  --ios-bg: #ffffff;
   --ios-separator: rgba(60,60,67,0.18);
 }
 
@@ -168,7 +168,7 @@ body {
   display: flex;
   height: 100dvh;
   overflow: hidden;
-  background: #f8f8f8;
+  background: #ffffff;
 }
 
 /* Sidebar */
@@ -374,7 +374,7 @@ body {
   display: flex;
   height: 100dvh;
   overflow: hidden;
-  background: #f8f8f8;
+  background: #ffffff;
 }
 
 .worker-sidebar {

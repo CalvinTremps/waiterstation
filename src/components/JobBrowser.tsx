@@ -156,7 +156,7 @@ export default function JobBrowser({
       <div className="hidden md:flex flex-col bg-white" style={{ height: 'calc(100vh - var(--header-height))' }}>
 
         {/* ── Search + filters toolbar ── */}
-        <div className="bg-white border-b border-gray-100 shrink-0">
+        <div className="bg-white shrink-0">
           <div className="max-w-[1440px] mx-auto px-6 pt-4 pb-3">
 
             {/* Search bar */}
@@ -239,7 +239,7 @@ export default function JobBrowser({
         <div className="flex flex-1 min-h-0 max-w-[1440px] mx-auto w-full">
 
           {/* LEFT: job list */}
-          <div className="w-[320px] lg:w-[480px] shrink-0 overflow-y-auto scrollbar-thin border-r border-gray-200 bg-white">
+          <div className="w-[320px] lg:w-[480px] shrink-0 overflow-y-auto scrollbar-thin bg-white">
             {jobs.length === 0 && <EmptyState onClear={clearFilters} hasFilters={!!hasFilters} />}
             <div className="p-3 space-y-1.5">
               {jobs.slice(0, visibleCount).map((job, idx) => (
@@ -462,7 +462,7 @@ function DesktopJobDetail({ job, isLoggedIn, basePath }: { job: Job; isLoggedIn:
       {showApply && <ApplyModal job={job} onClose={() => setShowApply(false)} />}
 
       {/* ── Header ── */}
-      <div className="px-7 pt-6 pb-5 border-b border-gray-100">
+      <div className="px-7 pt-6 pb-5">
         <div className="flex items-start justify-between gap-4">
           <div className="flex items-start gap-4 min-w-0">
             <CompanyBadge name={job.employer_name} size="lg" logoUrl={co?.logo_url} />

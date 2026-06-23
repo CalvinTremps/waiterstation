@@ -148,7 +148,7 @@ export default function LandingPage({
     <div className="min-h-screen bg-white">
 
       {/* ── Hero ── */}
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-white">
         <div className="max-w-3xl mx-auto px-5 py-14 text-center">
           <h1 className="text-4xl font-bold text-gray-900 mb-3 leading-tight tracking-tight">
             Thousands of Hospitality Jobs in South Africa
@@ -237,7 +237,7 @@ export default function LandingPage({
 
       {/* ── Recent searches band ── */}
       {recent.length > 0 && (
-        <div className="bg-white border-b border-gray-200">
+        <div className="bg-white">
           <div className="max-w-3xl mx-auto px-5 py-5">
             <p className="text-xs font-bold text-gray-900 mb-2.5">Your Recent Searches</p>
             <div className="flex flex-wrap gap-2">

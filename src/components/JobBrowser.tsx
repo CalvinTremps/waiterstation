@@ -181,14 +181,14 @@ export default function JobBrowser({
             <div className="flex items-center gap-2 mt-3 overflow-x-auto scroll-no-bar -mx-1 px-1 pb-0.5">
               <button onClick={() => updateFilter('role', '')}
                 className={`shrink-0 flex items-center gap-1.5 text-xs font-semibold px-3.5 py-1.5 rounded-full border transition whitespace-nowrap ${
-                  !currentRole ? 'bg-gray-900 text-white border-gray-900' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400 hover:text-gray-800'
+                  !currentRole ? 'bg-violet-600 text-white border-violet-600' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400 hover:text-gray-800'
                 }`}>
                 All roles
               </button>
               {ROLE_CATEGORIES.map(r => (
                 <button key={r} onClick={() => updateFilter('role', currentRole === r ? '' : r)}
                   className={`shrink-0 flex items-center gap-1.5 text-xs font-semibold px-3.5 py-1.5 rounded-full border transition whitespace-nowrap ${
-                    currentRole === r ? 'bg-gray-900 text-white border-gray-900' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400 hover:text-gray-800'
+                    currentRole === r ? 'bg-violet-600 text-white border-violet-600' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400 hover:text-gray-800'
                   }`}>
                   <Icon name={r} className="w-3.5 h-3.5" />
                   {ROLE_LABELS[r]}
@@ -203,7 +203,7 @@ export default function JobBrowser({
                   <button key={val || 'all'} onClick={() => updateFilter('type', val)}
                     className={`text-xs py-2.5 px-4 border-b-2 transition whitespace-nowrap font-semibold ${
                       currentType === val
-                        ? 'border-gray-900 text-gray-900'
+                        ? 'border-violet-600 text-violet-700'
                         : 'border-transparent text-gray-400 hover:text-gray-700'
                     }`}>
                     {label}
@@ -331,7 +331,7 @@ function DesktopSearchBar({ currentRole, currentLocation, currentQuery, onSearch
           className="flex-1 text-sm text-gray-800 placeholder:text-gray-400 bg-transparent focus:outline-none min-w-0 font-medium" />
       </div>
       <button type="submit"
-        className="bg-gray-900 hover:bg-gray-800 transition text-white text-sm font-semibold px-6 h-10 shrink-0 flex items-center gap-2">
+        className="bg-violet-700 hover:bg-violet-800 transition text-white text-sm font-semibold px-6 h-10 shrink-0 flex items-center gap-2">
         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <circle cx="11" cy="11" r="8"/><path strokeLinecap="round" d="M21 21l-4.35-4.35"/>
         </svg>
@@ -355,13 +355,13 @@ function DesktopJobCard({ job, selected, saved, featured, onSelect, onToggleSave
       onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') onSelect() }}
       className={`w-full text-left rounded-xl border p-4 transition-all cursor-pointer group relative ${
         selected
-          ? 'border-gray-900 bg-gray-50 shadow-sm'
+          ? 'border-violet-400 shadow-sm'
           : 'border-gray-200 bg-white hover:border-gray-300 hover:shadow-sm'
       }`}>
 
       {/* Selected accent bar */}
       {selected && (
-        <div className="absolute left-0 top-3 bottom-3 w-0.5 bg-gray-900 rounded-r-full" />
+        <div className="absolute left-0 top-3 bottom-3 w-1 bg-violet-600 rounded-r-full" />
       )}
 
       <div className="flex items-start gap-3">
@@ -383,7 +383,7 @@ function DesktopJobCard({ job, selected, saved, featured, onSelect, onToggleSave
               )}
               <span className="text-[11px] text-gray-400">{timeAgo(job.created_at)}</span>
               <button onClick={onToggleSave}
-                className={`p-0.5 transition ${saved ? 'text-gray-900' : 'text-gray-200 hover:text-gray-500 opacity-0 group-hover:opacity-100'}`}>
+                className={`p-0.5 transition ${saved ? 'text-violet-600' : 'text-gray-200 hover:text-gray-500 opacity-0 group-hover:opacity-100'}`}>
                 <svg className="w-3.5 h-3.5" fill={saved ? 'currentColor' : 'none'}
                   viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
@@ -512,7 +512,7 @@ function DesktopJobDetail({ job, isLoggedIn, basePath }: { job: Job; isLoggedIn:
               </a>
             )}
             <button onClick={handleApply}
-              className="bg-gray-900 hover:bg-gray-800 text-white font-bold px-6 py-2.5 rounded-xl text-sm transition">
+              className="bg-violet-600 hover:bg-violet-700 text-white font-bold px-6 py-2.5 rounded-xl text-sm transition">
               Apply now
             </button>
           </div>
@@ -686,7 +686,7 @@ function DesktopJobDetail({ job, isLoggedIn, basePath }: { job: Job; isLoggedIn:
             <p className="text-xs text-gray-400 truncate">{job.employer_name} · {job.location}</p>
           </div>
           <button onClick={handleApply}
-            className="bg-gray-900 hover:bg-gray-800 text-white font-bold px-8 py-3 rounded-xl text-sm transition shrink-0">
+            className="bg-violet-600 hover:bg-violet-700 text-white font-bold px-8 py-3 rounded-xl text-sm transition shrink-0">
             Apply now
           </button>
         </div>
@@ -718,7 +718,7 @@ function MobileJobCard({ job, saved, onToggleSave }: {
             <span className="text-[10px] font-bold bg-emerald-50 text-emerald-700 px-1.5 py-0.5 rounded-full">New</span>
           )}
           <button onClick={e => { e.preventDefault(); onToggleSave() }}
-            className={`transition ${saved ? 'text-gray-900' : 'text-gray-300'}`}>
+            className={`transition ${saved ? 'text-violet-600' : 'text-gray-300'}`}>
             <svg className="w-4 h-4" fill={saved ? 'currentColor' : 'none'}
               viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
@@ -808,7 +808,7 @@ function MobileFilters({ currentRole, currentType, currentLocation, currentQuery
         {(['', ...EMPLOYMENT_TYPES] as const).map(t => (
           <button key={t || 'all'} onClick={() => onUpdate('type', t)}
             className={`flex-1 text-xs font-medium py-2 rounded-lg transition whitespace-nowrap ${
-              currentType === t ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'
+              currentType === t ? 'bg-white text-violet-700 shadow-sm' : 'text-gray-500 hover:text-gray-700'
             }`}>
             {t === '' ? 'All' : t === 'event' ? 'Event' : EMPLOYMENT_TYPE_LABELS[t]}
           </button>
@@ -827,7 +827,7 @@ function MobilePill({ active, onTap, children }: { active: boolean; onTap: () =>
   return (
     <button onClick={onTap}
       className={`shrink-0 text-xs font-medium px-3.5 py-2 rounded-full border transition whitespace-nowrap ${
-        active ? 'bg-gray-900 text-white border-gray-900' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400'
+        active ? 'bg-violet-600 text-white border-violet-600' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400'
       }`}>
       {children}
     </button>

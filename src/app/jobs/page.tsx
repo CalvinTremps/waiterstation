@@ -3,6 +3,7 @@ import { Job, RoleCategory, EmploymentType } from '@/lib/types'
 import { MOCK_JOBS } from '@/lib/mock-jobs'
 import { fetchAdzunaJobs } from '@/lib/adzuna'
 import JobBrowser from '@/components/JobBrowser'
+import { withTimeout } from '@/lib/with-timeout'
 
 interface SearchParams {
   role?: string
@@ -10,13 +11,6 @@ interface SearchParams {
   location?: string
   q?: string
   payOnly?: string
-}
-
-function withTimeout<T>(promise: PromiseLike<T>, ms: number): Promise<T | null> {
-  return Promise.race([
-    Promise.resolve(promise),
-    new Promise<null>(resolve => setTimeout(() => resolve(null), ms)),
-  ])
 }
 
 export const metadata = {

@@ -7,6 +7,7 @@ import { MOCK_COMPANIES } from '@/lib/mock-companies'
 import CompanyBadge from './CompanyBadge'
 import ClaimedBadge from './ClaimedBadge'
 import ApplyModal from './ApplyModal'
+import { timeAgo } from '@/lib/time'
 
 const EMPLOYMENT_TYPES: EmploymentType[] = ['permanent', 'seasonal', 'event']
 
@@ -26,15 +27,6 @@ const ROLE_ICONS: Record<string, string> = {
   host: '🤝',
   manager: '📋',
   other: '⭐',
-}
-
-function timeAgo(dateStr: string) {
-  const days = Math.floor((Date.now() - new Date(dateStr).getTime()) / 86400000)
-  if (days === 0) return 'Today'
-  if (days === 1) return '1d ago'
-  if (days < 7) return `${days}d ago`
-  const weeks = Math.floor(days / 7)
-  return `${weeks}w ago`
 }
 
 function isNew(dateStr: string) {

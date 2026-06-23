@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { EMPLOYER_JOBS, MOCK_APPLICANTS, MOCK_INTERVIEWS, PIPELINE_STAGES, SMART_ALERTS } from '@/lib/mock-recruitment'
+import { timeAgoDays as timeAgo } from '@/lib/time'
 
 const stageCounts = PIPELINE_STAGES.map(s => ({
   ...s,
@@ -21,12 +22,6 @@ const liveJobs = EMPLOYER_JOBS.filter(j => j.status === 'live')
 const totalViews = EMPLOYER_JOBS.reduce((s, j) => s + j.views, 0)
 const totalApplicants = MOCK_APPLICANTS.length
 
-function timeAgo(iso: string) {
-  const days = Math.floor((Date.now() - new Date(iso).getTime()) / 86400000)
-  if (days === 0) return 'Today'
-  if (days === 1) return 'Yesterday'
-  return `${days}d ago`
-}
 
 function formatDate(dateStr: string) {
   return new Date(dateStr).toLocaleDateString('en-ZA', { weekday: 'short', day: 'numeric', month: 'short' })

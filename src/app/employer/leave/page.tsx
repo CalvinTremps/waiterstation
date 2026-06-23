@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { LEAVE_REQUESTS, LEAVE_BALANCES, MOCK_EMPLOYEES, type LeaveRequest } from '@/lib/mock-recruitment'
+import { timeAgoDays as timeAgo } from '@/lib/time'
 
 const TYPE_LABEL: Record<LeaveRequest['type'], string> = {
   annual: 'Annual Leave', sick: 'Sick Leave', family: 'Family Responsibility', unpaid: 'Unpaid Leave',
@@ -16,12 +17,6 @@ const STATUS_COLOR: Record<LeaveRequest['status'], string> = {
 
 function formatDate(d: string) {
   return new Date(d).toLocaleDateString('en-ZA', { day: 'numeric', month: 'short', year: 'numeric' })
-}
-function timeAgo(iso: string) {
-  const d = Math.floor((Date.now() - new Date(iso).getTime()) / 86400000)
-  if (d === 0) return 'Today'
-  if (d === 1) return 'Yesterday'
-  return `${d}d ago`
 }
 
 export default function LeavePage() {

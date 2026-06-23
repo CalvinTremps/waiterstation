@@ -5,19 +5,11 @@ import { useRouter } from 'next/navigation'
 import { Job, ROLE_LABELS, ROLE_CATEGORIES, RoleCategory, EMPLOYMENT_TYPE_LABELS } from '@/lib/types'
 import { MOCK_COMPANIES } from '@/lib/mock-companies'
 import CompanyBadge from './CompanyBadge'
+import { timeAgo } from '@/lib/time'
 
 const RECENT_KEY = 'ws_recent_searches'
 
 type RecentSearch = { label: string; href: string }
-
-function timeAgo(dateStr: string) {
-  const days = Math.floor((Date.now() - new Date(dateStr).getTime()) / 86400000)
-  if (days === 0) return 'Today'
-  if (days === 1) return '1d ago'
-  if (days < 7) return `${days}d ago`
-  const weeks = Math.floor(days / 7)
-  return `${weeks}w ago`
-}
 
 // ── List row (left column) ──────────────────────────────────────────
 function NearbyRow({ job, selected, onSelect }: { job: Job; selected: boolean; onSelect: () => void }) {
@@ -92,13 +84,11 @@ export default function LandingPage({
   nearbyJobs,
   allJobs,
   detectedCity,
-  totalLive,
   roleCounts,
 }: {
   nearbyJobs: Job[]
   allJobs: Job[]
   detectedCity: string
-  totalLive: number
   roleCounts: Record<string, number>
 }) {
   const router = useRouter()
@@ -119,10 +109,9 @@ export default function LandingPage({
   }, [])
 
   function pushRecent(label: string, href: string) {
-    try {
-      const next = [{ label, href }, ...recent.filter(r => r.href !== href)].slice(0, 6)
-      localStorage.setItem(RECENT_KEY, JSON.stringify(next))
-    } catch {}
+    const next = [{ label, href }, ...recent.filter(r => r.href !== href)].slice(0, 6)
+    setRecent(next)
+    try { localStorage.setItem(RECENT_KEY, JSON.stringify(next)) } catch {}
   }
 
   function removeRecent(href: string) {

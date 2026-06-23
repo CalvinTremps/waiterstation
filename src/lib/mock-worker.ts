@@ -83,7 +83,11 @@ export interface WorkerExperience {
   description: string
 }
 
-const now = Date.now()
+// Fixed reference date for deterministic mock timestamps — see the matching
+// note in mock-recruitment.ts. Date.now() here caused SSR/client hydration
+// mismatches because this module is imported by server-rendered 'use client'
+// pages and evaluated at different wall-clock times on server vs browser.
+const now = new Date('2026-06-23T09:00:00+02:00').getTime()
 const daysAgo = (d: number) => new Date(now - d * 86400000).toISOString()
 const daysAhead = (d: number) => new Date(now + d * 86400000).toISOString()
 

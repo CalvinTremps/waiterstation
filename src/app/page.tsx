@@ -1,16 +1,10 @@
-import { createServerClient, getSession } from '@/lib/supabase-server'
+import { createServerClient } from '@/lib/supabase-server'
 import { headers } from 'next/headers'
 import { Job } from '@/lib/types'
 import { MOCK_JOBS } from '@/lib/mock-jobs'
 import { fetchAdzunaJobs } from '@/lib/adzuna'
+import { withTimeout } from '@/lib/with-timeout'
 import LandingPage from '@/components/LandingPage'
-
-function withTimeout<T>(promise: PromiseLike<T>, ms: number): Promise<T | null> {
-  return Promise.race([
-    Promise.resolve(promise),
-    new Promise<null>(resolve => setTimeout(() => resolve(null), ms)),
-  ])
-}
 
 async function detectCity(ip: string): Promise<string> {
   if (!ip || ip === '127.0.0.1' || ip === '::1') return 'Cape Town'
@@ -62,16 +56,6 @@ export default async function HomePage() {
     }
   }
 
-  let totalLive = 0
-  try {
-    const res = await withTimeout(
-      supabase.from('jobs').select('*', { count: 'exact', head: true }).eq('status', 'approved'),
-      3000
-    )
-    totalLive = res?.count ?? 0
-  } catch {}
-  if (!totalLive) totalLive = jobs.length
-
   const nearbyJobs = jobs.filter(j =>
     j.location.toLowerCase().includes(detectedCity.toLowerCase())
   )
@@ -86,7 +70,6 @@ export default async function HomePage() {
       nearbyJobs={nearbyJobs}
       allJobs={jobs}
       detectedCity={detectedCity}
-      totalLive={totalLive}
       roleCounts={roleCounts}
     />
   )

@@ -117,6 +117,9 @@ function SubmitSalaryModal({ onClose, onSubmit }: { onClose: () => void; onSubmi
 /* ─── Stat card ──────────────────────────────────────────── */
 function StatCard({ stat }: { stat: ReturnType<typeof aggregateSalaries>[number] }) {
   const hasTips = stat.tipsMedian > 0
+  // Guard against divide-by-zero and clamp: medians aren't additive, so a
+  // component median can exceed the total median.
+  const pct = (n: number) => (stat.totalMedian > 0 ? Math.min(100, Math.round((n / stat.totalMedian) * 100)) : 0)
   return (
     <div className="bg-white rounded-xl border border-gray-200 p-5 hover:border-gray-300 hover:shadow-sm transition">
       <div className="flex items-start justify-between gap-3 mb-4">
@@ -143,7 +146,7 @@ function StatCard({ stat }: { stat: ReturnType<typeof aggregateSalaries>[number]
             <span className="font-semibold text-gray-800">{formatRand(stat.baseMedian)}</span>
           </div>
           <div className="h-1.5 rounded-full bg-gray-100 overflow-hidden">
-            <div className="h-full bg-gray-800 rounded-full" style={{ width: `${Math.round((stat.baseMedian / stat.totalMedian) * 100)}%` }} />
+            <div className="h-full bg-gray-800 rounded-full" style={{ width: `${pct(stat.baseMedian)}%` }} />
           </div>
         </div>
         {hasTips && (
@@ -153,7 +156,7 @@ function StatCard({ stat }: { stat: ReturnType<typeof aggregateSalaries>[number]
               <span className="font-semibold text-emerald-700">{formatRand(stat.tipsMedian)}</span>
             </div>
             <div className="h-1.5 rounded-full bg-gray-100 overflow-hidden">
-              <div className="h-full bg-emerald-500 rounded-full" style={{ width: `${Math.round((stat.tipsMedian / stat.totalMedian) * 100)}%` }} />
+              <div className="h-full bg-emerald-500 rounded-full" style={{ width: `${pct(stat.tipsMedian)}%` }} />
             </div>
           </div>
         )}

@@ -58,7 +58,13 @@ export interface AnalyticsSeries {
   applies: number
 }
 
-const now = Date.now()
+// Fixed reference date for deterministic mock timestamps. Using Date.now()
+// here caused SSR/client hydration mismatches: this module is imported by
+// 'use client' dashboards that Next.js still server-renders, and the module
+// evaluates at a different wall-clock time on the server vs the browser, so
+// derived dates ("21 Jun") didn't match. A constant evaluates identically in
+// both environments. See SEED_NOW usage across mock-* data.
+const now = new Date('2026-06-23T09:00:00+02:00').getTime()
 const daysAgo = (d: number) => new Date(now - d * 86400000).toISOString()
 
 export const EMPLOYER_JOBS: EmployerJob[] = [
@@ -755,7 +761,7 @@ export interface PayrollSettings {
   currency: string
 }
 
-const now2 = Date.now()
+const now2 = now // fixed reference date — see note above; avoids hydration drift
 
 export const MOCK_EMPLOYEES: Employee[] = [
   {
@@ -917,7 +923,7 @@ export interface LeaveBalance {
   sick_used: number
 }
 
-const leaveNow = Date.now()
+const leaveNow = now // fixed reference date — see note above; avoids hydration drift
 function leaveDays(offset: number) {
   return new Date(leaveNow + offset * 86400000).toISOString().split('T')[0]
 }

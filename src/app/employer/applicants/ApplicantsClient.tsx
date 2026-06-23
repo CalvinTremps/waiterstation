@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
+import { timeAgo } from '@/lib/time'
 
 type ApplicationStatus = 'new' | 'viewed' | 'shortlisted' | 'interview' | 'offered' | 'hired' | 'rejected' | 'withdrawn'
 
@@ -40,12 +41,6 @@ const STAGE_LABELS: Record<ApplicationStatus, string> = {
 
 const ALL_STAGES: ApplicationStatus[] = ['new', 'viewed', 'shortlisted', 'interview', 'offered', 'hired', 'rejected']
 
-function timeAgo(iso: string) {
-  const days = Math.floor((Date.now() - new Date(iso).getTime()) / 86400000)
-  if (days === 0) return 'Today'
-  if (days === 1) return '1d ago'
-  return `${days}d ago`
-}
 
 function initials(name: string) {
   return name.split(' ').map(p => p[0]).join('').toUpperCase().slice(0, 2)

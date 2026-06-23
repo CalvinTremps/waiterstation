@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { SMART_ALERTS, type SmartAlert } from '@/lib/mock-recruitment'
+import { timeAgoFine as timeAgo } from '@/lib/time'
 
 const TYPE_STYLES: Record<SmartAlert['type'], { icon: string; bg: string; dot: string }> = {
   new_match:       { icon: '🎯', bg: 'bg-blue-50 border-blue-100',   dot: 'bg-blue-500' },
@@ -10,13 +11,6 @@ const TYPE_STYLES: Record<SmartAlert['type'], { icon: string; bg: string; dot: s
   pool_suggestion: { icon: '💡', bg: 'bg-purple-50 border-purple-100', dot: 'bg-purple-500' },
 }
 
-function timeAgo(iso: string) {
-  const mins = Math.floor((Date.now() - new Date(iso).getTime()) / 60000)
-  if (mins < 60) return `${mins}m ago`
-  const hrs = Math.floor(mins / 60)
-  if (hrs < 24) return `${hrs}h ago`
-  return `${Math.floor(hrs / 24)}d ago`
-}
 
 export default function SmartAlertsPage() {
   const [alerts, setAlerts] = useState<SmartAlert[]>(SMART_ALERTS)

@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { MOCK_NOTICES, MOCK_EMPLOYEES, type Notice } from '@/lib/mock-recruitment'
+import { timeAgoDays as timeAgo } from '@/lib/time'
 
 const CAT_STYLES: Record<Notice['category'], { label: string; bg: string; dot: string }> = {
   urgent:  { label: 'Urgent',  bg: 'bg-red-50 border-red-100',    dot: 'bg-red-500' },
@@ -10,12 +11,6 @@ const CAT_STYLES: Record<Notice['category'], { label: string; bg: string; dot: s
   general: { label: 'General', bg: 'bg-gray-50 border-gray-200',  dot: 'bg-gray-400' },
 }
 
-function timeAgo(iso: string) {
-  const d = Math.floor((Date.now() - new Date(iso).getTime()) / 86400000)
-  if (d === 0) return 'Today'
-  if (d === 1) return 'Yesterday'
-  return `${d}d ago`
-}
 
 export default function NoticesPage() {
   const employees = MOCK_EMPLOYEES.filter(e => e.status !== 'terminated')

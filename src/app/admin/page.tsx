@@ -1,5 +1,6 @@
 import { createServerClient } from '@/lib/supabase-server'
 import { Job } from '@/lib/types'
+import { timeAgoFine as timeAgo } from '@/lib/time'
 
 export default async function AdminOverviewPage() {
   const supabase = await createServerClient()
@@ -35,14 +36,6 @@ export default async function AdminOverviewPage() {
     { label: 'Brand link requests', value: pendingBrandLinks ?? 0, color: 'text-orange-600', bg: 'bg-orange-50', href: '/admin/brand-links' },
   ]
 
-  function timeAgo(iso: string) {
-    const diff = Date.now() - new Date(iso).getTime()
-    const mins = Math.floor(diff / 60000)
-    if (mins < 60) return `${mins}m ago`
-    const hrs = Math.floor(mins / 60)
-    if (hrs < 24) return `${hrs}h ago`
-    return `${Math.floor(hrs / 24)}d ago`
-  }
 
   return (
     <div className="p-8">

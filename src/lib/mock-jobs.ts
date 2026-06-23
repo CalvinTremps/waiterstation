@@ -1,5 +1,13 @@
 import { Job } from './types'
 
+// Fixed reference date for deterministic mock timestamps. MOCK_JOBS is imported
+// directly by 'use client' components (e.g. CompanyClient), so calling the live
+// clock at module load caused SSR/client hydration mismatches — the module
+// evaluates at different wall-clock times on server vs browser. A constant is
+// identical in both. `_now` replaces the old live-clock baseline; the relative
+// offsets below are unchanged.
+const _now = new Date('2026-06-23T09:00:00+02:00').getTime()
+
 export const MOCK_JOBS: Job[] = [
   // ─── WAITERS / WAITRESSES ───────────────────────────────────────────────────
   {
@@ -13,7 +21,7 @@ export const MOCK_JOBS: Job[] = [
     employer_name: 'One&Only Cape Town',
     contact_method: '+27 21 431 5888',
     status: 'approved',
-    created_at: new Date(Date.now() - 0.5 * 86400000).toISOString(),
+    created_at: new Date(_now - 0.5 * 86400000).toISOString(),
   },
   {
     id: 'mock-2',
@@ -26,7 +34,7 @@ export const MOCK_JOBS: Job[] = [
     employer_name: 'Marble Restaurant',
     contact_method: '+27 11 327 7579',
     status: 'approved',
-    created_at: new Date(Date.now() - 1 * 86400000).toISOString(),
+    created_at: new Date(_now - 1 * 86400000).toISOString(),
   },
   {
     id: 'mock-3',
@@ -39,7 +47,7 @@ export const MOCK_JOBS: Job[] = [
     employer_name: 'Spier Wine Farm',
     contact_method: '+27 21 809 1100',
     status: 'approved',
-    created_at: new Date(Date.now() - 1 * 86400000).toISOString(),
+    created_at: new Date(_now - 1 * 86400000).toISOString(),
   },
   {
     id: 'mock-4',
@@ -52,7 +60,7 @@ export const MOCK_JOBS: Job[] = [
     employer_name: 'The Oyster Box Hotel',
     contact_method: '+27 31 514 5000',
     status: 'approved',
-    created_at: new Date(Date.now() - 2 * 86400000).toISOString(),
+    created_at: new Date(_now - 2 * 86400000).toISOString(),
   },
   {
     id: 'mock-5',
@@ -65,7 +73,7 @@ export const MOCK_JOBS: Job[] = [
     employer_name: 'Faber at Avondale',
     contact_method: '+27 21 863 1160',
     status: 'approved',
-    created_at: new Date(Date.now() - 3 * 86400000).toISOString(),
+    created_at: new Date(_now - 3 * 86400000).toISOString(),
   },
   {
     id: 'mock-6',
@@ -78,7 +86,7 @@ export const MOCK_JOBS: Job[] = [
     employer_name: 'Gorgeous George Hotel',
     contact_method: '+27 21 433 2060',
     status: 'approved',
-    created_at: new Date(Date.now() - 3 * 86400000).toISOString(),
+    created_at: new Date(_now - 3 * 86400000).toISOString(),
   },
 
   // ─── CHEFS ──────────────────────────────────────────────────────────────────
@@ -93,7 +101,7 @@ export const MOCK_JOBS: Job[] = [
     employer_name: 'La Colombe Restaurant',
     contact_method: '+27 21 794 2390',
     status: 'approved',
-    created_at: new Date(Date.now() - 0.5 * 86400000).toISOString(),
+    created_at: new Date(_now - 0.5 * 86400000).toISOString(),
   },
   {
     id: 'mock-8',
@@ -106,7 +114,7 @@ export const MOCK_JOBS: Job[] = [
     employer_name: 'The Westin Cape Town',
     contact_method: '+27 21 412 9999',
     status: 'approved',
-    created_at: new Date(Date.now() - 2 * 86400000).toISOString(),
+    created_at: new Date(_now - 2 * 86400000).toISOString(),
   },
   {
     id: 'mock-9',
@@ -119,7 +127,7 @@ export const MOCK_JOBS: Job[] = [
     employer_name: 'Leeu Collection',
     contact_method: 'chefs@leeucollection.com',
     status: 'approved',
-    created_at: new Date(Date.now() - 4 * 86400000).toISOString(),
+    created_at: new Date(_now - 4 * 86400000).toISOString(),
   },
   {
     id: 'mock-10',
@@ -132,7 +140,7 @@ export const MOCK_JOBS: Job[] = [
     employer_name: 'The Peech Hotel',
     contact_method: '+27 11 537 9797',
     status: 'approved',
-    created_at: new Date(Date.now() - 5 * 86400000).toISOString(),
+    created_at: new Date(_now - 5 * 86400000).toISOString(),
   },
   {
     id: 'mock-11',
@@ -145,7 +153,7 @@ export const MOCK_JOBS: Job[] = [
     employer_name: 'Singita Sabi Sand',
     contact_method: 'talent@singita.com',
     status: 'approved',
-    created_at: new Date(Date.now() - 6 * 86400000).toISOString(),
+    created_at: new Date(_now - 6 * 86400000).toISOString(),
   },
 
   // ─── BARTENDERS ─────────────────────────────────────────────────────────────
@@ -160,7 +168,7 @@ export const MOCK_JOBS: Job[] = [
     employer_name: 'Cause & Effect Cocktail Kitchen',
     contact_method: '+27 21 422 0377',
     status: 'approved',
-    created_at: new Date(Date.now() - 1 * 86400000).toISOString(),
+    created_at: new Date(_now - 1 * 86400000).toISOString(),
   },
   {
     id: 'mock-13',
@@ -173,7 +181,7 @@ export const MOCK_JOBS: Job[] = [
     employer_name: 'Radisson RED Rosebank',
     contact_method: '+27 10 214 5800',
     status: 'approved',
-    created_at: new Date(Date.now() - 2 * 86400000).toISOString(),
+    created_at: new Date(_now - 2 * 86400000).toISOString(),
   },
   {
     id: 'mock-14',
@@ -186,7 +194,7 @@ export const MOCK_JOBS: Job[] = [
     employer_name: 'Gateway Yacht Club',
     contact_method: '+27 31 307 6611',
     status: 'approved',
-    created_at: new Date(Date.now() - 3 * 86400000).toISOString(),
+    created_at: new Date(_now - 3 * 86400000).toISOString(),
   },
 
   // ─── BARISTAS ───────────────────────────────────────────────────────────────
@@ -201,7 +209,7 @@ export const MOCK_JOBS: Job[] = [
     employer_name: 'Truth Coffee Roasting',
     contact_method: '+27 21 200 0440',
     status: 'approved',
-    created_at: new Date(Date.now() - 1 * 86400000).toISOString(),
+    created_at: new Date(_now - 1 * 86400000).toISOString(),
   },
   {
     id: 'mock-16',
@@ -214,7 +222,7 @@ export const MOCK_JOBS: Job[] = [
     employer_name: 'Rosetta Roastery',
     contact_method: 'info@rosettas.co.za',
     status: 'approved',
-    created_at: new Date(Date.now() - 4 * 86400000).toISOString(),
+    created_at: new Date(_now - 4 * 86400000).toISOString(),
   },
   {
     id: 'mock-17',
@@ -227,7 +235,7 @@ export const MOCK_JOBS: Job[] = [
     employer_name: 'Origin Coffee Roasting',
     contact_method: '+27 21 421 1000',
     status: 'approved',
-    created_at: new Date(Date.now() - 5 * 86400000).toISOString(),
+    created_at: new Date(_now - 5 * 86400000).toISOString(),
   },
 
   // ─── HOUSEKEEPING ────────────────────────────────────────────────────────────
@@ -242,7 +250,7 @@ export const MOCK_JOBS: Job[] = [
     employer_name: 'Cape Grace Hotel',
     contact_method: '+27 21 410 7100',
     status: 'approved',
-    created_at: new Date(Date.now() - 2 * 86400000).toISOString(),
+    created_at: new Date(_now - 2 * 86400000).toISOString(),
   },
   {
     id: 'mock-19',
@@ -255,7 +263,7 @@ export const MOCK_JOBS: Job[] = [
     employer_name: 'Sandton Sun',
     contact_method: '+27 11 780 5000',
     status: 'approved',
-    created_at: new Date(Date.now() - 3 * 86400000).toISOString(),
+    created_at: new Date(_now - 3 * 86400000).toISOString(),
   },
   {
     id: 'mock-20',
@@ -268,7 +276,7 @@ export const MOCK_JOBS: Job[] = [
     employer_name: 'The Oyster Box Hotel',
     contact_method: '+27 31 514 5000',
     status: 'approved',
-    created_at: new Date(Date.now() - 6 * 86400000).toISOString(),
+    created_at: new Date(_now - 6 * 86400000).toISOString(),
   },
 
   // ─── FRONT DESK ──────────────────────────────────────────────────────────────
@@ -283,7 +291,7 @@ export const MOCK_JOBS: Job[] = [
     employer_name: 'POD Boutique Hotel',
     contact_method: '+27 21 430 5570',
     status: 'approved',
-    created_at: new Date(Date.now() - 1 * 86400000).toISOString(),
+    created_at: new Date(_now - 1 * 86400000).toISOString(),
   },
   {
     id: 'mock-22',
@@ -296,7 +304,7 @@ export const MOCK_JOBS: Job[] = [
     employer_name: 'The Saxon Hotel',
     contact_method: 'hr@thesaxon.com',
     status: 'approved',
-    created_at: new Date(Date.now() - 2 * 86400000).toISOString(),
+    created_at: new Date(_now - 2 * 86400000).toISOString(),
   },
   {
     id: 'mock-23',
@@ -309,7 +317,7 @@ export const MOCK_JOBS: Job[] = [
     employer_name: 'The Capital Moloko',
     contact_method: '+27 12 003 5678',
     status: 'approved',
-    created_at: new Date(Date.now() - 5 * 86400000).toISOString(),
+    created_at: new Date(_now - 5 * 86400000).toISOString(),
   },
 
   // ─── KITCHEN STAFF ───────────────────────────────────────────────────────────
@@ -324,7 +332,7 @@ export const MOCK_JOBS: Job[] = [
     employer_name: 'Societi Bistro',
     contact_method: '+27 21 424 2100',
     status: 'approved',
-    created_at: new Date(Date.now() - 3 * 86400000).toISOString(),
+    created_at: new Date(_now - 3 * 86400000).toISOString(),
   },
   {
     id: 'mock-25',
@@ -337,7 +345,7 @@ export const MOCK_JOBS: Job[] = [
     employer_name: "Chairman's Restaurant",
     contact_method: '+27 31 201 4444',
     status: 'approved',
-    created_at: new Date(Date.now() - 7 * 86400000).toISOString(),
+    created_at: new Date(_now - 7 * 86400000).toISOString(),
   },
 
   // ─── HOSTS ───────────────────────────────────────────────────────────────────
@@ -352,7 +360,7 @@ export const MOCK_JOBS: Job[] = [
     employer_name: 'The Twelve Apostles Hotel',
     contact_method: '+27 21 437 9000',
     status: 'approved',
-    created_at: new Date(Date.now() - 1 * 86400000).toISOString(),
+    created_at: new Date(_now - 1 * 86400000).toISOString(),
   },
   {
     id: 'mock-27',
@@ -365,7 +373,7 @@ export const MOCK_JOBS: Job[] = [
     employer_name: 'Premier Event Catering',
     contact_method: '+27 11 805 3000',
     status: 'approved',
-    created_at: new Date(Date.now() - 2 * 86400000).toISOString(),
+    created_at: new Date(_now - 2 * 86400000).toISOString(),
   },
 
   // ─── MANAGERS ────────────────────────────────────────────────────────────────
@@ -380,7 +388,7 @@ export const MOCK_JOBS: Job[] = [
     employer_name: 'The Pot Luck Club',
     contact_method: 'hr@thetestkitchengroup.com',
     status: 'approved',
-    created_at: new Date(Date.now() - 1 * 86400000).toISOString(),
+    created_at: new Date(_now - 1 * 86400000).toISOString(),
   },
   {
     id: 'mock-29',
@@ -393,7 +401,7 @@ export const MOCK_JOBS: Job[] = [
     employer_name: 'Fairlawns Boutique Hotel',
     contact_method: 'hr@fairlawns.co.za',
     status: 'approved',
-    created_at: new Date(Date.now() - 4 * 86400000).toISOString(),
+    created_at: new Date(_now - 4 * 86400000).toISOString(),
   },
   {
     id: 'mock-30',
@@ -406,7 +414,7 @@ export const MOCK_JOBS: Job[] = [
     employer_name: 'Jason Bakery',
     contact_method: '+27 21 424 5644',
     status: 'approved',
-    created_at: new Date(Date.now() - 5 * 86400000).toISOString(),
+    created_at: new Date(_now - 5 * 86400000).toISOString(),
   },
 
   // ─── SEASONAL ────────────────────────────────────────────────────────────────
@@ -421,7 +429,7 @@ export const MOCK_JOBS: Job[] = [
     employer_name: 'SOULed OUT Clifton',
     contact_method: '+27 21 438 2021',
     status: 'approved',
-    created_at: new Date(Date.now() - 1 * 86400000).toISOString(),
+    created_at: new Date(_now - 1 * 86400000).toISOString(),
   },
   {
     id: 'mock-32',
@@ -434,7 +442,7 @@ export const MOCK_JOBS: Job[] = [
     employer_name: 'Waterkloof Wine Estate',
     contact_method: '+27 21 858 1292',
     status: 'approved',
-    created_at: new Date(Date.now() - 3 * 86400000).toISOString(),
+    created_at: new Date(_now - 3 * 86400000).toISOString(),
   },
   {
     id: 'mock-33',
@@ -447,7 +455,7 @@ export const MOCK_JOBS: Job[] = [
     employer_name: 'Nozala Events Staffing',
     contact_method: '+27 72 034 5678',
     status: 'approved',
-    created_at: new Date(Date.now() - 2 * 86400000).toISOString(),
+    created_at: new Date(_now - 2 * 86400000).toISOString(),
   },
   {
     id: 'mock-34',
@@ -460,7 +468,7 @@ export const MOCK_JOBS: Job[] = [
     employer_name: 'Protea Hotel Menlyn',
     contact_method: '+27 12 348 8900',
     status: 'approved',
-    created_at: new Date(Date.now() - 6 * 86400000).toISOString(),
+    created_at: new Date(_now - 6 * 86400000).toISOString(),
   },
   {
     id: 'mock-35',
@@ -473,6 +481,6 @@ export const MOCK_JOBS: Job[] = [
     employer_name: 'Belmond Mount Nelson Hotel',
     contact_method: '+27 21 483 1000',
     status: 'approved',
-    created_at: new Date(Date.now() - 4 * 86400000).toISOString(),
+    created_at: new Date(_now - 4 * 86400000).toISOString(),
   },
 ]

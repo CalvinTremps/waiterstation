@@ -1,5 +1,6 @@
 import { createServerClient } from '@/lib/supabase-server'
 import ApplicationStatusButton from './ApplicationStatusButton'
+import { timeAgoDays as timeAgo } from '@/lib/time'
 
 export default async function AdminApplicationsPage({
   searchParams,
@@ -30,13 +31,6 @@ export default async function AdminApplicationsPage({
     supabase.from('applications').select('*', { count: 'exact', head: true }).eq('status', 'reviewed'),
   ])
 
-  function timeAgo(iso: string) {
-    const diff = Date.now() - new Date(iso).getTime()
-    const days = Math.floor(diff / 86400000)
-    if (days === 0) return 'Today'
-    if (days === 1) return 'Yesterday'
-    return `${days}d ago`
-  }
 
   return (
     <div className="p-8">

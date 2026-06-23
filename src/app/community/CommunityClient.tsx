@@ -5,11 +5,26 @@ import { MOCK_COMMUNITY_POSTS, COMMUNITY_BOWLS, CommunityPost } from '@/lib/mock
 import SalaryExplorer from '@/components/SalaryExplorer'
 import { Icon } from '@/components/Icon'
 
+/* ─── Per-category colour identity ───────────────────────── */
+type BowlStyle = { chip: string; bar: string; avatar: string; dot: string; soft: string; border: string }
+const BOWL_STYLES: Record<string, BowlStyle> = {
+  'Salary Talk':     { chip: 'bg-emerald-50 text-emerald-700', bar: 'bg-emerald-400', avatar: 'from-emerald-400 to-teal-500',  dot: 'text-emerald-500', soft: 'group-hover:border-emerald-200', border: 'border-emerald-200' },
+  'Interview Tips':  { chip: 'bg-blue-50 text-blue-700',       bar: 'bg-blue-400',    avatar: 'from-blue-400 to-indigo-500',   dot: 'text-blue-500',    soft: 'group-hover:border-blue-200',    border: 'border-blue-200' },
+  'Work Stories':    { chip: 'bg-amber-50 text-amber-700',     bar: 'bg-amber-400',   avatar: 'from-amber-400 to-orange-500',  dot: 'text-amber-500',   soft: 'group-hover:border-amber-200',   border: 'border-amber-200' },
+  'Industry News':   { chip: 'bg-violet-50 text-violet-700',   bar: 'bg-violet-400',  avatar: 'from-violet-400 to-purple-500', dot: 'text-violet-500',  soft: 'group-hover:border-violet-200',  border: 'border-violet-200' },
+  'Career Advice':   { chip: 'bg-rose-50 text-rose-700',       bar: 'bg-rose-400',    avatar: 'from-rose-400 to-pink-500',     dot: 'text-rose-500',    soft: 'group-hover:border-rose-200',    border: 'border-rose-200' },
+  'Management Talk': { chip: 'bg-indigo-50 text-indigo-700',   bar: 'bg-indigo-400',  avatar: 'from-indigo-400 to-blue-500',   dot: 'text-indigo-500',  soft: 'group-hover:border-indigo-200',  border: 'border-indigo-200' },
+}
+const DEFAULT_STYLE: BowlStyle = { chip: 'bg-gray-100 text-gray-600', bar: 'bg-gray-300', avatar: 'from-gray-400 to-gray-500', dot: 'text-gray-400', soft: 'group-hover:border-gray-300', border: 'border-gray-200' }
+const bowlStyle = (label: string): BowlStyle => BOWL_STYLES[label] ?? DEFAULT_STYLE
+
 /* ─── Avatar ─────────────────────────────────────────────── */
-function AvatarCircle({ letter, size = 'md' }: { letter: string; size?: 'sm' | 'md' | 'lg' }) {
+function AvatarCircle({ letter, size = 'md', gradient }: { letter: string; size?: 'sm' | 'md' | 'lg'; gradient?: string }) {
   const sizes = { sm: 'w-7 h-7 text-xs', md: 'w-9 h-9 text-sm', lg: 'w-11 h-11 text-base' }
   return (
-    <div className={`${sizes[size]} rounded-full bg-gray-200 text-gray-600 font-bold flex items-center justify-center shrink-0`}>
+    <div className={`${sizes[size]} rounded-full font-bold flex items-center justify-center shrink-0 ${
+      gradient ? `bg-gradient-to-br ${gradient} text-white shadow-sm` : 'bg-gray-200 text-gray-600'
+    }`}>
       {letter}
     </div>
   )
@@ -290,10 +305,14 @@ function PostThread({ post, onClose }: { post: CommunityPost; onClose: () => voi
 function PostCard({ post, onOpen, onReport }: { post: CommunityPost; onOpen: () => void; onReport: () => void }) {
   const [liked, setLiked] = useState(false)
   const [likeCount, setLikeCount] = useState(post.likes)
+  const [pop, setPop] = useState(false)
   const bowl = COMMUNITY_BOWLS.find(b => b.label === post.bowl)
+  const st = bowlStyle(post.bowl)
+  const hot = post.likes + post.comments * 2 >= 180
 
   function stopAndLike(e: React.MouseEvent) {
     e.stopPropagation()
+    if (!liked) { setPop(true); setTimeout(() => setPop(false), 320) }
     setLiked(l => !l)
     setLikeCount(c => liked ? c - 1 : c + 1)
   }
@@ -301,76 +320,84 @@ function PostCard({ post, onOpen, onReport }: { post: CommunityPost; onOpen: () 
   return (
     <div
       onClick={onOpen}
-      className="bg-white rounded-xl border border-gray-200 p-5 hover:border-gray-300 hover:shadow-sm transition-all duration-150 cursor-pointer group"
+      className={`relative bg-white rounded-xl border border-gray-200 p-5 pl-6 cursor-pointer group overflow-hidden transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg ${st.soft}`}
     >
+      {/* Category accent bar */}
+      <span className={`absolute left-0 top-0 bottom-0 w-1.5 ${st.bar}`} />
+
       <div className="flex items-start justify-between gap-3 mb-3">
-        <div className="flex items-start gap-3">
-          <AvatarCircle letter={post.author_avatar_letter} />
-          <div>
-            <p className="text-xs text-gray-600 leading-tight font-medium">
+        <div className="flex items-start gap-3 min-w-0">
+          <AvatarCircle letter={post.author_avatar_letter} gradient={st.avatar} />
+          <div className="min-w-0">
+            <p className="text-xs text-gray-700 leading-tight font-semibold truncate">
               {post.is_anonymous ? 'Anonymous' : (post.author_name ?? '')}
               {post.author_role && <span className="font-normal text-gray-400"> · {post.author_role}</span>}
             </p>
             <p className="text-xs text-gray-400 mt-0.5">{post.time_ago}</p>
           </div>
         </div>
-        {bowl && (
-          <span className="text-xs font-medium px-3 py-1 rounded-full bg-gray-100 text-gray-600 whitespace-nowrap shrink-0">
-            {post.bowl}
-          </span>
-        )}
+        <div className="flex items-center gap-1.5 shrink-0">
+          {hot && (
+            <span className="inline-flex items-center gap-1 text-[11px] font-bold px-2 py-1 rounded-full bg-orange-100 text-orange-600">
+              <Icon name="flame" className="w-3 h-3" strokeWidth={2.2} />Hot
+            </span>
+          )}
+          {bowl && (
+            <span className={`inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full whitespace-nowrap ${st.chip}`}>
+              <Icon name={bowl.icon} className="w-3 h-3" />{post.bowl}
+            </span>
+          )}
+        </div>
       </div>
 
       <p className="text-sm text-gray-700 leading-relaxed line-clamp-4 group-hover:text-gray-900 transition-colors">{post.content}</p>
 
       {post.featured_reply && (
-        <div className="mt-3 ml-4 pl-3 border-l-2 border-gray-100 py-1">
+        <div className={`mt-3 ml-1 pl-3 border-l-2 py-1 ${st.border}`}>
           <p className="text-xs text-gray-400 mb-0.5">{post.featured_reply.author_role}</p>
           <p className="text-xs text-gray-600 leading-relaxed line-clamp-2">{post.featured_reply.content}</p>
         </div>
       )}
 
-      <div className="flex items-center gap-5 mt-4 pt-3">
+      <div className="flex items-center gap-4 mt-4 pt-3 border-t border-gray-50">
         <button
           onClick={stopAndLike}
           aria-label={liked ? 'Unlike' : 'Like'}
-          className={`flex items-center gap-1.5 text-xs font-medium transition ${liked ? 'text-gray-900' : 'text-gray-400 hover:text-gray-700'}`}
+          className={`flex items-center gap-1.5 text-xs font-semibold transition active:scale-90 ${liked ? 'text-rose-500' : 'text-gray-400 hover:text-rose-500'}`}
         >
-          <svg className="w-3.5 h-3.5" fill={liked ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M14 9V5a3 3 0 00-3-3l-4 9v11h11.28a2 2 0 002-1.7l1.38-9a2 2 0 00-2-2.3H14z"/>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M7 22H4a2 2 0 01-2-2v-7a2 2 0 012-2h3"/>
+          <svg className={`w-4 h-4 transition-transform duration-300 ${pop ? 'scale-125' : ''}`} fill={liked ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
           </svg>
           {likeCount}
         </button>
         <button
           onClick={e => { e.stopPropagation(); onOpen() }}
-          className="flex items-center gap-1.5 text-xs font-medium text-gray-400 hover:text-gray-700 transition"
+          className="flex items-center gap-1.5 text-xs font-semibold text-gray-400 hover:text-blue-600 transition"
         >
-          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
-          </svg>
+          <Icon name="chat" className="w-4 h-4" strokeWidth={2} />
           {post.comments}
         </button>
         <button
           onClick={e => e.stopPropagation()}
-          className="flex items-center gap-1.5 text-xs font-medium text-gray-400 hover:text-gray-700 transition"
+          className="flex items-center gap-1.5 text-xs font-semibold text-gray-400 hover:text-emerald-600 transition"
         >
-          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m9.632 4.032a3 3 0 10-2.684 0M9 12a3 3 0 11-2.684-1.658"/>
-          </svg>
-          Share
+          <Icon name="share" className="w-4 h-4" strokeWidth={2} />
+          <span className="hidden sm:inline">Share</span>
         </button>
         <button
           onClick={e => { e.stopPropagation(); onReport() }}
           aria-label="Report post"
-          className="flex items-center gap-1.5 text-xs font-medium text-gray-400 hover:text-red-600 transition"
+          className="flex items-center gap-1.5 text-xs font-semibold text-gray-300 hover:text-red-500 transition"
         >
-          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 2H21l-3 6 3 6h-8.5l-1-2H5a2 2 0 00-2 2z"/>
           </svg>
-          <span className="hidden sm:inline">Report</span>
         </button>
-        <span className="ml-auto text-xs text-gray-300 group-hover:text-gray-400 transition">Read more</span>
+        <span className="ml-auto inline-flex items-center gap-1 text-xs font-semibold text-gray-300 transition group-hover:text-gray-600">
+          <span className="group-hover:hidden">Read</span>
+          <span className="hidden group-hover:inline">Open thread</span>
+          <svg className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/></svg>
+        </span>
       </div>
     </div>
   )
@@ -476,6 +503,7 @@ export default function CommunityClient() {
   const [posts, setPosts] = useState<CommunityPost[]>(MOCK_COMMUNITY_POSTS)
   const [query, setQuery] = useState('')
   const [toast, setToast] = useState<string | null>(null)
+  const [sort, setSort] = useState<'new' | 'top'>('new')
 
   function handleNewPost(post: CommunityPost) {
     setPosts(prev => [post, ...prev])
@@ -496,8 +524,13 @@ export default function CommunityClient() {
         p.bowl.toLowerCase().includes(q)
       )
     }
+    if (sort === 'top') {
+      list = [...list].sort((a, b) => (b.likes + b.comments * 2) - (a.likes + a.comments * 2))
+    }
     return list
-  }, [posts, activeBowl, query])
+  }, [posts, activeBowl, query, sort])
+
+  const totalReplies = useMemo(() => posts.reduce((n, p) => n + p.comments, 0), [posts])
 
   // Live "most discussed" — computed from real engagement, not hardcoded
   const mostDiscussed = useMemo(
@@ -554,8 +587,9 @@ export default function CommunityClient() {
                   <button
                     key={b.label}
                     onClick={() => setActiveBowl(activeBowl === b.label ? null : b.label)}
-                    className={`w-full text-left text-sm font-medium px-3 py-2 rounded-lg transition flex items-center gap-2 ${activeBowl === b.label ? 'bg-gray-100 text-gray-900 font-semibold' : 'text-gray-600 hover:bg-gray-50'}`}
+                    className={`w-full text-left text-sm font-medium px-3 py-2 rounded-lg transition flex items-center gap-2.5 ${activeBowl === b.label ? 'bg-gray-100 text-gray-900 font-semibold' : 'text-gray-600 hover:bg-gray-50'}`}
                   >
+                    <Icon name={b.icon} className={`w-4 h-4 ${bowlStyle(b.label).dot}`} />
                     {b.label}
                   </button>
                 ))}
@@ -587,13 +621,28 @@ export default function CommunityClient() {
                 <SalaryExplorer />
               ) : (
               <>
+              {/* Pulse header */}
+              <div className="relative overflow-hidden rounded-2xl p-5 mb-4 text-white shadow-sm" style={{ background: 'linear-gradient(135deg,#4f46e5 0%,#7c3aed 52%,#db2777 100%)' }}>
+                <div className="relative z-10">
+                  <p className="text-base font-bold">The break room</p>
+                  <p className="text-sm text-white/80 mt-0.5">Real talk from hospitality workers across South Africa.</p>
+                  <div className="flex items-center gap-6 mt-3.5">
+                    <div><p className="text-xl font-extrabold leading-none">{posts.length}</p><p className="text-[11px] text-white/70 mt-1">discussions</p></div>
+                    <div><p className="text-xl font-extrabold leading-none">{totalReplies.toLocaleString()}</p><p className="text-[11px] text-white/70 mt-1">replies</p></div>
+                    <div><p className="text-xl font-extrabold leading-none">{COMMUNITY_BOWLS.length}</p><p className="text-[11px] text-white/70 mt-1">topics</p></div>
+                  </div>
+                </div>
+                <div className="absolute -right-8 -top-10 w-36 h-36 rounded-full bg-white/10" />
+                <div className="absolute right-12 top-12 w-16 h-16 rounded-full bg-white/10" />
+              </div>
+
               <button
                 onClick={() => setShowModal(true)}
-                className="w-full flex items-center gap-3 bg-white border border-gray-200 rounded-xl px-4 py-3 mb-3 hover:border-gray-300 transition text-left group"
+                className="w-full flex items-center gap-3 bg-white border border-gray-200 rounded-xl px-4 py-3 mb-3 hover:border-violet-300 hover:shadow-sm transition text-left group"
               >
-                <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-sm font-bold text-gray-400 shrink-0">G</div>
-                <span className="text-sm text-gray-400 group-hover:text-gray-500 flex-1">Share a tip, ask a question...</span>
-                <span className="text-xs font-semibold text-gray-900 shrink-0">Post</span>
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-violet-400 to-pink-500 flex items-center justify-center text-sm font-bold text-white shadow-sm shrink-0">G</div>
+                <span className="text-sm text-gray-400 group-hover:text-gray-600 flex-1">Share a tip, ask a question...</span>
+                <span className="text-xs font-bold text-white bg-gray-900 group-hover:bg-violet-600 transition px-3 py-1.5 rounded-full shrink-0">Post</span>
               </button>
 
               {/* Search */}
@@ -637,12 +686,30 @@ export default function CommunityClient() {
                 ))}
               </div>
 
-              {activeBowl && (
-                <div className="flex items-center gap-2 mb-4">
-                  <span className="text-sm font-semibold text-gray-700">{activeBowl}</span>
-                  <button onClick={() => setActiveBowl(null)} className="text-xs text-gray-400 hover:text-gray-600 transition ml-1">× Clear</button>
+              {/* Sort control */}
+              <div className="flex items-center justify-between mb-3">
+                <span className="flex items-center gap-2 text-xs font-semibold text-gray-500">
+                  {activeBowl ? (
+                    <>
+                      <Icon name={COMMUNITY_BOWLS.find(b => b.label === activeBowl)?.icon ?? 'chat'} className={`w-3.5 h-3.5 ${bowlStyle(activeBowl).dot}`} />
+                      {activeBowl}
+                      <button onClick={() => setActiveBowl(null)} className="text-gray-400 hover:text-gray-700 transition ml-1">Clear</button>
+                    </>
+                  ) : (
+                    <span className="uppercase tracking-wide text-gray-400">{filtered.length} discussion{filtered.length !== 1 ? 's' : ''}</span>
+                  )}
+                </span>
+                <div className="flex items-center gap-0.5 bg-gray-100 rounded-full p-0.5">
+                  <button onClick={() => setSort('new')}
+                    className={`text-xs font-semibold px-3 py-1 rounded-full transition ${sort === 'new' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}>
+                    Newest
+                  </button>
+                  <button onClick={() => setSort('top')}
+                    className={`flex items-center gap-1 text-xs font-semibold px-3 py-1 rounded-full transition ${sort === 'top' ? 'bg-white text-orange-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}>
+                    <Icon name="flame" className="w-3 h-3" strokeWidth={2.2} />Top
+                  </button>
                 </div>
-              )}
+              </div>
 
               <div className="space-y-3">
                 {filtered.length === 0 ? (

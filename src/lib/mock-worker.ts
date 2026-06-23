@@ -435,3 +435,197 @@ export const CAREER_TIPS = [
     content: `Event work is often dismissed as less desirable than permanent positions, but it can be a powerful tool for building your career.\n\n**The networking upside** — Every event is a room full of managers and HR contacts. Show up early, work hard, be professional, and introduce yourself at the end of a shift. Event coordinators often have permanent openings they fill from their reliable event pool.\n\n**Rates** — Event rates in Cape Town typically range from R700–R1 200/day depending on the event type and your experience. Functions for five-star hotels or corporate events often pay more than casual restaurant work.\n\n**Build a reputation fast** — Event companies rehire the same reliable people. If you show up on time, work hard, don't leave early, and maintain a professional standard, you'll be booked every weekend within a month.\n\n**What to wear** — Unless instructed otherwise: black non-slip shoes, black trousers, white collared shirt. Bring your own corkscrew and pen. It signals professionalism.\n\n**When to move to permanent** — If you're doing event work while looking for a permanent role, use it to fill gaps in your CV, build references, and stay sharp. Don't let event work become a comfort zone if your goal is permanent placement.`,
   },
 ]
+
+// ── Smart Job Feed ───────────────────────────────────────────────
+
+export interface FeedJob {
+  id: string
+  title: string
+  employer: string
+  location: string
+  distance_km: number
+  pay: string
+  shift_type: 'Full-time' | 'Part-time' | 'Once-off' | 'Casual'
+  match_score: number
+  match_reasons: string[]
+  posted_days_ago: number
+  logo_color: string
+  logo_initials: string
+  applied: boolean
+  saved: boolean
+  urgent?: boolean
+}
+
+export const FEED_JOBS: FeedJob[] = [
+  {
+    id: 'fj-1', title: 'Senior Waiter – Fine Dining', employer: 'The Test Kitchen', location: 'Woodstock, Cape Town', distance_km: 3.2, pay: 'R9 500/month', shift_type: 'Full-time', match_score: 10, match_reasons: ['Role matches your experience', 'Location is near you', 'Pay matches your preference', 'Fine dining matches your specialisation'], posted_days_ago: 1, logo_color: 'bg-gray-900', logo_initials: 'TK', applied: false, saved: true, urgent: true,
+  },
+  {
+    id: 'fj-2', title: 'Floor Captain', employer: 'La Colombe', location: 'Constantia, Cape Town', distance_km: 18, pay: 'R13 000/month', shift_type: 'Full-time', match_score: 9, match_reasons: ['Leadership experience on your CV', 'Fine dining matches your specialisation', 'Salary above your target'], posted_days_ago: 2, logo_color: 'bg-amber-700', logo_initials: 'LC', applied: false, saved: false,
+  },
+  {
+    id: 'fj-3', title: 'Event Waiter – Weekend', employer: 'Societi Bistro', location: 'Gardens, Cape Town', distance_km: 5.1, pay: 'R900/shift', shift_type: 'Once-off', match_score: 8, match_reasons: ['Matches your weekend availability', 'Short distance from you', 'Casual rate above average'], posted_days_ago: 0, logo_color: 'bg-rose-600', logo_initials: 'SB', applied: true, saved: false,
+  },
+  {
+    id: 'fj-4', title: 'Bartender / Waiter', employer: 'Signal Restaurant', location: 'V&A Waterfront, Cape Town', distance_km: 7.8, pay: 'R8 000/month', shift_type: 'Full-time', match_score: 8, match_reasons: ['Bar experience on your CV', 'High-volume experience matches', 'Location is accessible'], posted_days_ago: 3, logo_color: 'bg-blue-700', logo_initials: 'SR', applied: false, saved: false,
+  },
+  {
+    id: 'fj-5', title: 'Breakfast & Brunch Waiter', employer: 'The Pot Luck Club', location: 'Woodstock, Cape Town', distance_km: 3.5, pay: 'R7 500/month', shift_type: 'Part-time', match_score: 7, match_reasons: ['Morning availability set', 'Close to your location', 'Casual fine dining environment'], posted_days_ago: 4, logo_color: 'bg-orange-600', logo_initials: 'PL', applied: false, saved: false,
+  },
+  {
+    id: 'fj-6', title: 'Banqueting Waiter – Hotel', employer: 'One&Only Cape Town', location: 'V&A Waterfront', distance_km: 8.2, pay: 'R1 100/shift', shift_type: 'Casual', match_score: 7, match_reasons: ['Hotel experience on your CV', 'WSET certification is a plus'], posted_days_ago: 5, logo_color: 'bg-gray-800', logo_initials: 'OO', applied: false, saved: true,
+  },
+  {
+    id: 'fj-7', title: 'Senior Waitron', employer: 'Kloof Street House', location: 'Gardens, Cape Town', distance_km: 6.1, pay: 'R8 800/month', shift_type: 'Full-time', match_score: 6, match_reasons: ['Experience level matches', 'Neighbourhood restaurant experience'], posted_days_ago: 6, logo_color: 'bg-green-700', logo_initials: 'KS', applied: false, saved: false,
+  },
+  {
+    id: 'fj-8', title: 'Junior Waiter – Breakfast', employer: 'Cafe Paradiso', location: 'Sea Point, Cape Town', distance_km: 9.3, pay: 'R6 200/month', shift_type: 'Full-time', match_score: 5, match_reasons: ['Matches your availability', 'Entry path to area growth'], posted_days_ago: 8, logo_color: 'bg-teal-600', logo_initials: 'CP', applied: false, saved: false,
+  },
+]
+
+// ── Availability ─────────────────────────────────────────────────
+
+export type ShiftSlot = 'morning' | 'afternoon' | 'evening' | 'night'
+
+export interface AvailabilityGrid {
+  [day: number]: ShiftSlot[]
+}
+
+export const DEFAULT_AVAILABILITY: AvailabilityGrid = {
+  0: [],
+  1: ['morning', 'afternoon', 'evening'],
+  2: ['morning', 'afternoon', 'evening'],
+  3: ['evening', 'night'],
+  4: ['evening', 'night'],
+  5: ['afternoon', 'evening', 'night'],
+  6: ['morning', 'afternoon', 'evening', 'night'],
+}
+
+// ── References & Endorsements ────────────────────────────────────
+
+export interface Reference {
+  id: string
+  referee_name: string
+  referee_role: string
+  company: string
+  relationship: string
+  period: string
+  message: string
+  rating: number
+  date: string
+  verified: boolean
+  avatar_color: string
+  avatar_initials: string
+}
+
+export const MOCK_REFERENCES: Reference[] = [
+  {
+    id: 'ref-1',
+    referee_name: 'Carla Fortuin',
+    referee_role: 'Restaurant Manager',
+    company: 'The Test Kitchen',
+    relationship: 'Direct manager',
+    period: 'Jan 2022 – Present',
+    message: "Amahle is one of the most reliable and polished waiters I've managed in 12 years of hospitality. Her attention to detail, warm guest manner, and ability to handle pressure during full service make her a standout. She consistently upsells without being pushy and has trained two junior staff members this year. I would rehire her without hesitation.",
+    rating: 5,
+    date: '2024-03-10',
+    verified: true,
+    avatar_color: 'bg-purple-600',
+    avatar_initials: 'CF',
+  },
+  {
+    id: 'ref-2',
+    referee_name: 'James Petersen',
+    referee_role: 'Operations Director',
+    company: 'One&Only Cape Town',
+    relationship: 'Department head',
+    period: 'Mar 2020 – Dec 2021',
+    message: "Amahle joined our banqueting team during an extremely busy period and adapted quickly to the high standards we hold at One&Only. She's professional, well-groomed, and communicates confidently with both guests and colleagues. A solid performer who would fit well in any fine dining setting.",
+    rating: 5,
+    date: '2022-01-15',
+    verified: true,
+    avatar_color: 'bg-blue-700',
+    avatar_initials: 'JP',
+  },
+  {
+    id: 'ref-3',
+    referee_name: 'Nadine Scholtz',
+    referee_role: 'Floor Captain',
+    company: 'La Colombe',
+    relationship: 'Senior colleague',
+    period: 'Aug 2019 – Feb 2020',
+    message: "Amahle worked alongside me as a junior waitron and showed a genuine desire to learn. She picked up fine dining etiquette quickly and was always punctual and well-presented.",
+    rating: 4,
+    date: '2020-03-01',
+    verified: false,
+    avatar_color: 'bg-amber-600',
+    avatar_initials: 'NS',
+  },
+]
+
+// ── Work History with Verification ──────────────────────────────
+
+export interface WorkHistoryEntry {
+  id: string
+  role: string
+  company: string
+  location: string
+  from: string
+  to: string | null
+  current: boolean
+  description: string
+  verification_status: 'verified' | 'pending' | 'unverified'
+  verified_by?: string
+  verified_date?: string
+}
+
+export const WORK_HISTORY: WorkHistoryEntry[] = [
+  {
+    id: 'wh-1',
+    role: 'Senior Waiter',
+    company: 'The Test Kitchen',
+    location: 'Woodstock, Cape Town',
+    from: '2022-01',
+    to: null,
+    current: true,
+    description: "Fine dining floor service for 45-cover tasting menu restaurant. Responsible for wine recommendations, menu narration, and training junior staff. Consistently achieved top upsell scores across the team.",
+    verification_status: 'verified',
+    verified_by: 'Carla Fortuin (Manager)',
+    verified_date: '2024-03-12',
+  },
+  {
+    id: 'wh-2',
+    role: 'Banqueting Waiter',
+    company: 'One&Only Cape Town',
+    location: 'V&A Waterfront, Cape Town',
+    from: '2020-03',
+    to: '2021-12',
+    current: false,
+    description: 'High-volume banqueting and fine dining service in a 5-star hotel environment. Events of 20–500 covers. Trained in butler service and VIP guest handling.',
+    verification_status: 'verified',
+    verified_by: 'James Petersen (Operations Director)',
+    verified_date: '2022-01-20',
+  },
+  {
+    id: 'wh-3',
+    role: 'Junior Waitron',
+    company: 'La Colombe',
+    location: 'Constantia, Cape Town',
+    from: '2019-08',
+    to: '2020-02',
+    current: false,
+    description: 'Waterfront fine dining in a Top 50 Africa restaurant. Introduced to high-end tasting menu service, extensive wine list, and French service techniques.',
+    verification_status: 'pending',
+  },
+  {
+    id: 'wh-4',
+    role: 'Waiter',
+    company: 'Cafe Paradiso',
+    location: 'Sea Point, Cape Town',
+    from: '2018-01',
+    to: '2019-07',
+    current: false,
+    description: 'Casual neighbourhood restaurant, breakfast and lunch service. High-volume, fast-paced environment with a focus on friendly guest experience.',
+    verification_status: 'unverified',
+  },
+]

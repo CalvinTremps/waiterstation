@@ -76,7 +76,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                   {[
                     { href: '/', label: 'Browse jobs' },
                     { href: '/saved', label: 'Saved jobs' },
-                    { href: '/worker/profile', label: 'Worker profile' },
+                    { href: '/cruise-ship-jobs', label: 'Cruise ship jobs' },
+                    { href: '/guides', label: 'Career guides' },
                     { href: '/how-it-works', label: 'How it works' },
                   ].map(l => (
                     <a key={l.href} href={l.href} className="block text-sm text-gray-500 hover:text-gray-800 transition">{l.label}</a>

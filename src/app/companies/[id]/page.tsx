@@ -19,8 +19,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const company = MOCK_COMPANIES.find(c => c.id === id)
   if (!company) return { title: 'Company not found' }
   return {
-    title: `${company.name} Reviews & Salaries | Waiterstation`,
-    description: `Read employee reviews, salary info, and benefits at ${company.name}. ${company.description.slice(0, 120)}...`,
+    title: `${company.name} Jobs, Reviews & Salaries | Waiterstation`,
+    description: `${company.name} jobs, employee reviews, salary info and benefits. Browse open hospitality vacancies at ${company.name} and apply in seconds.`,
   }
 }
 

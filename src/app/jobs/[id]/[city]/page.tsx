@@ -25,8 +25,9 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const loc = getSeoLocation(citySlug)
   if (!role || !loc) return { title: 'Jobs Not Found' }
 
+  const where = loc.region ? `${loc.name}, ${loc.region}` : loc.name
   const title = `${role.label} Jobs in ${loc.name} | Waiterstation`
-  const description = `Find ${role.label.toLowerCase()} jobs in ${loc.name}, ${loc.province}. Browse the latest hospitality vacancies and apply in seconds — no CV required.`
+  const description = `Find ${role.label.toLowerCase()} jobs in ${where}. Browse the latest hospitality vacancies and apply in seconds — no CV required.`
   const canonical = `${SITE_URL}/jobs/${role.slug}/${loc.slug}`
 
   return {
@@ -46,13 +47,18 @@ export default async function RoleCityJobsPage({ params }: { params: Params }) {
   let session = null
   try { session = await withTimeout(getSession(), 3000) } catch {}
 
+  // National / province pages aggregate everything (job locations don't
+  // contain the province name), so they don't apply a location filter.
+  const isAggregate = !loc.region || loc.region === 'South Africa'
+
   const { jobs, totalLive, isMockData } = await searchJobs({
     role: role.roleCategory,
-    location: loc.name,
+    location: isAggregate ? undefined : loc.name,
     q: role.query,
   })
 
   const heading = `${role.label} Jobs in ${loc.name}`
+  const where = loc.region ? `${loc.name}, ${loc.region}` : loc.name
 
   // Related internal links — other roles here, same role in other cities.
   const otherRoles = SEO_ROLES.filter(r => r.slug !== role.slug && r.roleCategory).slice(0, 6)
@@ -99,7 +105,7 @@ export default async function RoleCityJobsPage({ params }: { params: Params }) {
 
         <h1 className="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight">{heading}</h1>
         <p className="text-sm text-gray-500 mt-2 leading-relaxed max-w-3xl">
-          Browse {role.label.toLowerCase()} jobs in {loc.name}, {loc.province}. Find permanent, seasonal and part-time
+          {role.intro ?? `Browse ${role.label.toLowerCase()} jobs`} in {where}. Find permanent, seasonal and part-time
           positions at restaurants, hotels, bars and venues across {loc.name} — apply in seconds, no CV required.
         </p>
 

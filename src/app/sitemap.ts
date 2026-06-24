@@ -2,6 +2,8 @@ import { MetadataRoute } from 'next'
 import { createServerClient } from '@/lib/supabase-server'
 import { MOCK_JOBS } from '@/lib/mock-jobs'
 import { allSeoJobParams } from '@/lib/seo-pages'
+import { CRUISE_LINES } from '@/lib/cruise'
+import { GUIDES } from '@/lib/guides'
 
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://waiterstation.co.za'
 
@@ -18,6 +20,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/employers`, changeFrequency: 'monthly', priority: 0.6 },
     { url: `${base}/faq`, changeFrequency: 'monthly', priority: 0.5 },
     { url: `${base}/post-job`, changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${base}/guides`, changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${base}/cruise-ship-jobs`, changeFrequency: 'weekly', priority: 0.7 },
   ]
 
   // Programmatic role × city landing pages (SEO)
@@ -25,6 +29,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     url: `${base}/jobs/${role}/${city}`,
     changeFrequency: 'daily',
     priority: 0.8,
+  }))
+
+  const cruiseRoutes: MetadataRoute.Sitemap = CRUISE_LINES.map(l => ({
+    url: `${base}/cruise-ship-jobs/${l.slug}`,
+    changeFrequency: 'weekly',
+    priority: 0.6,
+  }))
+
+  const guideRoutes: MetadataRoute.Sitemap = GUIDES.map(g => ({
+    url: `${base}/guides/${g.slug}`,
+    changeFrequency: 'monthly',
+    priority: 0.5,
   }))
 
   let jobIds: string[] = MOCK_JOBS.map(j => j.id)
@@ -45,5 +61,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.9,
   }))
 
-  return [...staticRoutes, ...seoRoutes, ...jobRoutes]
+  return [...staticRoutes, ...seoRoutes, ...cruiseRoutes, ...guideRoutes, ...jobRoutes]
 }

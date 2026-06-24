@@ -197,7 +197,7 @@ export default function SalaryExplorer() {
         <div>
           <p className="text-sm font-bold text-gray-900">Salary & Tips Explorer</p>
           <p className="text-xs text-gray-500 mt-0.5 leading-relaxed">
-            Real monthly pay reported by hospitality workers across South Africa — base plus tips.
+            Real monthly pay reported by hospitality workers across South Africa, base plus tips.
           </p>
         </div>
         <button onClick={() => setShowModal(true)}

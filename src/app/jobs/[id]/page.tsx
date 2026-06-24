@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   if (!job) return { title: 'Job Not Found' }
   return {
     title: `${job.title} in ${job.location} | Waiterstation`,
-    description: `${job.title} at ${job.employer_name} in ${job.location}. Apply in seconds on Waiterstation — no CV required.`,
+    description: `${job.title} at ${job.employer_name} in ${job.location}. Apply in seconds on Waiterstation.`,
   }
 }
 

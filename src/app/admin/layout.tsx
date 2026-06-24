@@ -2,7 +2,7 @@ import { cookies } from 'next/headers'
 import AdminNav from './AdminNav'
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-  // Check if this is the login page — login renders without the sidebar
+  // Check if this is the login page, login renders without the sidebar
   const cookieStore = await cookies()
   const isLoggedIn = cookieStore.get('admin_session')?.value === process.env.ADMIN_PASSWORD
 

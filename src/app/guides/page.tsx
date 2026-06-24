@@ -5,7 +5,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://waiterstation.co.z
 
 export const metadata: Metadata = {
   title: 'Hospitality Career Guides | Waiterstation',
-  description: 'Free guides for hospitality workers in South Africa — job descriptions, how to become a chef, writing a hospitality CV, and interview questions.',
+  description: 'Free guides for hospitality workers in South Africa, job descriptions, how to become a chef, writing a hospitality CV, and interview questions.',
   alternates: { canonical: `${SITE_URL}/guides` },
 }
 
@@ -14,7 +14,7 @@ export default function GuidesPage() {
     <div className="max-w-3xl mx-auto px-4 md:px-6 py-8 pb-24">
       <h1 className="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight">Hospitality Career Guides</h1>
       <p className="text-sm text-gray-600 mt-3 leading-relaxed">
-        Practical guides for hospitality workers in South Africa — what roles involve, how to break in, and how to
+        Practical guides for hospitality workers in South Africa, what roles involve, how to break in, and how to
         land the job.
       </p>
       <div className="grid sm:grid-cols-2 gap-3 mt-6">

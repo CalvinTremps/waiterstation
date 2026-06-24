@@ -10,7 +10,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-gray-50 flex">
 
-      {/* Left — branding panel (desktop only) */}
+      {/* Left, branding panel (desktop only) */}
       <div className="hidden lg:flex lg:w-1/2 bg-gray-900 flex-col justify-between p-12">
         <a href="/" className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-xl bg-white flex items-center justify-center">
@@ -25,8 +25,8 @@ export default function LoginPage() {
           </h2>
           <div className="space-y-5">
             {[
-              { icon: 'bolt', title: 'Apply in seconds', body: 'No CV required. Apply with your phone number and a short message.' },
-              { icon: 'waiter', title: 'Built for hospitality', body: 'Waiters, bartenders, chefs, baristas, hotel staff — every role across South Africa.' },
+              { icon: 'bolt', title: 'Apply in seconds', body: 'Apply with your phone number and a short message.' },
+              { icon: 'waiter', title: 'Built for hospitality', body: 'Waiters, bartenders, chefs, baristas, hotel staff, every role across South Africa.' },
               { icon: 'bell', title: 'Get notified', body: 'Set job alerts and be the first to know when the right role comes up.' },
             ].map(f => (
               <div key={f.title} className="flex gap-4">
@@ -51,7 +51,7 @@ export default function LoginPage() {
         <p className="text-gray-600 text-xs">© 2025 Waiterstation. All rights reserved.</p>
       </div>
 
-      {/* Right — form panel */}
+      {/* Right, form panel */}
       <div className="flex-1 flex flex-col justify-center px-6 py-12 lg:px-16">
         {/* Mobile logo */}
         <div className="lg:hidden flex items-center gap-3 mb-10">

@@ -26,10 +26,10 @@ export default function PrivacyPage() {
           <h2 className="text-base font-semibold text-gray-800 mb-2">2. Information we collect</h2>
           <p className="mb-3">We collect the following categories of personal information:</p>
           <ul className="list-disc list-inside space-y-1.5 text-gray-500">
-            <li><strong className="text-gray-700">Account information</strong> — your email address when you sign in via magic link</li>
-            <li><strong className="text-gray-700">Worker profile</strong> — name, phone number, location, role, experience, and availability (only if you choose to create a profile)</li>
-            <li><strong className="text-gray-700">Job listings</strong> — employer name, contact number, job description, and location (submitted by employers)</li>
-            <li><strong className="text-gray-700">Usage data</strong> — pages visited, filters used, and general site interaction (collected anonymously)</li>
+            <li><strong className="text-gray-700">Account information</strong>, your email address when you sign in via magic link</li>
+            <li><strong className="text-gray-700">Worker profile</strong>, name, phone number, location, role, experience, and availability (only if you choose to create a profile)</li>
+            <li><strong className="text-gray-700">Job listings</strong>, employer name, contact number, job description, and location (submitted by employers)</li>
+            <li><strong className="text-gray-700">Usage data</strong>, pages visited, filters used, and general site interaction (collected anonymously)</li>
           </ul>
         </section>
 
@@ -60,7 +60,7 @@ export default function PrivacyPage() {
           <p>
             Your data is stored securely using Supabase, which hosts data in the European Union (Dublin region).
             We use HTTPS for all communications and implement row-level security on all database tables.
-            Passwords are never stored — we use email magic links for authentication.
+            Passwords are never stored, we use email magic links for authentication.
           </p>
         </section>
 

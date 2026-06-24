@@ -40,7 +40,7 @@ export default function MobileHeader({ isLoggedIn }: { isLoggedIn: boolean }) {
       style={{ paddingTop: 'env(safe-area-inset-top)' }}
     >
       <div className="flex items-center justify-between px-4 h-[52px]">
-        {/* Left — logo on home, back-feel title on inner pages */}
+        {/* Left, logo on home, back-feel title on inner pages */}
         {isHome ? (
           <a href="/" className="flex items-center gap-2">
             <span className="w-7 h-7 rounded-lg bg-gray-900 flex items-center justify-center text-white text-xs font-black">W</span>

@@ -23,9 +23,9 @@ export default function AdminSettingsPage() {
         <div className="space-y-3 text-sm">
           {[
             { label: 'Site', value: 'Waiterstation' },
-            { label: 'Market', value: 'South Africa — Hospitality' },
+            { label: 'Market', value: 'South Africa, Hospitality' },
             { label: 'Auth method', value: 'Magic link (Supabase)' },
-            { label: 'Job approval', value: 'Manual — admin required' },
+            { label: 'Job approval', value: 'Manual, admin required' },
           ].map(r => (
             <div key={r.label} className="flex items-center justify-between py-2">
               <span className="text-gray-500">{r.label}</span>

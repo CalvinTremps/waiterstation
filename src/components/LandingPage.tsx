@@ -24,7 +24,7 @@ function NearbyRow({ job, selected, onSelect }: { job: Job; selected: boolean; o
       <CompanyBadge name={job.employer_name} size="sm" logoUrl={co?.logo_url} />
       <div className="min-w-0 flex-1">
         <p className="text-sm font-semibold text-blue-700 truncate">{job.title}</p>
-        <p className="text-xs text-gray-600 mt-0.5 truncate">{job.employer_name} — {job.location}</p>
+        <p className="text-xs text-gray-600 mt-0.5 truncate">{job.employer_name}, {job.location}</p>
         {job.pay && <p className="text-xs font-medium text-gray-700 mt-0.5">{job.pay}</p>}
       </div>
       <span className="shrink-0 text-[11px] text-gray-400 mt-0.5 whitespace-nowrap">{timeAgo(job.created_at)}</span>
@@ -158,7 +158,7 @@ export default function LandingPage({
             {heroHeading ?? 'Thousands of Hospitality Jobs in South Africa'}
           </h1>
           <p className="text-base text-gray-500 mb-7 leading-relaxed max-w-xl mx-auto">
-            {heroSubheading ?? 'Waiter, chef, bartender, barista, kitchen and hotel roles — find your next job and apply in seconds.'}
+            {heroSubheading ?? 'Waiter, chef, bartender, barista, kitchen and hotel roles, find your next job and apply in seconds.'}
           </p>
 
           <form onSubmit={handleSearch}
@@ -272,7 +272,7 @@ export default function LandingPage({
       {/* ── Content area ── */}
       <div className="max-w-3xl mx-auto px-5 py-8 space-y-6">
 
-        {/* Jobs near you — two-column preview */}
+        {/* Jobs near you, two-column preview */}
         {selected ? (
           <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
             <div className="px-5 py-4 border-b border-gray-100">

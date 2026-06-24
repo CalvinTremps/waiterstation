@@ -144,7 +144,7 @@ export default function ApplicantsClient({
       {filtered.length === 0 ? (
         <div className="text-center py-20 text-gray-400">
           {applications.length === 0 ? (
-            <p className="font-medium">No applications yet — they&apos;ll appear here when candidates apply.</p>
+            <p className="font-medium">No applications yet, they&apos;ll appear here when candidates apply.</p>
           ) : (
             <p className="font-medium">No applicants match your filters.</p>
           )}

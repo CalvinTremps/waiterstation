@@ -149,7 +149,7 @@ export default function ApplyModal({ job, onClose }: Props) {
               <textarea
                 value={message}
                 onChange={e => setMessage(e.target.value)}
-                placeholder="Tell the employer a bit about yourself — experience, availability, why you're interested..."
+                placeholder="Tell the employer a bit about yourself, experience, availability, why you're interested..."
                 rows={3}
                 className="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-gray-500 placeholder:text-gray-400 resize-none"
               />

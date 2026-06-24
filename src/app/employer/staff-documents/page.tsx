@@ -64,7 +64,7 @@ export default function StaffDocumentsPage() {
       id: `doc-${Date.now()}`,
       employee_id: uploadEmpId,
       type: uploadType,
-      name: uploadName || `${TYPE_LABELS[uploadType]} — ${emp.name}`,
+      name: uploadName || `${TYPE_LABELS[uploadType]}, ${emp.name}`,
       uploaded_at: new Date().toISOString().split('T')[0],
       expiry_date: uploadExpiry || undefined,
       status: uploadExpiry
@@ -115,7 +115,7 @@ export default function StaffDocumentsPage() {
                 <p className="text-xs text-red-600">
                   {documents.filter(d => d.status === 'expired').map(d => {
                     const emp = empById(d.employee_id)
-                    return `${emp?.name} — ${TYPE_LABELS[d.type]}`
+                    return `${emp?.name}, ${TYPE_LABELS[d.type]}`
                   }).join(', ')}
                 </p>
               </div>
@@ -130,7 +130,7 @@ export default function StaffDocumentsPage() {
                   {documents.filter(d => d.status === 'expiring_soon').map(d => {
                     const emp = empById(d.employee_id)
                     const days = d.expiry_date ? daysUntil(d.expiry_date) : 0
-                    return `${emp?.name} — ${TYPE_LABELS[d.type]} (${days}d)`
+                    return `${emp?.name}, ${TYPE_LABELS[d.type]} (${days}d)`
                   }).join(', ')}
                 </p>
               </div>

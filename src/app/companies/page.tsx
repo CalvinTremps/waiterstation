@@ -311,7 +311,7 @@ function CompaniesPageInner() {
           </section>
         )}
 
-        {/* ── Popular companies — 3×2 card grid ── */}
+        {/* ── Popular companies, 3×2 card grid ── */}
         {!isSearching && !showAll && (
           <section className="py-6">
             <h2 className="text-xl font-bold text-gray-900 mb-5">Popular companies</h2>

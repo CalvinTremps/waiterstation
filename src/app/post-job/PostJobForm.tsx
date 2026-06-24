@@ -104,7 +104,7 @@ export default function PostJobForm() {
         </div>
         <h2 className="font-bold text-gray-900 text-2xl">Listing submitted!</h2>
         <p className="text-gray-500 text-sm mt-3 leading-relaxed max-w-xs mx-auto">
-          Your job will go live once we have reviewed it — usually within a few hours during business hours.
+          Your job will go live once we have reviewed it, usually within a few hours during business hours.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8">
           <a href="/employer"
@@ -130,7 +130,7 @@ export default function PostJobForm() {
             {appliedTemplate ? `Template applied: ${appliedTemplate}` : 'Start from a template?'}
           </p>
           <p className="text-xs text-gray-500 mt-0.5">
-            {appliedTemplate ? 'Fields pre-filled — edit as needed.' : 'Pre-fill common roles in one click and save time.'}
+            {appliedTemplate ? 'Fields pre-filled, edit as needed.' : 'Pre-fill common roles in one click and save time.'}
           </p>
         </div>
         <button type="button" onClick={() => setTemplatePickerOpen(!templatePickerOpen)}
@@ -223,7 +223,7 @@ export default function PostJobForm() {
               <input name="location" required placeholder="e.g. Cape Town, Sandton" className={input} />
             </Field>
           </div>
-          <Field label="Pay" hint="Optional — helps attract more applicants">
+          <Field label="Pay" hint="Optional, helps attract more applicants">
             <input name="pay" placeholder="e.g. R6 000/month + tips" className={input} key={prefill.pay} defaultValue={prefill.pay ?? ''} />
           </Field>
         </div>
@@ -345,7 +345,7 @@ export default function PostJobForm() {
                   emailDomainValid()
                     ? <p className="text-xs text-gray-900 mt-1.5 flex items-center gap-1">
                         <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-                        Domain matches — your request will go to admin for final approval
+                        Domain matches, your request will go to admin for final approval
                       </p>
                     : <p className="text-xs text-red-500 mt-1.5 flex items-center gap-1">
                         <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
@@ -355,7 +355,7 @@ export default function PostJobForm() {
               </Field>
 
               <div className="bg-amber-50 border border-amber-100 rounded-xl px-4 py-3 text-xs text-amber-700 leading-relaxed">
-                <strong>How it works:</strong> Your job will be submitted for normal review. The brand link is reviewed separately — once approved, your listing appears on the {selectedBrand?.name ?? 'brand'} page, labelled as a franchise. Applications still go directly to you.
+                <strong>How it works:</strong> Your job will be submitted for normal review. The brand link is reviewed separately, once approved, your listing appears on the {selectedBrand?.name ?? 'brand'} page, labelled as a franchise. Applications still go directly to you.
               </div>
             </div>
           )}

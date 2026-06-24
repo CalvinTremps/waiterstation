@@ -1,11 +1,11 @@
 /**
  * Relative-time formatting helpers. Three variants exist because different
- * surfaces want different granularity — consolidating into one would change
+ * surfaces want different granularity, consolidating into one would change
  * displayed text. Pick the variant that matches the surface:
  *
- *  - timeAgo:      feeds/cards — "Today", "1d ago", "3d ago", "2w ago"
- *  - timeAgoDays:  admin/employer lists — "Today", "Yesterday", "5d ago"
- *  - timeAgoFine:  activity/alerts — "12m ago", "3h ago", "2d ago"
+ *  - timeAgo:      feeds/cards, "Today", "1d ago", "3d ago", "2w ago"
+ *  - timeAgoDays:  admin/employer lists, "Today", "Yesterday", "5d ago"
+ *  - timeAgoFine:  activity/alerts, "12m ago", "3h ago", "2d ago"
  */
 
 export function timeAgo(dateStr: string): string {

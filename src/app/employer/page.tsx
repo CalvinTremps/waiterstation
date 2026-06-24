@@ -62,7 +62,7 @@ export default function EmployerDashboard() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
               </svg>
             </span>
-            <p className="text-sm text-gray-900 font-medium">Lerato Molefe has received your offer — waiting on response.</p>
+            <p className="text-sm text-gray-900 font-medium">Lerato Molefe has received your offer, waiting on response.</p>
           </div>
           <button onClick={() => setDismissedBanner(true)} className="text-gray-700 hover:text-gray-800">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -83,7 +83,7 @@ export default function EmployerDashboard() {
           </span>
           <div className="flex-1 min-w-0">
             <p className="text-sm font-semibold text-blue-900">
-              {SMART_ALERTS.filter(a => !a.read).length} new alert{SMART_ALERTS.filter(a => !a.read).length !== 1 ? 's' : ''} — new candidate matches &amp; reminders
+              {SMART_ALERTS.filter(a => !a.read).length} new alert{SMART_ALERTS.filter(a => !a.read).length !== 1 ? 's' : ''}, new candidate matches &amp; reminders
             </p>
           </div>
           <span className="text-xs font-semibold text-blue-700 shrink-0">View →</span>

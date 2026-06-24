@@ -47,16 +47,16 @@ export default async function AdminBrandLinksPage() {
               </div>
               <div className="bg-gray-50 rounded-lg px-3 py-2">
                 <p className="text-gray-400 font-medium mb-0.5">Corporate email</p>
-                <p className="text-gray-800 font-semibold">{job.franchise_email ?? '—'}</p>
+                <p className="text-gray-800 font-semibold">{job.franchise_email ?? '-'}</p>
               </div>
               <div className="bg-gray-50 rounded-lg px-3 py-2">
                 <p className="text-gray-400 font-medium mb-0.5">Brand website</p>
-                <p className="text-gray-800 font-semibold">{brand?.website ?? '—'}</p>
+                <p className="text-gray-800 font-semibold">{brand?.website ?? '-'}</p>
               </div>
               <div className={`rounded-lg px-3 py-2 ${domainMatch ? 'bg-green-50' : 'bg-red-50'}`}>
                 <p className={`font-medium mb-0.5 ${domainMatch ? 'text-green-600' : 'text-red-500'}`}>Domain match</p>
                 <p className={`font-bold ${domainMatch ? 'text-green-700' : 'text-red-600'}`}>
-                  {domainMatch ? 'Domains match' : 'Mismatch — review carefully'}
+                  {domainMatch ? 'Domains match' : 'Mismatch, review carefully'}
                 </p>
               </div>
             </div>

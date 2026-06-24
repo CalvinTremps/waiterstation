@@ -79,7 +79,7 @@ export default function ReferencesPage() {
   }
 
   const verified = refs.filter(r => r.verified)
-  const avgRating = refs.length ? (refs.reduce((a, r) => a + r.rating, 0) / refs.length).toFixed(1) : '—'
+  const avgRating = refs.length ? (refs.reduce((a, r) => a + r.rating, 0) / refs.length).toFixed(1) : '-'
 
   return (
     <div className="space-y-6 max-w-2xl">

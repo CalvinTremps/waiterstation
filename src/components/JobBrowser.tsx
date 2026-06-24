@@ -115,7 +115,7 @@ export default function JobBrowser({
     <>
       {isMockData && (
         <div className="bg-amber-50 border-b border-amber-200 px-4 py-2 text-center text-xs text-amber-700 font-medium">
-          Live listings are temporarily unavailable — showing example data.
+          Live listings are temporarily unavailable, showing example data.
         </div>
       )}
 
@@ -526,7 +526,7 @@ function DesktopJobDetail({ job, isLoggedIn, basePath }: { job: Job; isLoggedIn:
         {!isLoggedIn && (
           <div className="mx-7 mt-5 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-500">
             <a href="/auth/login?next=/" className="font-semibold text-gray-900 hover:underline">Sign in</a> or{' '}
-            <a href="/auth/login?next=/" className="font-semibold text-gray-900 hover:underline">create a free account</a> to apply — takes 30 seconds.
+            <a href="/auth/login?next=/" className="font-semibold text-gray-900 hover:underline">create a free account</a> to apply, takes 30 seconds.
           </div>
         )}
 
@@ -846,7 +846,7 @@ function EmptyState({ onClear, hasFilters }: { onClear: () => void; hasFilters: 
       </div>
       <p className="font-semibold text-gray-700 text-sm">No jobs found</p>
       <p className="text-xs text-gray-400 mt-1 mb-4">
-        {hasFilters ? 'Try adjusting your filters' : 'Check back soon — new listings go live daily'}
+        {hasFilters ? 'Try adjusting your filters' : 'Check back soon, new listings go live daily'}
       </p>
       {hasFilters && (
         <button onClick={onClear}

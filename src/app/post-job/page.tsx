@@ -28,7 +28,7 @@ export default async function PostJobPage() {
             Post a job on Waiterstation
           </h1>
           <p className="text-gray-500 mt-2 text-base max-w-lg">
-            Reach thousands of hospitality workers across South Africa. Your listing goes live after a quick review — usually within a few hours.
+            Reach thousands of hospitality workers across South Africa. Your listing goes live after a quick review, usually within a few hours.
           </p>
         </div>
       </div>
@@ -49,7 +49,7 @@ export default async function PostJobPage() {
               <ol className="space-y-4">
                 {[
                   { n: '1', title: 'Fill in the form', body: 'Tell us about the role, your venue, and what you need.' },
-                  { n: '2', title: 'We review it', body: 'Our team checks every listing — usually within a few hours on weekdays.' },
+                  { n: '2', title: 'We review it', body: 'Our team checks every listing, usually within a few hours on weekdays.' },
                   { n: '3', title: 'Go live', body: 'Your job is visible to thousands of hospitality workers in SA.' },
                   { n: '4', title: 'Receive applications', body: 'Applicants contact you directly via your provided number or email.' },
                 ].map(step => (

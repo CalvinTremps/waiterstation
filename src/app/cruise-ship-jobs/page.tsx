@@ -5,7 +5,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://waiterstation.co.z
 
 export const metadata: Metadata = {
   title: 'Cruise Ship Jobs in South Africa | Waiterstation',
-  description: 'Find cruise ship hospitality jobs for South Africans — waiter, bartender, housekeeping and galley roles with MSC, Carnival, Royal Caribbean and more. No-experience entry roles and how to apply.',
+  description: 'Find cruise ship hospitality jobs for South Africans, waiter, bartender, housekeeping and galley roles with MSC, Carnival, Royal Caribbean and more. No-experience entry roles and how to apply.',
   alternates: { canonical: `${SITE_URL}/cruise-ship-jobs` },
 }
 
@@ -35,7 +35,7 @@ export default function CruiseShipJobsPage() {
         Cruise ships are one of the biggest employers of South African hospitality workers. MSC Cruises sails
         seasonally from <strong>Durban</strong> and <strong>Cape Town</strong>, and lines like Carnival, Royal
         Caribbean and Norwegian recruit South African waiters, bartenders, housekeeping and galley crew year-round
-        through accredited agencies. Pay is in USD with food and accommodation covered — and there are genuine
+        through accredited agencies. Pay is in USD with food and accommodation covered, and there are genuine
         no-experience entry roles to get started.
       </p>
 

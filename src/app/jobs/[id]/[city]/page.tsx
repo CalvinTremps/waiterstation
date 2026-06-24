@@ -8,14 +8,14 @@ import JobBrowser from '@/components/JobBrowser'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://waiterstation.co.za'
 
-// Only generated role × city combos are valid — anything else 404s.
+// Only generated role × city combos are valid, anything else 404s.
 export const dynamicParams = false
 export function generateStaticParams() {
   return allSeoJobParams().map(({ role, city }) => ({ id: role, city }))
 }
 
 // Note: the first dynamic segment is named `id` to match the sibling
-// /jobs/[id] (job detail) route — Next requires one slug name per level.
+// /jobs/[id] (job detail) route, Next requires one slug name per level.
 // Here it carries the role slug (e.g. "waiter").
 type Params = Promise<{ id: string; city: string }>
 
@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 
   const where = loc.region ? `${loc.name}, ${loc.region}` : loc.name
   const title = `${role.label} Jobs in ${loc.name} | Waiterstation`
-  const description = `Find ${role.label.toLowerCase()} jobs in ${where}. Browse the latest hospitality vacancies and apply in seconds — no CV required.`
+  const description = `Find ${role.label.toLowerCase()} jobs in ${where}. Browse the latest hospitality vacancies and apply in seconds.`
   const canonical = `${SITE_URL}/jobs/${role.slug}/${loc.slug}`
 
   return {
@@ -60,7 +60,7 @@ export default async function RoleCityJobsPage({ params }: { params: Params }) {
   const heading = `${role.label} Jobs in ${loc.name}`
   const where = loc.region ? `${loc.name}, ${loc.region}` : loc.name
 
-  // Related internal links — other roles here, same role in other cities.
+  // Related internal links, other roles here, same role in other cities.
   const otherRoles = SEO_ROLES.filter(r => r.slug !== role.slug && r.roleCategory).slice(0, 6)
   const otherCities = SEO_LOCATIONS.filter(l => l.slug !== loc.slug).slice(0, 8)
 
@@ -106,7 +106,7 @@ export default async function RoleCityJobsPage({ params }: { params: Params }) {
         <h1 className="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight">{heading}</h1>
         <p className="text-sm text-gray-500 mt-2 leading-relaxed max-w-3xl">
           {role.intro ?? `Browse ${role.label.toLowerCase()} jobs`} in {where}. Find permanent, seasonal and part-time
-          positions at restaurants, hotels, bars and venues across {loc.name} — apply in seconds, no CV required.
+          positions at restaurants, hotels, bars and venues across {loc.name}. Apply in seconds.
         </p>
 
         {/* Related searches (internal linking) */}

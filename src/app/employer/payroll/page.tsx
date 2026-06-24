@@ -20,7 +20,7 @@ function getPeriodBounds(monthEndDay: number, referenceDate: Date) {
     periodEnd = new Date(y, m, monthEndDay)
     periodStart = new Date(y, m - 1, monthEndDay + 1)
   } else {
-    // We're past the end day — we're in the next period
+    // We're past the end day, we're in the next period
     periodEnd = new Date(y, m + 1, monthEndDay)
     periodStart = new Date(y, m, monthEndDay + 1)
   }
@@ -234,7 +234,7 @@ export default function PayrollPage() {
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-gray-700 mb-1">Adjustment (R) — bonus or deduction</label>
+                      <label className="block text-xs font-semibold text-gray-700 mb-1">Adjustment (R), bonus or deduction</label>
                       <input
                         type="number"
                         value={adjustments[row.employee.id] ?? 0}
@@ -256,7 +256,7 @@ export default function PayrollPage() {
 
         {/* Footer total */}
         <div className="border-t-2 border-gray-200 px-4 py-4 flex items-center justify-between bg-gray-50">
-          <p className="text-sm font-bold text-gray-900">Total payroll — {periodLabel}</p>
+          <p className="text-sm font-bold text-gray-900">Total payroll, {periodLabel}</p>
           <p className="text-xl font-bold text-gray-900">R{Math.round(totalGross).toLocaleString()}</p>
         </div>
       </div>

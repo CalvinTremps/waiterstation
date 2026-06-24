@@ -275,7 +275,7 @@ export default function CVBuilderPage() {
 
   return (
     <>
-      {/* Print styles — only the CV renders when printing */}
+      {/* Print styles, only the CV renders when printing */}
       <style>{`
         @media print {
           body > * { display: none !important; }

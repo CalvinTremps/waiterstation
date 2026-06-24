@@ -36,7 +36,7 @@ export default function TermsPage() {
             <li>You may browse and apply for jobs without creating an account</li>
             <li>You are responsible for the accuracy of any profile information you provide</li>
             <li>We do not guarantee job placement or employment outcomes</li>
-            <li>All employment agreements are between you and the employer directly — Waiterstation is not a party to any employment contract</li>
+            <li>All employment agreements are between you and the employer directly, Waiterstation is not a party to any employment contract</li>
           </ul>
         </section>
 
@@ -44,7 +44,7 @@ export default function TermsPage() {
           <h2 className="text-base font-semibold text-gray-800 mb-2">4. For employers</h2>
           <ul className="list-disc list-inside space-y-1.5 text-gray-500">
             <li>Listings must be for genuine, legal job vacancies in South Africa</li>
-            <li>You must include accurate information — role, location, and contact details</li>
+            <li>You must include accurate information, role, location, and contact details</li>
             <li>You must not post duplicate listings for the same vacancy</li>
             <li>Listings that violate the Basic Conditions of Employment Act or Labour Relations Act will be removed</li>
             <li>We reserve the right to reject or remove any listing at our discretion</li>

@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
   }
 
   // In production, update env var via your hosting provider (Vercel dashboard etc.)
-  // This endpoint validates and signals success — the actual env var must be updated manually.
+  // This endpoint validates and signals success, the actual env var must be updated manually.
   return NextResponse.json({
     success: true,
     note: 'Update ADMIN_PASSWORD in your environment variables and redeploy to apply the new password.',

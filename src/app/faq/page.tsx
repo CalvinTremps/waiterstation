@@ -11,7 +11,7 @@ export async function generateMetadata(): Promise<Metadata> {
 const WORKER_FAQS = [
   {
     q: 'Do I need to create an account to apply for jobs?',
-    a: 'No. You can browse all jobs and apply without signing up. Creating a worker profile is optional — it lets employers find you too.',
+    a: 'No. You can browse all jobs and apply without signing up. Creating a worker profile is optional, it lets employers find you too.',
   },
   {
     q: 'How do I apply for a job?',
@@ -19,7 +19,7 @@ const WORKER_FAQS = [
   },
   {
     q: 'Do I need to send a CV?',
-    a: 'No CV is required. Just your name and phone number. The employer will ask for anything else they need once they reach out to you.',
+    a: 'You can apply with just your name and phone number. The employer will ask for your CV or any other details they need when they reach out to you.',
   },
   {
     q: 'Are these jobs real and up to date?',
@@ -27,7 +27,7 @@ const WORKER_FAQS = [
   },
   {
     q: 'Can I save jobs to come back to later?',
-    a: 'Yes — tap the bookmark icon on any job card to save it. Your saved jobs are stored on your device and accessible from the Saved Jobs page in the navigation.',
+    a: 'Yes, tap the bookmark icon on any job card to save it. Your saved jobs are stored on your device and accessible from the Saved Jobs page in the navigation.',
   },
   {
     q: 'What types of jobs are on Waiterstation?',
@@ -35,7 +35,7 @@ const WORKER_FAQS = [
   },
   {
     q: 'Are there jobs outside major cities?',
-    a: 'Yes — we list jobs in Cape Town, Johannesburg, Durban, Stellenbosch, Hermanus, and other hospitality hotspots. Use the location filter to search near you.',
+    a: 'Yes, we list jobs in Cape Town, Johannesburg, Durban, Stellenbosch, Hermanus, and other hospitality hotspots. Use the location filter to search near you.',
   },
   {
     q: 'What is a Worker Profile?',
@@ -50,7 +50,7 @@ const EMPLOYER_FAQS = [
   },
   {
     q: 'How long does it take for my listing to go live?',
-    a: 'We review every listing before publishing — usually within a few hours during business hours. You\'ll hear from us if anything needs changing.',
+    a: 'We review every listing before publishing, usually within a few hours during business hours. You\'ll hear from us if anything needs changing.',
   },
   {
     q: 'How do candidates apply?',
@@ -74,7 +74,7 @@ const EMPLOYER_FAQS = [
   },
   {
     q: 'Can I post multiple jobs?',
-    a: 'Yes — post as many positions as you need. Each listing is reviewed individually.',
+    a: 'Yes, post as many positions as you need. Each listing is reviewed individually.',
   },
 ]
 

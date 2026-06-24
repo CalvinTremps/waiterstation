@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const line = getCruiseLine(slug)
   if (!line) return { title: 'Cruise Jobs Not Found' }
   const title = `${line.name} Jobs for South Africans | Waiterstation`
-  const description = `How South Africans get ${line.name} cruise ship jobs — waiter, bartender, housekeeping and galley roles, pay, requirements and how to apply.`
+  const description = `How South Africans get ${line.name} cruise ship jobs, waiter, bartender, housekeeping and galley roles, pay, requirements and how to apply.`
   return { title, description, alternates: { canonical: `${SITE_URL}/cruise-ship-jobs/${line.slug}` } }
 }
 

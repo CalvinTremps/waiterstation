@@ -27,9 +27,9 @@ CREATE POLICY "read published marketing pages"
 -- Seed the initial rows so editing starts from the current live copy.
 -- (Safe to re-run; ON CONFLICT keeps existing edits.)
 INSERT INTO marketing_pages (slug, name, path, seo_title, seo_description, hero_heading, hero_subheading) VALUES
-  ('home',         'Home / Landing', '/',            'Waiterstation | Hospitality Jobs in South Africa', 'Find waiter, chef, kitchen, and hotel jobs across South Africa. Apply in seconds — no CV required.', 'Thousands of Hospitality Jobs in South Africa', 'Waiter, chef, bartender, barista, kitchen and hotel roles — find your next job and apply in seconds.'),
+  ('home',         'Home / Landing', '/',            'Waiterstation | Hospitality Jobs in South Africa', 'Find waiter, chef, kitchen, and hotel jobs across South Africa. Apply in seconds.', 'Thousands of Hospitality Jobs in South Africa', 'Waiter, chef, bartender, barista, kitchen and hotel roles, find your next job and apply in seconds.'),
   ('about',        'About',          '/about',       'About | Waiterstation', 'Waiterstation is a job board for hospitality workers in South Africa.', 'About Waiterstation', 'South Africa''s dedicated job board for hospitality workers.'),
-  ('how-it-works', 'How It Works',   '/how-it-works','How It Works | Waiterstation', 'How Waiterstation works for hospitality workers and employers in South Africa.', 'How Waiterstation works', 'South Africa''s hospitality job board. No CVs, no portals, no friction.'),
+  ('how-it-works', 'How It Works',   '/how-it-works','How It Works | Waiterstation', 'How Waiterstation works for hospitality workers and employers in South Africa.', 'How Waiterstation works', 'South Africa''s hospitality job board. Apply in seconds.'),
   ('faq',          'FAQ',            '/faq',         'FAQ | Waiterstation', 'Frequently asked questions about Waiterstation.', 'Frequently asked questions', 'Everything you need to know about finding and posting hospitality jobs.'),
   ('employers',    'For Employers',  '/employers',   'For Employers | Waiterstation', 'Post hospitality jobs and find staff fast across South Africa.', 'Hire hospitality staff, fast', 'Post a job in under two minutes and reach thousands of hospitality workers.')
 ON CONFLICT (slug) DO NOTHING;

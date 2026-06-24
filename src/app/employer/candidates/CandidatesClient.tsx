@@ -290,7 +290,7 @@ export default function CandidatesClient() {
                 <span className="text-[11px] font-bold bg-gray-200 text-gray-700 px-1.5 py-0.5 rounded shrink-0">{item.pts}</span>
                 <div>
                   <span className="text-xs font-semibold text-gray-800">{item.label}</span>
-                  <span className="text-xs text-gray-500"> — {item.desc}</span>
+                  <span className="text-xs text-gray-500">, {item.desc}</span>
                 </div>
               </div>
             ))}

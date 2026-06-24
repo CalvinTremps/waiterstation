@@ -252,7 +252,7 @@ export default function ApplicantDetailPage({ params }: { params: Promise<{ id: 
           value={note}
           onChange={e => setNote(e.target.value)}
           rows={4}
-          placeholder="Add notes about this candidate — only visible to you..."
+          placeholder="Add notes about this candidate, only visible to you..."
           className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-gray-500 resize-none placeholder:text-gray-400"
         />
         <div className="flex justify-end mt-2">

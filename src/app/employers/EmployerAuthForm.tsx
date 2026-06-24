@@ -137,7 +137,7 @@ export default function EmployerAuthForm() {
         className="w-full bg-violet-600 text-white font-bold py-3 rounded-xl text-sm hover:bg-violet-700 transition disabled:opacity-60">
         {loading ? 'Sending link…' : 'Send magic link'}
       </button>
-      <p className="text-xs text-gray-400 text-center">No password needed — we'll email you a sign-in link.</p>
+      <p className="text-xs text-gray-400 text-center">No password needed, we'll email you a sign-in link.</p>
     </form>
   )
 }

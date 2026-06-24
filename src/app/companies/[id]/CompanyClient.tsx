@@ -764,7 +764,7 @@ function JobsTab({ company, relatedCompanies, allJobs }: {
       {/* Split panel (desktop only) */}
       <div className="hidden md:flex gap-4 items-start">
 
-        {/* Left — job list */}
+        {/* Left, job list */}
         <div className="w-72 shrink-0 space-y-1.5">
           {paginated.length === 0 ? (
             <div className="bg-white border border-gray-200 rounded-xl p-8 text-center">
@@ -834,7 +834,7 @@ function JobsTab({ company, relatedCompanies, allJobs }: {
           )}
         </div>
 
-        {/* Right — job detail */}
+        {/* Right, job detail */}
         <div className="flex-1 min-w-0">
           {selectedJob ? (() => {
             const jobCo = MOCK_COMPANIES.find(c => c.name === selectedJob.employer_name)
@@ -1141,7 +1141,7 @@ const SALARY_FAQS = [
   { q: 'How often do you get pay raises in hospitality?', a: 'Raises typically happen annually, often tied to minimum wage adjustments by the Department of Employment and Labour. High performers in fine dining and luxury lodges may receive more frequent increases.' },
   { q: 'Do you get paid sick leave in hospitality?', a: 'The BCEA entitles employees to 30 days paid sick leave in every 3-year cycle. However, casual and part-time workers may have different arrangements.' },
   { q: 'How much vacation and PTO do hospitality workers get?', a: 'Full-time hospitality employees are entitled to 21 consecutive days (15 working days) annual leave per year. Some employers offer additional leave after long service.' },
-  { q: 'Is tip income significant in South African hospitality?', a: 'Yes — in fine dining and luxury settings tips can add R2 000 – R6 000+/month. At high-end hotels and safari lodges, guest gratuities often form a significant portion of total income.' },
+  { q: 'Is tip income significant in South African hospitality?', a: 'Yes, in fine dining and luxury settings tips can add R2 000 – R6 000+/month. At high-end hotels and safari lodges, guest gratuities often form a significant portion of total income.' },
 ]
 
 const ALL_CATEGORIES = ['Accounting', 'Administrative', 'Bar & Beverage', 'Catering', 'Cleaning & Sanitation', 'Concierge', 'Customer Service', 'Events', 'Finance', 'Food & Beverage', 'Front of House', 'Guest Relations', 'Guiding & Safari', 'Hotel Operations', 'Housekeeping', 'Human Resources', 'Kitchen & Culinary', 'Lodge Management', 'Management', 'Marketing', 'Procurement', 'Recreation', 'Reservations', 'Revenue Management', 'Sales', 'Security', 'Spa & Wellness', 'Stewarding', 'Training', 'Wine & Sommelier']
@@ -1305,7 +1305,7 @@ function SalariesTab({ company, reviews, relatedCompanies, onWriteReview }: {
           </div>
           <button onClick={() => { setRoleSearch(cat.label); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
             className="mt-3 text-xs text-blue-600 hover:underline font-medium">
-            All {company.name} — {cat.label} salaries →
+            All {company.name}, {cat.label} salaries →
           </button>
         </div>
       ))}
@@ -1350,7 +1350,7 @@ function SalariesTab({ company, reviews, relatedCompanies, onWriteReview }: {
           Average salaries at {company.name} range from approximately R{(4000).toLocaleString()} per month for entry-level roles to R{(45000).toLocaleString()}+ per month for senior management positions. The average salary is influenced by location, experience, and the specific department. {company.name} is based in {company.location} and operates in the {company.industry} sector.
         </p>
         <p className="text-xs text-gray-400 mt-3">
-          Salary estimates are based on third-party submissions to Waiterstation. Actual salaries may vary. Minimum wage may differ — always confirm with the employer for actual salary figures.
+          Salary estimates are based on third-party submissions to Waiterstation. Actual salaries may vary. Minimum wage may differ, always confirm with the employer for actual salary figures.
         </p>
       </div>
 
@@ -1651,7 +1651,7 @@ export default function CompanyClient({ company, franchiseJobs = [] }: { company
                     <StarRating rating={overallRating} size="md" />
                     <div className="text-xs text-gray-400 mt-1">{reviews.length} review{reviews.length !== 1 ? 's' : ''}</div>
                   </div>
-                  {/* Radar chart — hidden on small phones */}
+                  {/* Radar chart, hidden on small phones */}
                   <div className="hidden sm:block shrink-0">
                     <RadarChart ratings={company.ratings} />
                   </div>

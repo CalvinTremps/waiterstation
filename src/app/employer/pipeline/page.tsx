@@ -136,7 +136,7 @@ export default function PipelinePage() {
         </div>
       </div>
 
-      {/* Kanban board — horizontal scroll */}
+      {/* Kanban board, horizontal scroll */}
       <div className="overflow-x-auto pb-4 -mx-4 px-4">
         <div className="flex gap-3 min-w-max">
           {STAGE_COLS.map(stage => {

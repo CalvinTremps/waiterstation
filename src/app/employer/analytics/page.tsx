@@ -204,7 +204,7 @@ export default function AnalyticsPage() {
 
       {/* Funnel */}
       <div className="bg-white border border-gray-200 rounded-xl p-5">
-        <h2 className="font-semibold text-gray-900 mb-4">Hiring Funnel — All Listings</h2>
+        <h2 className="font-semibold text-gray-900 mb-4">Hiring Funnel, All Listings</h2>
         <div className="space-y-2">
           {[
             { label: 'Views', value: totalViews, color: 'bg-gray-200' },

@@ -142,7 +142,7 @@ export default function ShiftsPage() {
     setApplyingTemplate(false)
   }
 
-  // Build broadcast preview — upcoming shifts for each employee this week
+  // Build broadcast preview, upcoming shifts for each employee this week
   const broadcastLines = activeEmployees.map(emp => {
     const empShifts = filteredShifts
       .filter(s => s.employee_id === emp.id && (s.status === 'scheduled' || s.status === 'completed'))
@@ -232,7 +232,7 @@ export default function ShiftsPage() {
           })}
         </div>
 
-        {/* Shift cells — one row per employee */}
+        {/* Shift cells, one row per employee */}
         {activeEmployees
           .filter(e => filterEmployee === 'all' || e.id === filterEmployee)
           .map(emp => {
@@ -271,7 +271,7 @@ export default function ShiftsPage() {
 
       {/* Shift list below calendar */}
       <div>
-        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">Shift list — {weekLabel}</p>
+        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">Shift list, {weekLabel}</p>
         <div className="space-y-2">
           {filteredShifts
             .sort((a, b) => a.date.localeCompare(b.date) || a.start_time.localeCompare(b.start_time))
@@ -329,7 +329,7 @@ export default function ShiftsPage() {
                 <select value={newEmpId} onChange={e => setNewEmpId(e.target.value)} required
                   className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-gray-900">
                   <option value="">Select employee</option>
-                  {activeEmployees.map(e => <option key={e.id} value={e.id}>{e.name} — {e.role}</option>)}
+                  {activeEmployees.map(e => <option key={e.id} value={e.id}>{e.name}, {e.role}</option>)}
                 </select>
               </div>
               <div>
@@ -430,7 +430,7 @@ export default function ShiftsPage() {
 
                 {/* Preview */}
                 <div>
-                  <p className="text-xs font-semibold text-gray-700 mb-2">Preview — {broadcastLines.length} employee{broadcastLines.length !== 1 ? 's' : ''} with shifts</p>
+                  <p className="text-xs font-semibold text-gray-700 mb-2">Preview, {broadcastLines.length} employee{broadcastLines.length !== 1 ? 's' : ''} with shifts</p>
                   <div className="bg-gray-50 border border-gray-200 rounded-xl p-3 max-h-48 overflow-y-auto space-y-2.5">
                     {broadcastLines.length === 0 ? (
                       <p className="text-xs text-gray-400 text-center py-4">No shifts scheduled for this week</p>

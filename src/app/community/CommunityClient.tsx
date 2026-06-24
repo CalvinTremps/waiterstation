@@ -43,7 +43,7 @@ interface Reply {
 
 const REPLY_POOL: Omit<Reply, 'id'>[] = [
   { letter: 'M', role: 'Head Waiter · Camps Bay', time: '1h ago', content: 'Completely agree. V&A tourist season is something else. I\'ve had single tables where the tip covered half my week\'s base pay.', likes: 18 },
-  { letter: 'T', role: 'Bartender · Sandton', time: '2h ago', content: 'Joburg is more corporate though — consistent 12-hour shifts and stable income year-round. Cape Town is feast or famine depending on season.', likes: 11 },
+  { letter: 'T', role: 'Bartender · Sandton', time: '2h ago', content: 'Joburg is more corporate though, consistent 12-hour shifts and stable income year-round. Cape Town is feast or famine depending on season.', likes: 11 },
   { letter: 'A', role: 'Restaurant Manager · Cape Town', time: '3h ago', content: 'What I\'d tell anyone: come for summer, stay for the lifestyle. Just make sure you have three months\' savings before the June–August slow period.', likes: 24 },
   { letter: 'N', role: 'Waitress · Johannesburg', time: '4h ago', content: 'Moved two years ago. Best decision I ever made. Monthly earnings up by about 40%. English-friendly areas and the food scene is incredible.', likes: 31 },
   { letter: 'R', role: 'Senior Waiter · Durban', time: '5h ago', content: 'Durban is also worth considering. Umhlanga summer season is underrated and less saturated than Cape Town. Lower cost of living too.', likes: 8 },
@@ -51,7 +51,7 @@ const REPLY_POOL: Omit<Reply, 'id'>[] = [
   { letter: 'P', role: 'Hospitality Graduate · Stellenbosch', time: '7h ago', content: 'Wine estates around Stellenbosch often include accommodation for seasonal staff. Worth looking into if you\'re weighing the move.', likes: 9 },
   { letter: 'C', role: 'Front Desk · Cape Town CBD', time: '8h ago', content: 'Hotels are year-round here unlike F&B. If the seasonal income drop scares you, get into city-bowl hotels first to build savings.', likes: 13 },
   { letter: 'L', role: 'Floor Manager · V&A Waterfront', time: '9h ago', content: 'The V&A is its own world. On a good December night I\'ve seen junior waiters walk out with R1 200 in tips alone. The tourist market is real.', likes: 37 },
-  { letter: 'S', role: 'Sommelier · Franschhoek', time: '10h ago', content: 'For wine service roles specifically — Franschhoek estates will train you if you show genuine passion. Better long-term career growth than city restaurants.', likes: 22 },
+  { letter: 'S', role: 'Sommelier · Franschhoek', time: '10h ago', content: 'For wine service roles specifically, Franschhoek estates will train you if you show genuine passion. Better long-term career growth than city restaurants.', likes: 22 },
   { letter: 'D', role: 'Duty Manager · Sandton', time: '11h ago', content: 'Management track is faster in Joburg. The volume of corporate events means you can progress to supervisor in 18 months if you work the right venues.', likes: 14 },
   { letter: 'G', role: 'Barista · Woodstock', time: '12h ago', content: 'Cape Town specialty coffee scene is elite. If you\'re a barista, this city will push your standards. Competition entry culture is massive here.', likes: 19 },
 ]
@@ -135,7 +135,7 @@ function PostThread({ post, onClose }: { post: CommunityPost; onClose: () => voi
         onClick={handleClose}
       />
 
-      {/* Panel — slides up on mobile, scales in on desktop */}
+      {/* Panel, slides up on mobile, scales in on desktop */}
       <div
         className={`relative w-full md:max-w-2xl bg-white md:rounded-2xl shadow-2xl flex flex-col
           transition-all duration-300 ease-out
@@ -211,7 +211,7 @@ function PostThread({ post, onClose }: { post: CommunityPost; onClose: () => voi
           <div>
             {replies.map((reply, i) => (
               <div key={reply.id} className="px-4 py-3 flex items-start gap-3 group">
-                {/* Thread line visual — indent nested replies */}
+                {/* Thread line visual, indent nested replies */}
                 {i > 0 && i < 3 && (
                   <div className="absolute left-[30px] mt-9 w-px bg-gray-100" style={{ height: 24 }} />
                 )}
@@ -249,7 +249,7 @@ function PostThread({ post, onClose }: { post: CommunityPost; onClose: () => voi
             {post.comments > replies.length && (
               <div className="px-4 py-4 text-center">
                 <p className="text-xs text-gray-400">
-                  {post.comments - replies.length} more comments — sign in to see all
+                  {post.comments - replies.length} more comments, sign in to see all
                 </p>
               </div>
             )}
@@ -532,7 +532,7 @@ export default function CommunityClient() {
 
   const totalReplies = useMemo(() => posts.reduce((n, p) => n + p.comments, 0), [posts])
 
-  // Live "most discussed" — computed from real engagement, not hardcoded
+  // Live "most discussed", computed from real engagement, not hardcoded
   const mostDiscussed = useMemo(
     () => [...posts]
       .sort((a, b) => (b.likes + b.comments * 2) - (a.likes + a.comments * 2))
@@ -558,7 +558,7 @@ export default function CommunityClient() {
       <div className="bg-white" style={{ minHeight: 'calc(100vh - 112px)' }}>
         <div className="max-w-[1440px] mx-auto md:flex">
 
-          {/* Left sidebar — desktop only */}
+          {/* Left sidebar, desktop only */}
           <aside className="hidden md:block w-[260px] shrink-0 p-5 space-y-4 sticky top-[var(--header-height)] h-[calc(100vh-112px)] overflow-y-auto">
             <div className="bg-white rounded-xl border border-gray-200 p-4">
               <div className="flex items-center gap-3 mb-3">
@@ -728,7 +728,7 @@ export default function CommunityClient() {
                       key={post.id}
                       post={post}
                       onOpen={() => setSelectedPost(post)}
-                      onReport={() => showToast('Thanks — this post has been flagged for review.')}
+                      onReport={() => showToast('Thanks, this post has been flagged for review.')}
                     />
                   ))
                 )}
@@ -738,7 +738,7 @@ export default function CommunityClient() {
             </div>
           </main>
 
-          {/* Right sidebar — desktop only */}
+          {/* Right sidebar, desktop only */}
           <aside className="hidden lg:block w-[300px] shrink-0 p-5 space-y-4 sticky top-[var(--header-height)] h-[calc(100vh-112px)] overflow-y-auto">
             <div className="bg-white rounded-xl border border-gray-200 p-4">
               <p className="text-sm font-bold text-gray-800 mb-3">Most discussed</p>

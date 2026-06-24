@@ -16,7 +16,7 @@ export default async function HowItWorksPage() {
       <div className="text-center mb-12">
         <h1 className="text-3xl font-bold text-gray-900 mb-3">{page?.hero_heading ?? 'How Waiterstation works'}</h1>
         <p className="text-gray-500 text-base leading-relaxed">
-          {page?.hero_subheading ?? "South Africa's hospitality job board. No CVs, no portals, no friction."}
+          {page?.hero_subheading ?? "South Africa's hospitality job board. Apply in seconds."}
         </p>
       </div>
 
@@ -38,7 +38,7 @@ export default async function HowItWorksPage() {
             {
               step: '3',
               title: 'Apply in 30 seconds',
-              body: 'Tap "Apply now", enter your name and phone number, and optionally add a short message. No CV, no portal, no waiting weeks.',
+              body: 'Tap "Apply now", enter your name and phone number, and optionally add a short message. No portal, no waiting weeks.',
             },
             {
               step: '4',
@@ -82,7 +82,7 @@ export default async function HowItWorksPage() {
             {
               step: '3',
               title: 'Applications come in on Waiterstation',
-              body: 'Candidates apply directly on the platform. You receive their name and contact number — no middleman, no portals.',
+              body: 'Candidates apply directly on the platform. You receive their name and contact number, no middleman, no portals.',
             },
             {
               step: '4',

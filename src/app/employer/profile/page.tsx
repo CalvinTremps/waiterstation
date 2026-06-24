@@ -127,7 +127,7 @@ export default function ProfilePage() {
 
           <div className="bg-white border border-gray-200 rounded-xl p-5 space-y-4">
             <h2 className="font-semibold text-gray-900">About Your Venue</h2>
-            <Field label="Description" hint="Shown to all job seekers — make it compelling">
+            <Field label="Description" hint="Shown to all job seekers, make it compelling">
               <textarea value={profile.description} onChange={e => set('description', e.target.value)}
                 rows={5} className={input + ' resize-none'}
                 placeholder="Tell job seekers what makes your venue special..." />

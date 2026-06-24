@@ -88,7 +88,7 @@ export async function fetchAdzunaJobs(params: {
 
   const what = params.q || 'hospitality'
 
-  // Fetch 4 pages in parallel — up to 200 listings
+  // Fetch 4 pages in parallel, up to 200 listings
   const pages = await Promise.all([1, 2, 3, 4].map(p => fetchPage(appId, appKey, what, p, params.location, params.payOnly)))
   const raw = pages.flat()
 

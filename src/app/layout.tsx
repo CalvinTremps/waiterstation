@@ -12,7 +12,7 @@ const inter = Inter({ subsets: ['latin'], display: 'swap', variable: '--font-int
 
 export const metadata: Metadata = {
   title: 'Waiterstation | Hospitality Jobs in South Africa',
-  description: 'Find waiter, chef, kitchen, and hotel jobs across South Africa. Apply in seconds — no CV required.',
+  description: 'Find waiter, chef, kitchen, and hotel jobs across South Africa. Apply in seconds.',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
@@ -52,7 +52,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           </div>
         </header>
 
-        {/* Main content — padded bottom on mobile for tab bar */}
+        {/* Main content, padded bottom on mobile for tab bar */}
         <main className="pb-[calc(56px+env(safe-area-inset-bottom))] md:pb-0">
           {children}
         </main>
@@ -67,7 +67,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                   <span className="font-bold text-gray-900 text-sm">Waiterstation</span>
                 </a>
                 <p className="text-xs text-gray-400 leading-relaxed">
-                  Hospitality jobs across South Africa. Apply in seconds — no CV required.
+                  Hospitality jobs across South Africa. Apply in seconds.
                 </p>
               </div>
               <div>

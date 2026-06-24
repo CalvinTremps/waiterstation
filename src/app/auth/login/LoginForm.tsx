@@ -53,7 +53,7 @@ export default function LoginForm() {
         </div>
         <h2 className="text-lg font-bold text-gray-900 mb-1">Check your inbox</h2>
         <p className="text-sm text-gray-500 leading-relaxed max-w-xs mx-auto">
-          We sent a sign-in link to <span className="font-semibold text-gray-800">{email}</span>. Tap it to continue — expires in 1 hour.
+          We sent a sign-in link to <span className="font-semibold text-gray-800">{email}</span>. Tap it to continue, expires in 1 hour.
         </p>
         <button onClick={() => { setStep('start'); setError('') }}
           className="mt-5 text-sm text-gray-400 hover:text-gray-600 underline underline-offset-2">
@@ -142,7 +142,7 @@ export default function LoginForm() {
         {loading ? 'Sending link…' : 'Send magic link'}
       </button>
 
-      <p className="text-xs text-gray-400 text-center">No password needed — we'll email you a sign-in link.</p>
+      <p className="text-xs text-gray-400 text-center">No password needed, we'll email you a sign-in link.</p>
     </form>
   )
 }

@@ -78,7 +78,7 @@ function ApplicationCard({ app, onWithdraw }: { app: RealWorkerApplication; onWi
 
       {app.status === 'offered' && (
         <div className="bg-gray-100 border border-gray-200 rounded-lg px-3 py-2.5">
-          <p className="text-xs font-semibold text-gray-900">Offer received — the employer will contact you directly.</p>
+          <p className="text-xs font-semibold text-gray-900">Offer received, the employer will contact you directly.</p>
         </div>
       )}
 

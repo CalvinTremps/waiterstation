@@ -1,5 +1,5 @@
 /**
- * Cruise-ship hospitality jobs — a real market for South African crew (MSC
+ * Cruise-ship hospitality jobs, a real market for South African crew (MSC
  * sails from Durban & Cape Town; agencies recruit heavily here). Content-led
  * landing pages target the "cruise ship jobs" keyword cluster.
  */
@@ -23,9 +23,9 @@ const LINE_BY_SLUG = new Map(CRUISE_LINES.map(l => [l.slug, l]))
 export const getCruiseLine = (slug: string) => LINE_BY_SLUG.get(slug) ?? null
 
 export const CRUISE_ROLES = [
-  { name: 'Assistant Waiter / Waiter', note: 'Entry point on most lines — restaurant service across multiple sittings.' },
+  { name: 'Assistant Waiter / Waiter', note: 'Entry point on most lines, restaurant service across multiple sittings.' },
   { name: 'Bartender / Bar Steward', note: 'High-tip roles on busy bars, lounges and pool decks.' },
-  { name: 'Cabin Steward / Housekeeping', note: 'Servicing guest staterooms — strong demand, entry-level friendly.' },
+  { name: 'Cabin Steward / Housekeeping', note: 'Servicing guest staterooms, strong demand, entry-level friendly.' },
   { name: 'Galley / Commis Chef', note: 'Kitchen crew supporting high-volume service.' },
   { name: 'Barista / Café Attendant', note: 'Specialty coffee and café outlets on board.' },
   { name: 'Host / Guest Services', note: 'Front-of-house and guest relations roles.' },
@@ -46,6 +46,6 @@ export const CRUISE_FAQS = [
   },
   {
     q: 'How do I apply for cruise ship jobs from South Africa?',
-    a: 'Most placements go through accredited maritime recruitment agencies. You will need a valid passport, a seafarer medical certificate, and basic STCW safety training. Prepare a one-page hospitality CV and apply to several lines — contracts usually run 6–9 months.',
+    a: 'Most placements go through accredited maritime recruitment agencies. You will need a valid passport, a seafarer medical certificate, and basic STCW safety training. Prepare a one-page hospitality CV and apply to several lines, contracts usually run 6–9 months.',
   },
 ]

@@ -41,7 +41,7 @@ export const MOCK_COMMUNITY_POSTS: CommunityPost[] = [
     featured_reply: {
       author_role: 'Waitress · Sandton, JHB',
       content:
-        'Joburg corporate lunch tips are consistent but lower. Cape Town summer tips are wild — I\'m seriously considering a seasonal move.',
+        'Joburg corporate lunch tips are consistent but lower. Cape Town summer tips are wild, I\'m seriously considering a seasonal move.',
     },
   },
   {
@@ -51,7 +51,7 @@ export const MOCK_COMMUNITY_POSTS: CommunityPost[] = [
     author_avatar_letter: 'K',
     time_ago: '4h',
     content:
-      'Just got hired as a junior sommelier at a 5-star estate. The interview was 3 rounds — blind tasting, a theory exam, and a service simulation in front of the panel. If you\'re going for a wine role at a serious estate, study your SA wine regions inside out. They tested Stellenbosch sub-appellations specifically. Preparation is everything.',
+      'Just got hired as a junior sommelier at a 5-star estate. The interview was 3 rounds, blind tasting, a theory exam, and a service simulation in front of the panel. If you\'re going for a wine role at a serious estate, study your SA wine regions inside out. They tested Stellenbosch sub-appellations specifically. Preparation is everything.',
     likes: 62,
     comments: 18,
     shares: 9,
@@ -60,7 +60,7 @@ export const MOCK_COMMUNITY_POSTS: CommunityPost[] = [
     featured_reply: {
       author_role: 'Sommelier · Franschhoek',
       content:
-        'This is solid advice. I\'d add — know the estate\'s own wines before you walk in. Blind tasting their flagship and not recognising it is an immediate red flag for any interviewer.',
+        'This is solid advice. I\'d add, know the estate\'s own wines before you walk in. Blind tasting their flagship and not recognising it is an immediate red flag for any interviewer.',
     },
   },
   {
@@ -70,7 +70,7 @@ export const MOCK_COMMUNITY_POSTS: CommunityPost[] = [
     author_avatar_letter: 'N',
     time_ago: '6h',
     content:
-      'Table of 12 walked in at 9:45pm on a Saturday — kitchen closes at 10pm. Manager said yes to them without telling us. We scrambled, executed, the guests were genuinely lovely and tipped R1,400 between FOH and bar. Sometimes the late tables save the night. Tonight was one of those nights.',
+      'Table of 12 walked in at 9:45pm on a Saturday, kitchen closes at 10pm. Manager said yes to them without telling us. We scrambled, executed, the guests were genuinely lovely and tipped R1,400 between FOH and bar. Sometimes the late tables save the night. Tonight was one of those nights.',
     likes: 134,
     comments: 41,
     shares: 14,
@@ -83,7 +83,7 @@ export const MOCK_COMMUNITY_POSTS: CommunityPost[] = [
     author_avatar_letter: 'R',
     time_ago: '1d',
     content:
-      'Honest question: what are restaurant managers actually earning in Cape Town right now? I\'m on R22k at a mid-size operation — no bonus structure, no medical. I have 5 years experience and I\'m starting to think I\'m being underpaid. Would love to hear what others are on before I negotiate my review next month.',
+      'Honest question: what are restaurant managers actually earning in Cape Town right now? I\'m on R22k at a mid-size operation, no bonus structure, no medical. I have 5 years experience and I\'m starting to think I\'m being underpaid. Would love to hear what others are on before I negotiate my review next month.',
     likes: 89,
     comments: 56,
     shares: 7,
@@ -101,7 +101,7 @@ export const MOCK_COMMUNITY_POSTS: CommunityPost[] = [
     author_avatar_letter: 'T',
     time_ago: '1d',
     content:
-      'Why do some managers think it\'s acceptable to change the roster 12 hours before a shift? This happened to me three times this month. I have a child. I have a life. I arranged transport based on the roster you gave me. There needs to be a legal minimum notice period for roster changes in hospitality — CCMA where are you on this?',
+      'Why do some managers think it\'s acceptable to change the roster 12 hours before a shift? This happened to me three times this month. I have a child. I have a life. I arranged transport based on the roster you gave me. There needs to be a legal minimum notice period for roster changes in hospitality, CCMA where are you on this?',
     likes: 211,
     comments: 87,
     shares: 32,
@@ -109,7 +109,7 @@ export const MOCK_COMMUNITY_POSTS: CommunityPost[] = [
     featured_reply: {
       author_role: 'HR Consultant · Hospitality Sector',
       content:
-        'Technically the BCEA requires reasonable notice for shift changes. Document every instance — if it\'s a pattern, that\'s a grievance. Most employers back down immediately when an employee references the CCMA formally.',
+        'Technically the BCEA requires reasonable notice for shift changes. Document every instance, if it\'s a pattern, that\'s a grievance. Most employers back down immediately when an employee references the CCMA formally.',
     },
   },
   {
@@ -119,7 +119,7 @@ export const MOCK_COMMUNITY_POSTS: CommunityPost[] = [
     author_avatar_letter: 'A',
     time_ago: '2d',
     content:
-      'I\'ve been a barista for 3 years and I genuinely love it, but everyone keeps telling me I need to "move up" into management. I don\'t want to manage people — I want to get better at coffee. Is there a career path in SA specialty coffee that doesn\'t involve becoming a manager? Thinking about competing but not sure how to start.',
+      'I\'ve been a barista for 3 years and I genuinely love it, but everyone keeps telling me I need to "move up" into management. I don\'t want to manage people, I want to get better at coffee. Is there a career path in SA specialty coffee that doesn\'t involve becoming a manager? Thinking about competing but not sure how to start.',
     likes: 73,
     comments: 34,
     shares: 6,
@@ -138,7 +138,7 @@ export const MOCK_COMMUNITY_POSTS: CommunityPost[] = [
     author_avatar_letter: 'L',
     time_ago: '2d',
     content:
-      'The new tipping feature on South African card machines is genuinely changing behaviour at restaurants. We\'ve tracked a 23% increase in tip frequency since it rolled out — guests who used to only tip with cash are now tipping consistently on card. The money is going directly into the pool. If your venue isn\'t offering card tip prompts yet, your staff are losing money every service.',
+      'The new tipping feature on South African card machines is genuinely changing behaviour at restaurants. We\'ve tracked a 23% increase in tip frequency since it rolled out, guests who used to only tip with cash are now tipping consistently on card. The money is going directly into the pool. If your venue isn\'t offering card tip prompts yet, your staff are losing money every service.',
     likes: 156,
     comments: 49,
     shares: 21,
@@ -191,7 +191,7 @@ export const MOCK_COMMUNITY_POSTS: CommunityPost[] = [
     featured_reply: {
       author_role: 'Bar Manager · V&A Waterfront',
       content:
-        'December is why we all survive January and February. Smart move is to put half aside during the festive season. Most of us don\'t — I\'ve been in the industry 9 years and I still haven\'t fully cracked the discipline.',
+        'December is why we all survive January and February. Smart move is to put half aside during the festive season. Most of us don\'t, I\'ve been in the industry 9 years and I still haven\'t fully cracked the discipline.',
     },
   },
   {
@@ -201,7 +201,7 @@ export const MOCK_COMMUNITY_POSTS: CommunityPost[] = [
     author_avatar_letter: 'P',
     time_ago: '4d',
     content:
-      'I\'ve been a GM for 6 years and the single best management decision I ever made was switching to a fixed roster two weeks in advance with a formal swap request system. Staff turnover dropped 40% in the first year. People in hospitality don\'t leave for more money as often as people think — they leave because they can\'t plan their lives. Give your team predictability.',
+      'I\'ve been a GM for 6 years and the single best management decision I ever made was switching to a fixed roster two weeks in advance with a formal swap request system. Staff turnover dropped 40% in the first year. People in hospitality don\'t leave for more money as often as people think, they leave because they can\'t plan their lives. Give your team predictability.',
     likes: 317,
     comments: 103,
     shares: 45,
@@ -223,7 +223,7 @@ export const MOCK_COMMUNITY_POSTS: CommunityPost[] = [
     featured_reply: {
       author_role: 'Training Manager · Hotel Group',
       content:
-        'Yes — a CATHSSETA NQF Level 4 in Hospitality is absolutely still valued, especially for any management track. Many hotel groups require it for supervisor roles. You can do it through FEDHASA or directly through an accredited provider. Some employers will even fund it.',
+        'Yes, a CATHSSETA NQF Level 4 in Hospitality is absolutely still valued, especially for any management track. Many hotel groups require it for supervisor roles. You can do it through FEDHASA or directly through an accredited provider. Some employers will even fund it.',
     },
   },
   {
@@ -233,7 +233,7 @@ export const MOCK_COMMUNITY_POSTS: CommunityPost[] = [
     author_avatar_letter: 'M',
     time_ago: '5d',
     content:
-      'Cape Town is now officially the top-ranked city in Africa for food tourism according to the latest Condé Nast Traveller data. This is genuinely great news for hospitality workers in the Western Cape — when the destination wins, we all win. Foreign visitor spend on F&B is up 34% year on year. Translate that: more guests, better tips, more hiring.',
+      'Cape Town is now officially the top-ranked city in Africa for food tourism according to the latest Condé Nast Traveller data. This is genuinely great news for hospitality workers in the Western Cape, when the destination wins, we all win. Foreign visitor spend on F&B is up 34% year on year. Translate that: more guests, better tips, more hiring.',
     likes: 92,
     comments: 22,
     shares: 19,
@@ -247,7 +247,7 @@ export const MOCK_COMMUNITY_POSTS: CommunityPost[] = [
     author_avatar_letter: 'F',
     time_ago: '5d',
     content:
-      'Head Chef called in sick on a Friday night — 120 covers booked, private function in the side room for 40. I ran the kitchen with two CDPs and a commis who\'d been with us for 3 weeks. Service was almost flawless. One cold starter made it out which I\'m still angry about. But we did it. You find out who you are in a kitchen on a night like that.',
+      'Head Chef called in sick on a Friday night, 120 covers booked, private function in the side room for 40. I ran the kitchen with two CDPs and a commis who\'d been with us for 3 weeks. Service was almost flawless. One cold starter made it out which I\'m still angry about. But we did it. You find out who you are in a kitchen on a night like that.',
     likes: 176,
     comments: 58,
     shares: 13,
@@ -273,7 +273,7 @@ export const MOCK_COMMUNITY_POSTS: CommunityPost[] = [
     featured_reply: {
       author_role: 'Revenue Manager · Sandton',
       content:
-        'I started at front desk too. It took 18 months of persistence and doing extra work unpaid to learn the systems, but it completely changed my career trajectory. If your hotel uses Opera Cloud, start learning the reports side — that\'s your foot in the door.',
+        'I started at front desk too. It took 18 months of persistence and doing extra work unpaid to learn the systems, but it completely changed my career trajectory. If your hotel uses Opera Cloud, start learning the reports side, that\'s your foot in the door.',
     },
   },
 ]

@@ -13,11 +13,11 @@ const FEATURE_TABS = [
     features: [
       {
         title: 'Create a standout job post',
-        body: 'Post a role in under 2 minutes. Describe the position, set the pay, add contact details — and it goes to our team for review.',
+        body: 'Post a role in under 2 minutes. Describe the position, set the pay, add contact details, and it goes to our team for review.',
       },
       {
         title: 'Reach the right candidates',
-        body: 'Our audience is exclusively South African hospitality workers — waiters, chefs, baristas, hotel staff, game rangers, and more. Every job seeker here is actively looking.',
+        body: 'Our audience is exclusively South African hospitality workers, waiters, chefs, baristas, hotel staff, game rangers, and more. Every job seeker here is actively looking.',
       },
       {
         title: 'Go live within hours',
@@ -34,11 +34,11 @@ const FEATURE_TABS = [
     features: [
       {
         title: 'Direct applications, no middleman',
-        body: 'Candidates apply on Waiterstation and their contact details come straight to you — no CVs, no recruitment agencies, no email chains.',
+        body: 'Candidates apply on Waiterstation and their contact details come straight to you. No recruitment agencies, no email chains.',
       },
       {
         title: 'Hospitality-specific profiles',
-        body: 'Workers list their role category, experience, certifications (RASA, food handlers, wine), availability, and location — the things that actually matter in this industry.',
+        body: 'Workers list their role category, experience, certifications (RASA, food handlers, wine), availability, and location, the things that actually matter in this industry.',
       },
       {
         title: 'Quality over quantity',
@@ -98,7 +98,7 @@ const HIRING_OPTIONS = [
     points: [
       'Pinned to top of relevant searches',
       'Highlighted badge on your listing',
-      'Priority review — live in under 2 hours',
+      'Priority review, live in under 2 hours',
       'Performance dashboard',
     ],
     cta: 'Get notified',
@@ -111,7 +111,7 @@ const HIRING_OPTIONS = [
     badgeColor: 'bg-purple-100 text-purple-700',
     title: 'Talent search',
     subtitle: 'Find the right candidate',
-    description: 'Search our worker profile database by role, location, experience, and certification — and reach out directly.',
+    description: 'Search our worker profile database by role, location, experience, and certification, and reach out directly.',
     points: [
       'Search thousands of worker profiles',
       'Filter by role, location, availability',
@@ -141,7 +141,7 @@ const TESTIMONIALS = [
     color: 'bg-gray-900',
   },
   {
-    quote: 'No CVs, no recruitment agencies, no drama. Just people who saw the job and were interested. Exactly what we needed.',
+    quote: 'No recruitment agencies, no drama. Just people who saw the job and were interested. Exactly what we needed.',
     name: 'Durban bar manager',
     role: 'Sports bar, Umhlanga',
     initials: 'DB',
@@ -196,13 +196,13 @@ const RESOURCES = [
 ]
 
 const FAQS = [
-  { q: 'How do I create a Waiterstation employer account for free?', a: 'Click "Post a Job" and fill in your listing. There is no account required during beta — we review your submission and make it live. An employer dashboard is available once your first listing is approved.' },
+  { q: 'How do I create a Waiterstation employer account for free?', a: 'Click "Post a Job" and fill in your listing. There is no account required during beta, we review your submission and make it live. An employer dashboard is available once your first listing is approved.' },
   { q: 'How long does it take for my listing to go live?', a: 'Most listings are reviewed and approved within a few hours during business hours. You will receive a confirmation once your listing is live.' },
-  { q: 'How do candidates apply?', a: 'Candidates apply directly on Waiterstation. You receive their name and contact number by email as soon as they apply — no portal login required to see applications.' },
+  { q: 'How do candidates apply?', a: 'Candidates apply directly on Waiterstation. You receive their name and contact number by email as soon as they apply, no portal login required to see applications.' },
   { q: 'Can I edit or remove my listing after it goes live?', a: 'Yes. Log in to your employer dashboard at /employer to manage, edit, renew, or remove any active listings.' },
   { q: 'How much does it cost to post a job?', a: 'Posting is completely free during our beta period. No credit card is required. We will give employers advance notice before any pricing changes.' },
   { q: 'Can I post without listing a salary?', a: 'Yes, the salary/pay field is optional. However, listings that include pay typically receive more and better-quality applications.' },
-  { q: 'What types of roles can I post?', a: 'Any hospitality role in South Africa — waiters, chefs, bartenders, baristas, housekeeping, hotel front desk, game rangers, spa therapists, event staff, managers, and more.' },
+  { q: 'What types of roles can I post?', a: 'Any hospitality role in South Africa, waiters, chefs, bartenders, baristas, housekeeping, hotel front desk, game rangers, spa therapists, event staff, managers, and more.' },
   { q: 'How is Waiterstation different from general job boards?', a: 'Waiterstation is built exclusively for the South African hospitality industry. Every job seeker on the platform works in, or is looking for work in, hospitality. This means less noise and more relevant candidates for your listings.' },
 ]
 
@@ -389,7 +389,7 @@ export default function EmployersPage() {
               Hiring that's simpler, faster, and more human
             </h1>
             <p className="text-gray-300 text-base md:text-lg leading-relaxed mb-8 max-w-md">
-              Reach thousands of active South African hospitality workers in minutes. No agencies, no CVs, no delays.
+              Reach thousands of active South African hospitality workers in minutes. No agencies, no delays.
             </p>
             <div className="flex items-center gap-3 flex-wrap">
               <a href="#get-started"
@@ -455,14 +455,14 @@ export default function EmployersPage() {
               Sign in or create your free employer account
             </h2>
             <p className="text-gray-500 text-sm leading-relaxed mb-6">
-              Post jobs, manage applications, track your listings, and access your employer dashboard — all in one place.
+              Post jobs, manage applications, track your listings, and access your employer dashboard, all in one place.
             </p>
             <ul className="space-y-3">
               {[
                 'Post a job in under 2 minutes',
                 'Receive applicant contact details directly',
                 'Manage and renew listings from your dashboard',
-                'Free during beta — no credit card required',
+                'Free during beta, no credit card required',
               ].map(point => (
                 <li key={point} className="flex items-center gap-2.5 text-sm text-gray-700">
                   <svg className="w-4 h-4 text-gray-900 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -572,7 +572,7 @@ export default function EmployersPage() {
           <div className="grid md:grid-cols-4 gap-8 text-center relative">
             <div className="hidden md:block absolute top-6 left-[12.5%] right-[12.5%] h-px bg-white/20" />
             {[
-              { step: '1', label: 'Fill in the form', sub: 'Role, location, pay, and contact details — takes 2 minutes' },
+              { step: '1', label: 'Fill in the form', sub: 'Role, location, pay, and contact details, takes 2 minutes' },
               { step: '2', label: 'We review it', sub: 'Usually approved within a few hours, same day' },
               { step: '3', label: 'Your listing goes live', sub: 'Immediately visible to all active job seekers' },
               { step: '4', label: 'Applications arrive', sub: 'Candidates apply directly and you get their contact details' },

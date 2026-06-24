@@ -1,6 +1,6 @@
 /**
  * Races a promise (or thenable, e.g. a Supabase query builder) against a
- * timeout. Resolves to `null` if the timeout wins — used to keep server
+ * timeout. Resolves to `null` if the timeout wins, used to keep server
  * components responsive when Supabase is slow or unreachable.
  */
 export function withTimeout<T>(promise: PromiseLike<T>, ms: number): Promise<T | null> {

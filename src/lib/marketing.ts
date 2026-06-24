@@ -6,7 +6,7 @@ import { withTimeout } from './with-timeout'
  *
  * Public marketing pages read their SEO + hero copy through getMarketingPage()
  * and fall back to MARKETING_PAGES when the `marketing_pages` table is empty or
- * unreachable — the same mock-first pattern used across the app. The /admin
+ * unreachable, the same mock-first pattern used across the app. The /admin
  * Marketing section edits these records; applying migration-marketing.sql makes
  * those edits persist and show on the live pages.
  */
@@ -29,9 +29,9 @@ export const MARKETING_PAGES: MarketingPage[] = [
     name: 'Home / Landing',
     path: '/',
     seo_title: 'Waiterstation | Hospitality Jobs in South Africa',
-    seo_description: 'Find waiter, chef, kitchen, and hotel jobs across South Africa. Apply in seconds — no CV required.',
+    seo_description: 'Find waiter, chef, kitchen, and hotel jobs across South Africa. Apply in seconds.',
     hero_heading: 'Thousands of Hospitality Jobs in South Africa',
-    hero_subheading: 'Waiter, chef, bartender, barista, kitchen and hotel roles — find your next job and apply in seconds.',
+    hero_subheading: 'Waiter, chef, bartender, barista, kitchen and hotel roles, find your next job and apply in seconds.',
     body: '',
     published: true,
     updated_at: '2026-06-23T09:00:00+02:00',
@@ -43,7 +43,7 @@ export const MARKETING_PAGES: MarketingPage[] = [
     seo_title: 'About | Waiterstation',
     seo_description: 'Waiterstation is a job board for hospitality workers in South Africa.',
     hero_heading: 'About Waiterstation',
-    hero_subheading: 'South Africa’s dedicated job board for hospitality workers — built to make finding work fast, fair, and CV-free.',
+    hero_subheading: 'South Africa’s dedicated job board for hospitality workers, built to make finding work fast and fair.',
     body: 'Waiterstation connects waiters, chefs, bartenders, baristas and hotel staff with employers across South Africa. We believe applying for a job should take seconds, not hours.',
     published: true,
     updated_at: '2026-06-23T09:00:00+02:00',
@@ -55,7 +55,7 @@ export const MARKETING_PAGES: MarketingPage[] = [
     seo_title: 'How It Works | Waiterstation',
     seo_description: 'How Waiterstation works for hospitality workers and employers in South Africa.',
     hero_heading: 'How Waiterstation works',
-    hero_subheading: 'South Africa’s hospitality job board. No CVs, no portals, no friction.',
+    hero_subheading: 'South Africa’s hospitality job board. Apply in seconds.',
     body: '',
     published: true,
     updated_at: '2026-06-23T09:00:00+02:00',
@@ -88,7 +88,7 @@ export const MARKETING_PAGES: MarketingPage[] = [
 
 const BY_SLUG = new Map(MARKETING_PAGES.map(p => [p.slug, p]))
 
-/** All marketing pages — Supabase first, mock fallback. Used by the admin list. */
+/** All marketing pages, Supabase first, mock fallback. Used by the admin list. */
 export async function getAllMarketingPages(): Promise<MarketingPage[]> {
   try {
     const supabase = await createServerClient()
@@ -105,7 +105,7 @@ export async function getAllMarketingPages(): Promise<MarketingPage[]> {
   return MARKETING_PAGES
 }
 
-/** A single marketing page by slug — Supabase first, mock fallback. */
+/** A single marketing page by slug, Supabase first, mock fallback. */
 export async function getMarketingPage(slug: string): Promise<MarketingPage | null> {
   try {
     const supabase = await createServerClient()

@@ -99,11 +99,11 @@ function HistoryCard({ entry }: { entry: WorkHistoryEntry }) {
             <svg className="w-4 h-4 text-amber-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
-            <p className="text-xs text-amber-700">Verification request sent — waiting for employer to confirm</p>
+            <p className="text-xs text-amber-700">Verification request sent, waiting for employer to confirm</p>
           </div>
         )}
 
-        {/* Unverified — request button */}
+        {/* Unverified, request button */}
         {entry.verification_status === 'unverified' && !requested && (
           <div className="mt-3">
             {showRequest ? (
@@ -136,7 +136,7 @@ function HistoryCard({ entry }: { entry: WorkHistoryEntry }) {
             <svg className="w-4 h-4 text-amber-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
-            <p className="text-xs text-amber-700">Verification request sent — waiting for employer to confirm</p>
+            <p className="text-xs text-amber-700">Verification request sent, waiting for employer to confirm</p>
           </div>
         )}
       </div>

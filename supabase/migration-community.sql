@@ -4,7 +4,7 @@
 --
 -- The app reads these tables through createServerClient() and falls back to
 -- mock data (MOCK_COMMUNITY_POSTS / MOCK_SALARIES) when the tables are empty
--- or unreachable — the same pattern used by the jobs feed. Applying this
+-- or unreachable, the same pattern used by the jobs feed. Applying this
 -- migration switches the community from mock-only to real, shared data.
 
 -- ── Posts ────────────────────────────────────────────────────────────

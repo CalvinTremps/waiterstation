@@ -111,10 +111,10 @@ export default async function AdminUsersPage({
               <tbody className="divide-y divide-gray-50">
                 {filteredWorkers.map(w => (
                   <tr key={w.id} className="hover:bg-gray-50 transition">
-                    <td className="px-5 py-3.5 font-semibold text-gray-900">{w.name || '—'}</td>
-                    <td className="px-5 py-3.5 text-gray-600 capitalize">{w.role_category?.replace('_', ' ') || '—'}</td>
-                    <td className="px-5 py-3.5 text-gray-500 hidden md:table-cell">{w.location || '—'}</td>
-                    <td className="px-5 py-3.5 text-gray-500 hidden lg:table-cell">{w.phone || '—'}</td>
+                    <td className="px-5 py-3.5 font-semibold text-gray-900">{w.name || '-'}</td>
+                    <td className="px-5 py-3.5 text-gray-600 capitalize">{w.role_category?.replace('_', ' ') || '-'}</td>
+                    <td className="px-5 py-3.5 text-gray-500 hidden md:table-cell">{w.location || '-'}</td>
+                    <td className="px-5 py-3.5 text-gray-500 hidden lg:table-cell">{w.phone || '-'}</td>
                     <td className="px-5 py-3.5 text-gray-400 text-xs">{formatDate(w.created_at)}</td>
                     <td className="px-5 py-3.5">
                       <DeleteUserButton userId={w.id} type="worker" name={w.name || 'this user'} />
@@ -147,10 +147,10 @@ export default async function AdminUsersPage({
               <tbody className="divide-y divide-gray-50">
                 {filteredEmployers.map(e => (
                   <tr key={e.id} className="hover:bg-gray-50 transition">
-                    <td className="px-5 py-3.5 font-semibold text-gray-900">{e.contact_name || '—'}</td>
-                    <td className="px-5 py-3.5 text-gray-600">{e.business_name || '—'}</td>
-                    <td className="px-5 py-3.5 text-gray-500 hidden md:table-cell">{e.phone || '—'}</td>
-                    <td className="px-5 py-3.5 text-gray-500 hidden lg:table-cell">{e.website || '—'}</td>
+                    <td className="px-5 py-3.5 font-semibold text-gray-900">{e.contact_name || '-'}</td>
+                    <td className="px-5 py-3.5 text-gray-600">{e.business_name || '-'}</td>
+                    <td className="px-5 py-3.5 text-gray-500 hidden md:table-cell">{e.phone || '-'}</td>
+                    <td className="px-5 py-3.5 text-gray-500 hidden lg:table-cell">{e.website || '-'}</td>
                     <td className="px-5 py-3.5 text-gray-400 text-xs">{formatDate(e.created_at)}</td>
                     <td className="px-5 py-3.5">
                       <DeleteUserButton userId={e.id} type="employer" name={e.contact_name || 'this user'} />

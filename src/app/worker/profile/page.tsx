@@ -297,7 +297,7 @@ export default function WorkerProfilePage() {
 
           {/* Bio */}
           <Section title="About Me">
-            <Field label="Bio" hint="Shown to employers — describe your experience and what makes you stand out">
+            <Field label="Bio" hint="Shown to employers, describe your experience and what makes you stand out">
               <textarea value={profile.bio} onChange={e => set('bio', e.target.value)}
                 rows={5} className={input + ' resize-none'}
                 placeholder="Describe your hospitality background, strengths, and what you're looking for..." />

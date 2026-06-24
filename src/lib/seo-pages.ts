@@ -78,7 +78,7 @@ export const SEO_LOCATIONS: SeoLocation[] = [
   { slug: 'north-west', name: 'North West', region: 'South Africa', tier: 'town' },
   { slug: 'northern-cape', name: 'Northern Cape', region: 'South Africa', tier: 'town' },
 
-  // Western Cape — Cape Town metro + suburbs
+  // Western Cape, Cape Town metro + suburbs
   { slug: 'cape-town', name: 'Cape Town', region: 'Western Cape', tier: 'metro' },
   { slug: 'bellville', name: 'Bellville', region: 'Cape Town', tier: 'metro' },
   { slug: 'durbanville', name: 'Durbanville', region: 'Cape Town', tier: 'metro' },
@@ -87,7 +87,7 @@ export const SEO_LOCATIONS: SeoLocation[] = [
   { slug: 'century-city', name: 'Century City', region: 'Cape Town', tier: 'metro' },
   { slug: 'v-and-a-waterfront', name: 'V&A Waterfront', region: 'Cape Town', tier: 'metro' },
   { slug: 'somerset-west', name: 'Somerset West', region: 'Western Cape', tier: 'metro' },
-  // Western Cape — winelands & Garden Route towns
+  // Western Cape, winelands & Garden Route towns
   { slug: 'stellenbosch', name: 'Stellenbosch', region: 'Western Cape', tier: 'town' },
   { slug: 'franschhoek', name: 'Franschhoek', region: 'Western Cape', tier: 'town' },
   { slug: 'paarl', name: 'Paarl', region: 'Western Cape', tier: 'town' },
@@ -99,7 +99,7 @@ export const SEO_LOCATIONS: SeoLocation[] = [
   { slug: 'oudtshoorn', name: 'Oudtshoorn', region: 'Western Cape', tier: 'town' },
   { slug: 'wilderness', name: 'Wilderness', region: 'Western Cape', tier: 'town' },
 
-  // Gauteng — Johannesburg + suburbs
+  // Gauteng, Johannesburg + suburbs
   { slug: 'johannesburg', name: 'Johannesburg', region: 'Gauteng', tier: 'metro' },
   { slug: 'jhb', name: 'JHB', region: 'Gauteng', tier: 'metro' },
   { slug: 'sandton', name: 'Sandton', region: 'Johannesburg', tier: 'metro' },
@@ -109,7 +109,7 @@ export const SEO_LOCATIONS: SeoLocation[] = [
   { slug: 'roodepoort', name: 'Roodepoort', region: 'Johannesburg', tier: 'metro' },
   { slug: 'bryanston', name: 'Bryanston', region: 'Johannesburg', tier: 'metro' },
   { slug: 'soweto', name: 'Soweto', region: 'Johannesburg', tier: 'metro' },
-  // Gauteng — East Rand & Pretoria
+  // Gauteng, East Rand & Pretoria
   { slug: 'kempton-park', name: 'Kempton Park', region: 'Gauteng', tier: 'metro' },
   { slug: 'alberton', name: 'Alberton', region: 'Gauteng', tier: 'metro' },
   { slug: 'benoni', name: 'Benoni', region: 'Gauteng', tier: 'metro' },

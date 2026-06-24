@@ -15,7 +15,7 @@ interface SearchParams {
 
 export const metadata = {
   title: 'Hospitality Jobs in South Africa | Waiterstation',
-  description: 'Browse thousands of hospitality jobs across South Africa — waiters, chefs, bartenders, baristas and more. Apply in seconds.',
+  description: 'Browse thousands of hospitality jobs across South Africa, waiters, chefs, bartenders, baristas and more. Apply in seconds.',
 }
 
 export default async function JobsPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
@@ -98,7 +98,7 @@ export default async function JobsPage({ searchParams }: { searchParams: Promise
         <h1 className="text-[28px] font-bold leading-tight tracking-tight">Find your next hospitality job</h1>
         <p className="text-gray-100/90 mt-2.5 text-sm leading-relaxed">
           {totalLive > 0 && <><span className="font-bold text-white">{totalLive.toLocaleString()} open positions</span>{' '}</>}
-          across South Africa. Apply in seconds — no CV required.
+          across South Africa. Apply in seconds.
         </p>
       </div>
 

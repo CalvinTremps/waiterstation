@@ -594,7 +594,7 @@ export const SMART_ALERTS: SmartAlert[] = [
     id: 'sa-1',
     type: 'new_match',
     title: 'New candidate matches Senior Waiter listing',
-    body: 'Zanele Mokoena (score 9/10) just joined — Cape Town, WSET Level 1, available immediately.',
+    body: 'Zanele Mokoena (score 9/10) just joined, Cape Town, WSET Level 1, available immediately.',
     job_title: 'Senior Waiter / Floor Captain',
     candidate_name: 'Zanele Mokoena',
     match_score: 9,
@@ -624,7 +624,7 @@ export const SMART_ALERTS: SmartAlert[] = [
   {
     id: 'sa-4',
     type: 'trial_reminder',
-    title: 'Trial shift tomorrow — Dylan Meyer',
+    title: 'Trial shift tomorrow, Dylan Meyer',
     body: "Dylan Meyer's trial shift at De Waterkant bar is at 16:00 tomorrow. Confirmation pending.",
     candidate_name: 'Dylan Meyer',
     job_title: 'Bartender – Cocktail Bar',
@@ -761,7 +761,7 @@ export interface PayrollSettings {
   currency: string
 }
 
-const now2 = now // fixed reference date — see note above; avoids hydration drift
+const now2 = now // fixed reference date, see note above; avoids hydration drift
 
 export const MOCK_EMPLOYEES: Employee[] = [
   {
@@ -923,7 +923,7 @@ export interface LeaveBalance {
   sick_used: number
 }
 
-const leaveNow = now // fixed reference date — see note above; avoids hydration drift
+const leaveNow = now // fixed reference date, see note above; avoids hydration drift
 function leaveDays(offset: number) {
   return new Date(leaveNow + offset * 86400000).toISOString().split('T')[0]
 }
@@ -1068,7 +1068,7 @@ export interface Notice {
 export const MOCK_NOTICES: Notice[] = [
   {
     id: 'n-1',
-    title: 'Uniform update — new black aprons from Monday',
+    title: 'Uniform update, new black aprons from Monday',
     body: "As discussed in the last briefing, we are switching to the new black half-aprons from Monday 23 June. Please ensure your uniform is clean and pressed. Aprons will be distributed at the start of each shift. If you have not yet collected your two aprons from the locker room, please do so before your next shift.",
     category: 'urgent',
     pinned: true,
@@ -1078,7 +1078,7 @@ export const MOCK_NOTICES: Notice[] = [
   },
   {
     id: 'n-2',
-    title: 'Private dining event — Saturday 28 June',
+    title: 'Private dining event, Saturday 28 June',
     body: "We have a private dinner for 40 guests on Saturday evening. Briefing at 17:30 sharp. Full service dress code. Please note the event menu has been emailed separately. Amahle and Riaan are leading the floor. All staff assigned to this event must confirm attendance by Thursday.",
     category: 'event',
     pinned: true,
@@ -1088,7 +1088,7 @@ export const MOCK_NOTICES: Notice[] = [
   },
   {
     id: 'n-3',
-    title: 'Updated tip-out policy — effective 1 July',
+    title: 'Updated tip-out policy, effective 1 July',
     body: "Following feedback from the team, the tip-out policy has been revised. From 1 July, tips will be pooled per shift and split equally across all floor staff on that shift. Kitchen will receive a 15% share. Please review the updated policy document in the Documents section and sign the acknowledgement form.",
     category: 'policy',
     pinned: false,
@@ -1098,7 +1098,7 @@ export const MOCK_NOTICES: Notice[] = [
   },
   {
     id: 'n-4',
-    title: 'Well done to the team — Trip Advisor #1 this week',
+    title: 'Well done to the team, Trip Advisor #1 this week',
     body: "We hit the #1 spot on Trip Advisor for Cape Town restaurants this week. This is a massive achievement and is entirely down to the quality of service each of you brings every shift. Management is treating the team to a staff lunch on Tuesday. Details to follow. Thank you all.",
     category: 'general',
     pinned: false,
@@ -1122,19 +1122,19 @@ export interface StaffDocument {
 }
 
 export const STAFF_DOCUMENTS: StaffDocument[] = [
-  { id: 'doc-1', employee_id: 'emp-1', type: 'contract',       name: 'Employment Contract — Amahle Khumalo',    uploaded_at: '2023-03-15', status: 'valid' },
-  { id: 'doc-2', employee_id: 'emp-1', type: 'id_copy',        name: 'ID Copy — Amahle Khumalo',               uploaded_at: '2023-03-15', status: 'valid', file_size: '420 KB' },
-  { id: 'doc-3', employee_id: 'emp-1', type: 'health_cert',    name: 'Health Certificate — Amahle Khumalo',    uploaded_at: '2023-06-01', expiry_date: leaveDays(18), status: 'expiring_soon', file_size: '1.2 MB' },
-  { id: 'doc-4', employee_id: 'emp-2', type: 'contract',       name: 'Employment Contract — Dylan Meyer',      uploaded_at: '2023-07-01', status: 'valid' },
-  { id: 'doc-5', employee_id: 'emp-2', type: 'liquor_licence', name: 'Liquor Licence — Dylan Meyer',           uploaded_at: '2022-08-10', expiry_date: leaveDays(-5), status: 'expired', file_size: '850 KB' },
-  { id: 'doc-6', employee_id: 'emp-3', type: 'contract',       name: 'Employment Contract — Lerato Molefe',   uploaded_at: '2022-11-10', status: 'valid' },
-  { id: 'doc-7', employee_id: 'emp-3', type: 'id_copy',        name: 'ID Copy — Lerato Molefe',               uploaded_at: '2022-11-10', status: 'valid', file_size: '380 KB' },
-  { id: 'doc-8', employee_id: 'emp-4', type: 'contract',       name: 'Employment Contract — Sipho Dlamini',   uploaded_at: '2024-01-08', status: 'valid' },
-  { id: 'doc-9', employee_id: 'emp-4', type: 'id_copy',        name: 'ID Copy — Sipho Dlamini',              uploaded_at: '2024-01-08', status: 'valid', file_size: '510 KB' },
-  { id: 'doc-10', employee_id: 'emp-5', type: 'contract',      name: 'Employment Contract — Priya Naidoo',    uploaded_at: '2024-03-20', status: 'valid' },
-  { id: 'doc-11', employee_id: 'emp-6', type: 'contract',      name: 'Employment Contract — Riaan Botha',     uploaded_at: '2023-09-05', status: 'valid' },
-  { id: 'doc-12', employee_id: 'emp-6', type: 'health_cert',   name: 'Health Certificate — Riaan Botha',      uploaded_at: '2023-09-05', expiry_date: leaveDays(45), status: 'expiring_soon', file_size: '980 KB' },
-  { id: 'doc-13', employee_id: 'emp-6', type: 'liquor_licence', name: 'Liquor Licence — Riaan Botha',         uploaded_at: '2024-01-15', expiry_date: leaveDays(120), status: 'valid', file_size: '740 KB' },
+  { id: 'doc-1', employee_id: 'emp-1', type: 'contract',       name: 'Employment Contract, Amahle Khumalo',    uploaded_at: '2023-03-15', status: 'valid' },
+  { id: 'doc-2', employee_id: 'emp-1', type: 'id_copy',        name: 'ID Copy, Amahle Khumalo',               uploaded_at: '2023-03-15', status: 'valid', file_size: '420 KB' },
+  { id: 'doc-3', employee_id: 'emp-1', type: 'health_cert',    name: 'Health Certificate, Amahle Khumalo',    uploaded_at: '2023-06-01', expiry_date: leaveDays(18), status: 'expiring_soon', file_size: '1.2 MB' },
+  { id: 'doc-4', employee_id: 'emp-2', type: 'contract',       name: 'Employment Contract, Dylan Meyer',      uploaded_at: '2023-07-01', status: 'valid' },
+  { id: 'doc-5', employee_id: 'emp-2', type: 'liquor_licence', name: 'Liquor Licence, Dylan Meyer',           uploaded_at: '2022-08-10', expiry_date: leaveDays(-5), status: 'expired', file_size: '850 KB' },
+  { id: 'doc-6', employee_id: 'emp-3', type: 'contract',       name: 'Employment Contract, Lerato Molefe',   uploaded_at: '2022-11-10', status: 'valid' },
+  { id: 'doc-7', employee_id: 'emp-3', type: 'id_copy',        name: 'ID Copy, Lerato Molefe',               uploaded_at: '2022-11-10', status: 'valid', file_size: '380 KB' },
+  { id: 'doc-8', employee_id: 'emp-4', type: 'contract',       name: 'Employment Contract, Sipho Dlamini',   uploaded_at: '2024-01-08', status: 'valid' },
+  { id: 'doc-9', employee_id: 'emp-4', type: 'id_copy',        name: 'ID Copy, Sipho Dlamini',              uploaded_at: '2024-01-08', status: 'valid', file_size: '510 KB' },
+  { id: 'doc-10', employee_id: 'emp-5', type: 'contract',      name: 'Employment Contract, Priya Naidoo',    uploaded_at: '2024-03-20', status: 'valid' },
+  { id: 'doc-11', employee_id: 'emp-6', type: 'contract',      name: 'Employment Contract, Riaan Botha',     uploaded_at: '2023-09-05', status: 'valid' },
+  { id: 'doc-12', employee_id: 'emp-6', type: 'health_cert',   name: 'Health Certificate, Riaan Botha',      uploaded_at: '2023-09-05', expiry_date: leaveDays(45), status: 'expiring_soon', file_size: '980 KB' },
+  { id: 'doc-13', employee_id: 'emp-6', type: 'liquor_licence', name: 'Liquor Licence, Riaan Botha',         uploaded_at: '2024-01-15', expiry_date: leaveDays(120), status: 'valid', file_size: '740 KB' },
 ]
 
 // ─── Revenue Data (for staff cost dashboard) ─────────────────────────────────

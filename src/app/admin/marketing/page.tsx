@@ -11,7 +11,7 @@ export default async function AdminMarketingPage() {
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Marketing pages</h1>
         <p className="text-sm text-gray-500 mt-1">
-          Edit the SEO and hero copy for public pages — no deploy needed. Changes go live once
+          Edit the SEO and hero copy for public pages, no deploy needed. Changes go live once
           the marketing table is set up.
         </p>
       </div>

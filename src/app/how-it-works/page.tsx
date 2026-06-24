@@ -1,18 +1,22 @@
 import type { Metadata } from 'next'
+import { getMarketingPage } from '@/lib/marketing'
 
-export const metadata: Metadata = {
-  title: 'How It Works | Waiterstation',
-  description: 'How Waiterstation works for hospitality workers and employers in South Africa.',
+export const dynamic = 'force-dynamic'
+
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await getMarketingPage('how-it-works')
+  return { title: page?.seo_title, description: page?.seo_description }
 }
 
-export default function HowItWorksPage() {
+export default async function HowItWorksPage() {
+  const page = await getMarketingPage('how-it-works')
   return (
     <div className="max-w-2xl mx-auto px-4 py-8 pb-24 md:py-10 md:pb-10">
 
       <div className="text-center mb-12">
-        <h1 className="text-3xl font-bold text-gray-900 mb-3">How Waiterstation works</h1>
+        <h1 className="text-3xl font-bold text-gray-900 mb-3">{page?.hero_heading ?? 'How Waiterstation works'}</h1>
         <p className="text-gray-500 text-base leading-relaxed">
-          South Africa's hospitality job board. No CVs, no portals, no friction.
+          {page?.hero_subheading ?? "South Africa's hospitality job board. No CVs, no portals, no friction."}
         </p>
       </div>
 

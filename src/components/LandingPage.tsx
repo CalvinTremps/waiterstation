@@ -85,11 +85,15 @@ export default function LandingPage({
   allJobs,
   detectedCity,
   roleCounts,
+  heroHeading,
+  heroSubheading,
 }: {
   nearbyJobs: Job[]
   allJobs: Job[]
   detectedCity: string
   roleCounts: Record<string, number>
+  heroHeading?: string
+  heroSubheading?: string
 }) {
   const router = useRouter()
   const [query, setQuery] = useState('')
@@ -151,10 +155,10 @@ export default function LandingPage({
       <div className="bg-white">
         <div className="max-w-3xl mx-auto px-5 py-14 text-center">
           <h1 className="text-4xl font-bold text-gray-900 mb-3 leading-tight tracking-tight">
-            Thousands of Hospitality Jobs in South Africa
+            {heroHeading ?? 'Thousands of Hospitality Jobs in South Africa'}
           </h1>
           <p className="text-base text-gray-500 mb-7 leading-relaxed max-w-xl mx-auto">
-            Waiter, chef, bartender, barista, kitchen and hotel roles — find your next job and apply in seconds.
+            {heroSubheading ?? 'Waiter, chef, bartender, barista, kitchen and hotel roles — find your next job and apply in seconds.'}
           </p>
 
           <form onSubmit={handleSearch}

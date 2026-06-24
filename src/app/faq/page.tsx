@@ -1,8 +1,11 @@
 import type { Metadata } from 'next'
+import { getMarketingPage } from '@/lib/marketing'
 
-export const metadata: Metadata = {
-  title: 'FAQ | Waiterstation',
-  description: 'Frequently asked questions about Waiterstation for hospitality workers and employers in South Africa.',
+export const dynamic = 'force-dynamic'
+
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await getMarketingPage('faq')
+  return { title: page?.seo_title, description: page?.seo_description }
 }
 
 const WORKER_FAQS = [
@@ -84,12 +87,13 @@ function FAQItem({ q, a }: { q: string; a: string }) {
   )
 }
 
-export default function FAQPage() {
+export default async function FAQPage() {
+  const page = await getMarketingPage('faq')
   return (
     <div className="max-w-2xl mx-auto px-4 py-8 pb-24 md:py-10 md:pb-10">
 
       <div className="text-center mb-12">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Frequently asked questions</h1>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">{page?.hero_heading ?? 'Frequently asked questions'}</h1>
         <p className="text-sm text-gray-400">Can't find your answer? <a href="/community" className="text-gray-900 hover:underline">Ask the community</a></p>
       </div>
 

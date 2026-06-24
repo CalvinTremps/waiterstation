@@ -4,7 +4,14 @@ import { Job } from '@/lib/types'
 import { MOCK_JOBS } from '@/lib/mock-jobs'
 import { fetchAdzunaJobs } from '@/lib/adzuna'
 import { withTimeout } from '@/lib/with-timeout'
+import { getMarketingPage } from '@/lib/marketing'
 import LandingPage from '@/components/LandingPage'
+import type { Metadata } from 'next'
+
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await getMarketingPage('home')
+  return { title: page?.seo_title, description: page?.seo_description }
+}
 
 async function detectCity(ip: string): Promise<string> {
   if (!ip || ip === '127.0.0.1' || ip === '::1') return 'Cape Town'
@@ -65,12 +72,16 @@ export default async function HomePage() {
     roleCounts[job.role_category] = (roleCounts[job.role_category] ?? 0) + 1
   }
 
+  const cms = await getMarketingPage('home')
+
   return (
     <LandingPage
       nearbyJobs={nearbyJobs}
       allJobs={jobs}
       detectedCity={detectedCity}
       roleCounts={roleCounts}
+      heroHeading={cms?.hero_heading}
+      heroSubheading={cms?.hero_subheading}
     />
   )
 }

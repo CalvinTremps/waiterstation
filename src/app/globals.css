@@ -79,6 +79,41 @@ body {
   }
 }
 
+/* ── Skeleton shimmer (loading placeholders) ── */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: #f1f1f4;
+  border-radius: 8px;
+}
+.skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.65), transparent);
+  animation: ws-shimmer 1.4s ease-in-out infinite;
+}
+@keyframes ws-shimmer {
+  100% { transform: translateX(100%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .skeleton::after { animation: none; }
+}
+
+/* ── Top route-progress bar ── */
+.ws-topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  z-index: 100;
+  background: linear-gradient(90deg, #7c3aed, #a855f7);
+  box-shadow: 0 0 8px rgba(124, 58, 237, 0.5);
+  transition: width 0.2s ease, opacity 0.3s ease;
+  border-radius: 0 2px 2px 0;
+}
+
 .scroll-no-bar {
   -ms-overflow-style: none;
   scrollbar-width: none;

@@ -1,10 +1,12 @@
 import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
+import { Suspense } from 'react'
 import './globals.css'
 import { getSession } from '@/lib/supabase-server'
 import NavLinks from '@/components/NavLinks'
 import MobileBottomNav from '@/components/MobileBottomNav'
 import MobileHeader from '@/components/MobileHeader'
+import TopProgressBar from '@/components/TopProgressBar'
 
 const inter = Inter({ subsets: ['latin'], display: 'swap', variable: '--font-inter' })
 
@@ -29,8 +31,13 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const session = await getSession().catch(() => null)
 
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className={inter.variable} data-scroll-behavior="smooth">
       <body>
+        {/* ── Route progress bar ── */}
+        <Suspense fallback={null}>
+          <TopProgressBar />
+        </Suspense>
+
         {/* ── Mobile header (iOS-style, replaces hamburger) ── */}
         <MobileHeader isLoggedIn={!!session} />
 

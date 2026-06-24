@@ -109,21 +109,24 @@ export default async function RoleCityJobsPage({ params }: { params: Params }) {
           positions at restaurants, hotels, bars and venues across {loc.name}. Apply in seconds.
         </p>
 
-        {/* Related searches (internal linking) */}
-        <div className="mt-4 flex flex-wrap gap-2">
-          {otherRoles.map(r => (
-            <a key={r.slug} href={`/jobs/${r.slug}/${loc.slug}`}
-              className="text-xs font-medium text-violet-700 bg-violet-50 hover:bg-violet-100 px-3 py-1.5 rounded-full transition">
-              {r.label} jobs in {loc.name}
-            </a>
+        {/* Related searches (internal linking) — subtle text links */}
+        <div className="mt-4 text-xs text-gray-400 leading-relaxed">
+          <span className="font-semibold text-gray-500">Related searches:&nbsp;</span>
+          {otherRoles.map((r, i) => (
+            <span key={r.slug}>
+              {i > 0 && <span className="text-gray-300"> · </span>}
+              <a href={`/jobs/${r.slug}/${loc.slug}`} className="text-gray-500 hover:text-violet-700 hover:underline">
+                {r.label} jobs in {loc.name}
+              </a>
+            </span>
           ))}
-        </div>
-        <div className="mt-2 flex flex-wrap gap-2">
           {otherCities.map(l => (
-            <a key={l.slug} href={`/jobs/${role.slug}/${l.slug}`}
-              className="text-xs font-medium text-gray-600 bg-gray-100 hover:bg-gray-200 px-3 py-1.5 rounded-full transition">
-              {role.label} jobs in {l.name}
-            </a>
+            <span key={l.slug}>
+              <span className="text-gray-300"> · </span>
+              <a href={`/jobs/${role.slug}/${l.slug}`} className="text-gray-500 hover:text-violet-700 hover:underline">
+                {role.label} jobs in {l.name}
+              </a>
+            </span>
           ))}
         </div>
       </section>

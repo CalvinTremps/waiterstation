@@ -80,8 +80,36 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
     day: 'numeric', month: 'long', year: 'numeric',
   })
 
+  // Google for Jobs structured data
+  const EMP_TYPE_MAP: Record<string, string> = {
+    permanent: 'FULL_TIME', seasonal: 'TEMPORARY', event: 'PER_DIEM',
+  }
+  const jobPostingLd = {
+    '@context': 'https://schema.org',
+    '@type': 'JobPosting',
+    title: job.title,
+    description: job.description,
+    datePosted: new Date(job.created_at).toISOString(),
+    employmentType: EMP_TYPE_MAP[job.employment_type] ?? 'OTHER',
+    hiringOrganization: {
+      '@type': 'Organization',
+      name: job.employer_name,
+      ...(co?.logo_url ? { logo: co.logo_url } : {}),
+    },
+    jobLocation: {
+      '@type': 'Place',
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: job.location,
+        addressCountry: 'ZA',
+      },
+    },
+    directApply: true,
+  }
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jobPostingLd) }} />
       <div className="max-w-xl mx-auto px-4 pt-5 pb-32">
 
         {/* Top bar */}

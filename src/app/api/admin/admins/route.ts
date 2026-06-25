@@ -3,6 +3,7 @@ import { cookies } from 'next/headers'
 import { verifySession, ADMIN_COOKIE } from '@/lib/admin-session'
 import { createServiceClient } from '@/lib/supabase-server'
 import { hashPassword, generateTotpSecret, otpauthUrl, verifyTotp } from '@/lib/admin-auth'
+import QRCode from 'qrcode'
 
 async function requireAdmin() {
   const c = await cookies()
@@ -70,7 +71,9 @@ export async function POST(req: NextRequest) {
       const { data } = await sb.from('admin_users').select('email').eq('id', id).single()
       const secret = generateTotpSecret()
       await sb.from('admin_users').update({ totp_secret: secret, totp_enabled: false }).eq('id', id)
-      return NextResponse.json({ secret, otpauth: otpauthUrl(secret, data?.email ?? 'admin') })
+      const url = otpauthUrl(secret, data?.email ?? 'admin')
+      const qr = await QRCode.toDataURL(url, { width: 256, margin: 2 })
+      return NextResponse.json({ secret, otpauth: url, qr })
     }
 
     if (action === '2fa-enable') {

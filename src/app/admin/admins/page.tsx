@@ -20,7 +20,7 @@ export default function AdminsPage() {
   const [email, setEmail] = useState('')
   const [name, setName] = useState('')
   const [password, setPassword] = useState('')
-  const [twofa, setTwofa] = useState<{ id: string; secret: string; otpauth: string; code: string } | null>(null)
+  const [twofa, setTwofa] = useState<{ id: string; secret: string; otpauth: string; qr?: string; code: string } | null>(null)
 
   const load = useCallback(async () => {
     setLoading(true); setErr('')
@@ -106,7 +106,7 @@ export default function AdminsPage() {
                   <button onClick={async () => { if (confirm('Disable 2FA for this admin?') && await act({ action: '2fa-disable', id: a.id })) load() }}
                     className="text-amber-700 hover:text-amber-900 border border-amber-200 px-3 py-1.5 rounded-lg">Disable 2FA</button>
                 ) : (
-                  <button onClick={async () => { const r = await act({ action: '2fa-setup', id: a.id }); if (r) setTwofa({ id: a.id, secret: r.secret, otpauth: r.otpauth, code: '' }) }}
+                  <button onClick={async () => { const r = await act({ action: '2fa-setup', id: a.id }); if (r) setTwofa({ id: a.id, secret: r.secret, otpauth: r.otpauth, qr: r.qr, code: '' }) }}
                     className="text-violet-700 hover:text-violet-900 border border-violet-200 px-3 py-1.5 rounded-lg">Set up 2FA</button>
                 )}
                 <button onClick={async () => { if (await act({ action: 'toggle', id: a.id, is_active: !a.is_active })) load() }}
@@ -123,13 +123,19 @@ export default function AdminsPage() {
           <div className="absolute inset-0 bg-black/40" onClick={() => setTwofa(null)} />
           <div className="relative bg-white rounded-2xl shadow-xl w-full max-w-md p-6">
             <h3 className="font-bold text-gray-900 mb-1">Set up two-factor authentication</h3>
-            <p className="text-xs text-gray-500 mb-4">Add this secret to Google Authenticator / Authy, then enter the 6-digit code to confirm.</p>
-            <div className="bg-gray-50 border border-gray-200 rounded-lg p-3 mb-3 break-all">
-              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wide">Secret</p>
-              <p className="font-mono text-sm text-gray-800 select-all">{twofa.secret}</p>
-              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wide mt-2">otpauth URI</p>
-              <p className="font-mono text-[10px] text-gray-500 select-all">{twofa.otpauth}</p>
-            </div>
+            <p className="text-xs text-gray-500 mb-4">Scan this QR code with Google Authenticator or Authy, then enter the 6-digit code to confirm.</p>
+            {twofa.qr ? (
+              <div className="flex justify-center mb-4">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={twofa.qr} alt="2FA QR code" className="w-48 h-48 border border-gray-200 rounded-xl" />
+              </div>
+            ) : (
+              <div className="bg-gray-50 border border-gray-200 rounded-lg p-3 mb-3 break-all">
+                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wide">Secret</p>
+                <p className="font-mono text-sm text-gray-800 select-all">{twofa.secret}</p>
+              </div>
+            )}
+            <p className="text-[10px] text-gray-400 text-center mb-3">Can&apos;t scan? Enter this secret manually: <span className="font-mono select-all text-gray-600">{twofa.secret}</span></p>
             <input className={`${FIELD} w-full tracking-[0.3em] text-center`} placeholder="6-digit code" inputMode="numeric"
               value={twofa.code} onChange={e => setTwofa({ ...twofa, code: e.target.value.replace(/\D/g, '').slice(0, 6) })} />
             <div className="flex justify-end gap-2 mt-4">

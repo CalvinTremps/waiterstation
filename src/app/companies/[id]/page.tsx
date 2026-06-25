@@ -29,11 +29,12 @@ export default async function CompanyPage({ params }: Props) {
   const company = MOCK_COMPANIES.find(c => c.id === id)
   if (!company) notFound()
 
-  // Fetch jobs belonging to this company: direct employer name matches + approved franchise jobs
+  // Fetch jobs belonging to this company + brand UUID for review submission
   let franchiseJobs: Job[] = []
+  let brandId: string | null = null
   try {
     const supabase = await createServerClient()
-    const [{ data: directJobs }, { data: linkedJobs }] = await Promise.all([
+    const [{ data: directJobs }, { data: linkedJobs }, { data: brandRow }] = await Promise.all([
       supabase
         .from('jobs')
         .select('*')
@@ -47,17 +48,23 @@ export default async function CompanyPage({ params }: Props) {
         .eq('brand_link_status', 'approved')
         .eq('status', 'approved')
         .order('created_at', { ascending: false }),
+      supabase
+        .from('brands')
+        .select('id')
+        .ilike('name', company!.name)
+        .maybeSingle(),
     ])
     // Merge, dedupe by id
     const seen = new Set<string>()
     for (const j of [...(directJobs ?? []), ...(linkedJobs ?? [])]) {
       if (!seen.has(j.id)) { seen.add(j.id); franchiseJobs.push(j) }
     }
+    brandId = brandRow?.id ?? null
   } catch {}
 
   return (
     <Suspense>
-      <CompanyClient company={company} franchiseJobs={franchiseJobs} />
+      <CompanyClient company={company} franchiseJobs={franchiseJobs} brandId={brandId} />
     </Suspense>
   )
 }

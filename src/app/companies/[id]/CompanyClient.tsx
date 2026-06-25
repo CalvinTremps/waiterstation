@@ -205,8 +205,9 @@ function ReviewCard({ review }: { review: CompanyReview }) {
 
 // ─── Write review modal ───────────────────────────────────────────────────────
 
-function WriteReviewModal({ companyName, onClose, onSubmit }: {
+function WriteReviewModal({ companyName, brandId, onClose, onSubmit }: {
   companyName: string
+  brandId: string | null
   onClose: () => void
   onSubmit: (review: CompanyReview) => void
 }) {
@@ -217,7 +218,10 @@ function WriteReviewModal({ companyName, onClose, onSubmit }: {
   const [pros, setPros] = useState('')
   const [cons, setCons] = useState('')
   const [salary, setSalary] = useState('')
+  const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<'approved' | 'pending' | null>(null)
+  const [submitErr, setSubmitErr] = useState('')
 
   useEffect(() => {
     const fn = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
@@ -225,18 +229,40 @@ function WriteReviewModal({ companyName, onClose, onSubmit }: {
     return () => document.removeEventListener('keydown', fn)
   }, [onClose])
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (!rating || !role || !pros || !cons) return
-    onSubmit({
-      id: `user-${Date.now()}`,
-      role, employment_status: status, rating,
-      date: new Date().toISOString().slice(0, 7),
-      pros, cons, anonymous: true, helpful_count: 0,
-      salary: salary || undefined,
-    })
+    setSubmitting(true)
+    setSubmitErr('')
+
+    if (brandId) {
+      // Submit to real API with moderation
+      const res = await fetch('/api/reviews', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ brand_id: brandId, role, employment_status: status, rating, pros, cons, salary: salary || null, anonymous: true }),
+      })
+      const json = await res.json().catch(() => ({}))
+      setSubmitting(false)
+      if (!res.ok) {
+        setSubmitErr(json.error ?? 'Failed to submit review.')
+        return
+      }
+      setSubmitStatus(json.status)
+    } else {
+      // No brand in DB yet — add to local state only
+      setSubmitting(false)
+      onSubmit({
+        id: `user-${Date.now()}`,
+        role, employment_status: status, rating,
+        date: new Date().toISOString().slice(0, 7),
+        pros, cons, anonymous: true, helpful_count: 0,
+        salary: salary || undefined,
+      })
+    }
+
     setSubmitted(true)
-    setTimeout(onClose, 1800)
+    if (!brandId) setTimeout(onClose, 1800)
   }
 
   const displayRating = hovered || rating
@@ -259,13 +285,23 @@ function WriteReviewModal({ companyName, onClose, onSubmit }: {
         </div>
         {submitted ? (
           <div className="p-10 text-center">
-            <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-7 h-7 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+            <div className={`w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4 ${submitStatus === 'pending' ? 'bg-amber-100' : 'bg-green-100'}`}>
+              <svg className={`w-7 h-7 ${submitStatus === 'pending' ? 'text-amber-600' : 'text-green-600'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d={submitStatus === 'pending' ? 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' : 'M5 13l4 4L19 7'} />
               </svg>
             </div>
-            <p className="font-bold text-gray-900 text-lg">Review submitted!</p>
-            <p className="text-sm text-gray-500 mt-1">Thank you for helping other hospitality workers.</p>
+            {submitStatus === 'pending' ? (
+              <>
+                <p className="font-bold text-gray-900 text-lg">Review received</p>
+                <p className="text-sm text-gray-500 mt-1 max-w-xs mx-auto">Your review contains content that needs a quick check. Our team will review it within 24–48 hours.</p>
+              </>
+            ) : (
+              <>
+                <p className="font-bold text-gray-900 text-lg">Review published!</p>
+                <p className="text-sm text-gray-500 mt-1">Thank you for helping other hospitality workers.</p>
+              </>
+            )}
+            <button onClick={onClose} className="mt-5 text-sm font-semibold text-gray-700 underline">Close</button>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="p-6 space-y-5">
@@ -318,9 +354,10 @@ function WriteReviewModal({ companyName, onClose, onSubmit }: {
                 className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400" />
             </div>
             <p className="text-xs text-gray-400">Your review will be posted anonymously to protect your privacy.</p>
-            <button type="submit" disabled={!rating || !role || !pros || !cons}
+            {submitErr && <p className="text-sm text-red-600 bg-red-50 rounded-lg px-3 py-2">{submitErr}</p>}
+            <button type="submit" disabled={!rating || !role || !pros || !cons || submitting}
               className="w-full bg-blue-600 text-white font-semibold py-3 rounded-full hover:bg-blue-700 transition disabled:opacity-40 disabled:cursor-not-allowed">
-              Submit review
+              {submitting ? 'Submitting...' : 'Submit review'}
             </button>
           </form>
         )}
@@ -1414,7 +1451,7 @@ function SalariesTab({ company, reviews, relatedCompanies, onWriteReview }: {
 
 type Tab = 'overview' | 'reviews' | 'salaries' | 'jobs' | 'benefits'
 
-export default function CompanyClient({ company, franchiseJobs = [] }: { company: Company; franchiseJobs?: import('@/lib/types').Job[] }) {
+export default function CompanyClient({ company, franchiseJobs = [], brandId = null }: { company: Company; franchiseJobs?: import('@/lib/types').Job[]; brandId?: string | null }) {
   const searchParams = useSearchParams()
   const router = useRouter()
   const initialTab = (searchParams.get('tab') as Tab | null) ?? 'overview'
@@ -1499,6 +1536,7 @@ export default function CompanyClient({ company, franchiseJobs = [] }: { company
       {showModal && (
         <WriteReviewModal
           companyName={company.name}
+          brandId={brandId}
           onClose={() => setShowModal(false)}
           onSubmit={handleNewReview}
         />

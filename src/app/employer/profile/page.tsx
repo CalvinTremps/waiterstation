@@ -1,209 +1,281 @@
 'use client'
 
-import { useState } from 'react'
-import { MOCK_EMPLOYER_PROFILE } from '@/lib/mock-recruitment'
+import { useEffect, useState } from 'react'
 
-const VENUE_TYPES = [
-  'Five-star hotel', 'Boutique hotel', 'Restaurant', 'Wine estate', 'Cocktail bar',
-  'Cafe / Coffee shop', 'Fast food / QSR', 'Events venue', 'Catering company', 'Other',
-]
-const BENEFIT_OPTIONS = [
-  'Medical aid', 'Staff meals', 'Provident fund', 'International travel',
-  'Training programmes', 'Uniform provided', 'Tip pool', 'Housing allowance',
-  'Transport allowance', 'Performance bonus',
-]
-const SIZE_OPTIONS = ['1–10 employees', '11–50 employees', '51–200 employees', '200–500 employees', '500+ employees']
+const INDUSTRIES = ['Restaurant Group', 'Restaurant Chain', 'Fine Dining Restaurant', 'Hotel Group', 'Luxury Hotel', 'Boutique Hotel', 'International Hotel Group', 'Hotel & Casino Group', 'Fast Food', 'Café / Restaurant', 'Bar / Nightclub', 'Catering', 'Hospitality Group', 'Cruise Line', 'Safari & Lodge', 'Wine Estate', 'Steakhouse', 'Other']
+const SIZE_OPTIONS = ['1–10 employees', '11–50 employees', '51–200 employees', '201–500 employees', '500–1 000 employees', '1 000+ employees']
 
-export default function ProfilePage() {
-  const [profile, setProfile] = useState(MOCK_EMPLOYER_PROFILE)
+const input = 'w-full bg-white border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-gray-500 placeholder:text-gray-400'
+
+interface EmployerProfile {
+  company_name: string | null
+  company_description: string | null
+  company_logo_url: string | null
+  company_location: string | null
+  company_website: string | null
+  company_industry: string | null
+  company_size: string | null
+  brand_id: string | null
+}
+
+interface Brand {
+  id: string
+  name: string
+  industry: string
+  size: string
+  location: string
+  description: string
+  website: string | null
+  logo_url: string | null
+  overall_rating: number | null
+  ratings: Record<string, number> | null
+  claimed: boolean
+}
+
+const RATING_LABELS: [string, string][] = [
+  ['work_life_balance', 'Work-life balance'],
+  ['culture', 'Culture & values'],
+  ['management', 'Management'],
+  ['career_growth', 'Career growth'],
+  ['compensation', 'Pay & compensation'],
+]
+
+export default function EmployerProfilePage() {
+  const [loading, setLoading] = useState(true)
+  const [employer, setEmployer] = useState<EmployerProfile | null>(null)
+  const [brand, setBrand] = useState<Brand | null>(null)
+  const [form, setForm] = useState<Partial<EmployerProfile>>({})
+  const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
-  const [activeTab, setActiveTab] = useState<'edit' | 'preview'>('edit')
+  const [err, setErr] = useState('')
 
-  function set(key: string, value: string | string[] | Record<string, string>) {
-    setProfile(prev => ({ ...prev, [key]: value }))
-    setSaved(false)
-  }
+  useEffect(() => {
+    fetch('/api/employer/brand-profile')
+      .then(r => r.json())
+      .then(json => {
+        const e: EmployerProfile = json.employer ?? {}
+        setEmployer(e)
+        setBrand(json.brand ?? null)
+        setForm({
+          company_name: e.company_name ?? brand?.name ?? '',
+          company_description: e.company_description ?? '',
+          company_logo_url: e.company_logo_url ?? '',
+          company_location: e.company_location ?? '',
+          company_website: e.company_website ?? '',
+          company_industry: e.company_industry ?? '',
+          company_size: e.company_size ?? '',
+        })
+      })
+      .catch(() => setErr('Failed to load profile.'))
+      .finally(() => setLoading(false))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
-  function toggleBenefit(b: string) {
-    set('benefits', profile.benefits.includes(b)
-      ? profile.benefits.filter(x => x !== b)
-      : [...profile.benefits, b]
-    )
-  }
-
-  function handleSave() {
+  async function save() {
+    setSaving(true); setErr(''); setSaved(false)
+    const res = await fetch('/api/employer/brand-profile', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(form),
+    })
+    const json = await res.json().catch(() => ({}))
+    setSaving(false)
+    if (!res.ok) { setErr(json.error ?? 'Save failed.'); return }
     setSaved(true)
     setTimeout(() => setSaved(false), 3000)
   }
 
+  const displayName = form.company_name || brand?.name || 'Your Company'
+  const overallRating = brand?.overall_rating
+
+  if (loading) return <div className="p-6 text-sm text-gray-400">Loading...</div>
+
   return (
-    <div className="space-y-5 max-w-2xl mx-auto">
-      <div className="flex items-center justify-between">
+    <div className="space-y-5 max-w-2xl">
+      {/* Header */}
+      <div className="flex items-start justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Company Profile</h1>
-          <p className="text-sm text-gray-500 mt-0.5">Visible to all job seekers on Waiterstation</p>
+          <p className="text-sm text-gray-500 mt-0.5">Visible to all job seekers on Waiterstation.</p>
         </div>
-        <a href={`/companies`} target="_blank"
-          className="text-xs text-gray-900 font-medium hover:underline flex items-center gap-1">
-          View public page
-          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-          </svg>
-        </a>
+        {brand && (
+          <a href={`/companies/${brand.id}`} target="_blank" rel="noopener noreferrer"
+            className="shrink-0 text-xs text-gray-700 font-semibold border border-gray-200 hover:border-gray-400 px-3 py-1.5 rounded-lg flex items-center gap-1">
+            View public page ↗
+          </a>
+        )}
       </div>
 
-      {/* Tabs */}
-      <div className="flex gap-1 bg-gray-100 p-1 rounded-xl w-fit">
-        {(['edit','preview'] as const).map(t => (
-          <button key={t} onClick={() => setActiveTab(t)}
-            className={`text-xs font-semibold px-4 py-1.5 rounded-lg transition capitalize ${
-              activeTab === t ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'
-            }`}>
-            {t}
-          </button>
-        ))}
-      </div>
+      {err && <div className="text-sm text-red-600 bg-red-50 border border-red-100 rounded-lg px-4 py-2.5">{err}</div>}
 
-      {activeTab === 'preview' ? (
-        /* Preview */
-        <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-          <div className="bg-gradient-to-r from-gray-900 to-gray-700 h-20 relative">
-            <div className="absolute -bottom-6 left-5 w-14 h-14 bg-white rounded-xl border-2 border-white shadow flex items-center justify-center text-2xl font-bold text-gray-700">
-              {profile.name.charAt(0)}
-            </div>
+      {/* What you can edit */}
+      <div className="bg-white border border-gray-200 rounded-xl p-5 space-y-4">
+        <div>
+          <h2 className="font-semibold text-gray-900">Basic information</h2>
+          <p className="text-xs text-gray-400 mt-0.5">This information appears on your public company profile.</p>
+        </div>
+
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">Company name</label>
+          <input className={input} value={form.company_name ?? ''} onChange={e => setForm({ ...form, company_name: e.target.value })} placeholder="e.g. One&Only Cape Town" />
+        </div>
+
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-1">Industry</label>
+            <select className={input} value={form.company_industry ?? ''} onChange={e => setForm({ ...form, company_industry: e.target.value })}>
+              <option value="">Select...</option>
+              {INDUSTRIES.map(i => <option key={i} value={i}>{i}</option>)}
+            </select>
           </div>
-          <div className="px-5 pt-10 pb-5">
-            <h2 className="text-xl font-bold text-gray-900">{profile.name}</h2>
-            <p className="text-sm text-gray-500 mt-0.5">{profile.venue_type} · {profile.location}</p>
-            <p className="text-sm text-gray-500 mt-0.5">{profile.size}</p>
-            <p className="text-sm text-gray-700 mt-4 leading-relaxed">{profile.description}</p>
-            {profile.benefits.length > 0 && (
-              <div className="mt-4">
-                <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Benefits</p>
-                <div className="flex flex-wrap gap-2">
-                  {profile.benefits.map(b => (
-                    <span key={b} className="text-xs bg-gray-100 text-gray-800 px-2.5 py-1 rounded-full">{b}</span>
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-1">Company size</label>
+            <select className={input} value={form.company_size ?? ''} onChange={e => setForm({ ...form, company_size: e.target.value })}>
+              <option value="">Select...</option>
+              {SIZE_OPTIONS.map(s => <option key={s} value={s}>{s}</option>)}
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">Location</label>
+          <input className={input} value={form.company_location ?? ''} onChange={e => setForm({ ...form, company_location: e.target.value })} placeholder="e.g. V&A Waterfront, Cape Town" />
+        </div>
+
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">Website</label>
+          <input className={input} value={form.company_website ?? ''} onChange={e => setForm({ ...form, company_website: e.target.value })} placeholder="e.g. yourrestaurant.co.za" />
+        </div>
+
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">Logo URL</label>
+          <input className={input} value={form.company_logo_url ?? ''} onChange={e => setForm({ ...form, company_logo_url: e.target.value })} placeholder="https://..." />
+          {form.company_logo_url && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={form.company_logo_url} alt="Logo preview" className="mt-2 w-14 h-14 rounded-xl object-contain border border-gray-200 bg-white" />
+          )}
+        </div>
+
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">About your company</label>
+          <p className="text-xs text-gray-400 mb-1.5">Tell job seekers what makes your venue special. Shown on your public profile.</p>
+          <textarea className={`${input} resize-none h-28`} value={form.company_description ?? ''} onChange={e => setForm({ ...form, company_description: e.target.value })} placeholder="Describe your venue, culture, and what employees can expect..." />
+        </div>
+
+        <div className="flex items-center gap-3 pt-1">
+          <button onClick={save} disabled={saving}
+            className="bg-gray-900 hover:bg-gray-800 disabled:opacity-60 text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition">
+            {saving ? 'Saving...' : 'Save changes'}
+          </button>
+          {saved && (
+            <span className="text-sm text-green-700 font-medium flex items-center gap-1">
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/>
+              </svg>
+              Saved
+            </span>
+          )}
+        </div>
+      </div>
+
+      {/* Ratings — read-only, crowdsourced */}
+      <div className="bg-gray-50 border border-gray-200 rounded-xl p-5">
+        <div className="flex items-start justify-between gap-3 mb-4">
+          <div>
+            <h2 className="font-semibold text-gray-900">Ratings</h2>
+            <p className="text-xs text-gray-500 mt-0.5">
+              Ratings are crowdsourced from employee reviews and <strong>cannot be edited</strong> by employers.
+              They update automatically as new verified reviews come in.
+            </p>
+          </div>
+          <span className="shrink-0 text-[10px] font-bold bg-gray-200 text-gray-500 px-2.5 py-1 rounded-full uppercase tracking-wide">Read-only</span>
+        </div>
+
+        {overallRating != null ? (
+          <div className="space-y-3">
+            <div className="flex items-center gap-3">
+              <span className="text-3xl font-extrabold text-gray-900">{Number(overallRating).toFixed(1)}</span>
+              <div>
+                <div className="flex gap-0.5">
+                  {[1,2,3,4,5].map(i => (
+                    <svg key={i} className={`w-4 h-4 ${i <= Math.round(overallRating) ? 'text-amber-400' : 'text-gray-200'}`} fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    </svg>
                   ))}
                 </div>
+                <p className="text-xs text-gray-400 mt-0.5">Overall employer rating</p>
+              </div>
+            </div>
+            {brand?.ratings && (
+              <div className="space-y-2.5 mt-2">
+                {RATING_LABELS.map(([key, label]) => {
+                  const val = brand.ratings![key] ?? 0
+                  return (
+                    <div key={key} className="flex items-center gap-3">
+                      <span className="text-xs text-gray-500 w-36 shrink-0">{label}</span>
+                      <div className="flex-1 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                        <div className="h-full bg-gray-400 rounded-full" style={{ width: `${(val / 5) * 100}%` }} />
+                      </div>
+                      <span className="text-xs font-semibold text-gray-600 w-6 text-right">{Number(val).toFixed(1)}</span>
+                    </div>
+                  )
+                })}
               </div>
             )}
           </div>
+        ) : (
+          <p className="text-sm text-gray-400 italic">
+            No ratings yet. Ratings appear here once employees submit verified reviews.
+          </p>
+        )}
+      </div>
+
+      {/* Reviews — read-only notice */}
+      <div className="bg-gray-50 border border-gray-200 rounded-xl p-5">
+        <div className="flex items-start justify-between gap-3">
+          <div>
+            <h2 className="font-semibold text-gray-900">Employee reviews</h2>
+            <p className="text-xs text-gray-500 mt-0.5">
+              Reviews are submitted anonymously by current and former employees.
+              You <strong>cannot edit or delete</strong> reviews. If a review is defamatory or false,
+              contact <a href="mailto:support@waiterstation.co.za" className="text-gray-700 underline">support@waiterstation.co.za</a> with details — our team will investigate.
+            </p>
+          </div>
+          <span className="shrink-0 text-[10px] font-bold bg-gray-200 text-gray-500 px-2.5 py-1 rounded-full uppercase tracking-wide">Read-only</span>
         </div>
-      ) : (
-        /* Edit form */
-        <div className="space-y-4">
-          <div className="bg-white border border-gray-200 rounded-xl p-5 space-y-4">
-            <h2 className="font-semibold text-gray-900">Basic Information</h2>
+        {brand && (
+          <a href={`/companies/${brand.id}?tab=reviews`} target="_blank" rel="noopener noreferrer"
+            className="inline-block mt-3 text-xs font-semibold text-gray-700 hover:text-gray-900 underline">
+            View reviews on public profile →
+          </a>
+        )}
+      </div>
 
-            <Field label="Company name" required>
-              <input value={profile.name} onChange={e => set('name', e.target.value)}
-                className={input} placeholder="e.g. One&Only Cape Town" />
-            </Field>
-
-            <Field label="Venue type">
-              <select value={profile.venue_type} onChange={e => set('venue_type', e.target.value)}
-                className={input}>
-                {VENUE_TYPES.map(v => <option key={v}>{v}</option>)}
-              </select>
-            </Field>
-
-            <Field label="Location" required>
-              <input value={profile.location} onChange={e => set('location', e.target.value)}
-                className={input} placeholder="e.g. V&A Waterfront, Cape Town" />
-            </Field>
-
-            <Field label="Company size">
-              <select value={profile.size} onChange={e => set('size', e.target.value)}
-                className={input}>
-                {SIZE_OPTIONS.map(s => <option key={s}>{s}</option>)}
-              </select>
-            </Field>
-
-            <Field label="Website">
-              <input value={profile.website} onChange={e => set('website', e.target.value)}
-                className={input} placeholder="https://yourwebsite.co.za" />
-            </Field>
+      {/* Salary data — read-only notice */}
+      <div className="bg-gray-50 border border-gray-200 rounded-xl p-5">
+        <div className="flex items-start justify-between gap-3">
+          <div>
+            <h2 className="font-semibold text-gray-900">Salary data</h2>
+            <p className="text-xs text-gray-500 mt-0.5">
+              Salary figures are self-reported by employees and cannot be altered by employers.
+              This data helps job seekers make informed decisions.
+            </p>
           </div>
+          <span className="shrink-0 text-[10px] font-bold bg-gray-200 text-gray-500 px-2.5 py-1 rounded-full uppercase tracking-wide">Read-only</span>
+        </div>
+      </div>
 
-          <div className="bg-white border border-gray-200 rounded-xl p-5 space-y-4">
-            <h2 className="font-semibold text-gray-900">About Your Venue</h2>
-            <Field label="Description" hint="Shown to all job seekers, make it compelling">
-              <textarea value={profile.description} onChange={e => set('description', e.target.value)}
-                rows={5} className={input + ' resize-none'}
-                placeholder="Tell job seekers what makes your venue special..." />
-            </Field>
-          </div>
-
-          <div className="bg-white border border-gray-200 rounded-xl p-5">
-            <h2 className="font-semibold text-gray-900 mb-1">Benefits Offered</h2>
-            <p className="text-xs text-gray-400 mb-3">Select all that apply</p>
-            <div className="grid grid-cols-2 gap-2">
-              {BENEFIT_OPTIONS.map(b => (
-                <button key={b} type="button" onClick={() => toggleBenefit(b)}
-                  className={`flex items-center gap-2 text-sm px-3 py-2.5 rounded-lg border text-left transition ${
-                    profile.benefits.includes(b)
-                      ? 'border-gray-500 bg-gray-100 text-gray-900'
-                      : 'border-gray-200 text-gray-600 hover:border-gray-300'
-                  }`}>
-                  <span className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 ${
-                    profile.benefits.includes(b) ? 'bg-gray-900 border-gray-900' : 'border-gray-300'
-                  }`}>
-                    {profile.benefits.includes(b) && (
-                      <svg className="w-2.5 h-2.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/>
-                      </svg>
-                    )}
-                  </span>
-                  {b}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="bg-white border border-gray-200 rounded-xl p-5 space-y-4">
-            <h2 className="font-semibold text-gray-900">Social Media</h2>
-            <Field label="Instagram handle">
-              <input value={profile.social.instagram} onChange={e => set('social', { ...profile.social, instagram: e.target.value })}
-                className={input} placeholder="@yourhandle" />
-            </Field>
-            <Field label="Facebook page">
-              <input value={profile.social.facebook} onChange={e => set('social', { ...profile.social, facebook: e.target.value })}
-                className={input} placeholder="YourPageName" />
-            </Field>
-          </div>
-
-          <div className="flex items-center gap-3 pb-6">
-            <button onClick={handleSave}
-              className="bg-gray-900 hover:bg-gray-800 text-white font-semibold px-6 py-2.5 rounded-lg text-sm transition">
-              Save changes
-            </button>
-            {saved && (
-              <span className="text-sm text-gray-900 font-medium flex items-center gap-1">
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/>
-                </svg>
-                Saved!
-              </span>
-            )}
-          </div>
+      {/* Claim brand notice */}
+      {!employer?.brand_id && (
+        <div className="bg-blue-50 border border-blue-100 rounded-xl p-5">
+          <h2 className="font-semibold text-blue-900 mb-1">Link to a verified brand profile</h2>
+          <p className="text-xs text-blue-700 leading-relaxed">
+            If your company has a brand profile on Waiterstation, you can request to link your account to it.
+            This unlocks a verified badge and consolidates your ratings, reviews, and jobs under one profile.
+            Contact <a href="mailto:support@waiterstation.co.za" className="underline font-semibold">support@waiterstation.co.za</a> to request a link.
+          </p>
         </div>
       )}
     </div>
   )
 }
-
-function Field({ label, hint, required, children }: {
-  label: string; hint?: string; required?: boolean; children: React.ReactNode
-}) {
-  return (
-    <div>
-      <label className="block text-sm font-semibold text-gray-800 mb-1">
-        {label}{required && <span className="text-gray-900 ml-0.5">*</span>}
-      </label>
-      {hint && <p className="text-xs text-gray-400 mb-1.5">{hint}</p>}
-      {children}
-    </div>
-  )
-}
-
-const input = 'w-full bg-white border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-gray-500 placeholder:text-gray-400'

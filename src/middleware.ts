@@ -3,17 +3,21 @@ import { verifySession, ADMIN_COOKIE } from '@/lib/admin-session'
 
 /**
  * Subdomain routing:
- *   profile.waiterstation.co.za  → /worker/*  (clean URLs: /, /applications, …)
- *   employer.waiterstation.co.za → /employer/* (clean URLs: /, /listings, …)
- *   control.waiterstation.co.za  → /admin/*    (clean URLs: /, /jobs, …)
+ *   profile.waiterstation.co.za  → /worker/*
+ *   employer.waiterstation.co.za → /employer/*
+ *   control.waiterstation.co.za  → /admin/*
  *
- * Any path on a dashboard subdomain that does NOT belong to that dashboard
- * is redirected to the apex domain at the same path, so nav links to the
- * main site always land in the right place.
+ * Clean-URL strategy:
+ *   - Visiting / on a dashboard subdomain serves the dashboard root
+ *   - Visiting /applications on profile.* serves /worker/applications
+ *   - Visiting /worker/applications on profile.* redirects → /applications (clean)
  *
- * The middleware also sets the response header `x-on-subdomain: 1` so the
- * server layout can suppress the public header/footer without relying on
- * the client-side pathname (which shows the clean URL, not the internal one).
+ * Public-site paths (denylist) are redirected to the apex domain.
+ * Everything else gets the prefix prepended and is served normally — this
+ * avoids the brittleness of an allowlist that would block legitimate paths.
+ *
+ * x-on-subdomain is set on the REQUEST so server components can read it
+ * via headers() and suppress the public header/footer.
  */
 
 const ROOT_DOMAIN = 'waiterstation.co.za'
@@ -29,26 +33,13 @@ const PREFIX_SUB: Record<string, string> = {
   '/admin': 'control',
 }
 
-// First path segment that is valid on each subdomain.
-// Dynamic segments (e.g. /jobs/123) match via prefix — we check the first
-// segment only, so /jobs/abc matches the 'jobs' entry.
-const VALID_SEGMENTS: Record<string, Set<string>> = {
-  profile: new Set([
-    'alerts', 'applications', 'availability', 'cv', 'documents',
-    'feed', 'history', 'interviews', 'messages', 'profile',
-    'references', 'tips',
-  ]),
-  employer: new Set([
-    'analytics', 'applicants', 'candidates', 'employees', 'interviews',
-    'jobs', 'leave', 'listings', 'notices', 'payroll', 'performance',
-    'pipeline', 'pools', 'profile', 'saved', 'shifts', 'smart-alerts',
-    'staff-documents', 'timesheets',
-  ]),
-  control: new Set([
-    'admins', 'applications', 'brand-links', 'brands', 'franchises',
-    'jobs', 'login', 'marketing', 'settings', 'users',
-  ]),
-}
+// Known public-site first segments that must never be served on a dashboard subdomain.
+// Everything NOT in this list is assumed to belong to the dashboard.
+const APEX_ONLY = new Set([
+  'jobs', 'companies', 'community', 'guides', 'cruise-ship-jobs',
+  'saved', 'post-job', 'employers', 'how-it-works', 'faq',
+  'about', 'privacy', 'terms', 'applications',
+])
 
 function isShared(path: string) {
   return (
@@ -61,11 +52,11 @@ function isShared(path: string) {
   )
 }
 
-/** True when the clean path belongs to the given subdomain's dashboard. */
-function ownedBySubdomain(path: string, sub: string): boolean {
-  if (path === '/') return true
-  const firstSegment = path.split('/')[1] // e.g. "applications" from "/applications/123"
-  return VALID_SEGMENTS[sub]?.has(firstSegment) ?? false
+/** Returns true if the path clearly belongs to the apex public site. */
+function isApexPath(path: string): boolean {
+  if (path === '/') return false
+  const seg = path.split('/')[1]
+  return APEX_ONLY.has(seg)
 }
 
 export async function middleware(req: NextRequest) {
@@ -81,7 +72,7 @@ export async function middleware(req: NextRequest) {
   if (dashSub && !isShared(path)) {
     const prefix = SUB_PREFIX[dashSub]
 
-    // A hardcoded full-prefix link (e.g. /worker/profile): strip it to clean URL.
+    // Full-prefix URL on subdomain (e.g. /worker/profile on profile.*) → strip to clean URL.
     if (path === prefix || path.startsWith(prefix + '/')) {
       const stripped = path.slice(prefix.length) || '/'
       const clean = req.nextUrl.clone()
@@ -89,15 +80,15 @@ export async function middleware(req: NextRequest) {
       return NextResponse.redirect(clean)
     }
 
-    // Path doesn't belong to this subdomain → send to apex domain.
-    if (!ownedBySubdomain(path, dashSub)) {
+    // Known public-site path → send to apex.
+    if (isApexPath(path)) {
       const apex = new URL(req.url)
       apex.host = ROOT_DOMAIN
       apex.port = ''
       return NextResponse.redirect(apex)
     }
 
-    // Valid dashboard path: rewrite internally to the prefixed route.
+    // Everything else (dashboard pages, unknown paths) → add prefix and rewrite.
     path = prefix + (path === '/' ? '' : path)
     url.pathname = path
   }
@@ -119,21 +110,24 @@ export async function middleware(req: NextRequest) {
     const adminId = await verifySession(req.cookies.get(ADMIN_COOKIE)?.value)
     if (!adminId) {
       const login = req.nextUrl.clone()
-      login.pathname = '/admin/login'
+      // On the control subdomain, redirect to the clean /login URL (not /admin/login
+      // which would trigger another strip-redirect loop).
+      login.pathname = dashSub === 'control' ? '/login' : '/admin/login'
       return NextResponse.redirect(login)
     }
   }
 
-  // Apply rewrite (if path changed) and tag dashboard responses.
+  // ── Build response with rewrite or pass-through ───────────────────────────
+  // Pass x-on-subdomain on the REQUEST so server components can read it via headers().
+  const requestHeaders = new Headers(req.headers)
+  if (dashSub) requestHeaders.set('x-on-subdomain', '1')
+
   const res =
     url.pathname !== req.nextUrl.pathname
-      ? NextResponse.rewrite(url)
-      : NextResponse.next()
+      ? NextResponse.rewrite(url, { request: { headers: requestHeaders } })
+      : NextResponse.next({ request: { headers: requestHeaders } })
 
-  if (dashSub) {
-    res.headers.set('X-Robots-Tag', 'noindex, nofollow')
-    res.headers.set('x-on-subdomain', '1')
-  }
+  if (dashSub) res.headers.set('X-Robots-Tag', 'noindex, nofollow')
 
   return res
 }

@@ -6,18 +6,21 @@
 -- mock data (MOCK_COMMUNITY_POSTS / MOCK_SALARIES) when the tables are empty
 -- or unreachable, the same pattern used by the jobs feed. Applying this
 -- migration switches the community from mock-only to real, shared data.
+--
+-- This script is idempotent: safe to re-run. If an earlier partial run left a
+-- table missing a column, the ADD COLUMN IF NOT EXISTS guards heal it.
 
 -- ── Posts ────────────────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS community_posts (
   id                 UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   bowl               TEXT NOT NULL,
   content            TEXT NOT NULL,
-  author_user_id     TEXT,                       -- null = anonymous
-  author_name        TEXT,                       -- shown only when not anonymous
-  author_role        TEXT,                       -- e.g. "Senior Waiter · Cape Town"
+  author_user_id     TEXT,
+  author_name        TEXT,
+  author_role        TEXT,
   author_avatar_letter TEXT DEFAULT 'A',
   is_anonymous       BOOLEAN NOT NULL DEFAULT TRUE,
-  company_id         TEXT,                       -- optional link to a company page
+  company_id         TEXT,
   likes              INTEGER NOT NULL DEFAULT 0,
   comments_count     INTEGER NOT NULL DEFAULT 0,
   shares             INTEGER NOT NULL DEFAULT 0,
@@ -25,11 +28,17 @@ CREATE TABLE IF NOT EXISTS community_posts (
                        CHECK (status IN ('visible','hidden','removed')),
   created_at         TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+-- Heal an older/partial community_posts table that predates these columns.
+ALTER TABLE community_posts
+  ADD COLUMN IF NOT EXISTS company_id     TEXT,
+  ADD COLUMN IF NOT EXISTS likes          INTEGER NOT NULL DEFAULT 0,
+  ADD COLUMN IF NOT EXISTS comments_count INTEGER NOT NULL DEFAULT 0,
+  ADD COLUMN IF NOT EXISTS shares         INTEGER NOT NULL DEFAULT 0,
+  ADD COLUMN IF NOT EXISTS status         TEXT NOT NULL DEFAULT 'visible';
 
 CREATE INDEX IF NOT EXISTS idx_community_posts_bowl    ON community_posts (bowl, created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_community_posts_created ON community_posts (created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_community_posts_company ON community_posts (company_id) WHERE company_id IS NOT NULL;
--- Engagement ordering for "Most discussed"
 CREATE INDEX IF NOT EXISTS idx_community_posts_engagement
   ON community_posts ((likes + comments_count * 2) DESC)
   WHERE status = 'visible';
@@ -78,13 +87,13 @@ CREATE INDEX IF NOT EXISTS idx_community_reports_open ON community_reports (stat
 -- ── Salary submissions (powers the Salary & Tips Explorer) ───────────
 CREATE TABLE IF NOT EXISTS community_salaries (
   id                UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  role              TEXT NOT NULL,        -- RoleCategory value, e.g. 'waiter'
+  role              TEXT NOT NULL,
   city              TEXT NOT NULL,
   base_monthly      INTEGER NOT NULL CHECK (base_monthly >= 0),
   tips_monthly      INTEGER NOT NULL DEFAULT 0 CHECK (tips_monthly >= 0),
   experience_years  INTEGER NOT NULL DEFAULT 0 CHECK (experience_years >= 0),
   venue_type        TEXT,
-  submitted_user_id TEXT,                 -- null = anonymous
+  submitted_user_id TEXT,
   status            TEXT NOT NULL DEFAULT 'visible'
                       CHECK (status IN ('visible','hidden')),
   created_at        TIMESTAMPTZ NOT NULL DEFAULT NOW()
@@ -101,6 +110,15 @@ ALTER TABLE community_replies   ENABLE ROW LEVEL SECURITY;
 ALTER TABLE community_likes     ENABLE ROW LEVEL SECURITY;
 ALTER TABLE community_reports   ENABLE ROW LEVEL SECURITY;
 ALTER TABLE community_salaries  ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "read visible posts"    ON community_posts;
+DROP POLICY IF EXISTS "insert posts"          ON community_posts;
+DROP POLICY IF EXISTS "read visible replies"  ON community_replies;
+DROP POLICY IF EXISTS "insert replies"        ON community_replies;
+DROP POLICY IF EXISTS "manage own likes"      ON community_likes;
+DROP POLICY IF EXISTS "insert reports"        ON community_reports;
+DROP POLICY IF EXISTS "read visible salaries" ON community_salaries;
+DROP POLICY IF EXISTS "insert salaries"       ON community_salaries;
 
 CREATE POLICY "read visible posts"    ON community_posts    FOR SELECT USING (status = 'visible');
 CREATE POLICY "insert posts"          ON community_posts    FOR INSERT WITH CHECK (true);

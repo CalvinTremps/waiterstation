@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import { EMPLOYER_JOBS, MOCK_APPLICANTS, MOCK_INTERVIEWS, PIPELINE_STAGES, SMART_ALERTS } from '@/lib/mock-recruitment'
 import { timeAgoDays as timeAgo } from '@/lib/time'
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://waiterstation.co.za'
 import { Icon } from '@/components/Icon'
 
 const stageCounts = PIPELINE_STAGES.map(s => ({
@@ -44,7 +46,7 @@ export default function EmployerDashboard() {
           <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
           <p className="text-sm text-gray-500 mt-0.5">One&Only Cape Town</p>
         </div>
-        <a href="/post-job"
+        <a href={`${SITE_URL}/post-job`}
           className="hidden sm:flex items-center gap-1.5 bg-gray-900 hover:bg-gray-800 text-white text-sm font-semibold px-4 py-2 rounded-lg transition">
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4"/>

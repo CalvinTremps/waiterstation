@@ -1,6 +1,8 @@
 'use client'
 
 import { useState } from 'react'
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://waiterstation.co.za'
 import { useRouter } from 'next/navigation'
 
 export default function AdminLoginPage() {
@@ -97,7 +99,7 @@ export default function AdminLoginPage() {
         </div>
 
         <p className="text-center text-gray-600 text-xs mt-6">
-          <a href="/" className="hover:text-gray-400 transition">← Back to Waiterstation</a>
+          <a href={SITE_URL} className="hover:text-gray-400 transition">← Back to Waiterstation</a>
         </p>
       </div>
     </div>

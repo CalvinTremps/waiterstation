@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import { ROLE_CATEGORIES, ROLE_LABELS, RoleCategory } from '@/lib/types'
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://waiterstation.co.za'
+
 interface WorkerProfile {
   name?: string
   role_category?: RoleCategory
@@ -49,7 +51,7 @@ export default function WorkerProfileForm({ existing }: { existing: WorkerProfil
       <div className="bg-white border border-gray-200 rounded-lg p-8 text-center">
         <h2 className="font-bold text-gray-900 text-lg">Profile saved</h2>
         <p className="text-gray-500 text-sm mt-2">We'll use this to match you with employers in V2.</p>
-        <a href="/" className="mt-5 inline-block text-sm text-gray-800 underline">Browse jobs</a>
+        <a href={`${SITE_URL}/jobs`} className="mt-5 inline-block text-sm text-gray-800 underline">Browse jobs</a>
       </div>
     )
   }

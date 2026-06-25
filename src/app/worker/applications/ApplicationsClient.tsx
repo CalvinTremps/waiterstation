@@ -2,6 +2,8 @@
 
 import { useState, useMemo } from 'react'
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://waiterstation.co.za'
+
 type AppStatus = 'new' | 'viewed' | 'shortlisted' | 'interview' | 'offered' | 'hired' | 'rejected' | 'withdrawn'
 
 export interface RealWorkerApplication {
@@ -184,7 +186,7 @@ export default function ApplicationsClient({ initialApplications }: { initialApp
           </svg>
           <p className="font-medium">No applications yet</p>
           <p className="text-sm mt-1">
-            <a href="/" className="text-gray-900 font-semibold hover:underline">Browse jobs</a> and apply in seconds.
+            <a href={`${SITE_URL}/jobs`} className="text-gray-900 font-semibold hover:underline">Browse jobs</a> and apply in seconds.
           </p>
         </div>
       ) : filtered.length === 0 ? (

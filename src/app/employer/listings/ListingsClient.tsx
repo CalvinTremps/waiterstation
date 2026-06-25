@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import { Job } from '@/lib/types'
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://waiterstation.co.za'
+
 const STATUS_STYLES: Record<string, string> = {
   approved: 'bg-gray-100 text-gray-800',
   pending:  'bg-amber-50 text-amber-700',
@@ -60,7 +62,7 @@ export default function ListingsClient({ initialJobs }: { initialJobs: Job[] }) 
           <h1 className="text-2xl font-bold text-gray-900">My Listings</h1>
           <p className="text-sm text-gray-500 mt-0.5">{jobs.length} job{jobs.length !== 1 ? 's' : ''} posted</p>
         </div>
-        <a href="/post-job"
+        <a href={`${SITE_URL}/post-job`}
           className="flex items-center gap-1.5 bg-gray-900 hover:bg-gray-800 text-white text-sm font-semibold px-4 py-2 rounded-lg transition">
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4"/>
@@ -87,7 +89,7 @@ export default function ListingsClient({ initialJobs }: { initialJobs: Job[] }) 
           {jobs.length === 0 ? (
             <div className="space-y-3">
               <p className="font-medium">No listings yet</p>
-              <a href="/post-job" className="inline-block text-sm font-semibold text-gray-800 hover:underline">
+              <a href={`${SITE_URL}/post-job`} className="inline-block text-sm font-semibold text-gray-800 hover:underline">
                 Post your first job →
               </a>
             </div>
@@ -124,7 +126,7 @@ export default function ListingsClient({ initialJobs }: { initialJobs: Job[] }) 
                   View applicants
                 </a>
                 {job.status === 'approved' && (
-                  <a href={`/jobs/${job.id}`} target="_blank"
+                  <a href={`${SITE_URL}/jobs/${job.id}`} target="_blank"
                     className="text-xs font-medium text-gray-600 bg-gray-100 hover:bg-gray-200 px-3 py-1.5 rounded-lg transition">
                     View listing ↗
                   </a>

@@ -1,8 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
 import { FEED_JOBS, FeedJob } from '@/lib/mock-worker'
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://waiterstation.co.za'
 
 const SCORE_COLOR = (s: number) =>
   s >= 9 ? 'text-green-700 bg-green-50' :
@@ -175,10 +176,10 @@ export default function JobFeedPage() {
                       One-tap Apply
                     </button>
                   )}
-                  <Link href="/jobs"
+                  <a href={`${SITE_URL}/jobs`}
                     className="px-4 py-2 text-sm font-semibold text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-lg transition">
                     View
-                  </Link>
+                  </a>
                 </div>
               </div>
             </div>

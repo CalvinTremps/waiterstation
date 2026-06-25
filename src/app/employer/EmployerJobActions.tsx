@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import { JobStatus } from '@/lib/types'
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://waiterstation.co.za'
+
 export default function EmployerJobActions({ jobId, status }: { jobId: string; status: JobStatus }) {
   const [deleted, setDeleted] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -26,7 +28,7 @@ export default function EmployerJobActions({ jobId, status }: { jobId: string; s
         Edit
       </a>
       {status === 'approved' && (
-        <a href={`/jobs/${jobId}`} target="_blank" className="text-xs font-medium text-gray-400 hover:text-gray-600">
+        <a href={`${SITE_URL}/jobs/${jobId}`} target="_blank" className="text-xs font-medium text-gray-400 hover:text-gray-600">
           View live ↗
         </a>
       )}

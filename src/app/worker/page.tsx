@@ -9,6 +9,8 @@ import {
   MOCK_WORKER_PROFILE,
 } from '@/lib/mock-worker'
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://waiterstation.co.za'
+
 const STATUS_STYLES: Record<string, string> = {
   submitted: 'bg-gray-100 text-gray-600',
   viewed: 'bg-blue-50 text-blue-700',
@@ -74,10 +76,10 @@ export default function WorkerDashboard() {
               : 'Your profile is hidden from employers'}
           </p>
         </div>
-        <Link href="/jobs"
+        <a href={`${SITE_URL}/jobs`}
           className="bg-gray-900 hover:bg-gray-800 text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition shrink-0">
           Browse new jobs
-        </Link>
+        </a>
       </div>
 
       {/* Offer banner */}
@@ -187,7 +189,7 @@ export default function WorkerDashboard() {
           {upcoming.length === 0 ? (
             <div className="px-5 py-10 text-center text-gray-400">
               <p className="text-sm">No upcoming interviews</p>
-              <Link href="/jobs" className="text-xs text-gray-900 hover:underline mt-1 block">Browse open roles</Link>
+              <a href={`${SITE_URL}/jobs`} className="text-xs text-gray-900 hover:underline mt-1 block">Browse open roles</a>
             </div>
           ) : (
             <div>

@@ -69,7 +69,13 @@ CREATE POLICY "franchises_service_write" ON franchises FOR ALL    USING (auth.ro
 
 -- ─── SEED: import existing mock brands ───────────────────────────────────────
 -- (Safe to re-run; uses INSERT ... ON CONFLICT DO NOTHING via unique name constraint)
-ALTER TABLE brands ADD CONSTRAINT IF NOT EXISTS brands_name_unique UNIQUE (name);
+DO $$ BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint WHERE conname = 'brands_name_unique'
+  ) THEN
+    ALTER TABLE brands ADD CONSTRAINT brands_name_unique UNIQUE (name);
+  END IF;
+END $$;
 
 INSERT INTO brands (name, industry, size, location, description, website, logo_url) VALUES
   ('Spur Corporation',        'Restaurant Group',  '1 000+ employees', 'Cape Town (HQ) · Nationwide',     'Spur Corporation operates Spur Steak Ranches, Panarottis, John Dory''s, RocoMamas and The Hussar Grill across South Africa and beyond.', 'spur.co.za',       'https://logo.clearbit.com/spur.co.za'),

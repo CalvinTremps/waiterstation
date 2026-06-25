@@ -52,7 +52,7 @@ export default function AdminLoginPage() {
 
         <div className="bg-gray-900 rounded-2xl border border-gray-800 p-8">
           <h1 className="text-lg font-bold text-white mb-1">Sign in to admin</h1>
-          <p className="text-gray-500 text-sm mb-6">Enter your admin email and password.</p>
+          <p className="text-gray-500 text-sm mb-6">Enter your admin email and password. First time? Leave email blank and use the master password.</p>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <input

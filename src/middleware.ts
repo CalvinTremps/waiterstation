@@ -1,19 +1,93 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-export function middleware(req: NextRequest) {
-  const { pathname } = req.nextUrl
+/**
+ * Subdomain routing for the dashboards:
+ *   profile.waiterstation.co.za  -> /worker/*
+ *   employer.waiterstation.co.za -> /employer/*
+ *   control.waiterstation.co.za  -> /admin/*
+ * The public site stays on the apex (waiterstation.co.za).
+ *
+ * Local dev / preview (any host that isn't a known subdomain) is unaffected,
+ * so everything keeps working at localhost:3002 exactly as before.
+ *
+ * Enforcing the split (redirecting apex /worker|/employer|/admin to the
+ * subdomain) is gated behind NEXT_PUBLIC_SUBDOMAIN_SPLIT=on so it can be turned
+ * on only AFTER the subdomains + DNS are configured in Vercel.
+ */
 
-  // Protect all /admin routes except /admin/login
-  if (pathname.startsWith('/admin') && pathname !== '/admin/login') {
-    const session = req.cookies.get('admin_session')?.value
-    if (session !== process.env.ADMIN_PASSWORD) {
-      return NextResponse.redirect(new URL('/admin/login', req.url))
+const SUB_PREFIX: Record<string, string> = {
+  profile: '/worker',
+  employer: '/employer',
+  control: '/admin',
+}
+const PREFIX_SUB: Record<string, string> = {
+  '/worker': 'profile',
+  '/employer': 'employer',
+  '/admin': 'control',
+}
+
+const ROOT_DOMAIN = 'waiterstation.co.za'
+
+function isShared(path: string) {
+  return (
+    path.startsWith('/api') ||
+    path.startsWith('/auth') ||
+    path.startsWith('/_next') ||
+    path.startsWith('/sitemap') ||
+    path.startsWith('/robots') ||
+    path === '/favicon.ico'
+  )
+}
+
+export function middleware(req: NextRequest) {
+  const host = (req.headers.get('host') || '').toLowerCase()
+  const sub = host.split('.')[0]
+  const onRootDomain = host.endsWith(ROOT_DOMAIN)
+  const dashSub = onRootDomain && SUB_PREFIX[sub] ? sub : null
+
+  const url = req.nextUrl.clone()
+  let path = url.pathname
+
+  // ── On a dashboard subdomain: serve that dashboard ──
+  if (dashSub && !isShared(path)) {
+    const prefix = SUB_PREFIX[dashSub]
+    if (!path.startsWith(prefix)) {
+      path = prefix + (path === '/' ? '' : path)
+      url.pathname = path
     }
   }
 
-  return NextResponse.next()
+  // ── Optional: push apex dashboard paths onto their subdomain ──
+  if (!dashSub && onRootDomain && process.env.NEXT_PUBLIC_SUBDOMAIN_SPLIT === 'on') {
+    for (const [prefix, target] of Object.entries(PREFIX_SUB)) {
+      if (path === prefix || path.startsWith(prefix + '/')) {
+        const dest = new URL(req.url)
+        dest.host = `${target}.${ROOT_DOMAIN}`
+        dest.port = ''
+        return NextResponse.redirect(dest)
+      }
+    }
+  }
+
+  // ── Admin auth (whether reached via control. subdomain or /admin path) ──
+  if (path.startsWith('/admin') && path !== '/admin/login') {
+    if (req.cookies.get('admin_session')?.value !== process.env.ADMIN_PASSWORD) {
+      const login = req.nextUrl.clone()
+      login.pathname = '/admin/login'
+      return NextResponse.redirect(login)
+    }
+  }
+
+  // Apply the rewrite (if the path changed) and keep dashboards out of search.
+  const res =
+    url.pathname !== req.nextUrl.pathname
+      ? NextResponse.rewrite(url)
+      : NextResponse.next()
+  if (dashSub) res.headers.set('X-Robots-Tag', 'noindex, nofollow')
+  return res
 }
 
 export const config = {
-  matcher: ['/admin/:path*'],
+  // Run on everything except static assets and Next internals.
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)'],
 }

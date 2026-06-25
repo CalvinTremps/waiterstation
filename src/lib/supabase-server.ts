@@ -11,9 +11,12 @@ export async function createServerClient() {
       cookies: {
         getAll() { return cookieStore.getAll() },
         setAll(cookiesToSet) {
+          // Share the auth session across subdomains (profile./employer.) when
+          // COOKIE_DOMAIN is set, e.g. ".waiterstation.co.za". Unset in dev.
+          const domain = process.env.COOKIE_DOMAIN
           try {
             cookiesToSet.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options)
+              cookieStore.set(name, value, domain ? { ...options, domain } : options)
             )
           } catch {}
         },

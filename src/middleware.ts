@@ -2,19 +2,21 @@ import { NextRequest, NextResponse } from 'next/server'
 import { verifySession, ADMIN_COOKIE } from '@/lib/admin-session'
 
 /**
- * Subdomain routing for the dashboards:
- *   profile.waiterstation.co.za  -> /worker/*
- *   employer.waiterstation.co.za -> /employer/*
- *   control.waiterstation.co.za  -> /admin/*
- * The public site stays on the apex (waiterstation.co.za).
+ * Subdomain routing:
+ *   profile.waiterstation.co.za  → /worker/*  (clean URLs: /, /applications, …)
+ *   employer.waiterstation.co.za → /employer/* (clean URLs: /, /listings, …)
+ *   control.waiterstation.co.za  → /admin/*    (clean URLs: /, /jobs, …)
  *
- * Local dev / preview (any host that isn't a known subdomain) is unaffected,
- * so everything keeps working at localhost:3002 exactly as before.
+ * Any path on a dashboard subdomain that does NOT belong to that dashboard
+ * is redirected to the apex domain at the same path, so nav links to the
+ * main site always land in the right place.
  *
- * Enforcing the split (redirecting apex /worker|/employer|/admin to the
- * subdomain) is gated behind NEXT_PUBLIC_SUBDOMAIN_SPLIT=on so it can be turned
- * on only AFTER the subdomains + DNS are configured in Vercel.
+ * The middleware also sets the response header `x-on-subdomain: 1` so the
+ * server layout can suppress the public header/footer without relying on
+ * the client-side pathname (which shows the clean URL, not the internal one).
  */
+
+const ROOT_DOMAIN = 'waiterstation.co.za'
 
 const SUB_PREFIX: Record<string, string> = {
   profile: '/worker',
@@ -27,7 +29,26 @@ const PREFIX_SUB: Record<string, string> = {
   '/admin': 'control',
 }
 
-const ROOT_DOMAIN = 'waiterstation.co.za'
+// First path segment that is valid on each subdomain.
+// Dynamic segments (e.g. /jobs/123) match via prefix — we check the first
+// segment only, so /jobs/abc matches the 'jobs' entry.
+const VALID_SEGMENTS: Record<string, Set<string>> = {
+  profile: new Set([
+    'alerts', 'applications', 'availability', 'cv', 'documents',
+    'feed', 'history', 'interviews', 'messages', 'profile',
+    'references', 'tips',
+  ]),
+  employer: new Set([
+    'analytics', 'applicants', 'candidates', 'employees', 'interviews',
+    'jobs', 'leave', 'listings', 'notices', 'payroll', 'performance',
+    'pipeline', 'pools', 'profile', 'saved', 'shifts', 'smart-alerts',
+    'staff-documents', 'timesheets',
+  ]),
+  control: new Set([
+    'admins', 'applications', 'brand-links', 'brands', 'franchises',
+    'jobs', 'login', 'marketing', 'settings', 'users',
+  ]),
+}
 
 function isShared(path: string) {
   return (
@@ -40,6 +61,13 @@ function isShared(path: string) {
   )
 }
 
+/** True when the clean path belongs to the given subdomain's dashboard. */
+function ownedBySubdomain(path: string, sub: string): boolean {
+  if (path === '/') return true
+  const firstSegment = path.split('/')[1] // e.g. "applications" from "/applications/123"
+  return VALID_SEGMENTS[sub]?.has(firstSegment) ?? false
+}
+
 export async function middleware(req: NextRequest) {
   const host = (req.headers.get('host') || '').toLowerCase()
   const sub = host.split('.')[0]
@@ -49,23 +77,32 @@ export async function middleware(req: NextRequest) {
   const url = req.nextUrl.clone()
   let path = url.pathname
 
-  // ── On a dashboard subdomain: serve that dashboard with clean URLs ──
+  // ── On a dashboard subdomain ──────────────────────────────────────────────
   if (dashSub && !isShared(path)) {
     const prefix = SUB_PREFIX[dashSub]
+
+    // A hardcoded full-prefix link (e.g. /worker/profile): strip it to clean URL.
     if (path === prefix || path.startsWith(prefix + '/')) {
-      // A hardcoded /worker|/employer|/admin link on the subdomain:
-      // strip the prefix so the browser shows a clean path (e.g. /profile).
       const stripped = path.slice(prefix.length) || '/'
       const clean = req.nextUrl.clone()
       clean.pathname = stripped
       return NextResponse.redirect(clean)
     }
-    // Clean path -> serve the prefixed route internally.
+
+    // Path doesn't belong to this subdomain → send to apex domain.
+    if (!ownedBySubdomain(path, dashSub)) {
+      const apex = new URL(req.url)
+      apex.host = ROOT_DOMAIN
+      apex.port = ''
+      return NextResponse.redirect(apex)
+    }
+
+    // Valid dashboard path: rewrite internally to the prefixed route.
     path = prefix + (path === '/' ? '' : path)
     url.pathname = path
   }
 
-  // ── Optional: push apex dashboard paths onto their subdomain ──
+  // ── Optional: push apex dashboard paths onto their subdomain ─────────────
   if (!dashSub && onRootDomain && process.env.NEXT_PUBLIC_SUBDOMAIN_SPLIT === 'on') {
     for (const [prefix, target] of Object.entries(PREFIX_SUB)) {
       if (path === prefix || path.startsWith(prefix + '/')) {
@@ -77,8 +114,7 @@ export async function middleware(req: NextRequest) {
     }
   }
 
-  // ── Admin auth (whether reached via control. subdomain or /admin path) ──
-  // Fail-closed: a missing/invalid signed session never grants access.
+  // ── Admin auth ────────────────────────────────────────────────────────────
   if (path.startsWith('/admin') && path !== '/admin/login') {
     const adminId = await verifySession(req.cookies.get(ADMIN_COOKIE)?.value)
     if (!adminId) {
@@ -88,16 +124,20 @@ export async function middleware(req: NextRequest) {
     }
   }
 
-  // Apply the rewrite (if the path changed) and keep dashboards out of search.
+  // Apply rewrite (if path changed) and tag dashboard responses.
   const res =
     url.pathname !== req.nextUrl.pathname
       ? NextResponse.rewrite(url)
       : NextResponse.next()
-  if (dashSub) res.headers.set('X-Robots-Tag', 'noindex, nofollow')
+
+  if (dashSub) {
+    res.headers.set('X-Robots-Tag', 'noindex, nofollow')
+    res.headers.set('x-on-subdomain', '1')
+  }
+
   return res
 }
 
 export const config = {
-  // Run on everything except static assets and Next internals.
   matcher: ['/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)'],
 }

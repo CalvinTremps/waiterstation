@@ -3,6 +3,8 @@
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://waiterstation.co.za'
+
 const NAV_SECTIONS = [
   {
     label: 'Recruitment',
@@ -95,7 +97,7 @@ export default function EmployerLayout({ children }: { children: React.ReactNode
         <p className="text-sm text-gray-500 leading-relaxed max-w-xs mb-8">
           The employer dashboard is designed for desktop and tablet. For the best experience, open Waiterstation on a laptop or tablet.
         </p>
-        <a href="/" className="w-full max-w-xs flex items-center justify-center h-11 bg-gray-900 text-white text-sm font-semibold rounded-xl mb-3">
+        <a href={SITE_URL} className="w-full max-w-xs flex items-center justify-center h-11 bg-gray-900 text-white text-sm font-semibold rounded-xl mb-3">
           Go to homepage
         </a>
         <button
@@ -114,7 +116,7 @@ export default function EmployerLayout({ children }: { children: React.ReactNode
       <aside className={`employer-sidebar ${sidebarOpen ? 'employer-sidebar--open' : ''}`}>
         {/* Brand */}
         <div className="employer-sidebar__brand">
-          <a href="/" className="flex items-center gap-2.5">
+          <a href={SITE_URL} className="flex items-center gap-2.5">
             <span className="w-7 h-7 rounded-lg bg-gray-900 flex items-center justify-center text-white text-xs font-bold shrink-0">W</span>
             <span className="font-bold text-gray-900 tracking-tight text-sm">Waiterstation</span>
           </a>
@@ -146,7 +148,7 @@ export default function EmployerLayout({ children }: { children: React.ReactNode
 
         {/* Footer */}
         <div className="employer-sidebar__footer">
-          <a href="/post-job" className="employer-post-btn">
+          <a href={`${SITE_URL}/post-job`} className="employer-post-btn">
             <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4"/>
             </svg>
@@ -182,7 +184,7 @@ export default function EmployerLayout({ children }: { children: React.ReactNode
           </button>
           <h1 className="employer-topbar__title">{pageTitle}</h1>
           <div className="ml-auto flex items-center gap-3">
-            <a href="/post-job"
+            <a href={`${SITE_URL}/post-job`}
               className="hidden sm:flex items-center gap-1.5 bg-gray-900 hover:bg-gray-800 text-white text-xs font-semibold px-3.5 py-2 rounded-lg transition">
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4"/>

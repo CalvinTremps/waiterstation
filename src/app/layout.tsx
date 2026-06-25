@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import { Suspense } from 'react'
+import { headers } from 'next/headers'
 import './globals.css'
 import { getSession } from '@/lib/supabase-server'
 import SiteHeader from '@/components/SiteHeader'
@@ -28,6 +29,8 @@ export const viewport: Viewport = {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const session = await getSession().catch(() => null)
+  const hdrs = await headers()
+  const onSubdomain = hdrs.get('x-on-subdomain') === '1'
 
   return (
     <html lang="en" className={inter.variable} data-scroll-behavior="smooth">
@@ -37,16 +40,16 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <TopProgressBar />
         </Suspense>
 
-        {/* ── Public header (hidden on dashboards) ── */}
-        <SiteHeader isLoggedIn={!!session} />
+        {/* ── Public header (hidden on dashboards and dashboard subdomains) ── */}
+        {!onSubdomain && <SiteHeader isLoggedIn={!!session} />}
 
         {/* Main content, padded bottom on mobile for tab bar */}
         <main className="pb-[calc(56px+env(safe-area-inset-bottom))] md:pb-0">
           {children}
         </main>
 
-        {/* ── Public footer + mobile nav (hidden on dashboards) ── */}
-        <SiteFooter />
+        {/* ── Public footer + mobile nav (hidden on dashboards and dashboard subdomains) ── */}
+        {!onSubdomain && <SiteFooter />}
       </body>
     </html>
   )

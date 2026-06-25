@@ -4,6 +4,8 @@ import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://waiterstation.co.za'
+
 const NAV_SECTIONS = [
   {
     label: 'Find Work',
@@ -73,10 +75,10 @@ export default function WorkerLayout({ children }: { children: React.ReactNode }
       <aside className={`worker-sidebar ${sidebarOpen ? 'worker-sidebar--open' : ''}`}>
         {/* Brand */}
         <div className="worker-sidebar__brand">
-          <Link href="/" className="flex items-center gap-2.5">
+          <a href={SITE_URL} className="flex items-center gap-2.5">
             <span className="w-7 h-7 rounded-lg bg-gray-900 flex items-center justify-center text-white text-xs font-bold shrink-0">W</span>
             <span className="font-bold text-gray-900 tracking-tight text-sm">Waiterstation</span>
-          </Link>
+          </a>
           <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest mt-1 ml-9">Candidate Portal</span>
         </div>
 
@@ -105,12 +107,12 @@ export default function WorkerLayout({ children }: { children: React.ReactNode }
 
         {/* Footer */}
         <div className="employer-sidebar__footer">
-          <Link href="/jobs" className="employer-post-btn">
+          <a href={`${SITE_URL}/jobs`} className="employer-post-btn">
             <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
             </svg>
             Browse Jobs
-          </Link>
+          </a>
           <div className="employer-user-row">
             <div className="w-7 h-7 rounded-full bg-amber-100 flex items-center justify-center text-xs font-bold text-amber-700 shrink-0">AK</div>
             <div className="flex-1 min-w-0">
@@ -140,13 +142,13 @@ export default function WorkerLayout({ children }: { children: React.ReactNode }
           </button>
           <h1 className="employer-topbar__title">{pageTitle}</h1>
           <div className="ml-auto flex items-center gap-3">
-            <Link href="/jobs"
+            <a href={`${SITE_URL}/jobs`}
               className="hidden sm:flex items-center gap-1.5 bg-gray-900 hover:bg-gray-800 text-white text-xs font-semibold px-3.5 py-2 rounded-lg transition">
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
               </svg>
               Browse Jobs
-            </Link>
+            </a>
             <div className="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center text-xs font-bold text-amber-700 cursor-pointer">AK</div>
           </div>
         </header>

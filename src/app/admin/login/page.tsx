@@ -5,7 +5,10 @@ import { useRouter } from 'next/navigation'
 
 export default function AdminLoginPage() {
   const router = useRouter()
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [code, setCode] = useState('')
+  const [mfa, setMfa] = useState(false)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -16,16 +19,23 @@ export default function AdminLoginPage() {
     const res = await fetch('/api/admin/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password }),
+      body: JSON.stringify({ email, password, code }),
     })
     setLoading(false)
     if (res.ok) {
       router.push('/admin')
-    } else {
-      const json = await res.json()
-      setError(json.error ?? 'Login failed.')
+      return
     }
+    const json = await res.json().catch(() => ({}))
+    if (json.error === 'mfa_required') {
+      setMfa(true)
+      setError('Enter the 6-digit code from your authenticator app.')
+      return
+    }
+    setError(json.error ?? 'Login failed.')
   }
+
+  const field = 'w-full bg-gray-800 border border-gray-700 text-white placeholder-gray-500 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-white/20'
 
   return (
     <div className="min-h-screen bg-gray-950 flex items-center justify-center px-4">
@@ -42,25 +52,46 @@ export default function AdminLoginPage() {
 
         <div className="bg-gray-900 rounded-2xl border border-gray-800 p-8">
           <h1 className="text-lg font-bold text-white mb-1">Sign in to admin</h1>
-          <p className="text-gray-500 text-sm mb-6">Enter your admin password to continue.</p>
+          <p className="text-gray-500 text-sm mb-6">Enter your admin email and password.</p>
 
           <form onSubmit={handleSubmit} className="space-y-4">
+            <input
+              type="email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              placeholder="Admin email"
+              autoFocus
+              autoComplete="username"
+              className={field}
+            />
             <input
               type="password"
               value={password}
               onChange={e => setPassword(e.target.value)}
-              placeholder="Admin password"
-              autoFocus
+              placeholder="Password"
               required
-              className="w-full bg-gray-800 border border-gray-700 text-white placeholder-gray-500 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-white/20"
+              autoComplete="current-password"
+              className={field}
             />
+            {mfa && (
+              <input
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                value={code}
+                onChange={e => setCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                placeholder="6-digit 2FA code"
+                autoComplete="one-time-code"
+                className={`${field} tracking-[0.4em] text-center`}
+              />
+            )}
             {error && <p className="text-sm text-red-400">{error}</p>}
             <button
               type="submit"
               disabled={loading || !password}
               className="w-full bg-white text-gray-900 font-bold py-3 rounded-xl text-sm hover:bg-gray-100 transition disabled:opacity-50"
             >
-              {loading ? 'Checking…' : 'Sign in'}
+              {loading ? 'Checking…' : mfa ? 'Verify & sign in' : 'Sign in'}
             </button>
           </form>
         </div>

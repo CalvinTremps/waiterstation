@@ -59,6 +59,15 @@ const links = [
     ),
   },
   {
+    href: '/admin/admins',
+    label: 'Admins',
+    icon: (
+      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 11c0-1.105.895-2 2-2h0a2 2 0 012 2v0m-8 0a2 2 0 10-4 0M17 20h5v-2a3 3 0 00-5.356-1.857M7 20H2v-2a3 3 0 015.356-1.857m9.288 0A5.002 5.002 0 0012 13a5.002 5.002 0 00-4.644 3.143M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+      </svg>
+    ),
+  },
+  {
     href: '/admin/settings',
     label: 'Settings',
     icon: (

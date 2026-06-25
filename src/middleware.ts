@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { verifySession, ADMIN_COOKIE } from '@/lib/admin-session'
 
 /**
  * Subdomain routing for the dashboards:
@@ -39,7 +40,7 @@ function isShared(path: string) {
   )
 }
 
-export function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest) {
   const host = (req.headers.get('host') || '').toLowerCase()
   const sub = host.split('.')[0]
   const onRootDomain = host.endsWith(ROOT_DOMAIN)
@@ -77,8 +78,10 @@ export function middleware(req: NextRequest) {
   }
 
   // ── Admin auth (whether reached via control. subdomain or /admin path) ──
+  // Fail-closed: a missing/invalid signed session never grants access.
   if (path.startsWith('/admin') && path !== '/admin/login') {
-    if (req.cookies.get('admin_session')?.value !== process.env.ADMIN_PASSWORD) {
+    const adminId = await verifySession(req.cookies.get(ADMIN_COOKIE)?.value)
+    if (!adminId) {
       const login = req.nextUrl.clone()
       login.pathname = '/admin/login'
       return NextResponse.redirect(login)

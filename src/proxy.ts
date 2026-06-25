@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { verifySession, ADMIN_COOKIE } from '@/lib/admin-session'
 
 /**
- * Subdomain routing:
+ * Subdomain routing (Next.js 16 proxy convention):
  *   profile.waiterstation.co.za  → /worker/*
  *   employer.waiterstation.co.za → /employer/*
  *   control.waiterstation.co.za  → /admin/*
@@ -13,8 +13,7 @@ import { verifySession, ADMIN_COOKIE } from '@/lib/admin-session'
  *   - Visiting /worker/applications on profile.* redirects → /applications (clean)
  *
  * Public-site paths (denylist) are redirected to the apex domain.
- * Everything else gets the prefix prepended and is served normally — this
- * avoids the brittleness of an allowlist that would block legitimate paths.
+ * Everything else gets the prefix prepended and is served normally.
  *
  * x-on-subdomain is set on the REQUEST so server components can read it
  * via headers() and suppress the public header/footer.
@@ -34,7 +33,6 @@ const PREFIX_SUB: Record<string, string> = {
 }
 
 // Known public-site first segments that must never be served on a dashboard subdomain.
-// Everything NOT in this list is assumed to belong to the dashboard.
 const APEX_ONLY = new Set([
   'jobs', 'companies', 'community', 'guides', 'cruise-ship-jobs',
   'saved', 'post-job', 'employers', 'how-it-works', 'faq',
@@ -52,14 +50,13 @@ function isShared(path: string) {
   )
 }
 
-/** Returns true if the path clearly belongs to the apex public site. */
 function isApexPath(path: string): boolean {
   if (path === '/') return false
   const seg = path.split('/')[1]
   return APEX_ONLY.has(seg)
 }
 
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
   const host = (req.headers.get('host') || '').toLowerCase()
   const sub = host.split('.')[0]
   const onRootDomain = host.endsWith(ROOT_DOMAIN)
@@ -88,7 +85,7 @@ export async function middleware(req: NextRequest) {
       return NextResponse.redirect(apex)
     }
 
-    // Everything else (dashboard pages, unknown paths) → add prefix and rewrite.
+    // Everything else → add prefix and rewrite.
     path = prefix + (path === '/' ? '' : path)
     url.pathname = path
   }
@@ -110,15 +107,12 @@ export async function middleware(req: NextRequest) {
     const adminId = await verifySession(req.cookies.get(ADMIN_COOKIE)?.value)
     if (!adminId) {
       const login = req.nextUrl.clone()
-      // On the control subdomain, redirect to the clean /login URL (not /admin/login
-      // which would trigger another strip-redirect loop).
       login.pathname = dashSub === 'control' ? '/login' : '/admin/login'
       return NextResponse.redirect(login)
     }
   }
 
-  // ── Build response with rewrite or pass-through ───────────────────────────
-  // Pass x-on-subdomain on the REQUEST so server components can read it via headers().
+  // ── Build response ────────────────────────────────────────────────────────
   const requestHeaders = new Headers(req.headers)
   if (dashSub) requestHeaders.set('x-on-subdomain', '1')
 

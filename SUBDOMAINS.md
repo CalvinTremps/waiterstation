@@ -50,9 +50,10 @@ otherwise apex dashboard links would redirect to domains that don't exist yet.
   `COOKIE_DOMAIN`, so a single login works everywhere.
 
 ## Notes / follow-ups
-- Inner dashboard URLs keep their route prefix (e.g.
-  `profile.waiterstation.co.za/worker/profile`). The dashboard *seats* on the
-  subdomain; stripping the prefix from inner URLs would need the nav links
-  refactored to be prefix-relative — a later polish if you want it.
-- Auth redirect targets (e.g. after magic-link callback) currently go to
-  `/worker` etc.; with the split on, those resolve on the right subdomain.
+- Inner URLs are clean: the middleware strips the route prefix on the
+  subdomain, so `profile.waiterstation.co.za/profile` shows (not `/worker/profile`).
+  Hardcoded `/worker|/employer|/admin` links still work — they 307 to the clean
+  path, which is then served via an internal rewrite. (Hard loads are always
+  clean; client-side `<Link>` navigations rely on Next following that redirect.)
+- Auth redirect targets (e.g. after magic-link callback) go to `/worker` etc.;
+  with the split on, those resolve on the right subdomain.

@@ -48,13 +48,20 @@ export function middleware(req: NextRequest) {
   const url = req.nextUrl.clone()
   let path = url.pathname
 
-  // ── On a dashboard subdomain: serve that dashboard ──
+  // ── On a dashboard subdomain: serve that dashboard with clean URLs ──
   if (dashSub && !isShared(path)) {
     const prefix = SUB_PREFIX[dashSub]
-    if (!path.startsWith(prefix)) {
-      path = prefix + (path === '/' ? '' : path)
-      url.pathname = path
+    if (path === prefix || path.startsWith(prefix + '/')) {
+      // A hardcoded /worker|/employer|/admin link on the subdomain:
+      // strip the prefix so the browser shows a clean path (e.g. /profile).
+      const stripped = path.slice(prefix.length) || '/'
+      const clean = req.nextUrl.clone()
+      clean.pathname = stripped
+      return NextResponse.redirect(clean)
     }
+    // Clean path -> serve the prefixed route internally.
+    path = prefix + (path === '/' ? '' : path)
+    url.pathname = path
   }
 
   // ── Optional: push apex dashboard paths onto their subdomain ──
